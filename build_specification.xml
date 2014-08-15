@@ -1,0 +1,51 @@
+<build_specification>
+  <build_master host="otc-gfxtest-01.jf.intel.com" results_dir="/home/jenkins/results"/>
+
+  <!-- specified the dependency relationships between projects -->
+  <projects>
+    
+    <!-- each project has a matching subdirectory with a build.py
+         which automates the build -->
+
+    <project name="drm"/>
+
+    <project name="mesa">
+      <prerequisite name="drm"/>
+    </project>
+
+    <project name="piglit-build"/>
+
+    <project name="piglit-test">
+      <prerequisite name="piglit-build" hardware="builder"/>
+      <prerequisite name="mesa" hardware="builder"/>
+    </project>
+
+    <project name="all-test">
+      <prerequisite name="piglit-test" arch="m32,m64" hardware="snb,ivb"/>
+    </project>
+
+  </projects>
+
+  <branches>
+
+    <!-- the following servers and branches are used if none are specified -->
+    <default>
+      <mesa repo="git://anongit.freedesktop.org/mesa/mesa" branch="master"/>
+      <drm repo="git://anongit.freedesktop.org/mesa/drm" branch="master"/>
+      <piglit-build repo="git://cgit.freedesktop.org/piglit" branch="master"/>
+    </default>
+
+    <!-- the following branches are polled continuously.  Any commit
+         will trigger a branch build with an identifier based on the
+         commit that triggered the build. -->
+    
+    <!-- jenkins has a build with same name as branch -->
+    <branch name="mesa_mainline" project="piglit-build"/>
+
+    <branch name="mesa_10.2" project="piglit-build">
+      <mesa branch="10.2"/>
+    </branch>
+
+  </branches>
+
+</build_specification>
