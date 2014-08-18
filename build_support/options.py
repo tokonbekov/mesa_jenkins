@@ -40,7 +40,8 @@ class Options(object):
                                   default='m64', choices=['m64', 'm32'],
                                   help="The architecture for the target build. (default: %(default)s)")
         self._parser.add_argument('--hardware', type=str, default='builder',
-                                  help="The hardware to be targeted for test ('builder', 'snb', 'ivb', 'hsw', 'bdw'). "
+                                  help="The hardware to be targeted for test "
+                                  "('builder', 'snb', 'ivb', 'hsw', 'bdw'). "
                                   "(default: %(default)s)")
         self._parser.add_argument('--prerequisites', type=str, default='recurse',
                                   choices=['recurse', 'collect', 'ignore'],

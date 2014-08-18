@@ -5,7 +5,7 @@
   <projects>
     
     <!-- each project has a matching subdirectory with a build.py
-         which automates the build -->
+         which automates the build.  -->
 
     <project name="drm"/>
 
@@ -13,13 +13,19 @@
       <prerequisite name="drm"/>
     </project>
 
-    <project name="piglit-build"/>
+    <project name="waffle"/>
+
+    <project name="piglit-build">
+      <prerequisite name="waffle"/>
+    </project>
 
     <project name="piglit-test">
       <prerequisite name="piglit-build" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
     </project>
 
+    <!-- all-test has no build.py, and exists only to provide
+         dependency relationships. -->
     <project name="all-test">
       <prerequisite name="piglit-test" arch="m32,m64" hardware="snb,ivb"/>
     </project>
@@ -33,6 +39,7 @@
       <mesa repo="git://anongit.freedesktop.org/mesa/mesa" branch="master"/>
       <drm repo="git://anongit.freedesktop.org/mesa/drm" branch="master"/>
       <piglit-build repo="git://cgit.freedesktop.org/piglit" branch="master"/>
+      <waffle repo="https://github.com/waffle-gl/waffle.git" branch="master"/>
     </default>
 
     <!-- the following branches are polled continuously.  Any commit
@@ -40,7 +47,7 @@
          commit that triggered the build. -->
     
     <!-- jenkins has a build with same name as branch -->
-    <branch name="mesa_mainline" project="piglit-build"/>
+    <branch name="mesa_master" project="piglit-build"/>
 
     <branch name="mesa_10.2" project="piglit-build">
       <mesa branch="10.2"/>

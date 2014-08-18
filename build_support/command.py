@@ -130,5 +130,3 @@ def rmtree(in_path):
         else:
             rmfile(unicode_path)
 
-def get_user_home():
-    return os.path.expanduser('~')
