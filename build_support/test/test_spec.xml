@@ -15,6 +15,8 @@
 
     <project name="waffle"/>
 
+    <project name="fips"/>
+
     <project name="piglit-build">
       <prerequisite name="waffle"/>
     </project>
@@ -36,7 +38,7 @@
 
     <!-- the following servers and branches are used if none are specified -->
     <default>
-      <waffle repo="git://git.cworth.org/git/fips" branch="master"/>
+      <fips repo="git://git.cworth.org/git/fips" branch="master"/>
     </default>
 
     <!-- the following branches are polled continuously.  Any commit
@@ -44,10 +46,10 @@
          commit that triggered the build. -->
     
     <!-- jenkins has a build with same name as branch -->
-    <branch name="mesa_master" project="piglit-build"/>
+    <branch name="fips_master" project="fips"/>
 
-    <branch name="waffle_1.2" project="piglit-build">
-      <waffle branch="reset-metrics"/>
+    <branch name="reset_metrics" project="fips">
+      <fips branch="origin/reset-metrics"/>
     </branch>
 
   </branches>

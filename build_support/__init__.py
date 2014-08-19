@@ -6,7 +6,7 @@ from command import run_batch_command
 from command import rmfile
 #from command import killMajorProcesses
 from options import Options
-#from component_map import ComponentMap
+from project_map import ProjectMap
 #from export import Export
 #from export import ExportTest
 #from export import ExportSymbols

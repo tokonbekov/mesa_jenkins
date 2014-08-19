@@ -1,6 +1,7 @@
-import tempfile, shutil, git
+import git, os
 import xml.etree.ElementTree as ET
 
+from . import ProjectMap
 
 class _ProjectBranch:
     def __init__(self, tag):
@@ -43,16 +44,18 @@ class _BranchSpecification:
         for (_, branch) in self._project_branches.iteritems():
             assert (repos.has_key(branch.repo_url))
             repo = repos[branch.repo_url]
-            repo.remotes[0].fetch()
-            branch.sha = str(repo.commit("origin/" + branch.branch))
+            for remote in repo.remotes:
+                remote.fetch()
+            branch.sha = str(repo.commit(branch.branch))
         
     def needs_build(self, repos):
         # checks the commits on the branch repos to see if they have
         # been updated.
         for (_, branch) in self._project_branches.iteritems():
             repo = repos[branch.repo_url]
-            repo.remotes[0].fetch()
-            if branch.sha != str(repo.commit("origin/" + branch.branch)):
+            for remote in repo.remotes:
+                remote.fetch()
+            if branch.sha != str(repo.commit(branch.branch)):
                 return True
             return False
 
@@ -60,7 +63,7 @@ class RepoStatus:
     def __init__(self, buildspec):
 
         # all repositories are cloned into this dir, so they can be cleaned up
-        self._tmp_dir = tempfile.mkdtemp()
+        self._repo_dir = ProjectMap().source_root() + "/repos"
         
         # key is url, value is repo object
         self._repos = {}
@@ -71,14 +74,21 @@ class RepoStatus:
         branches = buildspec.find("branches")
         default = branches.find("default")
 
-        # clone all the repos into _tmp_dir
+        # fetch all the repos into _repo_dir
         for tag in default:
             url = tag.attrib["repo"]
             if (self._repos.has_key(url)):
                 continue
 
-            tmp_dir = tempfile.mkdtemp(dir=self._tmp_dir)
-            repo = git.Repo.clone_from(url, tmp_dir)
+            project_repo_dir = self._repo_dir + "/" + tag.tag
+            repo = None
+            if not os.path.exists(project_repo_dir):
+                os.makedirs(project_repo_dir)
+                repo = git.Repo.clone_from(url, project_repo_dir)
+            else:
+                repo = git.Repo(project_repo_dir)
+                for remote in repo.remotes:
+                    remote.fetch()
             self._repos[url] = repo
 
         for branch in branches:
@@ -86,20 +96,11 @@ class RepoStatus:
                 if not tag.attrib.has_key("repo"):
                     continue
                 url = tag.attrib["repo"]
-                if self._repos.has_key(url):
-                    continue
-                # else this branch is in a new repository
-                tmp_dir = tempfile.mkdtemp(dir=self._tmp_dir)
-                repo = git.Repo.clone_from(url, tmp_dir)
-                self._repos[url] = repo
+                assert (self._repos.has_key(url))
         
         for branch in branches.findall("branch"):
             self._branches.append(_BranchSpecification(branch, default, self._repos))
 
-
-    def __del__(self):
-        shutil.rmtree(self._tmp_dir)
-        
 
     def poll(self):
         """returns list of branches that should be triggered"""
