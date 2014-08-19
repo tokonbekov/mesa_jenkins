@@ -19,7 +19,7 @@ class AutoBuilder(object):
         savedir = os.getcwd()
         os.chdir(self._src_dir)
 
-        bs.run_batch_command(["./autogen.sh"])
+        bs.run_batch_command(["./autogen.sh", "CC=ccache gcc", "CXX=ccache g++"])
         bs.run_batch_command(["make",  "-j"])
 
         os.chdir(savedir)
@@ -30,7 +30,7 @@ class AutoBuilder(object):
     def clean(self):
         savedir = os.getcwd()
         os.chdir(self._src_dir)
-        bs.run_batch_command(["make clean"])
+        bs.run_batch_command(["make", "clean"])
         os.chdir(savedir)
 
 bs.build(AutoBuilder())
