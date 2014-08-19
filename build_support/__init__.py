@@ -2,6 +2,7 @@
 
 import time
 from command import rmtree
+from command import run_batch_command
 from command import rmfile
 #from command import killMajorProcesses
 from options import Options
@@ -15,7 +16,7 @@ from options import Options
 #from export import ExportZip
 #from gtest import GTest as GTest
 #from clean_server import CleanServer
-#from timer import TimeOut
+from timer import TimeOut
 from repo_status import RepoStatus
 
 class DefaultTimeout:
@@ -75,21 +76,8 @@ def build(builder, options=None, time_limit=None):
     if type(actions) is str:
         actions = [actions]
 
-    if "test" in actions:
-        killMajorProcesses()
-
     for a in actions:
         options.action = a
-        if a == "test":
-            # Jenkins requires at least one result file to pass a
-            # build, even if the gasket does not run any tests.
-            test_dir = os.path.join(ComponentMap(options).bin_dir(), "test")
-            if not os.path.exists(test_dir):
-                os.makedirs(test_dir)
-            test_file = os.path.join(test_dir, "gtest_bogus_{0}.xml".format(options.hardware))
-            f = open(test_file, "w")
-            f.write( GTest.bogus_gtest_data )
-            f.close()
 
         if options.action in action_map:
             try:
