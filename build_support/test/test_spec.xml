@@ -1,0 +1,55 @@
+<build_specification>
+  <build_master host="otc-gfxtest-01.jf.intel.com" results_dir="/home/jenkins/results"/>
+
+  <!-- specified the dependency relationships between projects -->
+  <projects>
+    
+    <!-- each project has a matching subdirectory with a build.py
+         which automates the build.  -->
+
+    <project name="drm"/>
+
+    <project name="mesa">
+      <prerequisite name="drm"/>
+    </project>
+
+    <project name="waffle"/>
+
+    <project name="piglit-build">
+      <prerequisite name="waffle"/>
+    </project>
+
+    <project name="piglit-test">
+      <prerequisite name="piglit-build" hardware="builder"/>
+      <prerequisite name="mesa" hardware="builder"/>
+    </project>
+
+    <!-- all-test has no build.py, and exists only to provide
+         dependency relationships. -->
+    <project name="all-test">
+      <prerequisite name="piglit-test" arch="m32,m64" hardware="snb,ivb"/>
+    </project>
+
+  </projects>
+
+  <branches>
+
+    <!-- the following servers and branches are used if none are specified -->
+    <default>
+      <waffle repo="git://git.cworth.org/git/fips" branch="master"/>
+    </default>
+
+    <!-- the following branches are polled continuously.  Any commit
+         will trigger a branch build with an identifier based on the
+         commit that triggered the build. -->
+    
+    <!-- jenkins has a build with same name as branch -->
+    <branch name="mesa_master" project="piglit-build"/>
+
+    <branch name="waffle_1.2" project="piglit-build">
+      <waffle branch="reset-metrics"/>
+    </branch>
+
+  </branches>
+
+</build_specification>
