@@ -34,12 +34,13 @@
 
   </projects>
 
+  <!-- the following servers and branches are used if none are specified -->
+  <repos>
+    <fips repo="git://git.cworth.org/git/fips"/>
+  </repos>
+
   <branches>
 
-    <!-- the following servers and branches are used if none are specified -->
-    <default>
-      <fips repo="git://git.cworth.org/git/fips" branch="master"/>
-    </default>
 
     <!-- the following branches are polled continuously.  Any commit
          will trigger a branch build with an identifier based on the

@@ -32,19 +32,19 @@
 
   </projects>
 
+  <!-- the following servers and remotes correspond to projects -->
+  <repos>
+    <mesa repo="git://anongit.freedesktop.org/mesa/mesa">
+      <!-- todo: add support for remotes.  -->
+      <remote repo="git://some.server" name="remote_name"/>
+    </mesa>
+    <drm repo="git://anongit.freedesktop.org/mesa/drm"/>
+    <piglit-build repo="git://cgit.freedesktop.org/piglit"/>
+    <waffle repo="git://github.com/waffle-gl/waffle"/>
+  </repos>
+
+
   <branches>
-
-    <!-- the following servers and branches are used if none are specified -->
-    <default>
-      <mesa repo="git://anongit.freedesktop.org/mesa/mesa" branch="master">
-        <!-- todo: add support for remotes.  -->
-        <remote repo="git://some.server" name="remote_name"/>
-      </mesa>
-      <drm repo="git://anongit.freedesktop.org/mesa/drm" branch="master"/>
-      <piglit-build repo="git://cgit.freedesktop.org/piglit" branch="master"/>
-      <waffle repo="git://github.com/waffle-gl/waffle" branch="master"/>
-    </default>
-
     <!-- the following branches are polled continuously.  Any commit
          will trigger a branch build with an identifier based on the
          commit that triggered the build. -->
