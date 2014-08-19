@@ -39,7 +39,7 @@
       <mesa repo="git://anongit.freedesktop.org/mesa/mesa" branch="master"/>
       <drm repo="git://anongit.freedesktop.org/mesa/drm" branch="master"/>
       <piglit-build repo="git://cgit.freedesktop.org/piglit" branch="master"/>
-      <waffle repo="https://github.com/waffle-gl/waffle.git" branch="master"/>
+      <waffle repo="git://github.com/waffle-gl/waffle" branch="master"/>
     </default>
 
     <!-- the following branches are polled continuously.  Any commit
