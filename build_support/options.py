@@ -1,5 +1,6 @@
 """handles command-line options to build.py, and makes them available to build routines"""
 import argparse, os, sys
+import xml.etree.ElementTree as ET
 
 class CsvChoice(object):
     def __init__(self, *args):
@@ -23,7 +24,7 @@ class CsvAction(argparse.Action):
         setattr(namespace, self.dest, values.split(','))
 
 class Options(object):
-    def __init__(self, args=None):
+    def __init__(self, args=None, from_xml=None):
         self.prog = None
         self.component_dir = None
         self._parser = argparse.ArgumentParser(description="argument parser for mesa jenkins build wrapper")
@@ -51,6 +52,10 @@ class Options(object):
                                   "\tRecurse: build prerequisites. (default: %(default)s)")
         self._parser.add_argument('--result_path', type=str, default='',
                                   help="The location on the build master for placing and fetching built binaries.")
+
+        if None != from_xml:
+            self.from_xml(from_xml)
+            return
         
         self.update_arg0(sys.argv[0])
         if args is not None:
@@ -80,6 +85,29 @@ class Options(object):
         arglist += ["--prerequisites", self.prerequisites]
 
         return " ".join(arglist)
+
+    def to_elementtree(self):
+        tag = ET.Element("Options")
+        tag.set("action", ",".join(self.action))
+        tag.set("arch", self.arch)
+        tag.set("config", self.config)
+        tag.set("hardware", self.hardware)
+        tag.set("prerequisites", self.prerequisites)
+        tag.set("result_path", self.result_path)
+        tag.set("type", self.type)
+        return tag
+
+    def from_xml(self, xml):
+        if type(xml) == str:
+            xml = ET.fromstring(xml)
+        assert(xml.tag == "Options")
+        self.action = xml.attrib["action"].split(",")
+        self.arch = xml.attrib["arch"]
+        self.config = xml.attrib["config"]
+        self.hardware = xml.attrib["hardware"]
+        self.prerequisites = xml.attrib["prerequisites"]
+        self.result_path = xml.attrib["result_path"]
+        self.type = xml.attrib["type"]
 
     def update_arg0(self, arg0=None):
         # We should really do better for this:

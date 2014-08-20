@@ -2,6 +2,7 @@ import git, os
 import xml.etree.ElementTree as ET
 
 from . import ProjectMap
+from . import Options
 
 class _ProjectBranch:
     def __init__(self, projectName):
@@ -49,7 +50,7 @@ class BranchSpecification:
             repo = repos.repo(branch.name)
             if branch.sha != repo.commit(branch.branch).hexsha:
                 return True
-            return False
+        return False
 
     def checkout(self, repos):
         """checks out the specified branches for each repository in the branch
@@ -61,7 +62,8 @@ class BranchSpecification:
 class RepoSet:
     """this class represents the set of git repositories which are
     specified in the build_specification.xml file."""
-    def __init__(self, buildspec):
+    def __init__(self):
+        buildspec = ProjectMap().source_root() + "/build_specification.xml"
         self._repos = {}
         if type(buildspec) == str:
             buildspec = ET.parse(buildspec)
@@ -93,13 +95,45 @@ class RepoSet:
             for remote in repo.remotes:
                 remote.fetch()
 
+class RevisionSpecification:
+    def __init__(self, from_string=None):
+        # key is project, value is revision
+        self._revisions = {}
+
+        if from_string is not None:
+            self.from_string(from_string)
+            return
+        repo_set = RepoSet()
+        projects = repo_set.projects()
+        for p in projects:
+            repo = repo_set.repo(p)
+            rev = repo.git.rev_parse("HEAD", short=True)
+            self._revisions[p] = rev
+
+    def from_string(self, spec):
+        if type(spec) == str:
+            spec = ET.fromstring(spec)
+        assert(spec.tag == "RevSpec")
+        self._revisions = spec.attrib
+
+    def __str__(self):
+        projects = self._revisions.keys()
+        projects.sort()
+        tag = ET.Element("RevSpec")
+        for p in projects:
+            tag.set(p, self._revisions[p])
+        return ET.tostring(tag)
+        
 
 class RepoStatus:
-    def __init__(self, buildspec):
-        buildspec = ET.parse(buildspec)
+    def __init__(self, buildspec=None):
+        if not buildspec:
+            buildspec = ProjectMap().source_root() + "/build_specification.xml"
+        if type(buildspec) == str:
+            buildspec = ET.parse(buildspec)
 
         # key is project, value is repo object
-        self._repos = RepoSet(buildspec)
+        self._repos = RepoSet()
 
         self._branches = []
 
@@ -117,7 +151,7 @@ class RepoStatus:
                 ret_list.append(branch.name)
                 branch.update_commits(self._repos)
         return ret_list
-                
+
 class BuildSpecification:
     def __init__(self, buildspec=None):
         if not buildspec:
@@ -126,7 +160,7 @@ class BuildSpecification:
             buildspec = ET.parse(buildspec)
 
         self._buildspec = buildspec
-        self._reposet = RepoSet(buildspec)
+        self._reposet = RepoSet()
         self._branch_specs = {}
 
         branches = buildspec.find("branches")
@@ -139,3 +173,45 @@ class BuildSpecification:
 
     def checkout(self, branch_name):
         self._branch_specs[branch_name].checkout(self._reposet)
+
+class ProjectInvoke:
+    """this object summarizes the component and all options required to
+    invoke a build on a single project.  Invocation can take place
+    locally or on CI.  ProjectInvoke supports writing status files for
+    the invoked build to a network folder, to prevent duplicate builds.
+
+    """
+
+    def __init__(self, options=None, revision_spec=None, 
+                 project=None, from_string=None):
+        if from_string:
+            self.from_string(from_string)
+            return
+
+        if not options:
+            options = Options()
+        self._options = options
+
+        if not project:
+            project=ProjectMap().current_project()
+        self._project = project
+
+        if not revision_spec:
+            revision_spec = RevisionSpecification()
+        self._revision_spec = revision_spec
+
+    def __str__(self):
+        tag = ET.Element("ProjectInvoke")
+        tag.set("Project", self._project)
+        tag.append(ET.fromstring(str(self._revision_spec)))
+        tag.append(self._options.to_elementtree())
+        return ET.tostring(tag)
+
+    def from_string(self, string):
+        tag = ET.fromstring(string)
+        self._project = tag.attrib["Project"]
+        self._options = Options(from_xml=tag.find("Options"))
+        self._revision_spec = RevisionSpecification(from_string=tag.find("RevSpec"))
+        
+        
+        
