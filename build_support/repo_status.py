@@ -10,7 +10,7 @@ class _ProjectBranch:
         self.name = projectName
         self.sha = None
 
-class _BranchSpecification:
+class BranchSpecification:
     """This class tracks a "branch set" in the build's git repositories
     which define a single logical build.  A change to any of the
     branches will result in a world build.
@@ -22,7 +22,7 @@ class _BranchSpecification:
         self.project = branch_tag.attrib["project"]
 
         # by default, all repos are at origin/master
-        for (name, _) in repos.iteritems():
+        for name in repos.projects():
             pb = _ProjectBranch(name)
             self._project_branches[name] = pb
 
@@ -36,59 +36,75 @@ class _BranchSpecification:
 
     def update_commits(self, repos):
         # get the current commit for each project
+        repos.fetch()
         for (_, branch) in self._project_branches.iteritems():
-            assert (repos.has_key(branch.name))
-            repo = repos[branch.name]
-            for remote in repo.remotes:
-                remote.fetch()
-            branch.sha = str(repo.commit(branch.branch))
+            repo = repos.repo(branch.name)
+            branch.sha = repo.commit(branch.branch).hexsha
         
     def needs_build(self, repos):
         # checks the commits on the branch repos to see if they have
         # been updated.
+        repos.fetch()
         for (_, branch) in self._project_branches.iteritems():
-            repo = repos[branch.name]
-            for remote in repo.remotes:
-                remote.fetch()
-            if branch.sha != str(repo.commit(branch.branch)):
+            repo = repos.repo(branch.name)
+            if branch.sha != repo.commit(branch.branch).hexsha:
                 return True
             return False
 
-class RepoStatus:
+    def checkout(self, repos):
+        """checks out the specified branches for each repository in the branch
+        set"""
+        for (name, branch) in self._project_branches.iteritems():
+            repo = repos.repo(name)
+            repo.git.checkout(b=branch.branch)
+
+class RepoSet:
+    """this class represents the set of git repositories which are
+    specified in the build_specification.xml file."""
     def __init__(self, buildspec):
-
-        # all repositories are cloned into this dir, so they can be cleaned up
-        self._repo_dir = ProjectMap().source_root() + "/repos"
-        
-        # key is project, value is repo object
         self._repos = {}
-
-        self._branches = []
-
-        buildspec = ET.parse(buildspec)
-        branches = buildspec.find("branches")
+        repo_dir = ProjectMap().source_root() + "/repos"
         repos = buildspec.find("repos")
 
         # fetch all the repos into _repo_dir
         for tag in repos:
             url = tag.attrib["repo"]
             project = tag.tag
-            if (self._repos.has_key(project)):
-                continue
 
-            project_repo_dir = self._repo_dir + "/" + project
-            repo = None
+            assert ( not self._repos.has_key(project)) # double entry
+
+            project_repo_dir = repo_dir + "/" + project
             if not os.path.exists(project_repo_dir):
                 os.makedirs(project_repo_dir)
-                repo = git.Repo.clone_from(url, project_repo_dir)
-            else:
-                repo = git.Repo(project_repo_dir)
-                for remote in repo.remotes:
-                    remote.fetch()
+                git.Repo.clone_from(url, project_repo_dir)
+            repo = git.Repo(project_repo_dir)
             self._repos[project] = repo
 
+    def repo(self, project_name):
+        return self._repos[project_name]
+
+    def projects(self):
+        return self._repos.keys()
+
+    def fetch(self):
+        for repo in self._repos.values():
+            for remote in repo.remotes:
+                remote.fetch()
+
+
+class RepoStatus:
+    def __init__(self, buildspec):
+        buildspec = ET.parse(buildspec)
+
+        # key is project, value is repo object
+        self._repos = RepoSet(buildspec)
+
+        self._branches = []
+
+        branches = buildspec.find("branches")
+
         for branch in branches.findall("branch"):
-            self._branches.append(_BranchSpecification(branch, self._repos))
+            self._branches.append(BranchSpecification(branch, self._repos))
 
 
     def poll(self):
