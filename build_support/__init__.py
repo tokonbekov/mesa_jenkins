@@ -17,7 +17,7 @@ from project_map import ProjectMap
 #from gtest import GTest as GTest
 #from clean_server import CleanServer
 from timer import TimeOut
-from repo_status import RepoStatus
+from repo_set import RepoStatus
 
 class DefaultTimeout:
     def __init__(self, options=None):
