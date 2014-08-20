@@ -56,13 +56,15 @@ class BranchSpecification:
         set"""
         for (name, branch) in self._project_branches.iteritems():
             repo = repos.repo(name)
-            repo.git.checkout(b=branch.branch)
+            repo.git.checkout(branch.branch)
 
 class RepoSet:
     """this class represents the set of git repositories which are
     specified in the build_specification.xml file."""
     def __init__(self, buildspec):
         self._repos = {}
+        if type(buildspec) == str:
+            buildspec = ET.parse(buildspec)
         repo_dir = ProjectMap().source_root() + "/repos"
         repos = buildspec.find("repos")
 
@@ -116,4 +118,24 @@ class RepoStatus:
                 branch.update_commits(self._repos)
         return ret_list
                 
-            
+class BuildSpecification:
+    def __init__(self, buildspec=None):
+        if not buildspec:
+            buildspec = ProjectMap().source_root() + "/build_specification.xml"
+        if type(buildspec) == str:
+            buildspec = ET.parse(buildspec)
+
+        self._buildspec = buildspec
+        self._reposet = RepoSet(buildspec)
+        self._branch_specs = {}
+
+        branches = buildspec.find("branches")
+        for abranch in branches.findall("branch"):
+            branch = BranchSpecification(abranch, self._reposet)
+            self._branch_specs[branch.name] = branch
+
+    def branch_specification(self, branch_name):
+        return self._branch_specs[branch_name]
+
+    def checkout(self, branch_name):
+        self._branch_specs[branch_name].checkout(self._reposet)

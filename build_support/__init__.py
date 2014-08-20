@@ -18,6 +18,8 @@ from project_map import ProjectMap
 #from clean_server import CleanServer
 from timer import TimeOut
 from repo_set import RepoStatus
+from repo_set import RepoSet
+from repo_set import BuildSpecification
 
 class DefaultTimeout:
     def __init__(self, options=None):
