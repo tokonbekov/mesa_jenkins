@@ -4,6 +4,23 @@ sys.path.append("..")
 
 import build_support as bs
 
+def test_dep_graph():
+    args= ["ignore_arg0", "--action=build,test", "--config=debug"]
+    o = bs.Options(args)
+    g = bs.DependencyGraph("all-test", o)
+    ready_builds = g.ready_builds()
+    assert(ready_builds)
+    built = []
+    loop_count = 0
+    while ready_builds:
+        loop_count += 1
+        for bi in g.ready_builds():
+            assert str(bi) not in built
+            built.append(str(bi))
+            g.build_complete(bi)
+        ready_builds = g.ready_builds()
+    assert(loop_count > 2)
+
 def test_project_invoke():
     #pytest.set_trace()
     args= ["ignore_arg0", "--action=build,test", "--config=debug"]

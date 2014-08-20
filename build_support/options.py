@@ -44,12 +44,6 @@ class Options(object):
                                   help="The hardware to be targeted for test "
                                   "('builder', 'snb', 'ivb', 'hsw', 'bdw'). "
                                   "(default: %(default)s)")
-        self._parser.add_argument('--prerequisites', type=str, default='recurse',
-                                  choices=['recurse', 'collect', 'ignore'],
-                                  help="Specify how to handle prerequisites. \n"
-                                  "\tIgnore: do nothing with the prerequisites. \n" 
-                                  "\tCollect: take built prerequisites.\n"
-                                  "\tRecurse: build prerequisites. (default: %(default)s)")
         self._parser.add_argument('--result_path', type=str, default='',
                                   help="The location on the build master for placing and fetching built binaries.")
 
@@ -69,7 +63,6 @@ class Options(object):
         self.config = ""
         self.type = ""
         self.result_path = ""
-        self.prerequisites = ""
         # Parse the args and explode it into the Options class
         self.__dict__.update(vars(self._parser.parse_args(args)))
 
@@ -82,7 +75,6 @@ class Options(object):
         arglist += ["--type", self.type]
         if self.result_path != "":
             arglist += ["--result_path", self.result_path]
-        arglist += ["--prerequisites", self.prerequisites]
 
         return " ".join(arglist)
 
@@ -92,7 +84,6 @@ class Options(object):
         tag.set("arch", self.arch)
         tag.set("config", self.config)
         tag.set("hardware", self.hardware)
-        tag.set("prerequisites", self.prerequisites)
         tag.set("result_path", self.result_path)
         tag.set("type", self.type)
         return tag
@@ -105,7 +96,6 @@ class Options(object):
         self.arch = xml.attrib["arch"]
         self.config = xml.attrib["config"]
         self.hardware = xml.attrib["hardware"]
-        self.prerequisites = xml.attrib["prerequisites"]
         self.result_path = xml.attrib["result_path"]
         self.type = xml.attrib["type"]
 

@@ -63,7 +63,7 @@ class RepoSet:
     """this class represents the set of git repositories which are
     specified in the build_specification.xml file."""
     def __init__(self):
-        buildspec = ProjectMap().source_root() + "/build_specification.xml"
+        buildspec = ProjectMap().build_spec()
         self._repos = {}
         if type(buildspec) == str:
             buildspec = ET.parse(buildspec)
@@ -128,7 +128,7 @@ class RevisionSpecification:
 class RepoStatus:
     def __init__(self, buildspec=None):
         if not buildspec:
-            buildspec = ProjectMap().source_root() + "/build_specification.xml"
+            buildspec = ProjectMap().build_spec()
         if type(buildspec) == str:
             buildspec = ET.parse(buildspec)
 
@@ -155,7 +155,7 @@ class RepoStatus:
 class BuildSpecification:
     def __init__(self, buildspec=None):
         if not buildspec:
-            buildspec = ProjectMap().source_root() + "/build_specification.xml"
+            buildspec = ProjectMap().build_spec()
         if type(buildspec) == str:
             buildspec = ET.parse(buildspec)
 
@@ -190,11 +190,11 @@ class ProjectInvoke:
 
         if not options:
             options = Options()
-        self._options = options
+        self.options = options
 
         if not project:
             project=ProjectMap().current_project()
-        self._project = project
+        self.project = project
 
         if not revision_spec:
             revision_spec = RevisionSpecification()
@@ -202,16 +202,32 @@ class ProjectInvoke:
 
     def __str__(self):
         tag = ET.Element("ProjectInvoke")
-        tag.set("Project", self._project)
+        tag.set("Project", self.project)
         tag.append(ET.fromstring(str(self._revision_spec)))
-        tag.append(self._options.to_elementtree())
+        tag.append(self.options.to_elementtree())
         return ET.tostring(tag)
 
     def from_string(self, string):
         tag = ET.fromstring(string)
-        self._project = tag.attrib["Project"]
-        self._options = Options(from_xml=tag.find("Options"))
+        self.project = tag.attrib["Project"]
+        self.options = Options(from_xml=tag.find("Options"))
         self._revision_spec = RevisionSpecification(from_string=tag.find("RevSpec"))
         
         
-        
+    def get_info(self, key, block=True):
+        # for _ in range(0,10):
+        #     info = self._read_info()
+        #     if info.has_key(key):
+        #         return info[key]
+        #     if not block:
+        #         return None
+        #     # possible that the data has not been flushed to the
+        #     # server
+        #     time.sleep(1)
+        return None
+
+    def set_info(self, key, value):
+        # info_dict = self._read_info()
+        # info_dict[key] = value
+        # self._write_info(info_dict)
+        pass

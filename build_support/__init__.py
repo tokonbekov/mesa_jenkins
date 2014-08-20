@@ -21,6 +21,7 @@ from repo_set import RepoStatus
 from repo_set import RepoSet
 from repo_set import BuildSpecification
 from repo_set import ProjectInvoke
+from dependency_graph import DependencyGraph
 
 class DefaultTimeout:
     def __init__(self, options=None):

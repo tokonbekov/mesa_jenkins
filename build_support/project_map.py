@@ -1,4 +1,5 @@
 import sys, os
+import xml.etree.ElementTree as ET
 
 from . import Options
 
@@ -62,3 +63,6 @@ class ProjectMap:
         if o.result_path:
             return os.path.abspath(o.result_path)
         return self._source_root + "/results"
+
+    def build_spec(self):
+        return ET.parse(self.source_root() + "/build_specification.xml")
