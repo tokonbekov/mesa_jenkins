@@ -11,7 +11,6 @@ all_processes = {}
 
 def kill_all_subprocesses():
     global all_processes
-    print "Killing all processes"
     sys.stdout.flush()
 
     for p in all_processes.keys():

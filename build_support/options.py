@@ -29,7 +29,7 @@ class Options(object):
         self.component_dir = None
         self._parser = argparse.ArgumentParser(description="argument parser for mesa jenkins build wrapper")
         self._parser.add_argument('--action', type=str, default=["build"],
-                                  choices=CsvChoice('build', 'clean', 'test', 'jenkins'),
+                                  choices=CsvChoice('build', 'clean', 'test'),
                                   action=CsvAction,
                                   help="Action to recurse with. 'build', 'clean' or 'test'. (default: %(default)s)")
         self._parser.add_argument('--config', type=str, default="release", choices=['release', 'debug'],
