@@ -34,7 +34,7 @@ class ProjectMap:
 
     def build_root(self):
         """chroot directory where all results are placed during a build"""
-        br = self._source_root + "/build_root"
+        br = self._source_root + "/build_root/" + Options().arch
         if not os.path.exists(br):
             os.makedirs(br)
         return br

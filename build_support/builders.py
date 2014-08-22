@@ -3,12 +3,13 @@ from . import Options
 from . import ProjectMap
 from . import run_batch_command
 from . import rmtree
-
+from . import Export
 
 class AutoBuilder(object):
 
-    def __init__(self, o=None):
+    def __init__(self, o=None, configure_options=""):
         self._options = o
+        self._configure_options = configure_options
         if not o:
             self._options = Options()
             
@@ -24,13 +25,16 @@ class AutoBuilder(object):
         savedir = os.getcwd()
         os.chdir(self._src_dir)
 
-        run_batch_command(["./autogen.sh", "PKG_CONFIG_PATH=" + self._build_root + "lib/pkgconfig", 
+        run_batch_command(["./autogen.sh", 
+                           "PKG_CONFIG_PATH=" + self._build_root + "/lib/pkgconfig", 
                            "CC=ccache gcc", "CXX=ccache g++", 
-                              "--prefix=" + self._build_root])
+                           "--prefix=" + self._build_root])
         run_batch_command(["make",  "-j", str(multiprocessing.cpu_count() + 1)])
         run_batch_command(["make",  "install"])
 
         os.chdir(savedir)
+
+        Export().export()
 
     def test(self):
         pass

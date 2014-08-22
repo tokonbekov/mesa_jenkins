@@ -22,6 +22,7 @@ from repo_set import RepoSet
 from repo_set import BuildSpecification
 from repo_set import ProjectInvoke
 from dependency_graph import DependencyGraph
+from export import Export
 from builders import *
 
 class DefaultTimeout:
@@ -66,12 +67,14 @@ def build(builder, options=None, time_limit=None):
     actions = options.action
 
     invoke = NullInvoke()
-    if (options.result_path):
+
+    # TODO: add this stuff
+    #if (options.result_path):
         # if we aren't posting to a server, don't attempt to write
         # status
-        invoke = BuildInvoke(options)
+        #invoke = BuildInvoke(options)
 
-    invoke.set_info("start_time", time.time())
+    #invoke.set_info("start_time", time.time())
 
     # start a thread to limit the run-time of the build
     to = TimeOut(time_limit)

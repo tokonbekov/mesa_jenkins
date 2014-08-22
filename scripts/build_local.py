@@ -51,8 +51,10 @@ def main():
     vdict = vars(args)
     del vdict["project"]
     o.__dict__.update(vdict)
+    sys.argv = ["bogus"] + o.to_string().split()
 
-    bs.rmtree(bs.ProjectMap().build_root())
+    if "clean" in o.action:
+        bs.rmtree(bs.ProjectMap().build_root())
 
     graph = bs.DependencyGraph(project, o)
     ready = graph.ready_builds()
