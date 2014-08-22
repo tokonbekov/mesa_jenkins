@@ -129,6 +129,11 @@ class RevisionSpecification:
             tag.set(p, self._revisions[p])
         return ET.tostring(tag)
         
+    def checkout(self):
+        repo_set = RepoSet()
+        for (project, revision) in self._revisions.iteritems():
+            project_repo = repo_set.repo(project)
+            project_repo.git.checkout(revision)
 
 class RepoStatus:
     def __init__(self, buildspec=None):
@@ -152,9 +157,9 @@ class RepoStatus:
         """returns list of branches that should be triggered"""
         ret_list = []
         for branch in self._branches:
-            if branch.needs_build(self._repos):
+            if branch.needs_build():
                 ret_list.append(branch.name)
-                branch.update_commits(self._repos)
+                branch.update_commits()
         return ret_list
 
 class BuildSpecification:

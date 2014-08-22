@@ -22,7 +22,6 @@ def test_dep_graph():
     assert(loop_count > 2)
 
 def test_project_invoke():
-    #pytest.set_trace()
     args= ["ignore_arg0", "--action=build,test", "--config=debug"]
     pi = bs.ProjectInvoke(bs.Options(args), project="mesa")
     pis = str(pi)
@@ -38,7 +37,14 @@ def test_repo_checkout():
 
 def test_repo_status():
     #pytest.set_trace()
+    reposet = bs.RepoSet()
+    reposet.fetch()
     rs = bs.RepoStatus()
     assert(rs.poll() == [])
     rs._branches[0]._project_branches["mesa"].sha = "bogus"
     assert(rs.poll() == ["mesa_master"])
+
+def test_revspec():
+    #pytest.set_trace()
+    rs = bs.RevisionSpecification()
+    rs.checkout()
