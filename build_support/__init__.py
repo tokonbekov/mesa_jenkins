@@ -17,13 +17,11 @@ from project_map import ProjectMap
 #from gtest import GTest as GTest
 #from clean_server import CleanServer
 from timer import TimeOut
-from repo_set import RepoStatus
-from repo_set import RepoSet
-from repo_set import BuildSpecification
-from repo_set import ProjectInvoke
+from repo_set import *
 from dependency_graph import DependencyGraph
 from export import Export
 from builders import *
+from jenkins import *
 
 class DefaultTimeout:
     def __init__(self, options=None):

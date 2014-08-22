@@ -32,19 +32,27 @@ def main():
     parser.add_argument('--action', type=str, default=["build"],
                         choices=CsvChoice('fetch', 'build', 'clean', 'test'),
                         action=CsvAction,
-                        help="Action to recurse with. 'build', 'clean' or 'test'. (default: %(default)s)")
+                        help="Action to recurse with. 'build', 'clean' "\
+                        "or 'test'. (default: %(default)s)")
+
     parser.add_argument('--project', dest='project', type=str, default="mesa",
                         help='project to build. (default: %(default)s)')
     parser.add_argument('--arch', dest='arch', type=str, 
                         default='m64', choices=['m64', 'm32'],
                         help='arch to build. (default: %(default)s)')
-    parser.add_argument('--config', type=str, default="release", choices=['release', 'debug'],
+    parser.add_argument('--config', type=str, default="release", 
+                        choices=['release', 'debug'],
                         help="Release or Debug build. (default: %(default)s)")
+
     parser.add_argument('--type', type=str, default="developer",
-                        choices=['developer', 'percheckin', 'daily', 'release'],
-                        help="category of tests to run. (default: %(default)s)")
+                        choices=['developer', 'percheckin', 
+                                 'daily', 'release'],
+                        help="category of tests to run. "\
+                        "(default: %(default)s)")
+
     parser.add_argument('--branch', type=str, default="mesa_master",
-                        help="Branch specification to build.  See build_specification.xml/branches")
+                        help="Branch specification to build.  "\
+                        "See build_specification.xml/branches")
 
     args = parser.parse_args()
     project = args.project
@@ -77,7 +85,8 @@ def main():
             graph.build_complete(bi)
             os.chdir(pm.project_build_dir(bi.project))
             if os.path.exists("build.py"):
-                bs.run_batch_command([sys.executable, "build.py"] +  o.to_string().split(" "))
+                bs.run_batch_command([sys.executable, "build.py"] +  
+                                     o.to_string().split(" "))
         ready = graph.ready_builds()
 
 main()

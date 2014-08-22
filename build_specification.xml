@@ -1,5 +1,5 @@
 <build_specification>
-  <build_master host="otc-gfxtest-01.jf.intel.com" results_dir="/home/jenkins/results"/>
+  <build_master host="otc-gfxtest-01.jf.intel.com" results_dir="/mnt/jenkins/results"/>
 
   <!-- specified the dependency relationships between projects -->
   <projects>

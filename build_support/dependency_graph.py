@@ -68,7 +68,7 @@ class DependencyGraph:
     @classmethod
     def long_pole(cls, invoke):
         """returns a list of invokes composing the long pole of the build"""
-        depGraph = cls(invoke.component, 
+        depGraph = cls(invoke.project, 
                        invoke.options)
         blocking_builds = [invoke]
         while True:
