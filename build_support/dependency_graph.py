@@ -90,7 +90,9 @@ class DependencyGraph:
 
     def _prereqs(self, project_invoke):
         results = []
-        for a_prereq in self._project_tags[project_invoke.project].findall("prerequisite"):
+
+        tags = self._project_tags[project_invoke.project]
+        for a_prereq in tags.findall("prerequisite"):
             # make a deep copy of the project_invoke, which will be
             # updated by the prereq
 
@@ -103,7 +105,8 @@ class DependencyGraph:
                 hardwares = attrib["hardware"].split(",")
             for arch in arches:
                 for hardware in hardwares:
-                    prereq_invoke = ProjectInvoke(from_string=str(project_invoke))
+                    pistr = str(project_invoke)
+                    prereq_invoke = ProjectInvoke(from_string=pistr)
                     prereq_invoke.project = attrib["name"]
                     prereq_invoke.options.hardware = hardware
                     prereq_invoke.options.arch = arch
@@ -113,7 +116,8 @@ class DependencyGraph:
 
 
     def _add_to_graph(self, project_invoke):
-        """adds the build_invoke and all prerequisites to the _dependency_graph"""
+        """adds the build_invoke and all prerequisites to the
+        _dependency_graph"""
         graph = self._dependency_graph
         if graph.has_key(str(project_invoke)):
             # multiple dependencies on this invocation, which has

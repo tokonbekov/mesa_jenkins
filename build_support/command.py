@@ -18,18 +18,21 @@ def kill_all_subprocesses():
             # in unix, any subprocess the executes another command
             # will create a process that won't be killed.  We uses
             # process groups to manage
-            # this. http://stackoverflow.com/questions/4789837/how-to-terminate-a-python-subprocess-launched-with-shell-true
+            # this. 
+            # http://stackoverflow.com/questions/4789837/how-to-terminate-a-python-subprocess-launched-with-shell-true
             os.killpg(p.pid, signal.SIGTERM)
 
             try:
                 p.terminate()
                 p.kill()
             except:
-                # If we couldn't kill the process, ignore errors if the process ended on it's own
+                # If we couldn't kill the process, ignore errors if
+                # the process ended on it's own
                 if p.poll():
                     return
                 else:
-                    print "Couldn't kill {0}".format(p)  # otherwise raise so we know a process is stuck
+                    # otherwise raise so we know a process is stuck
+                    print "Couldn't kill {0}".format(p)  
                     raise
     all_processes = {}
 
@@ -71,7 +74,9 @@ def run_batch_command(commands, streamedOutput=True, noop=False, env = None,
                     preexec_fn=os.setsid)
     else:
         p = subprocess.Popen(commands, env=procEnv, 
-                    preexec_fn=os.setsid, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                             preexec_fn=os.setsid, 
+                             stdout=subprocess.PIPE, 
+                             stderr=subprocess.PIPE)
 
     global all_processes
     all_processes[p] = True

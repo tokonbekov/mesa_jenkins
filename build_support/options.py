@@ -27,25 +27,35 @@ class Options(object):
     def __init__(self, args=None, from_xml=None):
         self.prog = None
         self.component_dir = None
-        self._parser = argparse.ArgumentParser(description="argument parser for mesa jenkins build wrapper")
+
+        description = "argument parser for mesa jenkins build wrapper"
+        self._parser = argparse.ArgumentParser(description=description)
+
         self._parser.add_argument('--action', type=str, default=["build"],
                                   choices=CsvChoice('build', 'clean', 'test'),
                                   action=CsvAction,
-                                  help="Action to recurse with. 'build', 'clean' or 'test'. (default: %(default)s)")
-        self._parser.add_argument('--config', type=str, default="release", choices=['release', 'debug'],
-                                  help="Release or Debug build. (default: %(default)s)")
+                                  help="Action to recurse with. 'build', "
+                                  "'clean' or 'test'. (default: %(default)s)")
+        self._parser.add_argument('--config', type=str, default="release", 
+                                  choices=['release', 'debug'],
+                                  help="Release or Debug build. (default: "
+                                  "%(default)s)")
         self._parser.add_argument('--type', type=str, default="developer",
-                                  choices=['developer', 'percheckin', 'daily', 'release'],
-                                  help="The source of the build trigger. (default: %(default)s)")
+                                  choices=['developer', 'percheckin', 
+                                           'daily', 'release'],
+                                  help="The source of the build trigger. "
+                                  "(default: %(default)s)")
         self._parser.add_argument('--arch', type=str, 
                                   default='m64', choices=['m64', 'm32'],
-                                  help="The architecture for the target build. (default: %(default)s)")
+                                  help="The architecture for the target "
+                                  "build. (default: %(default)s)")
         self._parser.add_argument('--hardware', type=str, default='builder',
                                   help="The hardware to be targeted for test "
                                   "('builder', 'snb', 'ivb', 'hsw', 'bdw'). "
                                   "(default: %(default)s)")
         self._parser.add_argument('--result_path', type=str, default='',
-                                  help="The location on the build master for placing and fetching built binaries.")
+                                  help="The location on the build master "
+                                  "for placing and fetching built binaries.")
 
         if None != from_xml:
             self.from_xml(from_xml)

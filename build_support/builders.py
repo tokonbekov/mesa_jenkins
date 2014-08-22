@@ -30,10 +30,12 @@ class AutoBuilder(object):
         os.chdir(self._build_dir)
 
         run_batch_command(["../autogen.sh", 
-                           "PKG_CONFIG_PATH=" + self._build_root + "/lib/pkgconfig", 
+                           "PKG_CONFIG_PATH=" + self._build_root + 
+                           "/lib/pkgconfig", 
                            "CC=ccache gcc", "CXX=ccache g++", 
                            "--prefix=" + self._build_root])
-        run_batch_command(["make",  "-j", str(multiprocessing.cpu_count() + 1)])
+        run_batch_command(["make",  "-j", 
+                           str(multiprocessing.cpu_count() + 1)])
         run_batch_command(["make",  "install"])
 
         os.chdir(savedir)

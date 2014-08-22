@@ -24,7 +24,8 @@ class TimeOut:
 
     def start(self):
         time_remaining = self._expiration - time.time()
-        print "INFO: starting timer at: " + str(time.time()) + ", time remaining is: " + str(time_remaining)
+        print ("INFO: starting timer at: " + str(time.time()) + 
+               ", time remaining is: " + str(time_remaining))
         sys.stdout.flush()
         assert(time_remaining > 0)
 
@@ -36,7 +37,8 @@ class TimeOut:
         # fuzz: within 10 seconds counts as expired
         if time.time() > (self._expiration - 10):
             return True
-        print "WARN: timer expired prematurely, at: " + str(time.time()) + ", expected times is: " + str(self._expiration) 
+        print ("WARN: timer expired prematurely, at: " + str(time.time()) + 
+               ", expected times is: " + str(self._expiration) )
         sys.stdout.flush()
         return False
 

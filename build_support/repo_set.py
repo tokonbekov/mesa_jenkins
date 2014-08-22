@@ -211,7 +211,8 @@ class ProjectInvoke:
         tag = ET.fromstring(string)
         self.project = tag.attrib["Project"]
         self.options = Options(from_xml=tag.find("Options"))
-        self._revision_spec = RevisionSpecification(from_string=tag.find("RevSpec"))
+        revtag = tag.find("RevSpec")
+        self._revision_spec = RevisionSpecification(from_string=revtag)
         
         
     def get_info(self, key, block=True):
