@@ -56,9 +56,8 @@ class ProjectMap:
         build_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
         return os.path.split(build_dir)[1]
 
-    def result_root(self):
-        """same as the "prefix" argument to configure.  if user (or
-        buildsystem has specified a result_dir, then that is used."""
+    def output_dir(self):
+        """logs / test xml go in this directory"""
         o = Options()
         if o.result_path:
             return os.path.abspath(o.result_path)
