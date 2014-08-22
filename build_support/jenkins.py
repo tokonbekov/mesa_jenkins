@@ -139,7 +139,8 @@ class Jenkins:
         p.append("arch=" + o.arch)
         p.append("config=" + o.config)
         p.append("type=" + o.type)
-        p.append("revision=" + urllib2.quote(str(invoke.revision_spec)))
+        p.append("revision=" + \
+                 urllib2.quote(invoke.revision_spec.to_cmd_line_param()))
         p.append("result_path=" + o.result_path)
         p.append("hardware=" + o.hardware)
         p.append("hash=" + invoke.hash(self._time))
