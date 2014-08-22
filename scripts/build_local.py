@@ -28,11 +28,12 @@ class CsvAction(argparse.Action):
 def main():
     parser = argparse.ArgumentParser(description='Build projects locally.')
 
+    # TODO: provide a pull action to update the repos
     parser.add_argument('--action', type=str, default=["build"],
-                        choices=CsvChoice('build', 'clean', 'test'),
+                        choices=CsvChoice('fetch', 'build', 'clean', 'test'),
                         action=CsvAction,
                         help="Action to recurse with. 'build', 'clean' or 'test'. (default: %(default)s)")
-    parser.add_argument('--project', dest='project', type=str, default="all-test",
+    parser.add_argument('--project', dest='project', type=str, default="mesa",
                         help='project to build. (default: %(default)s)')
     parser.add_argument('--arch', dest='arch', type=str, 
                         default='m64', choices=['m64', 'm32'],
@@ -47,13 +48,25 @@ def main():
 
     args = parser.parse_args()
     project = args.project
+
+    if "fetch" in args.action:
+        # fetch not supported by build.py scripts, which will parse argv
+        bs.RepoSet().fetch()
+    branch = args.branch
+    bs.BuildSpecification().checkout(branch)
+
+    # some build_local params are not handled by the Options, which is
+    # used by other modules
     o = bs.Options(["bogus"])
     vdict = vars(args)
     del vdict["project"]
+    del vdict["branch"]
+    if "fetch" in vdict["action"]:
+        vdict["action"].remove("fetch")
     o.__dict__.update(vdict)
     sys.argv = ["bogus"] + o.to_string().split()
 
-    if "clean" in o.action:
+    if "clean" in args.action:
         bs.rmtree(bs.ProjectMap().build_root())
 
     graph = bs.DependencyGraph(project, o)
