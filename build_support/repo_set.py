@@ -101,13 +101,17 @@ class RepoSet:
                 remote.fetch()
 
 class RevisionSpecification:
-    def __init__(self, from_string=None):
+    def __init__(self, from_string=None, from_cmd_line=None):
         # key is project, value is revision
         self._revisions = {}
 
         if from_string is not None:
             self.from_string(from_string)
             return
+
+        if from_cmd_line is not None:
+            self.from_cmd_line_param(from_cmd_line)
+
         repo_set = RepoSet()
         projects = repo_set.projects()
         for p in projects:
@@ -124,6 +128,15 @@ class RevisionSpecification:
     def to_cmd_line_param(self):
         revs = [project + "=" + rev for (project, rev) in self._revisions.iteritems()]
         return " ".join(revs)
+
+    def from_cmd_line_param(self, params):
+        revs = []
+        for rev in params:
+            rev = rev.split("=")
+            rev[1] = '"' + rev[1] + '"'
+            revs.append(rev[0] + "=" + rev[1])
+        rev_text = "<RevSpec " + " ".join(revs) + "/>"
+        rs = self.from_string(rev_text)
 
     def __str__(self):
         projects = self._revisions.keys()
