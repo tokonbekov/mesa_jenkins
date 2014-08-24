@@ -96,7 +96,7 @@ class Jenkins:
                 time.sleep(5)
 
     def build(self, project_invoke):
-        status = project_invoke.get_info("status")
+        status = project_invoke.get_info("status", block=False)
         if status == "building":
             raise BuildInProgress(project_invoke, self._revspec)
 

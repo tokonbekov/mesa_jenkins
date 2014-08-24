@@ -122,7 +122,7 @@ class RevisionSpecification:
         self._revisions = spec.attrib
 
     def to_cmd_line_param(self):
-        revs = [project + " " + rev for (project, rev) in self._revisions]
+        revs = [project + "=" + rev for (project, rev) in self._revisions.iteritems()]
         return " ".join(revs)
 
     def __str__(self):

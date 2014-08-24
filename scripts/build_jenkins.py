@@ -88,7 +88,7 @@ def main():
         jen.print_builds()
         builds_in_round = 0
         for an_invoke in ready_for_build:
-            status = an_invoke.get_info("status")
+            status = an_invoke.get_info("status", block=False)
 
             if status == "success" or status == "unstable":
                 # don't rebuild if we have a good build, or just
