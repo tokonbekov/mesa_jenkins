@@ -67,12 +67,12 @@ def build(builder, options=None, time_limit=None):
     invoke = NullInvoke()
 
     # TODO: add this stuff
-    #if (options.result_path):
+    if (options.result_path):
         # if we aren't posting to a server, don't attempt to write
         # status
-        #invoke = BuildInvoke(options)
+        invoke = ProjectInvoke(options)
 
-    #invoke.set_info("start_time", time.time())
+    invoke.set_info("start_time", time.time())
 
     # start a thread to limit the run-time of the build
     to = TimeOut(time_limit)
@@ -92,7 +92,7 @@ def build(builder, options=None, time_limit=None):
                 # we need to cancel the timer first, in case
                 # set_status fails, and the timer is left running
                 to.end()
-                invoke.set_status("failed")
+                invoke.set_info("status", "failed")
                 # must cancel timeout timer, which will prevent process from ending
                 raise        
                 
@@ -101,6 +101,6 @@ def build(builder, options=None, time_limit=None):
     # the timer is left running
     to.end()
     invoke.set_info("end_time", time.time())
-    invoke.set_status("success")
+    invoke.set_info("status", "success")
 
 
