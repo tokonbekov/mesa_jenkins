@@ -57,27 +57,43 @@ class AutoBuilder(object):
 
 
 class CMakeBuilder(object):
-    def __init__(self):
+    def __init__(self, extra_definitions=None):
         self._options = Options()
         self._project_map = ProjectMap()
+
+        if not extra_definitions:
+            extra_definitions = []
+        self._extra_definitions = extra_definitions
+
         project = self._project_map.current_project()
 
         self._src_dir = self._project_map.project_source_dir(project)
         self._build_root = self._project_map.build_root()
         self._build_dir = self._src_dir + "/build_" + self._options.arch
-        self._build_dir = self._src_dir + "/build_" + self._options.arch
 
     def build(self):
+
         if not os.path.exists(self._build_dir):
             os.makedirs(self._build_dir)
 
         savedir = os.getcwd()
         os.chdir(self._build_dir)
 
-        run_batch_command(["cmake", self._src_dir])
+        pkg_config_path = self._project_map.build_root() + \
+                          "/lib/pkgconfig:" + \
+                          self._project_map.build_root() + \
+                          "/lib/x86_64-linux-gnu/pkgconfig"
+        run_batch_command(["cmake", self._src_dir, 
+                           "-DCMAKE_INSTALL_PREFIX:PATH=" + self._build_root] \
+                          + self._extra_definitions,
+                          env={"PKG_CONFIG_PATH" : pkg_config_path,
+                               "CC":"ccache gcc",
+                               "CXX":"ccache g++"})
 
-        run_batch_command(["cmake", self._src_dir, "--build", ".", 
+        run_batch_command(["cmake", "--build", self._build_dir,
                            "--", "-j" + str(multiprocessing.cpu_count() + 1)])
+        run_batch_command(["make", "install"])
+
         os.chdir(savedir)
 
     def clean(self):

@@ -13,7 +13,9 @@
       <prerequisite name="drm"/>
     </project>
 
-    <project name="waffle"/>
+    <project name="waffle">
+      <prerequisite name="mesa" hardware="builder"/>
+    </project>
 
     <project name="piglit-build">
       <prerequisite name="waffle"/>
