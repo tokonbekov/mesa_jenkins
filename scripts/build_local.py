@@ -83,9 +83,11 @@ def main():
     while ready:
         for bi in ready:
             graph.build_complete(bi)
-            os.chdir(pm.project_build_dir(bi.project))
-            if os.path.exists("build.py"):
-                bs.run_batch_command([sys.executable, "build.py"] +  
+            proj_build_dir = pm.project_build_dir(bi.project)
+            script = proj_build_dir + "/build.py"
+            if os.path.exists(script):
+                bs.run_batch_command([sys.executable, 
+                                      script] +  
                                      o.to_string().split(" "))
         ready = graph.ready_builds()
 

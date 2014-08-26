@@ -1,4 +1,4 @@
-import os, multiprocessing, re
+import os, multiprocessing, re, subprocess
 from . import Options
 from . import ProjectMap
 from . import run_batch_command
@@ -46,14 +46,14 @@ class AutoBuilder(object):
         if self._options.arch == "m32":
             flags = ["CFLAGS=-m32", "CXXFLAGS=-m32", 
                      "--enable-32-bit",
-                     "--build=x86_64-pc-linux-gnu",
                      "--host=i686-pc-linux-gnu"]
         else:
             flags = ["CFLAGS=-m64", "CXXFLAGS=-m64"]
 
         run_batch_command(["../autogen.sh", 
                            "PKG_CONFIG_PATH=" + get_package_config_path(), 
-                           "CC=ccache gcc", "CXX=ccache g++", 
+                           "CC=ccache gcc -" + self._options.arch, 
+                           "CXX=ccache g++ -" + self._options.arch, 
                            "--prefix=" + self._build_root] + \
                           flags + self._configure_options)
         run_batch_command(["make",  "-j", 
@@ -73,7 +73,10 @@ class AutoBuilder(object):
             return
         os.chdir(self._build_dir)
         if os.path.exists("Makefile"):
-            run_batch_command(["make", "distclean"])
+            try:
+                run_batch_command(["make", "distclean"])
+            except(subprocess.CalledProcessError):
+                pass
         os.chdir(savedir)
         rmtree(self._build_dir)
 

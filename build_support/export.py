@@ -22,13 +22,14 @@ class Export:
         run_batch_command(cmd)
 
     def import_build_root(self):
-        result_path = Options().result_path
+        o = Options()
+        result_path = o.result_path + "/" + o.arch
         if not result_path:
             return
         if not os.path.exists(result_path):
             return
 
-        br = ProjectMap().build_root()
+        br = os.path.dirname(ProjectMap().build_root())
         if not os.path.exists(br):
             os.makedirs(br)
 
