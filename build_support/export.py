@@ -21,3 +21,17 @@ class Export:
                ProjectMap().build_root(), result_path]
         run_batch_command(cmd)
 
+    def import_build_root(self):
+        result_path = Options().result_path
+        if not result_path:
+            return
+        if not os.path.exists(result_path):
+            return
+
+        br = ProjectMap().build_root()
+        if not os.path.exists(br):
+            os.makedirs(br)
+
+        cmd = ["cp", "-a", "-n",
+               result_path, br]
+        run_batch_command(cmd)

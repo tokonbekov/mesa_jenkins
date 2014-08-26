@@ -78,6 +78,7 @@ def build(builder, options=None, time_limit=None):
     to = TimeOut(time_limit)
     to.start()
 
+    Export().import_build_root()
 
     if type(actions) is str:
         actions = [actions]
