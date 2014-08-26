@@ -99,6 +99,9 @@ class RepoSet:
         for repo in self._repos.values():
             for remote in repo.remotes:
                 remote.fetch()
+        # the fetch has left our repo objects in an inconsistent
+        # state.  We need to recreate them.
+        self.__init__()
 
 class RevisionSpecification:
     def __init__(self, from_string=None, from_cmd_line=None):
