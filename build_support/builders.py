@@ -124,6 +124,8 @@ class CMakeBuilder(object):
 
         os.chdir(savedir)
 
+        Export().export()
+
     def clean(self):
         rmtree(self._build_dir)
 
