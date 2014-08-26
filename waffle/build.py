@@ -7,5 +7,5 @@ import build_support as bs
 
 bs.build(bs.CMakeBuilder(extra_definitions=["-Dwaffle_has_x11_egl=1", 
                                             "-Dwaffle_has_glx=1",
-                                            #"-Dwaffle_has_gbm=1"
+                                            "-Dwaffle_has_gbm=1"
                                         ] ))

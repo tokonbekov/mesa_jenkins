@@ -42,7 +42,6 @@ class ProjectMap:
     def project_build_dir(self, project):
         """location of the build.py for the project"""
         cb = self._source_root + "/" + project
-        assert(os.path.exists(cb))
         return cb
 
     def project_source_dir(self, project):

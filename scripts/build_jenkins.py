@@ -105,6 +105,12 @@ def main():
                 #collate_tests(an_invoke, out_test_dir)
                 continue
 
+            proj_build_dir = pm.project_build_dir(an_invoke.project)
+            script = proj_build_dir + "/build.py"
+            if not os.path.exists(script):
+                depGraph.build_complete(an_invoke)
+                continue
+
             try:
                 print "Starting: " + an_invoke.to_short_string()
                 jen.build(an_invoke)
