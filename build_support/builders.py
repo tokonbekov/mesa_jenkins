@@ -5,9 +5,23 @@ from . import run_batch_command
 from . import rmtree
 from . import Export
 
+def get_package_config_path():
+    lib_dir = ""
+    if Options().arch == "m32":
+        lib_dir = "i386-linux-gnu"
+    else:
+        lib_dir = "x86_64-linux-gnu"
+
+    build_root = ProjectMap().build_root()
+    pkg_config_path = build_root + "/lib/" + lib_dir + "/pkgconfig:" + \
+                      build_root + "/lib/pkgconfig:" + \
+                      "/usr/lib/"+ lib_dir + "/pkgconfig:" + \
+                      "/usr/lib/pkgconfig"
+    return pkg_config_path
+
 class AutoBuilder(object):
 
-    def __init__(self, o=None, configure_options=""):
+    def __init__(self, o=None, configure_options=[]):
         self._options = o
         self._configure_options = configure_options
         if not o:
@@ -28,12 +42,20 @@ class AutoBuilder(object):
 
         savedir = os.getcwd()
         os.chdir(self._build_dir)
+        flags = []
+        if self._options.arch == "m32":
+            flags = ["CFLAGS=-m32", "CXXFLAGS=-m32", 
+                     "--enable-32-bit",
+                     "--build=x86_64-pc-linux-gnu",
+                     "--host=i686-pc-linux-gnu"]
+        else:
+            flags = ["CFLAGS=-m64", "CXXFLAGS=-m64"]
 
         run_batch_command(["../autogen.sh", 
-                           "PKG_CONFIG_PATH=" + self._build_root + 
-                           "/lib/pkgconfig", 
+                           "PKG_CONFIG_PATH=" + get_package_config_path(), 
                            "CC=ccache gcc", "CXX=ccache g++", 
-                           "--prefix=" + self._build_root])
+                           "--prefix=" + self._build_root] + \
+                          flags + self._configure_options)
         run_batch_command(["make",  "-j", 
                            str(multiprocessing.cpu_count() + 1)])
         run_batch_command(["make",  "install"])
@@ -79,16 +101,19 @@ class CMakeBuilder(object):
         savedir = os.getcwd()
         os.chdir(self._build_dir)
 
-        pkg_config_path = self._project_map.build_root() + \
-                          "/lib/pkgconfig:" + \
-                          self._project_map.build_root() + \
-                          "/lib/x86_64-linux-gnu/pkgconfig"
+        cflag = "-m32"
+        cxxflag = "-m32"
+        if self._options.arch == "m64":
+            cflag = "-m64"
+            cxxflag = "-m64"
         run_batch_command(["cmake", self._src_dir, 
                            "-DCMAKE_INSTALL_PREFIX:PATH=" + self._build_root] \
                           + self._extra_definitions,
-                          env={"PKG_CONFIG_PATH" : pkg_config_path,
+                          env={"PKG_CONFIG_PATH" : get_package_config_path(),
                                "CC":"ccache gcc",
-                               "CXX":"ccache g++"})
+                               "CXX":"ccache g++",
+                               "CFLAGS":cflag,
+                               "CXXFLAGS":cxxflag})
 
         run_batch_command(["cmake", "--build", self._build_dir,
                            "--", "-j" + str(multiprocessing.cpu_count() + 1)])
