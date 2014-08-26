@@ -52,9 +52,9 @@
          commit that triggered the build. -->
     
     <!-- jenkins has a build with same name as branch -->
-    <branch name="mesa_master" project="mesa"/>
+    <branch name="mesa_master" project="piglit-build"/>
 
-    <branch name="mesa_10.2" project="mesa">
+    <branch name="mesa_10.2" project="piglit-build">
       <mesa branch="origin/10.2"/>
     </branch>
 
