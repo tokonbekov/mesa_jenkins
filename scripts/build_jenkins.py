@@ -22,8 +22,9 @@ def main():
     parser= argparse.ArgumentParser(description=description, 
                                     parents=[o._parser], 
                                     conflict_handler="resolve")
-    parser.add_argument('--project', dest='project', type=str, default="mesa",
-                        help='project to build. (default: %(default)s)')
+    parser.add_argument('--project', dest='project', type=str, default="",
+                        help='Project to build. Default project is specified '\
+                        'for the branch in build_specification.xml')
 
     parser.add_argument('--branch', type=str, default="mesa_master",
                         help="Branch specification to build.  "\
@@ -31,7 +32,9 @@ def main():
 
 
     args = parser.parse_args()
-    projects = args.project.split(",")
+    projects = []
+    if args.project:
+        projects = args.project.split(",")
     branch = args.branch
 
     # some build_local params are not handled by the Options, which is
@@ -54,7 +57,9 @@ def main():
     result_path = "/".join([results_dir, branch, hashstr])
     o.result_path = result_path
     pm = bs.ProjectMap()
-
+    if not projects:
+        branchspec = bspec.branch_specification(branch)
+        projects = [branchspec.project]
 
     # use a global, so signal handler can abort builds when scheduler
     # is interrupted
