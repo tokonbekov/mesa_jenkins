@@ -29,7 +29,8 @@
     <!-- all-test has no build.py, and exists only to provide
          dependency relationships. -->
     <project name="all-test">
-      <prerequisite name="piglit-test" arch="m32,m64" hardware="snb,ivb"/>
+      <!-- <prerequisite name="piglit-test" arch="m32,m64" hardware="snb,ivb"/> -->
+      <prerequisite name="piglit-build" arch="m32,m64"/>
     </project>
 
   </projects>
@@ -52,9 +53,9 @@
          commit that triggered the build. -->
     
     <!-- jenkins has a build with same name as branch -->
-    <branch name="mesa_master" project="piglit-build"/>
+    <branch name="mesa_master" project="all-test"/>
 
-    <branch name="mesa_10.2" project="piglit-build">
+    <branch name="mesa_10.2" project="all-test">
       <mesa branch="origin/10.2"/>
     </branch>
 
