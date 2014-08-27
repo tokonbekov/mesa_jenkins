@@ -20,6 +20,11 @@ class Export:
 
         cmd = ["cp", "-a", "-n",
                ProjectMap().build_root(), result_path]
+
+        cmd = ["cp", "-a", "-n",
+               ProjectMap().build_root() + "/../test", 
+               result_path]
+
         run_batch_command(cmd)
 
     def import_build_root(self):
