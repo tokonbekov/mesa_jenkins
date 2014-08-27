@@ -53,8 +53,9 @@ class BranchSpecification:
         self._repos.fetch()
         for (_, branch) in self._project_branches.iteritems():
             repo = self._repos.repo(branch.name)
-            if branch.sha != repo.commit(branch.branch).hexsha:
-                return branch.name + "-" + repo.commit(branch.branch).hexsha
+            hexsha = repo.commit(branch.branch).hexsha
+            if branch.sha != hexsha:
+                return branch.name + "-" + repo.git.rev_parse(hexsha, short=True)
         return False
 
     def checkout(self):
