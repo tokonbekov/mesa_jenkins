@@ -27,6 +27,8 @@ class PiglitTester(object):
                "quick",
                out_dir ]
 
+        bs.run_batch_command(cmd, env=env)
+
         single_out_dir = br + "/../test"
         if not os.path.exists(single_out_dir):
             os.makedirs(single_out_dir)
@@ -38,7 +40,6 @@ class PiglitTester(object):
                                                  o.hardware,
                                                  o.arch]) + ".xml")
 
-        bs.run_batch_command(cmd, env=env)
         bs.Export().export()
 
 
