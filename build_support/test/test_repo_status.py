@@ -5,6 +5,7 @@ sys.path.append("..")
 import build_support as bs
 
 def test_dep_graph():
+    #pytest.set_trace()
     args= ["ignore_arg0", "--action=build,test", "--config=debug"]
     o = bs.Options(args)
     g = bs.DependencyGraph("all-test", o)
@@ -22,6 +23,7 @@ def test_dep_graph():
     assert(loop_count > 2)
 
 def test_project_invoke():
+    #pytest.set_trace()
     args= ["ignore_arg0", "--action=build,test", "--config=debug"]
     pi = bs.ProjectInvoke(bs.Options(args), project="mesa")
     pis = str(pi)
@@ -48,3 +50,9 @@ def test_revspec():
     #pytest.set_trace()
     rs = bs.RevisionSpecification()
     rs.checkout()
+
+def test_remote():
+    #pytest.set_trace()
+    spec = bs.BuildSpecification()
+    spec.checkout("jekstrand")
+    spec.checkout("mesa_master")

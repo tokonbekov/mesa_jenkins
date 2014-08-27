@@ -40,10 +40,15 @@
   <repos>
     <mesa repo="git://anongit.freedesktop.org/mesa/mesa">
       <!-- todo: add support for remotes.  -->
-      <remote repo="git://some.server" name="remote_name"/>
+      <remote name="jekstrand" repo="git://people.freedesktop.org/~jekstrand/mesa"/>
     </mesa>
+
     <drm repo="git://anongit.freedesktop.org/mesa/drm"/>
-    <piglit-build repo="git://github.com/dcbaker/piglit"/>
+
+    <piglit-build repo="git://github.com/dcbaker/piglit">
+      <remote name="jekstrand" repo="git://people.freedesktop.org/~jekstrand/piglit"/>
+    </piglit-build>
+
     <waffle repo="git://github.com/waffle-gl/waffle"/>
   </repos>
 
@@ -66,6 +71,11 @@
     <branch name="mesa_10.3" project="all-test">
       <mesa branch="origin/10.3"/>
       <piglit-build branch="origin/wip/backend-v3"/>
+    </branch>
+
+    <branch name="jekstrand" project="all-test">
+      <mesa branch="jekstrand/jenkins"/>
+      <piglit-build branch="jekstrand/jenkins"/>
     </branch>
 
   </branches>

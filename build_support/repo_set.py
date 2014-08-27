@@ -71,6 +71,8 @@ class RepoSet:
     def __init__(self):
         buildspec = ProjectMap().build_spec()
         self._repos = {}
+        # key is project, value is dictionary of remote name => remote object
+        self._remotes = {}
         if type(buildspec) == str:
             buildspec = ET.parse(buildspec)
         repo_dir = ProjectMap().source_root() + "/repos"
@@ -90,6 +92,19 @@ class RepoSet:
                 git.Repo.clone_from(url, project_repo_dir)
             repo = git.Repo(project_repo_dir)
             self._repos[project] = repo
+            self._remotes[project] = {}
+
+            for remote in repo.remotes:
+                self._remotes[project][remote.name] = remote
+
+            for a_remote in tag.findall("remote"):
+                remote_name = a_remote.attrib["name"]
+                if not self._remotes[project].has_key(remote_name):
+                    print "Adding remote: " + remote_name + " " + url
+                    url = a_remote.attrib["repo"]
+                    remote = repo.create_remote(remote_name, url)
+                    self._remotes[project][remote_name] = remote
+                
 
     def repo(self, project_name):
         return self._repos[project_name]
