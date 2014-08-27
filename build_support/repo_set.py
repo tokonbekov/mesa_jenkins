@@ -116,6 +116,7 @@ class RevisionSpecification:
 
         if from_cmd_line is not None:
             self.from_cmd_line_param(from_cmd_line)
+            return
 
         repo_set = RepoSet()
         projects = repo_set.projects()
