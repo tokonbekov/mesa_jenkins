@@ -27,9 +27,16 @@ class PiglitTester(object):
                "quick",
                out_dir ]
 
+        single_out_dir = br + "/../test"
+        if not os.path.exists(single_out_dir):
+            os.makedirs(single_out_dir)
+
         if os.path.exists(out_dir + "/results.xml"):
+            # uniquely name all test files in one directory, for jenkins
             os.rename(out_dir + "/results.xml",
-                      out_dir + "/piglit-test.xml")
+                      single_out_dir + "_".join(["/piglit-test",
+                                                 o.hardware,
+                                                 o.arch]) + ".xml")
 
         bs.run_batch_command(cmd, env=env)
         bs.Export().export()
