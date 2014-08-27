@@ -62,6 +62,11 @@
       <piglit-build branch="origin/wip/backend-v3"/>
     </branch>
 
+    <branch name="mesa_10.3" project="all-test">
+      <mesa branch="origin/10.3"/>
+      <piglit-build branch="origin/wip/backend-v3"/>
+    </branch>
+
   </branches>
 
 </build_specification>
