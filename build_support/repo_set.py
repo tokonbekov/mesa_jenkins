@@ -54,7 +54,7 @@ class BranchSpecification:
         for (_, branch) in self._project_branches.iteritems():
             repo = self._repos.repo(branch.name)
             if branch.sha != repo.commit(branch.branch).hexsha:
-                return True
+                return branch.name + "-" + repo.commit(branch.branch).hexsha
         return False
 
     def checkout(self):
@@ -178,12 +178,13 @@ class RepoStatus:
 
     def poll(self):
         """returns list of branches that should be triggered"""
-        ret_list = []
+        ret_dict = {}
         for branch in self._branches:
-            if branch.needs_build():
-                ret_list.append(branch.name)
+            trigger_commit = branch.needs_build()
+            if trigger_commit:
+                ret_dict[branch.name] = trigger_commit
                 branch.update_commits()
-        return ret_list
+        return ret_dict
 
 class BuildSpecification:
     def __init__(self, buildspec=None):

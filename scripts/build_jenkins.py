@@ -11,10 +11,14 @@ def abort_builds(ignore, _):
     raise bs.BuildAborted()
 
 def collate_tests(result_path, out_test_dir):
-    print "collecting tests from " + result_path
     src_test_dir = result_path + "/test"
+    print "collecting tests from " + src_test_dir
     if not os.path.exists(src_test_dir):
+        time.sleep(10)
+    if not os.path.exists(src_test_dir):
+        print "no test directory found: " + src_test_dir
         return
+        
     cmd = ["cp", "-a", "-n",
            src_test_dir,
            out_test_dir]
@@ -115,7 +119,6 @@ def main():
                 depGraph.build_complete(an_invoke)
                 builds_in_round += 1
                 print "Already built: " + an_invoke.to_short_string()
-                collate_tests(result_path, out_test_dir)
                 continue
 
             proj_build_dir = pm.project_build_dir(an_invoke.project)
@@ -184,7 +187,6 @@ def main():
 
             completed_builds.append(finished.invoke)
             depGraph.build_complete(finished.invoke)
-            collate_tests(result_path, out_test_dir)
 
         elif not builds_in_round:
             # nothing was built, and there was no failure => the last
@@ -197,6 +199,9 @@ def main():
                              jen)
             if failure_builds:
                 raise bs.BuildFailure(failure_builds[0], "")
+
+            collate_tests(result_path, out_test_dir)
+
             return
             
         ready_for_build = depGraph.ready_builds()

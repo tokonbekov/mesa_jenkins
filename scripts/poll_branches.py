@@ -9,9 +9,10 @@ spec = pm.build_spec()
 server = spec.find("build_master").attrib["host"]
 while True:
     branches = status.poll()
-    for branch in branches:
+    for (branch, commit) in branches.iteritems():
         print "Building " + branch
-        job_url = "http://" + server + "/job/" + branch + "/build"
+        job_url = "http://" + server + "/job/" + branch + \
+                  "/buildWithParameters?name=" + commit
         f = urllib2.urlopen(job_url)
         f.read()
 
