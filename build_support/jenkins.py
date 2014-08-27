@@ -145,14 +145,10 @@ class Jenkins:
         p.append("hardware=" + o.hardware)
         p.append("hash=" + invoke.hash(self._time))
 
-        # all build machines are x64.  Do not respect the --arch
-        # option in the label unless this is for a hardware specific
-        # test.
-        label_arch = o.arch
-        if o.hardware == "builder":
-            label_arch = "x64"
-            
-        p.append("label=" + "_".join([label_arch, o.hardware]))
+        label = "builder"
+        if o.hardware != "builder":
+            label = o.hardware + "_" + o.arch
+        p.append("label=" + label)
 
         return "&".join(p)
 

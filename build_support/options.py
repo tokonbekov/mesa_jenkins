@@ -51,7 +51,7 @@ class Options(object):
                                   "build. (default: %(default)s)")
         self._parser.add_argument('--hardware', type=str, default='builder',
                                   help="The hardware to be targeted for test "
-                                  "('builder', 'snb', 'ivb', 'hsw', 'bdw'). "
+                                  "('builder', 'snbgt1', 'ivb', 'hsw', 'bdw'). "
                                   "(default: %(default)s)")
         self._parser.add_argument('--result_path', type=str, default='',
                                   help="The location on the build master "
