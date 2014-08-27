@@ -13,10 +13,12 @@ def abort_builds(ignore, _):
 def collate_tests(result_path, out_test_dir):
     print "collecting tests from " + result_path
     src_test_dir = result_path + "/test"
-    for a_file in os.listdir(src_test_dir):
-        if "xml" in a_file:
-            shutil.copyfile(src_test_dir + "/" + a_file, 
-                            out_test_dir + "/" + a_file)
+    if not os.path.exists(src_test_dir):
+        return
+    cmd = ["cp", "-a", "-n",
+           src_test_dir,
+           out_test_dir]
+    bs.run_batch_command(cmd)
 
 def main():
     signal.signal(signal.SIGINT, abort_builds)
