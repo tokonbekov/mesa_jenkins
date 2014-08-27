@@ -10,6 +10,13 @@ def abort_builds(ignore, _):
         jen.abort(bs.ProjectInvoke(from_string=an_invoke_str))
     raise bs.BuildAborted()
 
+def collate_tests(result_path, out_test_dir):
+    print "collecting tests from " + result_path
+    src_test_dir = result_path + "/test"
+    for a_file in os.listdir(src_test_dir):
+        if "xml" in a_file:
+            shutil.copyfile(src_test_dir + "/" + a_file, 
+                            out_test_dir + "/" + a_file)
 
 def main():
     signal.signal(signal.SIGINT, abort_builds)
@@ -106,7 +113,7 @@ def main():
                 depGraph.build_complete(an_invoke)
                 builds_in_round += 1
                 print "Already built: " + an_invoke.to_short_string()
-                #collate_tests(an_invoke, out_test_dir)
+                collate_tests(result_path, out_test_dir)
                 continue
 
             proj_build_dir = pm.project_build_dir(an_invoke.project)
@@ -175,7 +182,7 @@ def main():
 
             completed_builds.append(finished.invoke)
             depGraph.build_complete(finished.invoke)
-            #collate_tests(finished.invoke, out_test_dir)
+            collate_tests(result_path, out_test_dir)
 
         elif not builds_in_round:
             # nothing was built, and there was no failure => the last
@@ -196,11 +203,6 @@ def main():
         ready_for_build = [j for j in ready_for_build 
                            if str(j) not in triggered_builds_str]
 
-    src_test_dir = result_path + "/test"
-    for a_file in os.listdir(src_test_dir):
-        if "xml" in a_file:
-            shutil.copyfile(src_test_dir + "/" + a_file, 
-                            out_test_dir + "/" + a_file)
 
 if __name__=="__main__":
     try:
