@@ -85,6 +85,7 @@ class RepoSet:
             project_repo_dir = repo_dir + "/" + project
             if not os.path.exists(project_repo_dir):
                 os.makedirs(project_repo_dir)
+                print "cloning " + url
                 git.Repo.clone_from(url, project_repo_dir)
             repo = git.Repo(project_repo_dir)
             self._repos[project] = repo
@@ -98,6 +99,7 @@ class RepoSet:
     def fetch(self):
         for repo in self._repos.values():
             for remote in repo.remotes:
+                print "fetching " + remote.url
                 remote.fetch()
         # the fetch has left our repo objects in an inconsistent
         # state.  We need to recreate them.
