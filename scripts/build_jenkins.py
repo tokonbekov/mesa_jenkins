@@ -80,7 +80,7 @@ def main():
     success = True
 
     out_test_dir = pm.output_dir()
-    if not os.path.exists(out_test_dir):
+    if os.path.exists(out_test_dir):
         bs.rmtree(out_test_dir)
     os.makedirs(out_test_dir)
 
