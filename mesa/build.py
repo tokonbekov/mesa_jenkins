@@ -14,5 +14,7 @@ if bs.Options().arch == "m32":
                "--disable-gallium-egl", 
                "--disable-gallium-gbm"]
 
+options = options + [ "--enable-gbm",
+                      "--with-egl-platforms=x11,drm" ]
 bs.build(bs.AutoBuilder(configure_options = options))
 
