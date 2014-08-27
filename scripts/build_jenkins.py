@@ -1,4 +1,4 @@
-import os, time, sys, shutil, signal, hashlib, copy, argparse
+import os, time, sys, shutil, signal, hashlib, argparse, shutil
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
 import build_support as bs
 
@@ -80,11 +80,15 @@ def main():
     success = True
 
     out_test_dir = pm.output_dir()
-    out_log_dir = pm.output_dir()
     if not os.path.exists(out_test_dir):
-        os.makedirs(out_test_dir)
-    if not os.path.exists(out_log_dir):
-        os.makedirs(out_log_dir)
+        bs.rmtree(out_test_dir)
+    os.makedirs(out_test_dir)
+
+    # to collate all logs in the scheduler
+    out_log_dir = pm.output_dir()
+    if os.path.exists(out_log_dir):
+        bs.rmtree(out_log_dir)
+    os.makedirs(out_log_dir)
 
     # use a global, so signal handler can abort builds when scheduler
     # is interrupted
@@ -191,6 +195,12 @@ def main():
         # filter out builds that have already been triggered
         ready_for_build = [j for j in ready_for_build 
                            if str(j) not in triggered_builds_str]
+
+    src_test_dir = result_path + "/test"
+    for a_file in os.listdir(src_test_dir):
+        if "xml" in a_file:
+            shutil.copyfile(src_test_dir + "/" + a_file, 
+                            out_test_dir + "/" + a_file)
 
 if __name__=="__main__":
     try:

@@ -59,7 +59,7 @@ class ProjectMap:
         """logs / test xml go in this directory"""
         o = Options()
         if o.result_path:
-            return os.path.abspath(o.result_path)
+            return os.path.abspath(o.result_path + "/test")
         return self._source_root + "/results"
 
     def build_spec(self):

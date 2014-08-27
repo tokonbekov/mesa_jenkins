@@ -48,5 +48,12 @@ class PiglitTester(object):
     def clean(self):
         pass
 
+class SlowTimeout:
+    def __init__(self):
+        pass
 
-bs.build(PiglitTester())
+    def GetDuration(self):
+        return 120
+
+
+bs.build(PiglitTester(), time_limit=SlowTimeout())

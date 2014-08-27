@@ -1,6 +1,7 @@
 """handles synchronization of the build_root with the results directory"""
 import os
 from . import run_batch_command
+from . import rmtree
 from . import Options
 from . import ProjectMap
 
@@ -35,4 +36,11 @@ class Export:
 
         cmd = ["cp", "-a", "-n",
                result_path, br]
+
+        # don't want to confuse test results with any preexisting
+        # files in the build root.
+        test_dir = os.path.normpath(br + "/../test")
+        if os.path.exists(test_dir):
+            rmtree(test_dir)
+
         run_batch_command(cmd)
