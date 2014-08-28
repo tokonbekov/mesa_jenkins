@@ -129,7 +129,7 @@ def main():
 
             try:
                 print "Starting: " + an_invoke.to_short_string()
-                jen.build(an_invoke)
+                jen.build(an_invoke, branch=branch)
                 an_invoke.set_info("trigger_time", time.time())
                 triggered_builds_str.append(str(an_invoke))
             except(bs.BuildInProgress) as e:
