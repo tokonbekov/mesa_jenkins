@@ -21,6 +21,8 @@ class Export:
         cmd = ["cp", "-a", "-n",
                ProjectMap().build_root(), result_path]
 
+        run_batch_command(cmd)
+
         test_path = os.path.abspath(ProjectMap().build_root() + "/../test")
         if not os.path.exists(test_path):
             os.makedirs(test_path)
