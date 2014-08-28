@@ -146,9 +146,7 @@ class Jenkins:
         p.append("hardware=" + o.hardware)
         p.append("hash=" + invoke.hash(self._time))
 
-        label = "builder"
-        if o.hardware != "builder":
-            label = o.hardware + "_" + o.arch
+        label = o.hardware
         p.append("label=" + label)
 
         return "&".join(p)
