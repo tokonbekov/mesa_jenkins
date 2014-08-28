@@ -75,7 +75,7 @@
 
     <branch name="jekstrand" project="all-test">
       <mesa branch="jekstrand/jenkins"/>
-      <piglit-build branch="jekstrand/jenkins"/>
+      <piglit-build branch="origin/wip/backend-v3"/>
     </branch>
 
   </branches>
