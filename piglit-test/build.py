@@ -10,15 +10,20 @@ class PiglitTester(object):
 
     def test(self):
         br = bs.ProjectMap().build_root()
+        o = bs.Options()
+
+        libdir = "x86_64-linux-gnu"
+        if o.arch == "m32":
+            libdir = "i386-linux-gnu"
+            
         env = { "LD_LIBRARY_PATH" : br + "/lib:" + \
-                br + "/lib/x86_64-linux-gnu:" + \
+                br + "/lib/" + libdir + ":" + \
                 br + "/lib/dri:" + \
                 br + "/lib/piglit/lib",
 
                 "LIBGL_DRIVERS_PATH" : br + "/lib/dri",
                 "GBM_DRIVERS_PATH" : br + "/lib/dri"
         }
-        o = bs.Options()
         out_dir = br + "/test/" + o.hardware
         cmd = [br + "/bin/piglit",
                "run",
