@@ -20,6 +20,7 @@ from timer import TimeOut
 from repo_set import *
 from dependency_graph import DependencyGraph
 from export import Export
+from gtest import *
 from builders import *
 from jenkins import *
 

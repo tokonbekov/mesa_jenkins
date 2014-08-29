@@ -16,5 +16,18 @@ if bs.Options().arch == "m32":
 
 options = options + [ "--enable-gbm",
                       "--with-egl-platforms=x11,drm" ]
-bs.build(bs.AutoBuilder(configure_options = options))
 
+builder = bs.AutoBuilder(configure_options = options)
+
+gtests = ["src/glsl/tests/general-ir-test",
+          "src/glsl/tests/sampler-types-test",
+          "src/glsl/tests/uniform-initializer-test",
+          "src/glx/tests/glx-test",
+          "src/mesa/main/tests/main-test",
+          "src/mesa/drivers/dri/i965/test_vec4_copy_propagation",
+          "src/mesa/drivers/dri/i965/test_vec4_register_coalesce",
+          "./src/mapi/shared-glapi-test"]
+
+builder.AddGtests(gtests)
+
+bs.build(builder)

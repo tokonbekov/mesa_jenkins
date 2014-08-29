@@ -4,6 +4,7 @@ from . import ProjectMap
 from . import run_batch_command
 from . import rmtree
 from . import Export
+from . import GTest
 
 def get_package_config_path():
     lib_dir = ""
@@ -21,9 +22,14 @@ def get_package_config_path():
 
 class AutoBuilder(object):
 
-    def __init__(self, o=None, configure_options=[]):
+    def __init__(self, o=None, configure_options=None):
         self._options = o
+        self._tests = None
+
         self._configure_options = configure_options
+        if not configure_options:
+            self._configure_options = []
+
         if not o:
             self._options = Options()
             
@@ -64,8 +70,23 @@ class AutoBuilder(object):
 
         Export().export()
 
+    def AddGtests(self, tests):
+        self._tests = GTest(binary_dir = self._build_dir, executables=tests)
+
     def test(self):
-        pass
+        savedir = os.getcwd()
+        os.chdir(self._build_dir)
+
+        try:
+            run_batch_command(["make",  "-k", "-j", 
+                               str(multiprocessing.cpu_count() + 1),
+                               "check"])
+        except(subprocess.CalledProcessError):
+            print "WARN: make check failed"
+
+        if self._tests:
+            self._tests.run_tests()
+        os.chdir(savedir)
 
     def clean(self):
         savedir = os.getcwd()
@@ -135,7 +156,7 @@ class CMakeBuilder(object):
 
         # get test names
         command = ["ctest", "-V", "-N"]
-        (out, err) = run_batch_command(command, streamedOutput=False, quiet=True)
+        (out, _) = run_batch_command(command, streamedOutput=False, quiet=True)
 
         os.chdir(savedir)
 
