@@ -91,6 +91,9 @@ class AutoBuilder(object):
 
         if self._tests:
             self._tests.run_tests()
+
+        Export().export()
+
         os.chdir(savedir)
 
     def clean(self):
