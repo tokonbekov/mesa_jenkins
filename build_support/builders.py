@@ -56,12 +56,17 @@ class AutoBuilder(object):
         else:
             flags = ["CFLAGS=-m64", "CXXFLAGS=-m64"]
 
+        # setting revision in the environment (this is a jenkins build
+        # parameter) will break creation of libmesautil.la
+        del os.environ["revision"]
+
         run_batch_command(["../autogen.sh", 
                            "PKG_CONFIG_PATH=" + get_package_config_path(), 
                            "CC=ccache gcc -" + self._options.arch, 
                            "CXX=ccache g++ -" + self._options.arch, 
                            "--prefix=" + self._build_root] + \
                           flags + self._configure_options)
+
         run_batch_command(["make",  "-j", 
                            str(multiprocessing.cpu_count() + 1)])
         run_batch_command(["make",  "install"])
