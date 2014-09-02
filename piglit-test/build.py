@@ -14,8 +14,8 @@ class PiglitTester(object):
 
         # byt tests are very slow (1hr each arch) and should only be
         # run nightly
-        if o.type() != "daily":
-            if o.hardware() == "byt":
+        if o.type != "daily":
+            if o.hardware == "byt":
                 return
 
         libdir = "x86_64-linux-gnu"

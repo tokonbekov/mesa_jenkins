@@ -35,7 +35,7 @@ class DefaultTimeout:
         For daily builds, 60 minutes is acceptable."""
 
         if self._options.type == "daily" or self._options.type == "release":
-            return 60
+            return 120
         return 15
 
 def null_build():
