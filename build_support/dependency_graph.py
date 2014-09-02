@@ -96,7 +96,15 @@ class DependencyGraph:
             # make a deep copy of the project_invoke, which will be
             # updated by the prereq
 
+            # allow the build specification to make prerequisites
+            # contingent on the type.  If type is specified for the
+            # prereq, then it is only built for matching types.
             attrib = a_prereq.attrib
+            if attrib.has_key("only_for_type"):
+                types = attrib["only_for_type"].split(",")
+                if project_invoke.options.type not in types:
+                    continue
+
             arches = [project_invoke.options.arch]
             if attrib.has_key("arch"):
                 arches = attrib["arch"].split(",")
