@@ -30,7 +30,7 @@
          dependency relationships. -->
     <project name="all-test">
       <!-- <prerequisite name="piglit-test" arch="m32,m64" hardware="snb,ivb"/> -->
-      <prerequisite name="piglit-test" arch="m64,m32" hardware="snbgt1,ilk"/>
+      <prerequisite name="piglit-test" arch="m64,m32" hardware="snbgt1,ilk,byt"/>
     </project>
 
   </projects>
