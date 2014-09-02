@@ -45,7 +45,7 @@
 
     <drm repo="git://anongit.freedesktop.org/mesa/drm"/>
 
-    <piglit-build repo="git://github.com/dcbaker/piglit">
+    <piglit-build repo="git://anongit.freedesktop.org/piglit">
       <remote name="jekstrand" repo="git://people.freedesktop.org/~jekstrand/piglit"/>
     </piglit-build>
 
