@@ -12,6 +12,12 @@ class PiglitTester(object):
         br = bs.ProjectMap().build_root()
         o = bs.Options()
 
+        # byt tests are very slow (1hr each arch) and should only be
+        # run nightly
+        if o.type() != "daily":
+            if o.hardware() == "byt":
+                return
+
         libdir = "x86_64-linux-gnu"
         if o.arch == "m32":
             libdir = "i386-linux-gnu"
