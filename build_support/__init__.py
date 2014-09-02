@@ -55,14 +55,6 @@ class NullInvoke:
 
 def build(builder, options=None, time_limit=None):
 
-    # fix up the environment
-    if os.environ.has_key("revision"):
-        # setting revision in the environment (this is a jenkins build
-        # parameter) will break creation of libmesautil.la
-        del os.environ["revision"]
-    if not os.environ.has_key("http_proxy"):
-        os.environ["http_proxy"] = "http://proxy.jf.intel.com:911"
-
     if not time_limit:
         time_limit = DefaultTimeout()
     if not options:
