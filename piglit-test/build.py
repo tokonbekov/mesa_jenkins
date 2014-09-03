@@ -29,6 +29,7 @@ class PiglitTester(object):
                "run",
                "-p", "gbm",
                "-b", "junit",
+               "-c",
                "quick",
                out_dir ]
 
