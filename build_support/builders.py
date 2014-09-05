@@ -103,7 +103,8 @@ class AutoBuilder(object):
             except(subprocess.CalledProcessError):
                 pass
         os.chdir(savedir)
-        rmtree(self._build_dir)
+        if os.path.exists(self._build_dir):
+            rmtree(self._build_dir)
 
 
 class CMakeBuilder(object):
@@ -152,7 +153,8 @@ class CMakeBuilder(object):
         Export().export()
 
     def clean(self):
-        rmtree(self._build_dir)
+        if os.path.exists(self._build_dir):
+            rmtree(self._build_dir)
 
     def test(self):
         savedir = os.getcwd()
