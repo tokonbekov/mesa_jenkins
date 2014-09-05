@@ -59,11 +59,11 @@ def build(builder, options=None, time_limit=None):
         time_limit = DefaultTimeout()
     if not options:
         options = Options()
-    action_map = {
-               "build": builder.build,
-               "clean": builder.clean,
-               "test" : builder.test,
-              }
+    action_map = [
+        ("clean", builder.clean),
+        ("build", builder.build),
+        ("test", builder.test),
+    ]
     actions = options.action
 
     invoke = NullInvoke()
@@ -85,19 +85,22 @@ def build(builder, options=None, time_limit=None):
     if type(actions) is str:
         actions = [actions]
 
-    for a in actions:
+    # Walk through the possible actions in order, if those actions are not
+    # requested go on. The order does matter.
+    for k, a in action_map:
+        if k not in actions:
+            continue
         options.action = a
 
-        if options.action in action_map:
-            try:
-                action_map[options.action]()
-            except:
-                # we need to cancel the timer first, in case
-                # set_status fails, and the timer is left running
-                to.end()
-                invoke.set_info("status", "failed")
-                # must cancel timeout timer, which will prevent process from ending
-                raise        
+        try:
+            a()
+        except:
+            # we need to cancel the timer first, in case
+            # set_status fails, and the timer is left running
+            to.end()
+            invoke.set_info("status", "failed")
+            # must cancel timeout timer, which will prevent process from ending
+            raise        
                 
     # must cancel timeout timer, which will prevent process from
     # ending.  cancel the timer first, in case set_status fails, and
