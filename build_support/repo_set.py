@@ -184,6 +184,12 @@ class RepoStatus:
         # key is project, value is repo object
         self._repos = RepoSet()
 
+        # referencing the HEAD of an unfetched remote will fail.  This
+        # happens the first time branches are polled
+        # after. build_specification.xml has been updated to add a
+        # remote.
+        self._repos.fetch()
+
         self._branches = []
 
         branches = buildspec.find("branches")
