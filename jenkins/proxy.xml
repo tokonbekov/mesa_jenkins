@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<proxy>
+  <name>proxy-jf.intel.com</name>
+  <port>911</port>
+  <secretPassword>GaSFLF6zSgcI1h6PQaRwZA==</secretPassword>
+</proxy>
