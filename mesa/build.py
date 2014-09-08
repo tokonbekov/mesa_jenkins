@@ -21,6 +21,7 @@ def main():
 
     options = options + ["--enable-gbm",
                          "--with-egl-platforms=x11,drm",
+                         "--enable-glx-tls",
                          "--enable-gles1",
                          "--enable-gles2"]
 
