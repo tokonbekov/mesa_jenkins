@@ -116,7 +116,11 @@ class RepoSet:
         for repo in self._repos.values():
             for remote in repo.remotes:
                 print "fetching " + remote.url
-                remote.fetch()
+                try:
+                    remote.fetch()
+                except(git.GitCommandError):
+                    print "error fetching, ignoring"
+                    pass
         # the fetch has left our repo objects in an inconsistent
         # state.  We need to recreate them.
         self.__init__()
@@ -158,7 +162,7 @@ class RevisionSpecification:
             rev[1] = '"' + rev[1] + '"'
             revs.append(rev[0] + "=" + rev[1])
         rev_text = "<RevSpec " + " ".join(revs) + "/>"
-        rs = self.from_string(rev_text)
+        self.from_string(rev_text)
 
     def __str__(self):
         projects = self._revisions.keys()
