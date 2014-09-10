@@ -43,12 +43,16 @@ def main():
                         help="Branch specification to build.  "\
                         "See build_specification.xml/branches")
 
+    parser.add_argument('--revision', type=str, default="",
+                        help="specific set of revisions to build.")
+
 
     args = parser.parse_args()
     projects = []
     if args.project:
         projects = args.project.split(",")
     branch = args.branch
+    revision = args.revision
 
     # some build_local params are not handled by the Options, which is
     # used by other modules.  This code strips out incompatible args
@@ -56,12 +60,19 @@ def main():
     vdict = vars(args)
     del vdict["project"]
     del vdict["branch"]
+    del vdict["revision"]
     o.__dict__.update(vdict)
     sys.argv = ["bogus"] + o.to_string().split()
 
     bspec = bs.BuildSpecification()
-    bspec.checkout(branch)
-    revspec = bs.RevisionSpecification()
+    revspec = None
+    if (revision):
+        revspec = bs.RevisionSpecification(from_cmd_line=revision.split())
+        revspec.checkout()
+    else:
+        bspec.checkout(branch)
+        revspec = bs.RevisionSpecification()
+
     hashstr = hashlib.md5(str(revspec)).hexdigest()
 
     # create a result_path that is unique for this set of builds
