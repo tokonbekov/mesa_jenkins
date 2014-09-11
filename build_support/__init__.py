@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import time
+import os
 from command import rmtree
 from command import run_batch_command
 from command import rmfile
@@ -67,6 +68,10 @@ def build(builder, options=None, time_limit=None):
     actions = options.action
 
     invoke = NullInvoke()
+
+    del os.environ["PKG_CONFIG_PATH"]
+    del os.environ["LD_LIBRARY_PATH"]
+    del os.environ["LIBGL_DRIVERS_PATH"]
 
     # TODO: add this stuff
     if (options.result_path):
