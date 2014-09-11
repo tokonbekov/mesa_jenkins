@@ -69,9 +69,12 @@ def build(builder, options=None, time_limit=None):
 
     invoke = NullInvoke()
 
-    del os.environ["PKG_CONFIG_PATH"]
-    del os.environ["LD_LIBRARY_PATH"]
-    del os.environ["LIBGL_DRIVERS_PATH"]
+    if os.environ.has_key("PKG_CONFIG_PATH"):
+        del os.environ["PKG_CONFIG_PATH"]
+    if os.environ.has_key("LD_LIBRARY_PATH"):
+        del os.environ["LD_LIBRARY_PATH"]
+    if os.environ.has_key("LIBGL_DRIVERS_PATH"):
+        del os.environ["LIBGL_DRIVERS_PATH"]
 
     # TODO: add this stuff
     if (options.result_path):
