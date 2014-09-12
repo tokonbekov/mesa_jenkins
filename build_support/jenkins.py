@@ -109,7 +109,7 @@ class Jenkins:
         project_invoke.set_info("url", "")
         self._jobs.append(project_invoke)
 
-        url = "{0}/buildWithParameters?{1}&branch={2}".format(
+        url = "{0}/buildWithParameters?token=xyzzy&{1}&branch={2}".format(
             self._job_url,
             self._jenkins_params(project_invoke),
             branch
