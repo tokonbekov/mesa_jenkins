@@ -44,6 +44,7 @@
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <authToken>xyzzy</authToken>
   <triggers>
     <hudson.triggers.TimerTrigger>
       <spec>H 5 * * *</spec>

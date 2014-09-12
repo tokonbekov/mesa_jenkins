@@ -72,7 +72,7 @@
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
-    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.21">
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.22">
       <autoRebuild>false</autoRebuild>
     </com.sonyericsson.rebuild.RebuildSettings>
     <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.3">
@@ -82,7 +82,7 @@
       <throttleOption>project</throttleOption>
     </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
   </properties>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.2.4">
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.2.5">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
@@ -102,6 +102,7 @@
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <authToken>xyzzy</authToken>
   <triggers/>
   <concurrentBuild>true</concurrentBuild>
   <builders>
@@ -115,7 +116,7 @@ python ${project}/build.py --arch ${arch} --result_path ${result_path} --config 
     </hudson.tasks.Shell>
   </builders>
   <publishers>
-    <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.40">
+    <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.41">
       <healthy></healthy>
       <unHealthy></unHealthy>
       <thresholdLimit>low</thresholdLimit>
@@ -124,7 +125,7 @@ python ${project}/build.py --arch ${arch} --result_path ${result_path} --config 
       <canRunOnFailed>false</canRunOnFailed>
       <useStableBuildAsReference>false</useStableBuildAsReference>
       <useDeltaValues>false</useDeltaValues>
-      <thresholds plugin="analysis-core@1.57">
+      <thresholds plugin="analysis-core@1.58">
         <unstableTotalAll></unstableTotalAll>
         <unstableTotalHigh></unstableTotalHigh>
         <unstableTotalNormal></unstableTotalNormal>
@@ -173,7 +174,7 @@ python ${project}/build.py --arch ${arch} --result_path ${result_path} --config 
         <testTimeMargin>3000</testTimeMargin>
       </extraConfiguration>
     </xunit>
-    <hudson.tasks.Mailer plugin="mailer@1.10">
+    <hudson.tasks.Mailer plugin="mailer@1.8">
       <recipients>mark.a.janes@intel.com</recipients>
       <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
       <sendToIndividuals>false</sendToIndividuals>

@@ -5,12 +5,53 @@
   <numExecutors>8</numExecutors>
   <mode>NORMAL</mode>
   <useSecurity>true</useSecurity>
-  <authorizationStrategy class="hudson.security.AuthorizationStrategy$Unsecured"/>
-  <securityRealm class="hudson.security.SecurityRealm$None"/>
+  <authorizationStrategy class="hudson.security.GlobalMatrixAuthorizationStrategy">
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Create:majanes</permission>
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Delete:majanes</permission>
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:majanes</permission>
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Update:majanes</permission>
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View:majanes</permission>
+    <permission>hudson.model.Computer.Build:majanes</permission>
+    <permission>hudson.model.Computer.Configure:majanes</permission>
+    <permission>hudson.model.Computer.Connect:majanes</permission>
+    <permission>hudson.model.Computer.Create:majanes</permission>
+    <permission>hudson.model.Computer.Delete:majanes</permission>
+    <permission>hudson.model.Computer.Disconnect:majanes</permission>
+    <permission>hudson.model.Hudson.Administer:majanes</permission>
+    <permission>hudson.model.Hudson.ConfigureUpdateCenter:majanes</permission>
+    <permission>hudson.model.Hudson.Read:anonymous</permission>
+    <permission>hudson.model.Hudson.Read:majanes</permission>
+    <permission>hudson.model.Hudson.RunScripts:majanes</permission>
+    <permission>hudson.model.Hudson.UploadPlugins:majanes</permission>
+    <permission>hudson.model.Item.Build:anonymous</permission>
+    <permission>hudson.model.Item.Build:majanes</permission>
+    <permission>hudson.model.Item.Cancel:majanes</permission>
+    <permission>hudson.model.Item.Configure:majanes</permission>
+    <permission>hudson.model.Item.Create:majanes</permission>
+    <permission>hudson.model.Item.Delete:majanes</permission>
+    <permission>hudson.model.Item.Discover:anonymous</permission>
+    <permission>hudson.model.Item.Discover:majanes</permission>
+    <permission>hudson.model.Item.Read:anonymous</permission>
+    <permission>hudson.model.Item.Read:majanes</permission>
+    <permission>hudson.model.Item.Workspace:majanes</permission>
+    <permission>hudson.model.Run.Delete:majanes</permission>
+    <permission>hudson.model.Run.Update:majanes</permission>
+    <permission>hudson.model.View.Configure:majanes</permission>
+    <permission>hudson.model.View.Create:majanes</permission>
+    <permission>hudson.model.View.Delete:majanes</permission>
+    <permission>hudson.model.View.Read:anonymous</permission>
+    <permission>hudson.model.View.Read:majanes</permission>
+    <permission>hudson.scm.SCM.Tag:majanes</permission>
+  </authorizationStrategy>
+  <securityRealm class="hudson.security.HudsonPrivateSecurityRealm">
+    <disableSignup>false</disableSignup>
+    <enableCaptcha>false</enableCaptcha>
+  </securityRealm>
   <disableRememberMe>false</disableRememberMe>
   <projectNamingStrategy class="jenkins.model.ProjectNamingStrategy$DefaultProjectNamingStrategy"/>
   <workspaceDir>${ITEM_ROOTDIR}/workspace</workspaceDir>
   <buildsDir>${ITEM_ROOTDIR}/builds</buildsDir>
+  <markupFormatter class="hudson.markup.EscapedMarkupFormatter"/>
   <jdks/>
   <viewsTabBar class="hudson.views.DefaultViewsTabBar"/>
   <myViewsTabBar class="hudson.views.DefaultMyViewsTabBar"/>
@@ -23,10 +64,10 @@
       <numExecutors>1</numExecutors>
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.6">
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
         <host>otc-gfxtest-snbgt1-01.jf.intel.com</host>
         <port>22</port>
-        <credentialsId>a39f09d7-2914-492c-be6b-2c0700bf99bd</credentialsId>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
       </launcher>
       <label>snbgt1_m64 builder snbgt1</label>
       <nodeProperties/>
@@ -39,10 +80,10 @@
       <numExecutors>1</numExecutors>
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.6">
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
         <host>otc-gfxtest-ilk-01.jf.intel.com</host>
         <port>22</port>
-        <credentialsId>a39f09d7-2914-492c-be6b-2c0700bf99bd</credentialsId>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
       </launcher>
       <label>ilk builder</label>
       <nodeProperties/>
@@ -55,10 +96,10 @@
       <numExecutors>1</numExecutors>
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.6">
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
         <host>otc-gfxtest-byt-01.jf.intel.com</host>
         <port>22</port>
-        <credentialsId>a39f09d7-2914-492c-be6b-2c0700bf99bd</credentialsId>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
       </launcher>
       <label>byt</label>
       <nodeProperties/>
@@ -71,10 +112,10 @@
       <numExecutors>1</numExecutors>
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.6">
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
         <host>otc-gfxtest-g965-01.jf.intel.com</host>
         <port>22</port>
-        <credentialsId>a39f09d7-2914-492c-be6b-2c0700bf99bd</credentialsId>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
       </launcher>
       <label>g965</label>
       <nodeProperties/>
@@ -87,12 +128,28 @@
       <numExecutors>1</numExecutors>
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.6">
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
         <host>otc-gfxtest-g965-02.jf.intel.com</host>
         <port>22</port>
-        <credentialsId>a39f09d7-2914-492c-be6b-2c0700bf99bd</credentialsId>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
       </launcher>
       <label>g965</label>
+      <nodeProperties/>
+      <userId>anonymous</userId>
+    </slave>
+    <slave>
+      <name>snbgt2-01</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
+        <host>otc-gfxtest-snbgt2-01.jf.intel.com</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>snbgt2 builder</label>
       <nodeProperties/>
       <userId>anonymous</userId>
     </slave>
