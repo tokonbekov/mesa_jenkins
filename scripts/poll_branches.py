@@ -13,7 +13,13 @@ while True:
         print "Building " + branch
         job_url = "http://" + server + "/job/" + branch + \
                   "/buildWithParameters?name=" + commit + "&type=percheckin"
-        f = urllib2.urlopen(job_url)
-        f.read()
+        while True:
+            try:
+                f = urllib2.urlopen(job_url)
+                f.read()
+                break
+            except(urllib2.HTTPError):
+                print "failed to reach jenkins, retrying..."
+                time.sleep(10)
 
     time.sleep(60)
