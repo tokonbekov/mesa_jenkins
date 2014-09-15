@@ -12,7 +12,7 @@ while True:
     for (branch, commit) in branches.iteritems():
         print "Building " + branch
         job_url = "http://" + server + "/job/" + branch + \
-                  "/buildWithParameters?name=" + commit + "&type=percheckin"
+                  "/buildWithParameters?token=xyzzy&name=" + commit + "&type=percheckin"
         while True:
             try:
                 f = urllib2.urlopen(job_url)
