@@ -18,8 +18,9 @@ while True:
                 f = urllib2.urlopen(job_url)
                 f.read()
                 break
-            except(urllib2.HTTPError):
-                print "failed to reach jenkins, retrying..."
+            except urllib2.HTTPError as e:
+                print e
+                print "ERROR: failed to reach jenkins, retrying: " + job_url
                 time.sleep(10)
 
     time.sleep(60)
