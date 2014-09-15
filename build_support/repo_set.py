@@ -118,9 +118,8 @@ class RepoSet:
                 print "fetching " + remote.url
                 try:
                     remote.fetch()
-                except(git.GitCommandError):
-                    print "error fetching, ignoring"
-                    pass
+                except git.GitCommandError as e:
+                    print "error fetching, ignoring: " + e
         # the fetch has left our repo objects in an inconsistent
         # state.  We need to recreate them.
         self.__init__()
