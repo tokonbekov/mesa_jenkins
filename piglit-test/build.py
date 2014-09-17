@@ -30,6 +30,7 @@ class PiglitTester(object):
                "-p", "gbm",
                "-b", "junit",
                "-c",
+               "--junit_suffix", "." + o.hardware + o.arch,
                "quick",
                out_dir ]
 
