@@ -50,6 +50,7 @@
       <!-- Dylan's repository is more stable than the origin, and will
            not trigger builds unnecessarily -->
       <remote name="dcbaker" repo="git://github.com/dcbaker/piglit"/>
+      <remote name="janesma" repo="git://github.com/janesma/piglit"/>
     </piglit-build>
 
     <waffle repo="git://github.com/waffle-gl/waffle"/>
@@ -71,12 +72,15 @@
 
     <branch name="mesa_10.3" project="all-test">
       <mesa branch="origin/10.3"/>
-      <piglit-build branch="dcbaker/master"/>
     </branch>
 
     <branch name="jekstrand" project="all-test">
       <mesa branch="jekstrand/jenkins"/>
-      <piglit-build branch="dcbaker/master"/>
+      <piglit-build branch="janesma/jenkins_test"/>
+    </branch>
+
+    <branch name="majanes" project="all-test">
+      <piglit-build branch="janesma/jenkins_test"/>
     </branch>
 
   </branches>
