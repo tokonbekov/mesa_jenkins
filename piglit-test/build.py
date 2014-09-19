@@ -25,12 +25,26 @@ class PiglitTester(object):
                 "GBM_DRIVERS_PATH" : br + "/lib/dri"
         }
         out_dir = br + "/test/" + o.hardware
+
+        hardware_conf = o.hardware
+        if "snb" in hardware_conf:
+            hardware_conf = "snb"
+
+        # all platforms other than g965 have separate 32-bit failures
+        if o.hardware != "g965":
+            if o.arch == "m32":
+                hardware_conf = hardware_conf + "m32"
+        hardware_conf = os.path.dirname(os.path.abspath(sys.argv[0])) + \
+                        "/" + hardware_conf + ".conf"
+
         cmd = [br + "/bin/piglit",
                "run",
                "-p", "gbm",
                "-b", "junit",
                "-c",
                "--junit_suffix", "." + o.hardware + o.arch,
+               "--config", hardware_conf,
+               "--exclude-tests", "TRIANGLE_STRIP_ADJACENCY"
                "quick",
                out_dir ]
 
