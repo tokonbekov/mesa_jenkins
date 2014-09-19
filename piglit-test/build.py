@@ -44,7 +44,7 @@ class PiglitTester(object):
                "-c",
                "--junit_suffix", "." + o.hardware + o.arch,
                "--config", hardware_conf,
-               "--exclude-tests", "TRIANGLE_STRIP_ADJACENCY"
+               "--exclude-tests", "TRIANGLE_STRIP_ADJACENCY",
                "quick",
                out_dir ]
 
