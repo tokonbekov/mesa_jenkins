@@ -44,7 +44,10 @@ class PiglitTester(object):
                "-c",
                "--junit_suffix", "." + o.hardware + o.arch,
                "--config", hardware_conf,
+               # hangs snb
                "--exclude-tests", "TRIANGLE_STRIP_ADJACENCY",
+               # intermittently fails snb
+               "--exclude-tests", "glsl-routing",
                "quick",
                out_dir ]
 
