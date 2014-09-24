@@ -9,7 +9,8 @@ class PiglitTester(object):
         pass
 
     def test(self):
-        br = bs.ProjectMap().build_root()
+        pm = bs.ProjectMap()
+        br = pm.build_root()
         o = bs.Options()
 
         libdir = "x86_64-linux-gnu"
@@ -63,6 +64,12 @@ class PiglitTester(object):
                       single_out_dir + "_".join(["/piglit-test",
                                                  o.hardware,
                                                  o.arch]) + ".xml")
+
+        # create a copy of the test xml in the source root, where
+        # jenkins can access it.
+        cmd = ["cp", "-a", "-n",
+               br + "/../test", pm.source_root()]
+        bs.run_batch_command(cmd)
 
         bs.Export().export()
 

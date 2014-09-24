@@ -93,6 +93,13 @@ def build(builder, options=None, time_limit=None):
     if type(actions) is str:
         actions = [actions]
 
+    # clean out the test results directory, so jenkins processes only
+    # the files for the current build
+    if "test" in actions:
+        test_out_dir = ProjectMap().source_root() + "/test"
+        if os.path.exists(test_out_dir):
+            rmtree(test_out_dir)
+
     # Walk through the possible actions in order, if those actions are not
     # requested go on. The order does matter.
     for k, a in action_map:

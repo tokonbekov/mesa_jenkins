@@ -25,7 +25,8 @@ class GTest:
         
         options = Options()
 
-        br = ProjectMap().build_root()
+        pm = ProjectMap()
+        br = pm.build_root()
         for test in self._executables:
             outname = "_".join(["gtest", 
                                 os.path.basename(test),
@@ -49,3 +50,8 @@ class GTest:
             if not os.path.exists(outpath):
                 print "ERROR: gtest produced no output: " + test_path
 
+        # create a copy of the test xml in the source root, where
+        # jenkins can access it.
+        cmd = ["cp", "-a", "-n",
+               br + "/../test", pm.source_root()]
+        run_batch_command(cmd)
