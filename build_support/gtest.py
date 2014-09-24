@@ -1,5 +1,6 @@
 """Handles running of gtest executables"""
-import os, subprocess
+import os
+import sys
 
 from . import Options
 from . import ProjectMap
@@ -42,13 +43,11 @@ class GTest:
             cmd = [test_path,
                    "--gtest_output=xml:" + outpath,
                    "--gtest_catch_exceptions"]
-            try:
-                run_batch_command(cmd)
-            except(subprocess.CalledProcessError):
-                print "ERROR: gtest failed: " + test_path
+            run_batch_command(cmd)
             
             if not os.path.exists(outpath):
                 print "ERROR: gtest produced no output: " + test_path
+                sys.exit(-1)
 
         # create a copy of the test xml in the source root, where
         # jenkins can access it.
