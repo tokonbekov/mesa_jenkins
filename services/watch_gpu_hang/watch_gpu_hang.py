@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import os
 import sys
 import time
@@ -152,7 +153,7 @@ class Daemon:
 
 
 if __name__ == "__main__":
-    daemon = Daemon('/tmp/watch_gpu_hang.pid', stdout="/tmp/watch_gpu_hang.log")
+    daemon = Daemon('/var/run/watch_gpu_hang.pid', stdout="/var/log/watch_gpu_hang.log")
     if len(sys.argv) == 2:
         if 'start' == sys.argv[1]:
             daemon.start()
