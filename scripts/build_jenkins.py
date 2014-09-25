@@ -46,6 +46,11 @@ def main():
     parser.add_argument('--revision', type=str, default="",
                         help="specific set of revisions to build.")
 
+    parser.add_argument('--rebuild', type=str, default="false",
+                        choices=['true', 'false'], 
+                        help="specific set of revisions to build."
+                        "(default: %(default)s)")
+
 
     args = parser.parse_args()
     projects = []
@@ -53,6 +58,7 @@ def main():
         projects = args.project.split(",")
     branch = args.branch
     revision = args.revision
+    rebuild = args.rebuild
 
     # some build_local params are not handled by the Options, which is
     # used by other modules.  This code strips out incompatible args
@@ -61,6 +67,7 @@ def main():
     del vdict["project"]
     del vdict["branch"]
     del vdict["revision"]
+    del vdict["rebuild"]
     o.__dict__.update(vdict)
     sys.argv = ["bogus"] + o.to_string().split()
 
@@ -80,6 +87,11 @@ def main():
     results_dir = spec_xml.find("build_master").attrib["results_dir"]
     result_path = "/".join([results_dir, branch, hashstr])
     o.result_path = result_path
+
+    if rebuild == "true" and os.path.exists(result_path):
+        print "Removing existing results."
+        bs.rmtree(result_path)
+
     pm = bs.ProjectMap()
     if not projects:
         branchspec = bspec.branch_specification(branch)
