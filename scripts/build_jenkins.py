@@ -78,8 +78,8 @@ def main():
         revspec.checkout()
     else:
         bspec.checkout(branch)
-        revspec = bs.RevisionSpecification()
 
+    revspec = bs.RevisionSpecification()
     print "Building revision: " + revspec.to_cmd_line_param()
 
     hashstr = revspec.to_cmd_line_param().replace(" ", "_")
