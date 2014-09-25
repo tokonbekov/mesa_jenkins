@@ -145,7 +145,8 @@ class Daemon:
                 else:
                     raise e
             if ("[drm] stuck on render ring" in msg or 
-                "[drm] GPU crash" in msg):
+                "[drm] GPU crash" in msg or
+                "[drm] GPU HANG" in msg):
                 print "rebooting"
                 os.system("reboot -f")
             else:
