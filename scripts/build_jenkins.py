@@ -80,12 +80,14 @@ def main():
         bspec.checkout(branch)
         revspec = bs.RevisionSpecification()
 
+    print "Building revision: " + revspec.to_cmd_line_param()
+
     hashstr = revspec.to_cmd_line_param().replace(" ", "_")
 
     # create a result_path that is unique for this set of builds
     spec_xml = bs.ProjectMap().build_spec()
     results_dir = spec_xml.find("build_master").attrib["results_dir"]
-    result_path = "/".join([results_dir, branch, hashstr])
+    result_path = "/".join([results_dir, branch, hashstr, o.type])
     o.result_path = result_path
 
     if rebuild == "true" and os.path.exists(result_path):
