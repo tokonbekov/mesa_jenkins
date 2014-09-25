@@ -365,6 +365,8 @@ def hours_minutes_seconds(finish_time, start_time):
 def refresh_status(build):
     build_page = None
     url = build.get_info("url")
+    if not url:
+        return
     for _ in range(0,10):
         try:
             f = urllib2.urlopen(url + "/api/python")
