@@ -73,7 +73,7 @@ def main():
         bspec.checkout(branch)
         revspec = bs.RevisionSpecification()
 
-    hashstr = hashlib.md5(str(revspec)).hexdigest()
+    hashstr = revspec.to_cmd_line_param().replace(" ", "_")
 
     # create a result_path that is unique for this set of builds
     spec_xml = bs.ProjectMap().build_spec()
