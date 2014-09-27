@@ -1,5 +1,6 @@
 """handles synchronization of the build_root with the results directory"""
 import os
+import subprocess
 from . import run_batch_command
 from . import rmtree
 from . import Options
@@ -45,7 +46,7 @@ class Export:
         if not os.path.exists(br):
             os.makedirs(br)
 
-        cmd = ["cp", "-a", "-n",
+        cmd = ["rsync", "-a", 
                result_path, br]
 
         # don't want to confuse test results with any preexisting
@@ -54,4 +55,7 @@ class Export:
         if os.path.exists(test_dir):
             rmtree(test_dir)
 
-        run_batch_command(cmd)
+        try:
+            run_batch_command(cmd)
+        except subprocess.CalledProcessError as e:
+            print "WARN: some errors copying: " + str(e)
