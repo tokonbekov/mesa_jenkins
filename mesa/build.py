@@ -21,9 +21,16 @@ def main():
 
     options = options + ["--enable-gbm",
                          "--with-egl-platforms=x11,drm",
-                         "--enable-glx-tls",
+                         "--enable-glx-tls", 
                          "--enable-gles1",
-                         "--enable-gles2"]
+                         "--enable-gles2",
+
+                         # disable video drivers:
+                         # bbe6f7f865cd4316b5f885507ee0b128a20686eb
+                         # caused build failure unrelated to intel mesa
+                         # team.
+                         "--disable-xvmc",
+                         "--disable-vdpau"]
 
     if global_opts.config == 'debug':
         options.append('--enable-debug')
