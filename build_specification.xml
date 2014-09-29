@@ -42,6 +42,7 @@
       <!-- todo: add support for remotes.  -->
       <remote name="jekstrand" repo="git://people.freedesktop.org/~jekstrand/mesa"/>
       <remote name="idr" repo="git://people.freedesktop.org/~idr/mesa"/>
+      <remote name="mattst88" repo="git://people.freedesktop.org/~mattst88/mesa"/>
     </mesa>
 
     <drm repo="git://anongit.freedesktop.org/mesa/drm"/>
@@ -84,6 +85,11 @@
 
     <branch name="idr" project="all-test">
       <mesa branch="idr/glsl-diet-v4"/>
+      <piglit-build branch="janesma/jenkins_test"/>
+    </branch>
+
+    <branch name="mattst88" project="all-test">
+      <mesa branch="mattst88/jenkins"/>
       <piglit-build branch="janesma/jenkins_test"/>
     </branch>
 
