@@ -41,6 +41,7 @@
     <mesa repo="git://anongit.freedesktop.org/mesa/mesa">
       <!-- todo: add support for remotes.  -->
       <remote name="jekstrand" repo="git://people.freedesktop.org/~jekstrand/mesa"/>
+      <remote name="idr" repo="git://people.freedesktop.org/~idr/mesa"/>
     </mesa>
 
     <drm repo="git://anongit.freedesktop.org/mesa/drm"/>
@@ -64,7 +65,6 @@
     
     <!-- jenkins has a build with same name as branch -->
     <branch name="mesa_master" project="all-test">
-      <piglit-build branch="janesma/jenkins_test"/>
     </branch>
 
     <branch name="mesa_10.2" project="all-test">
@@ -74,10 +74,16 @@
 
     <branch name="mesa_10.3" project="all-test">
       <mesa branch="origin/10.3"/>
+      <piglit-build branch="janesma/jenkins_test"/>
     </branch>
 
     <branch name="jekstrand" project="all-test">
       <mesa branch="jekstrand/jenkins"/>
+      <piglit-build branch="janesma/jenkins_test"/>
+    </branch>
+
+    <branch name="idr" project="all-test">
+      <mesa branch="idr/glsl-diet-v4"/>
       <piglit-build branch="janesma/jenkins_test"/>
     </branch>
 
