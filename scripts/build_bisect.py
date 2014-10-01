@@ -83,7 +83,7 @@ def bisect(args, commits):
             continue
         if testcase.findall("skipped"):
             print "ERROR: the target test was skipped"
-        if testcase.findall("failure"):
+        if testcase.findall("failure") or testcase.findall("error"):
             print "TEST FAILED: " + rev
             if current_build + 1 == len(commits):
                 print "FIRST DETECTED FAILURE: " + rev
