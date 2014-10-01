@@ -92,7 +92,7 @@ class SlowTimeout:
         pass
 
     def GetDuration(self):
-        return 120
+        return 360
 
 _o = bs.Options([sys.argv[0]])
 parser= argparse.ArgumentParser(description="Allows additional parameters for "\
