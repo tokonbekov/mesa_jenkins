@@ -171,7 +171,7 @@ class Jenkins:
             # moderate the rate of polling, but do not add any latency
             # to the first attempt to find a finished build.
             if not first_round:
-                time.sleep(15)
+                time.sleep(5)
             first_round = False
 
             for i in range(len(self._jobs)):
@@ -204,13 +204,6 @@ class Jenkins:
 
                 end_time = a_job.get_info("end_time")
                 
-                if not end_time or (time.time() - end_time < 10):
-                    # build will temporarily report success until
-                    # warnings are parsed.  This takes just a few
-                    # seconds.  Re-read the status page to ensure we
-                    # have the final status.  Only incur delays if the
-                    # build finished less than 10 seconds ago.
-                    time.sleep(10 )
                 try:
                     f = urllib2.urlopen(job_url + "/api/python")
                 except:
@@ -362,10 +355,10 @@ class Jenkins:
                         self.abort(pi)
                         failure_builds.append(pi)
                     #CleanServer(o).clean()
-                    write_summary(pm.source_root(), 
-                                     failure_builds + completed_builds, 
-                                     self, 
-                                     failure=True)
+                    # write_summary(pm.source_root(), 
+                    #                  failure_builds + completed_builds, 
+                    #                  self, 
+                    #                  failure=True)
                     raise
 
                 # else for release/daily builds, continue waiting for the
@@ -389,9 +382,9 @@ class Jenkins:
 
                 #stub_test_results(out_test_dir, o.hardware)
                 # CleanServer(o).clean()
-                write_summary(pm.source_root(), 
-                                 failure_builds + completed_builds, 
-                                 self)
+                # write_summary(pm.source_root(), 
+                #                  failure_builds + completed_builds, 
+                #                  self)
                 if failure_builds:
                     raise BuildFailure(failure_builds[0], "")
 

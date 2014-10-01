@@ -1,4 +1,5 @@
 import os, sys, signal, argparse
+import time
 import xml.etree.ElementTree as ET
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
 import build_support as bs
@@ -16,6 +17,7 @@ def bisect(args, commits):
         return
     current_build = len(commits) / 2
     rev = "mesa=" + commits[current_build].hexsha
+    print "Range: " + commits[0].hexsha + " - " + commits[-1].hexsha
     print "Building revision: " + rev
 
     hw_arch = args.test_name.split(".")[-1]
@@ -54,14 +56,25 @@ def bisect(args, commits):
         jen.build(bi, branch="mesa_master", extra_arg="--piglit_test=" + args.test_name)
         jen.wait_for_build()
     except bs.BuildFailure:
-        print "BUILD FAILED: " + rev
-        return bisect(args, commits[current_build:])
+        print "BUILD FAILED - exception: " + rev
+        if current_build + 1 == len(commits):
+            print "FIRST DETECTED FAILURE: " + rev
+            return
+        return bisect(args, commits[current_build+1:])
 
     test_result = "/".join([result_path, "test", "piglit-test_" + 
                             o.hardware + "_" + o.arch + ".xml"])
-    if not os.path.exists(test_result):
-        print "BUILD FAILED: " + rev
-        return bisect(args, commits[current_build:])
+    iteration = 0
+    while not os.path.exists(test_result):
+        if iteration < 40:
+            time.sleep(1)
+            iteration = iteration + 1
+            continue
+        print "BUILD FAILED - no test results: " + rev + " : " + test_result
+        if current_build + 1 == len(commits):
+            print "FIRST DETECTED FAILURE: " + rev
+            return
+        return bisect(args, commits[current_build + 1:])
 
     result = ET.parse(test_result)
     for testcase in result.findall("./testsuite/testcase"):
@@ -72,9 +85,15 @@ def bisect(args, commits):
             print "ERROR: the target test was skipped"
         if testcase.findall("failure"):
             print "TEST FAILED: " + rev
-            return bisect(args, commits[current_build:])
+            if current_build + 1 == len(commits):
+                print "FIRST DETECTED FAILURE: " + rev
+                return
+            return bisect(args, commits[current_build + 1:])
 
         print "TEST PASSED: " + rev
+        if current_build == 0:
+            print "LAST DETECTED SUCCESS: " + rev
+            return
         return bisect(args, commits[:current_build])
     print "ERROR -- TEST NOT FOUND: " + args.test_name
 
@@ -87,13 +106,13 @@ def main():
     parser= argparse.ArgumentParser(description=description, 
                                     conflict_handler="resolve")
 
-    parser.add_argument('--good_revision', type=str, default="",
+    parser.add_argument('--good_revision', type=str, required=True,
                         help="revision where test passes")
 
-    parser.add_argument('--bad_revision', type=str, default="",
+    parser.add_argument('--bad_revision', type=str, required=True,
                         help="revision where test fails")
 
-    parser.add_argument('--test_name', type=str, default="",
+    parser.add_argument('--test_name', type=str, required=True,
                         help="test to search for")
     
     args = parser.parse_args()
@@ -107,11 +126,12 @@ def main():
     mesa_repo = repos.repo("mesa")
     commits = []
     good_revision = args.good_revision
+    print "Revision History:"
     for commit in mesa_repo.iter_commits(max_count=1000):
         commits.append(commit)
         if good_revision in commit.hexsha:
             break
-        print "Checking rev: " + commit.hexsha
+        print "    " + commit.hexsha
 
     if good_revision not in commits[-1].hexsha:
         print "ERROR: could not find " + good_revision + \
