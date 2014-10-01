@@ -71,11 +71,12 @@ def bisect(args, commits):
         if testcase.findall("skipped"):
             print "ERROR: the target test was skipped"
         if testcase.findall("failure"):
+            print "TEST FAILED: " + rev
             return bisect(args, commits[current_build:])
 
-        print "BUILD PASSED: " + rev
+        print "TEST PASSED: " + rev
         return bisect(args, commits[:current_build])
-    print "TEST NOT FOUND: " + args.test_name
+    print "ERROR -- TEST NOT FOUND: " + args.test_name
 
 def main():
     signal.signal(signal.SIGINT, abort_builds)
