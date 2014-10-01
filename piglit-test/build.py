@@ -1,12 +1,12 @@
 #!/usr/bin/python
 
-import sys, os
+import sys, os, argparse
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
 import build_support as bs
 
 class PiglitTester(object):
-    def __init__(self):
-        pass
+    def __init__(self, _piglit_test=None):
+        self.piglit_test = _piglit_test
 
     def test(self):
         pm = bs.ProjectMap()
@@ -48,9 +48,16 @@ class PiglitTester(object):
                # hangs snb
                "--exclude-tests", "TRIANGLE_STRIP_ADJACENCY",
                # intermittently fails snb
-               "--exclude-tests", "glsl-routing",
-               "quick",
-               out_dir ]
+               "--exclude-tests", "glsl-routing"]
+
+        if self.piglit_test:
+            # only use the last two components of test name, excluding
+            # suffix
+            test_name = ".".join(self.piglit_test.split(".")[-3:-1])
+            cmd = cmd + ["--include-tests", test_name]
+            
+        cmd = cmd + ["quick",
+                     out_dir ]
 
         bs.run_batch_command(cmd, env=env)
 
@@ -87,5 +94,27 @@ class SlowTimeout:
     def GetDuration(self):
         return 120
 
+_o = bs.Options([sys.argv[0]])
+parser= argparse.ArgumentParser(description="Allows additional parameters for "\
+                                "specifying test", 
+                                parents=[_o._parser], 
+                                conflict_handler="resolve")
+parser.add_argument('--piglit_test', dest='piglit_test', type=str, default="",
+                    help="specify test to run, passed to piglit --include-tests "\
+                    "param.  Name should be the full test as it appears in "\
+                    "jenkins, including the hw/arch suffix")
 
-bs.build(PiglitTester(), time_limit=SlowTimeout())
+args = parser.parse_args()
+piglit_test = None
+if args.piglit_test:
+    piglit_test = args.piglit_test
+
+# strip out --piglit_test from arguments, because it will not be
+# handled by any other arg parser.
+vdict = vars(args)
+del vdict["piglit_test"]
+_o = bs.Options(["bogus"])
+_o.__dict__.update(vdict)
+sys.argv = [sys.argv[0]] + _o.to_string().split()
+
+bs.build(PiglitTester(piglit_test), time_limit=SlowTimeout())

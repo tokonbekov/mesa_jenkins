@@ -8,12 +8,8 @@ if __name__=="__main__":
     sys.path.append(os.path.dirname(os.path.abspath(sys.argv[0])))
 
 from . import ProjectInvoke, DependencyGraph
-from . import Options
 from . import ProjectMap
-from . import BuildSpecification
-from . import RevisionSpecification
 #from clean_server import CleanServer
-import export
 
 class AlreadyBuilt(Exception):
     def __init__(self, invoke):
@@ -95,7 +91,7 @@ class Jenkins:
                     raise
                 time.sleep(5)
 
-    def build(self, project_invoke, branch=""):
+    def build(self, project_invoke, branch="", extra_arg=None):
         status = project_invoke.get_info("status", block=False)
         if status == "building":
             raise BuildInProgress(project_invoke, self._revspec)
@@ -114,6 +110,8 @@ class Jenkins:
             self._jenkins_params(project_invoke),
             branch
         )
+        if extra_arg:
+            url = url + "&extra_arg=" + extra_arg
 
         f = self._reliable_url_open(url)
         f.read()
@@ -297,6 +295,113 @@ class Jenkins:
                 return None
             time.sleep(1)
 
+    def build_all(self, depGraph, triggered_builds_str, branch="mesa_master"):
+        ready_for_build = depGraph.ready_builds()
+        assert(ready_for_build)
+        build_type = ready_for_build[0].options.type
+        completed_builds = []
+        failure_builds = []
+        success = True
+        pm = ProjectMap()
+
+        while success:
+            self.print_builds()
+            builds_in_round = 0
+            for an_invoke in ready_for_build:
+                status = an_invoke.get_info("status", block=False)
+
+                if status == "success" or status == "unstable":
+                    # don't rebuild if we have a good build, or just
+                    # because some tests failure
+                    completed_builds.append(an_invoke)
+                    depGraph.build_complete(an_invoke)
+                    builds_in_round += 1
+                    print "Already built: " + an_invoke.to_short_string()
+                    continue
+
+                proj_build_dir = pm.project_build_dir(an_invoke.project)
+                script = proj_build_dir + "/build.py"
+                if not os.path.exists(script):
+                    depGraph.build_complete(an_invoke)
+                    continue
+
+                try:
+                    print "Starting: " + an_invoke.to_short_string()
+                    self.build(an_invoke, branch=branch)
+                    an_invoke.set_info("trigger_time", time.time())
+                    triggered_builds_str.append(str(an_invoke))
+                except(BuildInProgress) as e:
+                    print e
+                    success = False
+                    break
+
+            if not success:
+                break
+
+            finished = None
+            try:
+                finished = self.wait_for_build()
+                if finished:
+                    builds_in_round += 1
+            except(BuildFailure) as failure:
+                failure.invoke.set_info("status", "failure")
+                url = failure.url
+                job_name = url.split("/")[-3]
+                build_number = url.split("/")[-2]
+                build_directory = "/var/lib/jenkins/jobs/" \
+                                  "{0}/builds/{1}".format(job_name.lower(), 
+                                                          build_number)
+
+                # abort the builds, but let daily/release builds continue
+                # as far as possible
+                if build_type == "percheckin" or build_type == "developer":
+                    time.sleep(6)  # quiet period
+                    for an_invoke_str in triggered_builds_str:
+                        print "Aborting: " + an_invoke_str
+                        pi = ProjectInvoke(from_string=an_invoke_str)
+                        self.abort(pi)
+                        failure_builds.append(pi)
+                    #CleanServer(o).clean()
+                    write_summary(pm.source_root(), 
+                                     failure_builds + completed_builds, 
+                                     self, 
+                                     failure=True)
+                    raise
+
+                # else for release/daily builds, continue waiting for the
+                # rest of the builds.
+                print "Build failure: " + failure.url
+                print "Build failure: " + str(failure.invoke)
+                failure_builds.append(failure.invoke)
+                builds_in_round += 1
+
+            if finished:
+                finished.invoke.set_info("status", finished.status)
+                print "Build finished: " + finished.url
+                print "Build finished: " + finished.invoke.to_short_string()
+
+                completed_builds.append(finished.invoke)
+                depGraph.build_complete(finished.invoke)
+
+            elif not builds_in_round:
+                # nothing was built, and there was no failure => the last
+                # project is built
+
+                #stub_test_results(out_test_dir, o.hardware)
+                # CleanServer(o).clean()
+                write_summary(pm.source_root(), 
+                                 failure_builds + completed_builds, 
+                                 self)
+                if failure_builds:
+                    raise BuildFailure(failure_builds[0], "")
+
+                return
+
+            ready_for_build = depGraph.ready_builds()
+
+            # filter out builds that have already been triggered
+            ready_for_build = [j for j in ready_for_build 
+                               if str(j) not in triggered_builds_str]
 
 def generate_color_key(ljen):
     out_key = r'<field name="Key" titlecolor="black" value="" ' \
@@ -446,4 +551,5 @@ def write_summary(out_dir, completed_builds, ljen, failure=False):
     <field name="Test Results" titlecolor="black" value="" detailcolor="" href="" />
 </section>""")
     outf.close()
+
 
