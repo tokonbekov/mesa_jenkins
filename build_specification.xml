@@ -43,6 +43,7 @@
       <remote name="jekstrand" repo="git://people.freedesktop.org/~jekstrand/mesa"/>
       <remote name="idr" repo="git://people.freedesktop.org/~idr/mesa"/>
       <remote name="mattst88" repo="git://people.freedesktop.org/~mattst88/mesa"/>
+      <remote name="janesma" repo="git://github.com/janesma/mesa"/>
     </mesa>
 
     <drm repo="git://anongit.freedesktop.org/mesa/drm"/>
