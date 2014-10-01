@@ -114,12 +114,21 @@ def main():
 
     parser.add_argument('--test_name', type=str, required=True,
                         help="test to search for")
+
+    parser.add_argument('--base_revision', type=str, default="",
+                        help="revisions for projects other than mesa, defaults to master")
     
     args = parser.parse_args()
 
     repos = bs.RepoSet()
     repos.fetch()
-
+    
+    base_revision = args.base_revision
+    if base_revision:
+        cmd_line = base_revision.split(" ")
+        revspec = bs.RevisionSpecification(from_cmd_line=cmd_line)
+        revspec.checkout()
+        
     revspec = bs.RevisionSpecification(from_cmd_line=["mesa=" + args.bad_revision])
     revspec.checkout()
 
