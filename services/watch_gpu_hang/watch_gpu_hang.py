@@ -148,7 +148,7 @@ class Daemon:
                 "[drm] GPU crash" in msg or
                 "[drm] GPU HANG" in msg):
                 print "rebooting"
-                os.system("reboot -f")
+                os.system("reboot")
             else:
                 print msg
 

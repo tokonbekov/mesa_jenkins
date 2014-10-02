@@ -62,7 +62,8 @@ class DependencyGraph:
         build = str(build)
         del self._dependency_graph[build]
         for an_unblocked_component in self._completion_graph[build]:
-            self._dependency_graph[an_unblocked_component].remove(build)
+            if an_unblocked_component in self._dependency_graph:
+                self._dependency_graph[an_unblocked_component].remove(build)
         del self._completion_graph[build]
 
     @classmethod
