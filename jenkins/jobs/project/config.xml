@@ -4,7 +4,7 @@
   <description>builds arbitrary projects for a mesa build scheduler.</description>
   <logRotator class="hudson.tasks.LogRotator">
     <daysToKeep>30</daysToKeep>
-    <numToKeep>500</numToKeep>
+    <numToKeep>-1</numToKeep>
     <artifactDaysToKeep>-1</artifactDaysToKeep>
     <artifactNumToKeep>-1</artifactNumToKeep>
   </logRotator>
@@ -70,6 +70,11 @@
           <description>specifies the branch of mesa_jenkins scripts used for the build</description>
           <defaultValue>origin/master</defaultValue>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>extra_arg</name>
+          <description></description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.22">
@@ -86,7 +91,7 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>https://github.com/janesma/mesa_jenkins.git</url>
+        <url>git://github.com/janesma/mesa_jenkins</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -98,6 +103,7 @@
     <submoduleCfg class="list"/>
     <extensions/>
   </scm>
+  <scmCheckoutRetryCount>5</scmCheckoutRetryCount>
   <canRoam>true</canRoam>
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
@@ -112,7 +118,7 @@ rm -rf /tmp/build_root
 python scripts/checkout_revision_spec.py ${revision}
 export http_proxy=http://proxy.jf.intel.com:911
 unset revision
-python ${project}/build.py --arch ${arch} --result_path ${result_path} --config ${config} --type ${type} --hardware ${hardware} --action clean,build,test</command>
+python ${project}/build.py --arch ${arch} --result_path ${result_path} --config ${config} --type ${type} --hardware ${hardware} --action clean,build,test ${extra_arg}</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
@@ -148,17 +154,24 @@ python ${project}/build.py --arch ${arch} --result_path ${result_path} --config 
     <xunit plugin="xunit@1.90">
       <types>
         <JUnitType>
-          <pattern>build_root/test/*xml</pattern>
+          <pattern>test/piglit*xml</pattern>
           <skipNoTestFiles>true</skipNoTestFiles>
           <failIfNotNew>false</failIfNotNew>
           <deleteOutputFiles>true</deleteOutputFiles>
           <stopProcessingIfError>true</stopProcessingIfError>
         </JUnitType>
+        <GoogleTestType>
+          <pattern>test/gtest*xml</pattern>
+          <skipNoTestFiles>true</skipNoTestFiles>
+          <failIfNotNew>false</failIfNotNew>
+          <deleteOutputFiles>true</deleteOutputFiles>
+          <stopProcessingIfError>true</stopProcessingIfError>
+        </GoogleTestType>
       </types>
       <thresholds>
         <org.jenkinsci.plugins.xunit.threshold.FailedThreshold>
-          <unstableThreshold>200</unstableThreshold>
-          <unstableNewThreshold>1</unstableNewThreshold>
+          <unstableThreshold>1</unstableThreshold>
+          <unstableNewThreshold></unstableNewThreshold>
           <failureThreshold></failureThreshold>
           <failureNewThreshold></failureNewThreshold>
         </org.jenkinsci.plugins.xunit.threshold.FailedThreshold>

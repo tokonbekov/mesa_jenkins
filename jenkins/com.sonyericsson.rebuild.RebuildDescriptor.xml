@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<com.sonyericsson.rebuild.RebuildDescriptor plugin="rebuild@1.21">
+<com.sonyericsson.rebuild.RebuildDescriptor plugin="rebuild@1.22">
   <rebuildConfiguration>
     <rememberPasswordEnabled>true</rememberPasswordEnabled>
   </rebuildConfiguration>

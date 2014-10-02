@@ -1,46 +1,80 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <hudson>
   <disabledAdministrativeMonitors/>
-  <version>1.565</version>
+  <version>1.565.2</version>
   <numExecutors>8</numExecutors>
   <mode>NORMAL</mode>
   <useSecurity>true</useSecurity>
   <authorizationStrategy class="hudson.security.GlobalMatrixAuthorizationStrategy">
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Create:dcbaker</permission>
     <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Create:majanes</permission>
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Delete:dcbaker</permission>
     <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Delete:majanes</permission>
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:dcbaker</permission>
     <permission>com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:majanes</permission>
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Update:dcbaker</permission>
     <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Update:majanes</permission>
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View:dcbaker</permission>
     <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View:majanes</permission>
+    <permission>hudson.model.Computer.Build:dcbaker</permission>
     <permission>hudson.model.Computer.Build:majanes</permission>
+    <permission>hudson.model.Computer.Configure:dcbaker</permission>
     <permission>hudson.model.Computer.Configure:majanes</permission>
+    <permission>hudson.model.Computer.Connect:dcbaker</permission>
     <permission>hudson.model.Computer.Connect:majanes</permission>
+    <permission>hudson.model.Computer.Create:dcbaker</permission>
     <permission>hudson.model.Computer.Create:majanes</permission>
+    <permission>hudson.model.Computer.Delete:dcbaker</permission>
     <permission>hudson.model.Computer.Delete:majanes</permission>
+    <permission>hudson.model.Computer.Disconnect:dcbaker</permission>
     <permission>hudson.model.Computer.Disconnect:majanes</permission>
+    <permission>hudson.model.Hudson.Administer:dcbaker</permission>
     <permission>hudson.model.Hudson.Administer:majanes</permission>
+    <permission>hudson.model.Hudson.ConfigureUpdateCenter:dcbaker</permission>
     <permission>hudson.model.Hudson.ConfigureUpdateCenter:majanes</permission>
     <permission>hudson.model.Hudson.Read:anonymous</permission>
+    <permission>hudson.model.Hudson.Read:dcbaker</permission>
     <permission>hudson.model.Hudson.Read:majanes</permission>
+    <permission>hudson.model.Hudson.RunScripts:dcbaker</permission>
     <permission>hudson.model.Hudson.RunScripts:majanes</permission>
+    <permission>hudson.model.Hudson.UploadPlugins:dcbaker</permission>
     <permission>hudson.model.Hudson.UploadPlugins:majanes</permission>
     <permission>hudson.model.Item.Build:anonymous</permission>
+    <permission>hudson.model.Item.Build:dcbaker</permission>
     <permission>hudson.model.Item.Build:majanes</permission>
+    <permission>hudson.model.Item.Cancel:dcbaker</permission>
     <permission>hudson.model.Item.Cancel:majanes</permission>
+    <permission>hudson.model.Item.Configure:dcbaker</permission>
     <permission>hudson.model.Item.Configure:majanes</permission>
+    <permission>hudson.model.Item.Create:dcbaker</permission>
     <permission>hudson.model.Item.Create:majanes</permission>
+    <permission>hudson.model.Item.Delete:dcbaker</permission>
     <permission>hudson.model.Item.Delete:majanes</permission>
     <permission>hudson.model.Item.Discover:anonymous</permission>
+    <permission>hudson.model.Item.Discover:dcbaker</permission>
     <permission>hudson.model.Item.Discover:majanes</permission>
+    <permission>hudson.model.Item.ExtendedRead:anonymous</permission>
+    <permission>hudson.model.Item.ExtendedRead:dcbaker</permission>
+    <permission>hudson.model.Item.ExtendedRead:majanes</permission>
     <permission>hudson.model.Item.Read:anonymous</permission>
+    <permission>hudson.model.Item.Read:dcbaker</permission>
     <permission>hudson.model.Item.Read:majanes</permission>
+    <permission>hudson.model.Item.Workspace:dcbaker</permission>
     <permission>hudson.model.Item.Workspace:majanes</permission>
+    <permission>hudson.model.Run.Delete:dcbaker</permission>
     <permission>hudson.model.Run.Delete:majanes</permission>
+    <permission>hudson.model.Run.Update:dcbaker</permission>
     <permission>hudson.model.Run.Update:majanes</permission>
+    <permission>hudson.model.View.Configure:dcbaker</permission>
     <permission>hudson.model.View.Configure:majanes</permission>
+    <permission>hudson.model.View.Create:dcbaker</permission>
     <permission>hudson.model.View.Create:majanes</permission>
+    <permission>hudson.model.View.Delete:dcbaker</permission>
     <permission>hudson.model.View.Delete:majanes</permission>
     <permission>hudson.model.View.Read:anonymous</permission>
+    <permission>hudson.model.View.Read:dcbaker</permission>
     <permission>hudson.model.View.Read:majanes</permission>
+    <permission>hudson.scm.SCM.Tag:dcbaker</permission>
     <permission>hudson.scm.SCM.Tag:majanes</permission>
   </authorizationStrategy>
   <securityRealm class="hudson.security.HudsonPrivateSecurityRealm">
@@ -58,20 +92,20 @@
   <clouds/>
   <slaves>
     <slave>
-      <name>snbgt1_m64-01</name>
+      <name>snbgt1-01</name>
       <description></description>
       <remoteFS>/home/jenkins</remoteFS>
       <numExecutors>1</numExecutors>
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
       <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
-        <host>otc-gfxtest-snbgt1-01.jf.intel.com</host>
+        <host>otc-gfxtest-snbgt1-01.local</host>
         <port>22</port>
         <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
       </launcher>
-      <label>snbgt1_m64 builder snbgt1</label>
+      <label>builder snbgt1</label>
       <nodeProperties/>
-      <userId>anonymous</userId>
+      <userId>majanes</userId>
     </slave>
     <slave>
       <name>ilk-01</name>
@@ -81,7 +115,7 @@
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
       <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
-        <host>otc-gfxtest-ilk-01.jf.intel.com</host>
+        <host>otc-gfxtest-ilk-01.local</host>
         <port>22</port>
         <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
       </launcher>
@@ -97,7 +131,7 @@
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
       <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
-        <host>otc-gfxtest-byt-01.jf.intel.com</host>
+        <host>otc-gfxtest-byt-01.local</host>
         <port>22</port>
         <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
       </launcher>
@@ -113,7 +147,7 @@
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
       <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
-        <host>otc-gfxtest-g965-01.jf.intel.com</host>
+        <host>otc-gfxtest-g965-01.local</host>
         <port>22</port>
         <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
       </launcher>
@@ -129,7 +163,7 @@
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
       <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
-        <host>otc-gfxtest-g965-02.jf.intel.com</host>
+        <host>otc-gfxtest-g965-02.local</host>
         <port>22</port>
         <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
       </launcher>
@@ -145,13 +179,61 @@
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
       <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
-        <host>otc-gfxtest-snbgt2-01.jf.intel.com</host>
+        <host>otc-gfxtest-snbgt2-01.local</host>
         <port>22</port>
         <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
       </launcher>
       <label>snbgt2 builder</label>
       <nodeProperties/>
       <userId>anonymous</userId>
+    </slave>
+    <slave>
+      <name>g33-01</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
+        <host>otc-gfxtest-g33-01.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>g33</label>
+      <nodeProperties/>
+      <userId>dcbaker</userId>
+    </slave>
+    <slave>
+      <name>g45-01</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
+        <host>otc-gfxtest-g45-01.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>g45</label>
+      <nodeProperties/>
+      <userId>dcbaker</userId>
+    </slave>
+    <slave>
+      <name>ivbgt2-01</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
+        <host>otc-gfxtest-ivbgt2-01.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>ivbgt2</label>
+      <nodeProperties/>
+      <userId>dcbaker</userId>
     </slave>
   </slaves>
   <quietPeriod>5</quietPeriod>
@@ -164,8 +246,60 @@
       <filterQueue>false</filterQueue>
       <properties class="hudson.model.View$PropertyList"/>
     </hudson.model.AllView>
+    <listView>
+      <owner class="hudson" reference="../../.."/>
+      <name>dev</name>
+      <filterExecutors>false</filterExecutors>
+      <filterQueue>false</filterQueue>
+      <properties class="hudson.model.View$PropertyList"/>
+      <jobNames>
+        <comparator class="hudson.util.CaseInsensitiveComparator"/>
+        <string>idr</string>
+        <string>jekstrand</string>
+        <string>majanes</string>
+        <string>mattst88</string>
+        <string>mesa_bisect</string>
+        <string>mesa_custom</string>
+      </jobNames>
+      <jobFilters/>
+      <columns>
+        <hudson.views.StatusColumn/>
+        <hudson.views.WeatherColumn/>
+        <hudson.views.JobColumn/>
+        <hudson.views.LastSuccessColumn/>
+        <hudson.views.LastFailureColumn/>
+        <hudson.views.LastDurationColumn/>
+        <hudson.views.BuildButtonColumn/>
+      </columns>
+      <recurse>false</recurse>
+    </listView>
+    <listView>
+      <owner class="hudson" reference="../../.."/>
+      <name>mesa</name>
+      <filterExecutors>false</filterExecutors>
+      <filterQueue>false</filterQueue>
+      <properties class="hudson.model.View$PropertyList"/>
+      <jobNames>
+        <comparator class="hudson.util.CaseInsensitiveComparator" reference="../../../listView/jobNames/comparator"/>
+        <string>mesa_10.2</string>
+        <string>mesa_10.3</string>
+        <string>mesa_master</string>
+        <string>mesa_master_daily</string>
+      </jobNames>
+      <jobFilters/>
+      <columns>
+        <hudson.views.StatusColumn/>
+        <hudson.views.WeatherColumn/>
+        <hudson.views.JobColumn/>
+        <hudson.views.LastSuccessColumn/>
+        <hudson.views.LastFailureColumn/>
+        <hudson.views.LastDurationColumn/>
+        <hudson.views.BuildButtonColumn/>
+      </columns>
+      <recurse>false</recurse>
+    </listView>
   </views>
-  <primaryView>All</primaryView>
+  <primaryView>mesa</primaryView>
   <slaveAgentPort>0</slaveAgentPort>
   <label>builder</label>
   <nodeProperties/>
