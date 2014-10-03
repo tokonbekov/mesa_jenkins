@@ -67,6 +67,7 @@
     
     <!-- jenkins has a build with same name as branch -->
     <branch name="mesa_master" project="all-test">
+      <piglit-build branch="janesma/working_suffix"/>
     </branch>
 
     <branch name="mesa_10.2" project="all-test">
@@ -76,26 +77,26 @@
 
     <branch name="mesa_10.3" project="all-test">
       <mesa branch="origin/10.3"/>
-      <piglit-build branch="janesma/jenkins_test"/>
+      <piglit-build branch="janesma/working_suffix"/>
     </branch>
 
     <branch name="jekstrand" project="all-test">
       <mesa branch="jekstrand/jenkins"/>
-      <piglit-build branch="janesma/jenkins_test"/>
+      <piglit-build branch="janesma/working_suffix"/>
     </branch>
 
     <branch name="idr" project="all-test">
       <mesa branch="idr/glsl-diet-v4"/>
-      <piglit-build branch="janesma/jenkins_test"/>
+      <piglit-build branch="janesma/working_suffix"/>
     </branch>
 
     <branch name="mattst88" project="all-test">
       <mesa branch="mattst88/jenkins"/>
-      <piglit-build branch="janesma/jenkins_test"/>
+      <piglit-build branch="janesma/working_suffix"/>
     </branch>
 
     <branch name="majanes" project="all-test">
-      <piglit-build branch="janesma/jenkins_test"/>
+      <piglit-build branch="janesma/working_suffix"/>
     </branch>
 
     <branch name="dcbaker" project="all-test">
