@@ -30,6 +30,8 @@ class PiglitTester(object):
         hardware_conf = o.hardware
         if "snb" in hardware_conf:
             hardware_conf = "snb"
+        if "ivb" in hardware_conf:
+            hardware_conf = "ivb"
 
         # all platforms other than g965 have separate 32-bit failures
         if o.hardware != "g965":
