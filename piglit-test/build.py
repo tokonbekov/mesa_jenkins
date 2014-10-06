@@ -49,6 +49,7 @@ class PiglitTester(object):
                "--config", hardware_conf,
                # hangs snb
                "--exclude-tests", "TRIANGLE_STRIP_ADJACENCY",
+               "--exclude-tests", "timestamp-get",
                # intermittently fails snb
                "--exclude-tests", "glsl-routing"]
 
