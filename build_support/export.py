@@ -28,11 +28,14 @@ class Export:
         if not os.path.exists(test_path):
             os.makedirs(test_path)
 
-        cmd = ["cp", "-a", "-n",
+        cmd = ["rsync", "-a",
                test_path, 
                result_path]
 
-        run_batch_command(cmd)
+        try:
+            run_batch_command(cmd)
+        except subprocess.CalledProcessError as e:
+            print "WARN: some errors copying: " + str(e)
 
     def import_build_root(self):
         o = Options()
