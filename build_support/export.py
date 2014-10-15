@@ -19,16 +19,19 @@ class Export:
         if not os.path.exists(result_path):
             os.makedirs(result_path)
 
-        cmd = ["cp", "-a", "-n",
+        cmd = ["rsync", "-rlptD",
                ProjectMap().build_root(), result_path]
 
-        run_batch_command(cmd)
+        try:
+            run_batch_command(cmd)
+        except subprocess.CalledProcessError as e:
+            print "WARN: some errors copying: " + str(e)
 
         test_path = os.path.abspath(ProjectMap().build_root() + "/../test")
         if not os.path.exists(test_path):
             os.makedirs(test_path)
 
-        cmd = ["rsync", "-a",
+        cmd = ["rsync", "-rlptD",
                test_path, 
                result_path]
 
@@ -49,7 +52,7 @@ class Export:
         if not os.path.exists(br):
             os.makedirs(br)
 
-        cmd = ["rsync", "-a", 
+        cmd = ["rsync", "-rlptD", 
                result_path, br]
 
         # don't want to confuse test results with any preexisting
