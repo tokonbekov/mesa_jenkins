@@ -1,0 +1,89 @@
+#!/bin/bash
+
+# requires xorriso
+
+# Requires 2 arguments.
+# argument 1 is the /dev/sd* device to install to
+# argument 2 is a debian netinstall iso
+
+
+installer=${1}
+deb_source=${2}
+
+# Make sure that a dev node has been passed
+[[ -b ${installer} ]] || exit 1
+
+# Make a clean working directory
+printf "Creating work dir..."
+[[ ! -d ${deb_source} ]] && exit 1
+cp -r ${deb_source} cd || exit 1
+chmod +w -R cd  || exit 1
+echo " done"
+
+# Add preseed file to the initrd
+printf "Adding preseed file to initrd..."
+[[ -d initrd ]] && sudo rm -rf initrd; mkdir initrd
+cd initrd
+gzip -d < ../${deb_source}/install.amd/initrd.gz | sudo cpio --extract --make-directories --no-absolute-filenames 2>/dev/null
+cp ../jenkins.cfg preseed.cfg
+cd ..
+echo " done"
+if [[ $DEBUG == 'true' ]]; then read -p 'continue? ' cont; fi
+
+printf "Regenerating intird image..."
+cd initrd
+find . | cpio -H newc --create 2>/dev/null | gzip -9 > ../cd/install.amd/initrd.gz || exit 1
+cd ..
+echo " done"
+if [[ $DEBUG == 'true' ]]; then read -p 'continue? ' cont; fi
+
+printf "Adding finalize.sh to installer..."
+cp finalize.sh cd/ || exit 1
+echo " done"
+if [[ $DEBUG == 'true' ]]; then read -p 'continue? ' cont; fi
+
+printf "Updating boot config..."
+cp isolinux.cfg cd/isolinux/ || exit 1
+cp grub.cfg cd/boot/grub/ || exit 1
+echo " done"
+if [[ $DEBUG == 'true' ]]; then read -p 'continue? ' cont; fi
+
+# Regenerate md5sums
+printf "Regenerating md5sums..."
+cd cd
+md5sum `find ! -name "md5sum.txt" ! -path "./isolinux/*" -follow -type f 2>/dev/null || exit 1` > md5sum.txt 2>/dev/null
+cd ..
+echo " done"
+if [[ $DEBUG == 'true' ]]; then read -p 'continue? ' cont; fi
+
+# Regenerate iso image
+printf "Building iso image..."
+xorriso -as mkisofs -graft-points \
+	-V "JENKINS_DEBIAN" \
+	-A "Debain Jenkins Preseed" \
+	-J \
+	-r \
+	-boot-load-size 4 \
+	-boot-info-table \
+	-no-emul-boot \
+	-b isolinux/isolinux.bin \
+	-c isolinux/boot.cat \
+	-isohybrid-mbr /usr/share/syslinux/isohdpfx.bin \
+	-eltorito-alt-boot \
+	-e boot/grub/efi.img \
+	-no-emul-boot \
+	-isohybrid-gpt-basdat \
+	-o test.iso \
+	./cd  2> /dev/null || exit 1
+sync
+echo " done"
+if [[ $DEBUG == 'true' ]]; then read -p 'continue? ' cont; fi
+
+printf "Writing to disk..."
+sudo dd if=test.iso of=/dev/${installer} bs=4k &>/dev/null || exit 1
+sync
+echo " done"
+
+printf "Cleaning up..."
+sudo rm -rf cd initrd test.iso
+echo " done"
