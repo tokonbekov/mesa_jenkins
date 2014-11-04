@@ -41,6 +41,7 @@
     <mesa repo="git://anongit.freedesktop.org/mesa/mesa">
       <!-- todo: add support for remotes.  -->
       <remote name="jekstrand" repo="git://people.freedesktop.org/~jekstrand/mesa"/>
+      <remote name="kwg" repo="git://people.freedesktop.org/~kwg/mesa"/>
       <remote name="krh" repo="git://people.freedesktop.org/~krh/mesa"/>
       <remote name="bwidawsk" repo="git://people.freedesktop.org/~bwidawsk/mesa"/>
       <remote name="idr" repo="git://people.freedesktop.org/~idr/mesa"/>
@@ -87,6 +88,11 @@
       <piglit-build branch="janesma/working_suffix"/>
     </branch>
 
+    <branch name="kwg" project="all-test">
+      <mesa branch="kwg/jenkins"/>
+      <piglit-build branch="janesma/working_suffix"/>
+    </branch>
+
     <branch name="krh" project="all-test">
       <mesa branch="krh/jenkins"/>
       <piglit-build branch="janesma/working_suffix"/>
@@ -108,7 +114,6 @@
     </branch>
 
     <branch name="majanes" project="all-test">
-      <piglit-build branch="janesma/working_suffix"/>
     </branch>
 
     <branch name="dcbaker" project="all-test">
