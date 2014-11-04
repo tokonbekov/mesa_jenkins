@@ -12,11 +12,11 @@ def abort_builds(ignore, _):
         jen.abort(bs.ProjectInvoke(from_string=an_invoke_str))
     raise bs.BuildAborted()
 
-def bisect(args, commits):
+def bisect(project, args, commits):
     if not commits:
         return
     current_build = len(commits) / 2
-    rev = "mesa=" + commits[current_build].hexsha
+    rev = project + "=" + commits[current_build].hexsha
     print "Range: " + commits[0].hexsha + " - " + commits[-1].hexsha
     print "Building revision: " + rev
 
@@ -60,7 +60,7 @@ def bisect(args, commits):
         if current_build + 1 == len(commits):
             print "FIRST DETECTED FAILURE: " + rev
             return
-        return bisect(args, commits[current_build+1:])
+        return bisect(project, args, commits[current_build+1:])
 
     test_result = "/".join([result_path, "test", "piglit-test_" + 
                             o.hardware + "_" + o.arch + ".xml"])
@@ -74,7 +74,7 @@ def bisect(args, commits):
         if current_build + 1 == len(commits):
             print "FIRST DETECTED FAILURE: " + rev
             return
-        return bisect(args, commits[current_build + 1:])
+        return bisect(project, args, commits[current_build + 1:])
 
     result = ET.parse(test_result)
     for testcase in result.findall("./testsuite/testcase"):
@@ -88,14 +88,19 @@ def bisect(args, commits):
             if current_build + 1 == len(commits):
                 print "FIRST DETECTED FAILURE: " + rev
                 return
-            return bisect(args, commits[current_build + 1:])
+            return bisect(project, args, commits[current_build + 1:])
 
         print "TEST PASSED: " + rev
         if current_build == 0:
             print "LAST DETECTED SUCCESS: " + rev
             return
-        return bisect(args, commits[:current_build])
+        return bisect(project, args, commits[:current_build])
+
     print "ERROR -- TEST NOT FOUND: " + args.test_name
+    if current_build == 0:
+        print "LAST DETECTED SUCCESS: " + rev
+        return
+    return bisect(project, args, commits[:current_build])
 
 def main():
     signal.signal(signal.SIGINT, abort_builds)
@@ -129,14 +134,23 @@ def main():
         revspec = bs.RevisionSpecification(from_cmd_line=cmd_line)
         revspec.checkout()
         
-    revspec = bs.RevisionSpecification(from_cmd_line=["mesa=" + args.bad_revision])
-    revspec.checkout()
+    project = "mesa"
+    for project in ["mesa", "piglit-build", "waffle", "drm"]:
+        try:
+            revspec = bs.RevisionSpecification(from_cmd_line=[project + "=" + args.bad_revision])
+            revspec.checkout()
+        except:
+            print args.bad_revision + " not found in " + project
+            continue
 
-    mesa_repo = repos.repo("mesa")
+        print args.bad_revision + " found in " + project
+        break
+
+    target_repo = repos.repo(project)
     commits = []
     good_revision = args.good_revision
     print "Revision History:"
-    for commit in mesa_repo.iter_commits(max_count=1000):
+    for commit in target_repo.iter_commits(max_count=1000):
         commits.append(commit)
         if good_revision in commit.hexsha:
             break
@@ -147,7 +161,7 @@ def main():
             " in history of " + args.bad_revision
         sys.exit(-1)
 
-    bisect(args, commits)
+    bisect(project, args, commits)
 
 if __name__=="__main__":
     main()
