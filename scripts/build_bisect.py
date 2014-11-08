@@ -1,4 +1,4 @@
-import os, sys, signal, argparse
+import os, sys, signal, argparse, re
 import time
 import xml.etree.ElementTree as ET
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
@@ -53,7 +53,8 @@ def bisect(project, args, commits):
     try:
         jen.build_all(depGraph, triggered_builds_str, "bisect")
         print "Starting: " + bi.to_short_string()
-        jen.build(bi, branch="mesa_master", extra_arg="--piglit_test=" + args.test_name)
+        test_name_good_chars = re.sub('[_ !:]', ".", args.test_name)
+        jen.build(bi, branch="mesa_master", extra_arg="--piglit_test=" + test_name_good_chars)
         jen.wait_for_build()
     except bs.BuildFailure:
         print "BUILD FAILED - exception: " + rev
