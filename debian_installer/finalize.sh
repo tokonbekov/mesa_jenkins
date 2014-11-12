@@ -127,3 +127,5 @@ ntpd -gq
 
 # Configure the cache size for the jenkins user
 su jenkins -c 'ccache -M 10G'
+
+echo -e "jenkins\tALL=(ALL:ALL) /sbin/reboot, NOPASSWD: /sbin/reboot\n" >> /etc/sudoers

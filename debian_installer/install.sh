@@ -68,4 +68,6 @@ apt-get install \
 	x11proto-dri3-dev \
 	x11proto-gl-dev \
 	x11proto-present-dev \
-	docbook-website
+	docbook-website \
+	avahi-daemon \
+	sudo
