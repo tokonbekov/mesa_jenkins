@@ -204,6 +204,15 @@ class Jenkins:
 
                 end_time = a_job.get_info("end_time")
                 
+                if not end_time or (time.time() - end_time < 10):
+                    # build will temporarily report success until
+                    # warnings and test results are parsed.  This
+                    # takes just a few seconds.  Re-read the status
+                    # page to ensure we have the final status.  Only
+                    # incur delays if the build finished less than 10
+                    # seconds ago.
+                    print "Waiting for test results to parse"
+                    time.sleep(10 )
                 try:
                     f = urllib2.urlopen(job_url + "/api/python")
                 except:
