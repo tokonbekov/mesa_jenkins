@@ -495,9 +495,10 @@ def write_summary(out_dir, completed_builds, ljen, failure=False):
     if failure:
         build_status = 'failure'
     outf = open(os.path.join(out_dir, "summary.xml"), "w")
+    #  """ + ljen._revspec.to_cmd_line_param() + """ 
     outf.write("""\
 <section name="">
-    <field name="Git revisions" value=" """ + ljen._revspec.to_cmd_line_param() + """ "/>
+    <field name="Git revisions" value="test"/>
 </section>
 
 <section name="" fontcolor="">
