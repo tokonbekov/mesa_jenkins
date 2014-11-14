@@ -47,11 +47,17 @@ class PiglitTester(object):
                "-c",
                "--junit_suffix", "." + o.hardware + o.arch,
                "--config", hardware_conf,
+
                # hangs snb
                "--exclude-tests", "TRIANGLE_STRIP_ADJACENCY",
                "--exclude-tests", "timestamp-get",
+
                # intermittently fails snb
-               "--exclude-tests", "glsl-routing"]
+               "--exclude-tests", "glsl-routing",
+
+               # fails intermittently on g45, fails reliably on all
+               # others.  Test introduced Oct 2014
+               "--exclude-tests", "vs-float-main-return"]
 
         if self.piglit_test:
             # only use the last two components of test name, excluding
