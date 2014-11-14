@@ -70,4 +70,5 @@ apt-get install \
 	x11proto-present-dev \
 	docbook-website \
 	avahi-daemon \
-	sudo
+	sudo \
+    libtxc-dxtn-s2tc0
