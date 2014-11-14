@@ -497,7 +497,7 @@ def write_summary(out_dir, completed_builds, ljen, failure=False):
     outf = open(os.path.join(out_dir, "summary.xml"), "w")
     outf.write("""\
 <section name="" fontcolor="">
-    <field name="Git revisions" value="""" + ljen._revspec.to_cmd_line_param() + """"/>
+    <field name="Git revisions" value=" """ + ljen._revspec.to_cmd_line_param() + """ "/>
     <field name="Build """ + build_status + '" titlecolor="'+ ljen.status_colors.get(build_status) + """" value="" detailcolor="" href="" />
     <table sorttable="yes">""")
     outf.write(generate_summary_row(None, ljen, header=True))
