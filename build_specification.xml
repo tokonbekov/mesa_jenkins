@@ -62,6 +62,7 @@
 
     <waffle repo="git://github.com/waffle-gl/waffle">
       <remote name="stable" repo="git://github.com/janesma/waffle"/>
+      <remote name="chadv" repo="git://github.com/chadversary/waffle"/>
     </waffle>
   </repos>
 
@@ -131,6 +132,11 @@
       <mesa branch="origin/10.3"/>
       <piglit-build branch="dcbaker/jenkins"/>
       <waffle branch="stable/master"/>
+    </branch>
+
+    <branch name="chadv" project="all-test">
+      <mesa branch="origin/10.3"/>
+      <waffle branch="chadv/jenkins"/>
     </branch>
 
   </branches>
