@@ -125,8 +125,12 @@ class Jenkins:
             return False
         build_link += "stop"
 
-        f = self._reliable_url_open(build_link)
-        f.read()
+        try:
+            f = self._reliable_url_open(build_link)
+            f.read()
+        except (urllib2.HTTPError, urllib2.URLError):
+            # stopping build on abort typically fails for at least one build
+            pass
         project_invoke.set_info("status", "aborted")
         return True
             

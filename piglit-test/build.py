@@ -55,6 +55,10 @@ class PiglitTester(object):
                # intermittently fails snb
                "--exclude-tests", "glsl-routing",
 
+               # fails intermittently
+               "--exclude-tests", "EXT_timer_query",
+               "--exclude-tests", "ARB_timer_query",
+
                # fails intermittently on g45, fails reliably on all
                # others.  Test introduced Oct 2014
                "--exclude-tests", "vs-float-main-return"]
