@@ -20,7 +20,11 @@ def bisect(project, args, commits):
     print "Range: " + commits[0].hexsha + " - " + commits[-1].hexsha
     print "Building revision: " + rev
 
-    hw_arch = args.test_name.split(".")[-1]
+    # remove inadvertent whitespace, which is easy to add when
+    # triggering builds on jenkins
+    test_name = args.test_name.strip()
+
+    hw_arch = test_name.split(".")[-1]
     o = bs.Options(args=["ignore"])
     o.type = "developer"
     o.config = "debug"
@@ -53,7 +57,7 @@ def bisect(project, args, commits):
     try:
         jen.build_all(depGraph, triggered_builds_str, "bisect")
         print "Starting: " + bi.to_short_string()
-        test_name_good_chars = re.sub('[_ !:]', ".", args.test_name)
+        test_name_good_chars = re.sub('[_ !:]', ".", test_name)
         jen.build(bi, branch="mesa_master", extra_arg="--piglit_test=" + test_name_good_chars)
         jen.wait_for_build()
     except bs.BuildFailure:
@@ -80,7 +84,7 @@ def bisect(project, args, commits):
     result = ET.parse(test_result)
     for testcase in result.findall("./testsuite/testcase"):
         testname = testcase.attrib["classname"] + "." + testcase.attrib["name"]
-        if testname != args.test_name:
+        if testname != test_name:
             continue
         if testcase.findall("skipped"):
             print "ERROR: the target test was skipped"
@@ -97,7 +101,7 @@ def bisect(project, args, commits):
             return
         return bisect(project, args, commits[:current_build])
 
-    print "ERROR -- TEST NOT FOUND: " + args.test_name
+    print "ERROR -- TEST NOT FOUND: " + test_name
     if current_build == 0:
         print "LAST DETECTED SUCCESS: " + rev
         return
