@@ -10,6 +10,7 @@ class _ProjectBranch:
         self.branch = "origin/master"
         self.name = projectName
         self.sha = None
+        self.trigger = False
 
 class BranchSpecification:
     """This class tracks a "branch set" in the build's git repositories
@@ -34,7 +35,9 @@ class BranchSpecification:
         for a_project in branch_tag:
             name = a_project.tag
             assert(self._project_branches.has_key(name))
-            self._project_branches[name].branch = a_project.attrib["branch"]
+            self._project_branches[name].trigger = True
+            if a_project.attrib.has_key("branch"):
+                self._project_branches[name].branch = a_project.attrib["branch"]
 
         for (_, branch) in self._project_branches.iteritems():
             repo = repos.repo(branch.name)
@@ -50,11 +53,12 @@ class BranchSpecification:
     def needs_build(self):
         # checks the commits on the branch repos to see if they have
         # been updated.
-        self._repos.fetch()
         for (_, branch) in self._project_branches.iteritems():
+            if not branch.trigger:
+                continue
             repo = self._repos.repo(branch.name)
             hexsha = repo.commit(branch.branch).hexsha
-            if branch.sha != hexsha:
+            if  branch.sha != hexsha:
                 return branch.name + "-" + repo.git.rev_parse(hexsha, short=True)
         return False
 
@@ -206,6 +210,7 @@ class RepoStatus:
     def poll(self):
         """returns list of branches that should be triggered"""
         ret_dict = {}
+        self._repos.fetch()
         for branch in self._branches:
             trigger_commit = branch.needs_build()
             if trigger_commit:

@@ -76,10 +76,19 @@
   <branches>
     <!-- the following branches are polled continuously.  Any commit
          will trigger a branch build with an identifier based on the
-         commit that triggered the build. -->
-    
+         commit that triggered the build.  Any repository listed as a
+         subtag of the branch can trigger a build of the branch.
+         Repositories default to origin/master -->
+
     <!-- jenkins has a build with same name as branch -->
     <branch name="mesa_master" project="all-test">
+
+      <!-- these repo tags exist soley to trigger a master build when
+           anything changes -->
+      <mesa/>
+      <piglit-build/>
+      <waffle/>
+      <drm/>
     </branch>
 
     <branch name="mesa_10.2" project="all-test">
@@ -91,43 +100,36 @@
     <branch name="mesa_10.3" project="all-test">
       <mesa branch="origin/10.3"/>
       <piglit-build branch="janesma/stable"/>
-      <waffle branch="stable/master"/>
     </branch>
+
+    <branch name="mesa_10.4" project="all-test">
+      <mesa branch="origin/10.4"/>
+    </branch>
+
 
     <branch name="jekstrand" project="all-test">
       <mesa branch="jekstrand/jenkins"/>
-      <piglit-build branch="janesma/stable"/>
-      <waffle branch="stable/master"/>
     </branch>
 
     <branch name="kwg" project="all-test">
       <mesa branch="kwg/jenkins"/>
-      <piglit-build branch="janesma/stable"/>
-      <waffle branch="stable/master"/>
     </branch>
 
     <branch name="krh" project="all-test">
       <mesa branch="krh/jenkins"/>
-      <piglit-build branch="janesma/stable"/>
-      <waffle branch="stable/master"/>
     </branch>
 
     <branch name="bwidawsk" project="all-test">
       <mesa branch="bwidawsk/jenkins"/>
       <piglit-build branch="bwidawsk/jenkins"/>
-      <waffle branch="stable/master"/>
     </branch>
 
     <branch name="idr" project="all-test">
       <mesa branch="idr/glsl-diet-v4"/>
-      <piglit-build branch="janesma/stable"/>
-      <waffle branch="stable/master"/>
     </branch>
 
     <branch name="mattst88" project="all-test">
       <mesa branch="mattst88/jenkins"/>
-      <piglit-build branch="janesma/stable"/>
-      <waffle branch="stable/master"/>
     </branch>
 
     <branch name="majanes" project="all-test">
@@ -138,7 +140,6 @@
     <branch name="dcbaker" project="all-test">
       <mesa branch="origin/10.3"/>
       <piglit-build branch="dcbaker/jenkins"/>
-      <waffle branch="stable/master"/>
     </branch>
 
     <branch name="chadv" project="all-test">
