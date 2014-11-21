@@ -75,7 +75,7 @@ class Jenkins:
         self._revspec = revspec
         self._result_path = result_path
         self._time = str(time.time())
-        self._job_url = "http://" + self._server + "/job/project"
+        self._job_url = "http://" + self._server + "/job/Leeroy"
     # this function is common to jenkins.py
     def _reliable_url_open(self, url):
         # We use a loop to open the url because of DE3123
