@@ -107,6 +107,8 @@ class SlowTimeout:
     def GetDuration(self):
         if self.hardware == "byt":
             return 120
+        if self.hardware == "g965":
+            return 50
         # all other test suites finish in 10 minutes or less.
         return 25
         
