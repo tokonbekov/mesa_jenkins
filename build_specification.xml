@@ -132,6 +132,7 @@
 
     <branch name="majanes" project="all-test">
       <waffle branch="stable/master"/>
+      <mesa branch="janesma/jenkins"/>
     </branch>
 
     <branch name="dcbaker" project="all-test">
