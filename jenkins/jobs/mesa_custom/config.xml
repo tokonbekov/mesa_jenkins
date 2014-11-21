@@ -28,18 +28,28 @@
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>project</name>
-          <description></description>
+          <description>build &quot;piglit-test&quot; to target a single machine, and put the appropriate name in the hardware field below.</description>
           <defaultValue>all-test</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>hardware</name>
-          <description></description>
+          <description>to target a specific machine for piglit-test, enter one of: ilk,g45,g965,ivbgt2,snbgt1,snbgt2</description>
           <defaultValue>builder</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>branch</name>
           <description></description>
           <defaultValue>mesa_master</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>arch</name>
+          <description>m64/m32</description>
+          <defaultValue>m64</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>build_support_branch</name>
+          <description>branch for scripts (eg origin/mesa_10.2)</description>
+          <defaultValue>origin/master</defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -57,12 +67,12 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>git://github.com/janesma/mesa_jenkins</url>
+        <url>http://github.com/janesma/mesa_jenkins.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
       <hudson.plugins.git.BranchSpec>
-        <name>origin/master</name>
+        <name>${build_support_branch}</name>
       </hudson.plugins.git.BranchSpec>
     </branches>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
@@ -80,7 +90,7 @@
   <builders>
     <hudson.tasks.Shell>
       <command>python -u scripts/checkout_revision_spec.py
-python -u scripts/build_jenkins.py --branch=${branch} --type=${type} --config=debug --rebuild=${rebuild} --revision=&quot;$revision&quot; --hardware=${hardware} --project=${project}</command>
+python -u scripts/build_jenkins.py --branch=${branch} --type=${type} --config=debug --rebuild=${rebuild} --revision=&quot;$revision&quot; --hardware=${hardware} --project=${project} --arch=${arch}</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>

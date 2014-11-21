@@ -27,7 +27,7 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>git://github.com/janesma/mesa_jenkins</url>
+        <url>http://github.com/janesma/mesa_jenkins.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -47,14 +47,14 @@
   <authToken>xyzzy</authToken>
   <triggers>
     <hudson.triggers.TimerTrigger>
-      <spec>H 5 * * *</spec>
+      <spec>H 5,11,17,23 * * *</spec>
     </hudson.triggers.TimerTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
       <command>python -u scripts/checkout_revision_spec.py
-python -u scripts/build_jenkins.py --branch=mesa_master --type=daily</command>
+python -u scripts/build_jenkins.py --branch=mesa_master --type=daily --config=debug</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
@@ -85,8 +85,8 @@ python -u scripts/build_jenkins.py --branch=mesa_master --type=daily</command>
       </types>
       <thresholds>
         <org.jenkinsci.plugins.xunit.threshold.FailedThreshold>
-          <unstableThreshold></unstableThreshold>
-          <unstableNewThreshold>1</unstableNewThreshold>
+          <unstableThreshold>1</unstableThreshold>
+          <unstableNewThreshold></unstableNewThreshold>
           <failureThreshold></failureThreshold>
           <failureNewThreshold></failureNewThreshold>
         </org.jenkinsci.plugins.xunit.threshold.FailedThreshold>
@@ -102,6 +102,11 @@ python -u scripts/build_jenkins.py --branch=mesa_master --type=daily</command>
         <testTimeMargin>3000</testTimeMargin>
       </extraConfiguration>
     </xunit>
+    <hudson.tasks.Mailer plugin="mailer@1.8">
+      <recipients>mark.a.janes@intel.com</recipients>
+      <dontNotifyEveryUnstableBuild>true</dontNotifyEveryUnstableBuild>
+      <sendToIndividuals>false</sendToIndividuals>
+    </hudson.tasks.Mailer>
   </publishers>
   <buildWrappers>
     <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.5.14"/>

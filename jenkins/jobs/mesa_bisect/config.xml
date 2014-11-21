@@ -42,7 +42,7 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>git://github.com/janesma/mesa_jenkins</url>
+        <url>http://github.com/janesma/mesa_jenkins.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -65,7 +65,7 @@
   <builders>
     <hudson.tasks.Shell>
       <command>python -u scripts/checkout_revision_spec.py
-python -u scripts/build_bisect.py --bad_revision=${bad_revision} --good_revision=${good_revision}  --test_name=${test_name} --base_revision=&quot;$base_revision&quot;</command>
+python -u scripts/build_bisect.py --bad_revision=${bad_revision} --good_revision=${good_revision}  --test_name=&quot;${test_name}&quot; --base_revision=&quot;$base_revision&quot;</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

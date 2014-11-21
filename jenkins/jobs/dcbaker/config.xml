@@ -34,10 +34,8 @@
     <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.3">
       <maxConcurrentPerNode>0</maxConcurrentPerNode>
       <maxConcurrentTotal>0</maxConcurrentTotal>
-      <categories/>
       <throttleEnabled>false</throttleEnabled>
       <throttleOption>project</throttleOption>
-      <configVersion>1</configVersion>
     </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
   </properties>
   <scm class="hudson.plugins.git.GitSCM" plugin="git@2.2.5">
@@ -67,7 +65,7 @@
   <builders>
     <hudson.tasks.Shell>
       <command>python -u scripts/checkout_revision_spec.py
-python -u scripts/build_jenkins.py --branch=majanes --type=${type} --config=debug --rebuild=${rebuild} --revision=&quot;$revision&quot;</command>
+python -u scripts/build_jenkins.py --branch=dcbaker --type=${type} --config=debug --rebuild=${rebuild} --revision=&quot;$revision&quot;</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>

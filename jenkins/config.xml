@@ -188,6 +188,58 @@
       <userId>anonymous</userId>
     </slave>
     <slave>
+      <temporaryOfflineCause class="hudson.slaves.OfflineCause$UserCause">
+        <description>
+          <holder>
+            <owner>hudson.slaves.Messages</owner>
+          </holder>
+          <key>SlaveComputer.DisconnectedBy</key>
+          <args>
+            <string>dcbaker</string>
+            <string> : G33 relies on swrast for pretty much everything, and there is a massive regression in swrast.</string>
+          </args>
+        </description>
+        <user>
+          <fullName>Dylan Baker</fullName>
+          <properties>
+            <hudson.model.PaneStatusProperties>
+              <collapsed/>
+            </hudson.model.PaneStatusProperties>
+            <jenkins.security.ApiTokenProperty>
+              <apiToken>URMlk3XP93HxhJ/64sN7YeyKJ6jeOgqdSpWmI4JQfS53KXUK0GNdoxP3ukUxYgEH</apiToken>
+            </jenkins.security.ApiTokenProperty>
+            <com.cloudbees.plugins.credentials.UserCredentialsProvider_-UserCredentialsProperty plugin="credentials@1.16.1">
+              <domainCredentialsMap class="hudson.util.CopyOnWriteMap$Hash"/>
+            </com.cloudbees.plugins.credentials.UserCredentialsProvider_-UserCredentialsProperty>
+            <hudson.model.MyViewsProperty>
+              <views>
+                <hudson.model.AllView>
+                  <owner class="hudson.model.MyViewsProperty" reference="../../.."/>
+                  <name>All</name>
+                  <filterExecutors>false</filterExecutors>
+                  <filterQueue>false</filterQueue>
+                  <properties class="hudson.model.View$PropertyList"/>
+                </hudson.model.AllView>
+              </views>
+            </hudson.model.MyViewsProperty>
+            <hudson.search.UserSearchProperty>
+              <insensitiveSearch>false</insensitiveSearch>
+            </hudson.search.UserSearchProperty>
+            <hudson.security.HudsonPrivateSecurityRealm_-Details>
+              <passwordHash>#jbcrypt:$2a$10$arvWOupGyOg9Es2573mlae./FVTnkJU6mwKISaSCCGaGJ6tAkbxOG</passwordHash>
+            </hudson.security.HudsonPrivateSecurityRealm_-Details>
+            <hudson.tasks.Mailer_-UserProperty plugin="mailer@1.8">
+              <emailAddress>dylanx.c.baker@intel.com</emailAddress>
+            </hudson.tasks.Mailer_-UserProperty>
+            <jenkins.security.LastGrantedAuthoritiesProperty>
+              <roles>
+                <string>authenticated</string>
+              </roles>
+              <timestamp>1410903426815</timestamp>
+            </jenkins.security.LastGrantedAuthoritiesProperty>
+          </properties>
+        </user>
+      </temporaryOfflineCause>
       <name>g33-01</name>
       <description></description>
       <remoteFS>/home/jenkins</remoteFS>
@@ -231,9 +283,89 @@
         <port>22</port>
         <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
       </launcher>
-      <label>ivbgt2</label>
+      <label>ivbgt2 builder</label>
       <nodeProperties/>
       <userId>dcbaker</userId>
+    </slave>
+    <slave>
+      <name>byt-02</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
+        <host>otc-gfxtest-byt-02.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>byt</label>
+      <nodeProperties/>
+      <userId>majanes</userId>
+    </slave>
+    <slave>
+      <name>ivbgt2-02</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
+        <host>otc-gfxtest-ivbgt2-02.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>ivbgt2 builder</label>
+      <nodeProperties/>
+      <userId>majanes</userId>
+    </slave>
+    <slave>
+      <name>ilk-02</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
+        <host>otc-gfxtest-ilk-02.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>ilk</label>
+      <nodeProperties/>
+      <userId>majanes</userId>
+    </slave>
+    <slave>
+      <name>snbgt2-02</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
+        <host>otc-gfxtest-snbgt2-02.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>snbgt2 builder</label>
+      <nodeProperties/>
+      <userId>majanes</userId>
+    </slave>
+    <slave>
+      <name>ilk-03</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
+        <host>otc-gfxtest-ilk-03.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>ilk</label>
+      <nodeProperties/>
+      <userId>majanes</userId>
     </slave>
   </slaves>
   <quietPeriod>5</quietPeriod>
@@ -254,8 +386,13 @@
       <properties class="hudson.model.View$PropertyList"/>
       <jobNames>
         <comparator class="hudson.util.CaseInsensitiveComparator"/>
+        <string>bwidawsk</string>
+        <string>chadv</string>
+        <string>dcbaker</string>
         <string>idr</string>
         <string>jekstrand</string>
+        <string>krh</string>
+        <string>kwg</string>
         <string>majanes</string>
         <string>mattst88</string>
         <string>mesa_bisect</string>
