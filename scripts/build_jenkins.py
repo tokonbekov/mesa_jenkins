@@ -72,12 +72,14 @@ def main():
     sys.argv = ["bogus"] + o.to_string().split()
 
     bspec = bs.BuildSpecification()
+
+    # start with the specified branch, then layer any revision spec on
+    # top of it
+    bspec.checkout(branch)
     revspec = None
     if (revision):
         revspec = bs.RevisionSpecification(from_cmd_line=revision.split())
         revspec.checkout()
-    else:
-        bspec.checkout(branch)
 
     revspec = bs.RevisionSpecification()
     print "Building revision: " + revspec.to_cmd_line_param()
