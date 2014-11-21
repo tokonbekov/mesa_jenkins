@@ -101,11 +101,15 @@ class PiglitTester(object):
         pass
 
 class SlowTimeout:
-    def __init__(self):
-        pass
+    def __init__(self, options):
+        self.hardware = options.hardware
 
     def GetDuration(self):
-        return 360
+        if self.hardware == "byt":
+            return 120
+        # all other test suites finish in 10 minutes or less.
+        return 25
+        
 
 _o = bs.Options([sys.argv[0]])
 parser= argparse.ArgumentParser(description="Allows additional parameters for "\
@@ -130,4 +134,4 @@ _o = bs.Options(["bogus"])
 _o.__dict__.update(vdict)
 sys.argv = [sys.argv[0]] + _o.to_string().split()
 
-bs.build(PiglitTester(piglit_test), time_limit=SlowTimeout())
+bs.build(PiglitTester(piglit_test), time_limit=SlowTimeout(_o))
