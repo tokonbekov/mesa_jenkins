@@ -1,6 +1,7 @@
 """Handles running of gtest executables"""
 import os
 import sys
+import subprocess
 
 from . import Options
 from . import ProjectMap
@@ -43,7 +44,10 @@ class GTest:
             cmd = [test_path,
                    "--gtest_output=xml:" + outpath,
                    "--gtest_catch_exceptions"]
-            run_batch_command(cmd)
+            try:
+                run_batch_command(cmd)
+            except(subprocess.CalledProcessError):
+                print "WARN: gtest returned non-zero status"
             
             if not os.path.exists(outpath):
                 print "ERROR: gtest produced no output: " + test_path
