@@ -132,6 +132,11 @@ def main():
 
     repos = bs.RepoSet()
     repos.fetch()
+
+    # get tip, which will be the base_revision unless the user has
+    # specified something
+    bspec = bs.BuildSpecification()
+    bspec.checkout("mesa_master")
     
     base_revision = args.base_revision
     if base_revision:
