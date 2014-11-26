@@ -50,7 +50,7 @@ def main():
                         help="category of tests to run. "\
                         "(default: %(default)s)")
 
-    parser.add_argument('--branch', type=str, default="mesa_master",
+    parser.add_argument('--branch', type=str, default="none",
                         help="Branch specification to build.  "\
                         "See build_specification.xml/branches")
 
@@ -61,7 +61,8 @@ def main():
         # fetch not supported by build.py scripts, which will parse argv
         bs.RepoSet().fetch()
     branch = args.branch
-    bs.BuildSpecification().checkout(branch)
+    if (branch != "none"):
+        bs.BuildSpecification().checkout(branch)
 
     # some build_local params are not handled by the Options, which is
     # used by other modules
