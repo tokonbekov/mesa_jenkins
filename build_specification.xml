@@ -89,7 +89,7 @@
            anything changes -->
       <mesa/>
       <piglit-build/>
-      <waffle branch="janesma/jenkins"/>
+      <waffle/>
       <drm/>
     </branch>
 
@@ -102,65 +102,53 @@
     <branch name="mesa_10.3" project="all-test">
       <mesa branch="origin/10.3"/>
       <piglit-build branch="janesma/stable"/>
-      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="mesa_10.4" project="all-test">
       <mesa branch="origin/10.4"/>
-      <waffle branch="janesma/jenkins"/>
     </branch>
 
 
     <branch name="jekstrand" project="all-test">
       <mesa branch="jekstrand/jenkins"/>
-      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="kwg" project="all-test">
       <mesa branch="kwg/jenkins"/>
-      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="krh" project="all-test">
       <mesa branch="krh/jenkins"/>
-      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="bwidawsk" project="all-test">
       <mesa branch="bwidawsk/jenkins"/>
       <piglit-build branch="bwidawsk/jenkins"/>
-      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="idr" project="all-test">
       <mesa branch="idr/glsl-diet-v4"/>
-      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="mattst88" project="all-test">
       <mesa branch="mattst88/jenkins"/>
-      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="majanes" project="all-test">
-      <waffle branch="janesma/jenkins"/>
       <mesa branch="janesma/jenkins"/>
     </branch>
 
     <branch name="dcbaker" project="all-test">
-      <waffle branch="janesma/jenkins"/>
       <mesa branch="origin/10.3"/>
       <piglit-build branch="dcbaker/jenkins"/>
     </branch>
 
     <branch name="chadv" project="all-test">
-      <waffle branch="janesma/jenkins"/>
       <mesa branch="origin/10.3"/>
       <waffle branch="chadv/jenkins"/>
     </branch>
 
     <branch name="cworth" project="all-test">
-      <waffle branch="janesma/jenkins"/>
       <mesa branch="cworth/jenkins"/>
     </branch>
 
