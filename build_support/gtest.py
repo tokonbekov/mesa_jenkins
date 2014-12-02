@@ -41,6 +41,9 @@ class GTest:
                 rmfile(outpath)
 
             test_path = os.path.join(self._bin_dir, test)
+            if not os.path.exists(test_path):
+                print "ERROR: gtest does not exist: " + test_path
+                sys.exit(-1)
             cmd = [test_path,
                    "--gtest_output=xml:" + outpath,
                    "--gtest_catch_exceptions"]
