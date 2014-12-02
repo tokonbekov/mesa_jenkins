@@ -46,7 +46,6 @@ class PiglitTester(object):
                "-b", "junit",
                "-c",
                "--junit_suffix", "." + o.hardware + o.arch,
-               "--config", hardware_conf,
 
                # hangs snb
                "--exclude-tests", "TRIANGLE_STRIP_ADJACENCY",
@@ -62,6 +61,9 @@ class PiglitTester(object):
                # fails intermittently on g45, fails reliably on all
                # others.  Test introduced Oct 2014
                "--exclude-tests", "vs-float-main-return"]
+
+        if os.path.exists(hardware_conf):
+            cmd = cmd + ["--config", hardware_conf]
 
         if self.piglit_test:
             # only use the last two components of test name, excluding
