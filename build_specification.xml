@@ -30,8 +30,8 @@
          dependency relationships. -->
     <project name="all-test">
       <!-- <prerequisite name="piglit-test" arch="m32,m64" hardware="snb,ivb"/> -->
-      <prerequisite name="piglit-test" arch="m64,m32" hardware="ilk,g45,snbgt1,snbgt2,ivbgt2,g965,bdwgt2"/>
-      <prerequisite only_for_type="daily" name="piglit-test" arch="m64,m32" hardware="byt"/>
+      <prerequisite name="piglit-test" arch="m64,m32" hardware="ilk,g45,snbgt1,snbgt2,ivbgt2,g965"/>
+      <prerequisite only_for_type="daily" name="piglit-test" arch="m64,m32" hardware="byt,bdwgt2"/>
     </project>
 
     <project name="reboot-slaves">
