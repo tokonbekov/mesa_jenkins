@@ -34,7 +34,7 @@ class PiglitTester(object):
             hardware_conf = "ivb"
 
         # all platforms other than g965 have separate 32-bit failures
-        if o.hardware not in ["g965", "g33"]:
+        if o.hardware not in ["g965", "g33", "bdw", "g45", "ilk"]:
             if o.arch == "m32":
                 hardware_conf = hardware_conf + "m32"
         hardware_conf = os.path.dirname(os.path.abspath(sys.argv[0])) + \
