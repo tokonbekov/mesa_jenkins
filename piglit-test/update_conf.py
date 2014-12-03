@@ -41,11 +41,17 @@ for f in xmls:
     for afail in r.findall(".//failure/.."):
         # strip the arch/hw off the end of the name
         name = ".".join(afail.attrib["name"].split(".")[:-1])
-        c.set("expected-failures", afail.attrib["classname"] + "." + name)
+        name = afail.attrib["classname"] + "." + name
+        name = name.replace("=", ".")
+        name = name.replace(":", ".")
+        c.set("expected-failures", name)
 
     for acrash in r.findall(".//error/.."):
         # strip the arch/hw off the end of the name
         name = ".".join(acrash.attrib["name"].split(".")[:-1])
-        c.set("expected-crashes", acrash.attrib["classname"] + "." + name)
+        name = acrash.attrib["classname"] + "." + name
+        name = name.replace("=", ".")
+        name = name.replace(":", ".")
+        c.set("expected-crashes", name)
 
     c.write(open(conf_file, "w"))
