@@ -223,9 +223,11 @@ class PiglitTester(object):
             hardware_conf = "ivb"
         if "bdw" in hardware_conf:
             hardware_conf = "bdw"
+        if "hsw" in hardware_conf:
+            hardware_conf = "hsw"
 
         # all platforms other than g965 have separate 32-bit failures
-        if hardware_conf not in ["g965", "g33", "bdw", "g45", "ilk"]:
+        if hardware_conf not in ["g965", "g33", "bdw", "g45", "ilk", "chv", "hsw"]:
             if o.arch == "m32":
                 hardware_conf = hardware_conf + "m32"
         hardware_conf = pm.source_root() + "/piglit-test" + \
