@@ -4,106 +4,6 @@ import sys, os, argparse
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
 import build_support as bs
 
-class PiglitTester(object):
-    def __init__(self, _piglit_test=None):
-        self.piglit_test = _piglit_test
-
-    def test(self):
-        pm = bs.ProjectMap()
-        br = pm.build_root()
-        o = bs.Options()
-
-        libdir = "x86_64-linux-gnu"
-        if o.arch == "m32":
-            libdir = "i386-linux-gnu"
-            
-        env = { "LD_LIBRARY_PATH" : br + "/lib:" + \
-                br + "/lib/" + libdir + ":" + \
-                br + "/lib/dri:" + \
-                br + "/lib/piglit/lib",
-
-                "LIBGL_DRIVERS_PATH" : br + "/lib/dri",
-                "GBM_DRIVERS_PATH" : br + "/lib/dri"
-        }
-        out_dir = br + "/test/" + o.hardware
-
-        hardware_conf = o.hardware
-        if "snb" in hardware_conf:
-            hardware_conf = "snb"
-        if "ivb" in hardware_conf:
-            hardware_conf = "ivb"
-        if "bdw" in hardware_conf:
-            hardware_conf = "bdw"
-
-        # all platforms other than g965 have separate 32-bit failures
-        if hardware_conf not in ["g965", "g33", "bdw", "g45", "ilk"]:
-            if o.arch == "m32":
-                hardware_conf = hardware_conf + "m32"
-        hardware_conf = os.path.dirname(os.path.abspath(sys.argv[0])) + \
-                        "/" + hardware_conf + ".conf"
-
-        cmd = [br + "/bin/piglit",
-               "run",
-               "-p", "gbm",
-               "-b", "junit",
-               "-c",
-               "--junit_suffix", "." + o.hardware + o.arch,
-
-               # hangs snb
-               "--exclude-tests", "TRIANGLE_STRIP_ADJACENCY",
-               "--exclude-tests", "timestamp-get",
-
-               # intermittently fails snb
-               "--exclude-tests", "glsl-routing",
-
-               # fails intermittently
-               "--exclude-tests", "EXT_timer_query",
-               "--exclude-tests", "ARB_timer_query",
-
-               # fails intermittently on g45, fails reliably on all
-               # others.  Test introduced Oct 2014
-               "--exclude-tests", "vs-float-main-return"]
-
-        if os.path.exists(hardware_conf):
-            cmd = cmd + ["--config", hardware_conf]
-
-        if self.piglit_test:
-            # only use the last two components of test name, excluding
-            # suffix
-            test_name = ".".join(self.piglit_test.split(".")[-3:-1])
-            cmd = cmd + ["--include-tests", test_name]
-            
-        cmd = cmd + ["quick",
-                     out_dir ]
-
-        bs.run_batch_command(cmd, env=env)
-
-        single_out_dir = br + "/../test"
-        if not os.path.exists(single_out_dir):
-            os.makedirs(single_out_dir)
-
-        if os.path.exists(out_dir + "/results.xml"):
-            # uniquely name all test files in one directory, for jenkins
-            os.rename(out_dir + "/results.xml",
-                      single_out_dir + "_".join(["/piglit-test",
-                                                 o.hardware,
-                                                 o.arch]) + ".xml")
-
-        # create a copy of the test xml in the source root, where
-        # jenkins can access it.
-        cmd = ["cp", "-a", "-n",
-               br + "/../test", pm.source_root()]
-        bs.run_batch_command(cmd)
-
-        bs.Export().export()
-
-
-    def build(self):
-        pass
-
-    def clean(self):
-        pass
-
 class SlowTimeout:
     def __init__(self, options):
         self.hardware = options.hardware
@@ -140,4 +40,10 @@ _o = bs.Options(["bogus"])
 _o.__dict__.update(vdict)
 sys.argv = [sys.argv[0]] + _o.to_string().split()
 
-bs.build(PiglitTester(piglit_test), time_limit=SlowTimeout(_o))
+# if we are running a bisect, then the target may be in either the cpu
+# or the gpu suite.  Use the quick suite, which is more comprehensive
+suite = "gpu"
+if piglit_test:
+    suite = "quick"
+
+bs.build(bs.PiglitTester(piglit_test, _suite=suite), time_limit=SlowTimeout(_o))
