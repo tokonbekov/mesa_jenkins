@@ -106,7 +106,6 @@
 
     <branch name="mesa_10.3" project="all-test">
       <mesa branch="origin/10.3"/>
-      <piglit-build branch="janesma/stable"/>
     </branch>
 
     <branch name="mesa_10.4" project="all-test">
