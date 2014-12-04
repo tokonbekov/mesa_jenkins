@@ -26,6 +26,11 @@
       <prerequisite name="mesa" hardware="builder"/>
     </project>
 
+    <project name="piglit-parser-test">
+      <prerequisite name="piglit-build" hardware="builder"/>
+      <prerequisite name="mesa" hardware="builder"/>
+    </project>
+    
     <!-- all-test has no build.py, and exists only to provide
          dependency relationships. -->
     <project name="all-test">

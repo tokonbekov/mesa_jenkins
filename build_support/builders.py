@@ -175,3 +175,123 @@ class CMakeBuilder(object):
             (bin_dir, exe) = os.path.split(match.group(1))
             #bs.GTest(bin_dir, exe, working_dir=bin_dir).run_tests()
     
+class PiglitTester(object):
+    def __init__(self, _piglit_test=None, _suite="quick", device_override=None):
+        self.piglit_test = _piglit_test
+        self.suite = _suite
+        self.device_override = device_override
+
+    def test(self):
+        pm = ProjectMap()
+        br = pm.build_root()
+        o = Options()
+
+        libdir = "x86_64-linux-gnu"
+        if o.arch == "m32":
+            libdir = "i386-linux-gnu"
+            
+        env = { "LD_LIBRARY_PATH" : br + "/lib:" + \
+                br + "/lib/" + libdir + ":" + \
+                br + "/lib/dri:" + \
+                br + "/lib/piglit/lib",
+
+                "LIBGL_DRIVERS_PATH" : br + "/lib/dri",
+                "GBM_DRIVERS_PATH" : br + "/lib/dri"
+        }
+        dev_ids = { "byt" : "0x0F32",
+                    "g45" : "0x2E22",
+                    "g965" : "0x29A2",
+                    "ilk" : "0x0042",
+                    "ivbgt2" : "0x0162",
+                    "snbgt2" : "0x0122",
+                    "hswgt3" : "0x042A",
+                    "bdwgt2" : "0x161E",
+                    "chv" : "0x22B0",
+        }
+        if self.device_override:
+            env["INTEL_DEVID_OVERRIDE"] = dev_ids[self.device_override]
+
+        out_dir = br + "/test/" + o.hardware
+
+        hardware_conf = o.hardware
+        if self.device_override:
+            hardware_conf = self.device_override
+
+        if "snb" in hardware_conf:
+            hardware_conf = "snb"
+        if "ivb" in hardware_conf:
+            hardware_conf = "ivb"
+        if "bdw" in hardware_conf:
+            hardware_conf = "bdw"
+
+        # all platforms other than g965 have separate 32-bit failures
+        if hardware_conf not in ["g965", "g33", "bdw", "g45", "ilk"]:
+            if o.arch == "m32":
+                hardware_conf = hardware_conf + "m32"
+        hardware_conf = pm.source_root() + "/piglit-test" + \
+                        "/" + hardware_conf + ".conf"
+
+        suffix = o.hardware
+        if self.device_override:
+            suffix = self.device_override
+        cmd = [br + "/bin/piglit",
+               "run",
+               "-p", "gbm",
+               "-b", "junit",
+               "-c",
+               "--junit_suffix", "." + suffix + o.arch,
+
+               # hangs snb
+               "--exclude-tests", "TRIANGLE_STRIP_ADJACENCY",
+               "--exclude-tests", "timestamp-get",
+
+               # intermittently fails snb
+               "--exclude-tests", "glsl-routing",
+
+               # fails intermittently
+               "--exclude-tests", "EXT_timer_query",
+               "--exclude-tests", "ARB_timer_query",
+
+               # fails intermittently on g45, fails reliably on all
+               # others.  Test introduced Oct 2014
+               "--exclude-tests", "vs-float-main-return"]
+
+        if os.path.exists(hardware_conf):
+            cmd = cmd + ["--config", hardware_conf]
+
+        if self.piglit_test:
+            # only use the last two components of test name, excluding
+            # suffix
+            test_name = ".".join(self.piglit_test.split(".")[-3:-1])
+            cmd = cmd + ["--include-tests", test_name]
+            
+        cmd = cmd + [self.suite,
+                     out_dir ]
+
+        run_batch_command(cmd, env=env)
+
+        single_out_dir = br + "/../test"
+        if not os.path.exists(single_out_dir):
+            os.makedirs(single_out_dir)
+
+        if os.path.exists(out_dir + "/results.xml"):
+            # uniquely name all test files in one directory, for jenkins
+            os.rename(out_dir + "/results.xml",
+                      single_out_dir + "_".join(["/" + pm.current_project(),
+                                                 suffix,
+                                                 o.arch]) + ".xml")
+
+        # create a copy of the test xml in the source root, where
+        # jenkins can access it.
+        cmd = ["cp", "-a", "-n",
+               br + "/../test", pm.source_root()]
+        run_batch_command(cmd)
+
+        Export().export()
+
+
+    def build(self):
+        pass
+
+    def clean(self):
+        pass
