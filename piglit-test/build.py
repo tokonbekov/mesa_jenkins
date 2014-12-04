@@ -42,11 +42,7 @@ sys.argv = [sys.argv[0]] + _o.to_string().split()
 
 # if we are running a bisect, then the target may be in either the cpu
 # or the gpu suite.  Use the quick suite, which is more comprehensive
-
-# disable gpu/cpu split, since it isn't working
-#suite = "gpu"
-suite = "quick"
-
+suite = "gpu"
 if piglit_test:
     suite = "quick"
 
