@@ -239,7 +239,7 @@ class BuildSpecification:
                 branch = BranchSpecification(abranch, self._reposet)
                 self._branch_specs[branch.name] = branch
             except:
-                print "WARN: couldn't get status for branch: " + branch.attrib["name"]
+                print "WARN: couldn't get status for branch: " + abranch.attrib["name"]
                 pass
 
     def branch_specification(self, branch_name):
