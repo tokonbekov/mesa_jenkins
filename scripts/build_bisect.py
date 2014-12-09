@@ -4,13 +4,6 @@ import xml.etree.ElementTree as ET
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
 import build_support as bs
 
-triggered_builds_str = []
-jen = None
-
-def abort_builds(ignore, _):
-    for an_invoke_str in triggered_builds_str:
-        jen.abort(bs.ProjectInvoke(from_string=an_invoke_str))
-    raise bs.BuildAborted()
 
 def bisect(project, args, commits):
     if not commits:
@@ -55,7 +48,7 @@ def bisect(project, args, commits):
 
     depGraph.build_complete(bi)
     try:
-        jen.build_all(depGraph, triggered_builds_str, "bisect")
+        jen.build_all(depGraph, "bisect")
         print "Starting: " + bi.to_short_string()
         test_name_good_chars = re.sub('[_ !:]', ".", test_name)
         jen.build(bi, branch="mesa_master", extra_arg="--piglit_test=" + test_name_good_chars)
@@ -108,10 +101,6 @@ def bisect(project, args, commits):
     return bisect(project, args, commits[:current_build])
 
 def main():
-    signal.signal(signal.SIGINT, abort_builds)
-    signal.signal(signal.SIGABRT, abort_builds)
-    signal.signal(signal.SIGTERM, abort_builds)
-
     description="searches for revision triggering a specific piglit test failure"
     parser= argparse.ArgumentParser(description=description, 
                                     conflict_handler="resolve")

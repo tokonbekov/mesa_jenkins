@@ -3,6 +3,7 @@ import urllib2
 import ast
 import time
 import sys
+import signal
 
 if __name__=="__main__":
     sys.path.append(os.path.dirname(os.path.abspath(sys.argv[0])))
@@ -10,6 +11,14 @@ if __name__=="__main__":
 from . import ProjectInvoke, DependencyGraph
 from . import ProjectMap
 #from clean_server import CleanServer
+
+triggered_builds_str = []
+
+def abort_builds(ignore, _):
+    jen = Jenkins(None, None)
+    for an_invoke_str in triggered_builds_str:
+        jen.abort(ProjectInvoke(from_string=an_invoke_str))
+    raise BuildAborted()
 
 class AlreadyBuilt(Exception):
     def __init__(self, invoke):
@@ -29,10 +38,11 @@ class BuildInProgress(Exception):
             "rebuild: " + self.invoke.info_file()
 
 class BuildFailure(Exception):
-    def __init__(self, invoke, url):
+    def __init__(self, invoke, url, triggered_builds):
         Exception.__init__(self)
         self.invoke = invoke
         self.url = url
+        self.triggered_builds = triggered_builds
 
     def __str__(self):
         return "Error: build failure: " + str(self.invoke) + "\nError: " + \
@@ -231,7 +241,7 @@ class Jenkins:
                                        abuild_page["url"], 
                                        abuild_page["result"].lower())
                 self._jobs.pop(i)
-                raise BuildFailure(a_job, abuild_page["url"])
+                raise BuildFailure(a_job, abuild_page["url"], triggered_builds_str)
 
     def get_matching_build(self, project_invoke):
         f = None
@@ -301,7 +311,11 @@ class Jenkins:
                 return None
             time.sleep(1)
 
-    def build_all(self, depGraph, triggered_builds_str, branch="mesa_master"):
+    def build_all(self, depGraph, branch="mesa_master"):
+        signal.signal(signal.SIGINT, abort_builds)
+        signal.signal(signal.SIGABRT, abort_builds)
+        signal.signal(signal.SIGTERM, abort_builds)
+
         ready_for_build = depGraph.ready_builds()
         assert(ready_for_build)
         build_type = ready_for_build[0].options.type
@@ -368,10 +382,10 @@ class Jenkins:
                         self.abort(pi)
                         failure_builds.append(pi)
                     #CleanServer(o).clean()
-                    # write_summary(pm.source_root(), 
-                    #                  failure_builds + completed_builds, 
-                    #                  self, 
-                    #                  failure=True)
+                    write_summary(pm.source_root(), 
+                                     failure_builds + completed_builds, 
+                                     self, 
+                                     failure=True)
                     raise
 
                 # else for release/daily builds, continue waiting for the
@@ -395,13 +409,13 @@ class Jenkins:
 
                 #stub_test_results(out_test_dir, o.hardware)
                 # CleanServer(o).clean()
-                # write_summary(pm.source_root(), 
-                #                  failure_builds + completed_builds, 
-                #                  self)
+                write_summary(pm.source_root(), 
+                              failure_builds + completed_builds, 
+                              self)
                 if failure_builds:
                     raise BuildFailure(failure_builds[0], "")
 
-                return
+                return triggered_builds_str
 
             ready_for_build = depGraph.ready_builds()
 
@@ -409,6 +423,8 @@ class Jenkins:
             ready_for_build = [j for j in ready_for_build 
                                if str(j) not in triggered_builds_str]
 
+        return triggered_builds_str
+        
 def generate_color_key(ljen):
     out_key = r'<field name="Key" titlecolor="black" value="" ' \
               r'detailcolor="" href="" /><table><tr>'
@@ -495,6 +511,12 @@ def refresh_status(build):
     build.set_info("status",  build_page["result"].lower())
 
 def write_summary(out_dir, completed_builds, ljen, failure=False):
+    if completed_builds and type(completed_builds[0]) == type(""):
+        # we have been passed a list of invoke strings instead of
+        # objects.  Convert them
+        invoke_builds = [ProjectInvoke(from_string=buildstr) for buildstr in completed_builds]
+        completed_builds = invoke_builds
+
     build_status = 'success'
     if failure:
         build_status = 'failure'
