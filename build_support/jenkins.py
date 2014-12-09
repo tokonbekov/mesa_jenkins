@@ -10,7 +10,7 @@ if __name__=="__main__":
 
 from . import ProjectInvoke, DependencyGraph
 from . import ProjectMap
-#from clean_server import CleanServer
+from . import RepoSet
 
 triggered_builds_str = []
 
@@ -516,6 +516,12 @@ def write_summary(out_dir, completed_builds, ljen, failure=False):
         # objects.  Convert them
         invoke_builds = [ProjectInvoke(from_string=buildstr) for buildstr in completed_builds]
         completed_builds = invoke_builds
+    repo_set = RepoSet()
+
+    git_log = {}
+    for project in ljen._revspec._revisions:
+        message = repo_set.repo(project).commit().message.splitlines()[0]
+        git_log[project] = message
 
     build_status = 'success'
     if failure:
@@ -523,7 +529,22 @@ def write_summary(out_dir, completed_builds, ljen, failure=False):
     outf = open(os.path.join(out_dir, "summary.xml"), "w")
     outf.write("""\
 <section name="" fontcolor="">
-    <field name="Git revisions" value='""" + ljen._revspec.to_cmd_line_param() + """'/>
+    <field name="Git revisions"/>
+    <table>
+        <tr>
+            <td value="project" bgcolor="#C6E2FF" fontcolor="black" fontattribute="bold" align="center"  width="200"/>
+            <td value="commit" bgcolor="#C6E2FF" fontcolor="black" fontattribute="bold" align="center"  width="200"/>
+            <td value="description" bgcolor="#C6E2FF" fontcolor="black" fontattribute="bold" align="center"  width="200"/>
+        </tr>""")
+    for (project, rev) in ljen._revspec._revisions.items():
+        outf.write("""\
+        <tr>
+            <td value="{project}" bgcolor="#66FF33" fontcolor="black" fontattribute="normal" align="center" width="200"/>
+            <td value="{revision}" bgcolor="#66FF33" fontcolor="black" fontattribute="normal" align="center"  width="200"/>
+            <td value="{log}" bgcolor="#66FF33" fontcolor="black" fontattribute="normal" align="center"  width="200"/>
+        </tr>""".format(project=project, revision=rev, log=git_log[project]))
+    outf.write("""\
+    </table>
     <field name="Build """ + build_status + '" titlecolor="'+ ljen.status_colors.get(build_status) + """" value="" detailcolor="" href="" />
     <table sorttable="yes">""")
     outf.write(generate_summary_row(None, ljen, header=True))
