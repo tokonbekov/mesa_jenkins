@@ -29,7 +29,8 @@ apt-get install -y --force-yes \
 	freeglut3 freeglut3:i386 \
 	gcc-4.9-base gcc-4.9-base:i386 \
 	libc6 libc6:i386 \
-	libc6-dev libc6-dev:i386\
+	libc6-dev libc6-dev:i386 \
+    libcaca0 libcaca0:i386 \
 	libegl1-mesa libegl1-mesa:i386 \
 	libegl1-mesa-dev \
 	libelf-dev libelf-dev:i386 \
