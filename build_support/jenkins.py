@@ -4,6 +4,7 @@ import ast
 import time
 import sys
 import signal
+import xml.sax.saxutils
 
 if __name__=="__main__":
     sys.path.append(os.path.dirname(os.path.abspath(sys.argv[0])))
@@ -521,7 +522,8 @@ def write_summary(out_dir, completed_builds, ljen, failure=False):
     git_log = {}
     for project in ljen._revspec._revisions:
         message = repo_set.repo(project).commit().message.splitlines()[0]
-        git_log[project] = message
+        # allow for special chars in message.
+        git_log[project] = xml.sax.saxutils.quoteattr(message) 
 
     build_status = 'success'
     if failure:
