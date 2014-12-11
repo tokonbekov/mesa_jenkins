@@ -543,7 +543,7 @@ def write_summary(out_dir, completed_builds, ljen, failure=False):
         <tr>
             <td value="{project}" bgcolor="#66FF33" fontcolor="black" fontattribute="normal" align="center" width="200"/>
             <td value="{revision}" bgcolor="#66FF33" fontcolor="black" fontattribute="normal" align="center"  width="200"/>
-            <td value="{log}" bgcolor="#66FF33" fontcolor="black" fontattribute="normal" align="center"  width="200"/>
+            <td value={log} bgcolor="#66FF33" fontcolor="black" fontattribute="normal" align="center"  width="200"/>
         </tr>""".format(project=project, revision=rev, log=git_log[project]))
     outf.write("""\
     </table>
