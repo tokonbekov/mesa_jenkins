@@ -25,6 +25,7 @@ apt-get install -y --force-yes systemd-sysv
 # install additional packages. Many of these are i386 dev packages that cannot
 # be co-installed with the amd64 versions in debian stale but can on sid
 apt-get install -y --force-yes \
+	avahi-daaemon \
 	libdrm2 libdrm2:i386 \
 	freeglut3 freeglut3:i386 \
 	gcc-4.9-base gcc-4.9-base:i386 \
