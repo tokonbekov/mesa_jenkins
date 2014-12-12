@@ -12,10 +12,14 @@ deb-src http://linux-ftp.jf.intel.com/pub/mirrors/debian/ sid main
 EOF
 
 apt-get update -y
-DEBIAN_FRONTEND=noninteractive \
-APT_LISTCHANGES_FRONTEND=mail \
-	apt-get -o Dpkg::Options::="--force-confdef" \
-	--force-yes -fuy dist-upgrade
+# Do a dist-upgrade. for some reason this doesn't complete so force it to
+# do a dist-upgrade multiple times
+for _ in `seq 3`; do
+	DEBIAN_FRONTEND=noninteractive \
+	APT_LISTCHANGES_FRONTEND=mail \
+		apt-get -o Dpkg::Options::="--force-confdef" \
+		--force-yes -fuy dist-upgrade
+done
 
 # systemd-sysv requires '--force-yes' to be installed without supervision, it
 # cannot be isntalled in package select. It also must be installed after the sid
