@@ -117,10 +117,16 @@ server_type = 5
 server_port = 1080
 EOF
 
-# Symlink some i386 dev packages.
+# Symlink some i386 dev packages if the file doesn't already exist
 # This works around debian bugs
 for x in libEGL libGLU libgbm libGL libwayland-client libwayland-egl; do
-	ln -s "/usr/lib/i386-linux-gnu/${x}.so.1" "/usr/lib/i386-linux-gnu/${x}.so"
+	if [ ! -a /usr/lib/i386-linux-gnu/${x}.so ]; then
+		if [ -a /usr/lib/i386-linux-gnu/${x}.so.1 ]; then
+			ln -s "/usr/lib/i386-linux-gnu/${x}.so.1" "/usr/lib/i386-linux-gnu/${x}.so"
+		elif [ -a /usr/lib/i386-linux-gnu/${x}.so.0 ]; then
+			ln -s "/usr/lib/i386-linux-gnu/${x}.so.0" "/usr/lib/i386-linux-gnu/${x}.so"
+		fi
+	fi
 done
 
 # Modify the ntp server to use the local mirror, not the debian mirrors
