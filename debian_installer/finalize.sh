@@ -133,13 +133,14 @@ done
 sed -i -e 's!^server!#server!g' /etc/ntp.conf
 sed -i -e 's!#server ntp.your-provider.example!server amr.corp.intel.com!g' /etc/ntp.conf
 
-# use ntp to set the clock, force it to sync regardless
+# use ntp to set the clock, force it to set the time
 systemctl stop ntp
 ntpd -gq
 
 # Configure the cache size for the jenkins user
 su jenkins -c 'ccache -M 10G'
 
+# Allow jenkins to reboot the machine
 echo -e "jenkins\tALL=(ALL:ALL) /sbin/reboot, NOPASSWD: /sbin/reboot\n" >> /etc/sudoers
 
 # fix logind to not turn off the display when the lid is closed
