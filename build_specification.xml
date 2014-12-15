@@ -65,6 +65,7 @@
       <remote name="mattst88" repo="git://people.freedesktop.org/~mattst88/mesa"/>
       <remote name="janesma" repo="git://github.com/janesma/mesa"/>
       <remote name="jljusten" repo="git://people.freedesktop.org/~jljusten/mesa"/>
+      <remote name="ldeks" repo="git://people.freedesktop.org/~ldeks/mesa"/>
     </mesa>
 
     <drm repo="git://anongit.freedesktop.org/mesa/drm"/>
@@ -76,6 +77,7 @@
       <remote name="dcbaker" repo="git://github.com/dcbaker/piglit"/>
       <remote name="janesma" repo="git://github.com/janesma/piglit"/>
       <remote name="bwidawsk" repo="git://people.freedesktop.org/~bwidawsk/piglit"/>
+      <remote name="ldeks" repo="git://people.freedesktop.org/~ldeks/piglit"/>
     </piglit-build>
 
     <waffle repo="git://github.com/waffle-gl/waffle">
@@ -164,6 +166,11 @@
 
     <branch name="jljusten" project="all-test">
       <mesa branch="jljusten/jenkins"/>
+    </branch>
+
+    <branch name="ldeks" project="all-test">
+      <mesa branch="ldeks/jenkins"/>
+      <piglit-build branch="ldeks/jenkins"/>
     </branch>
 
   </branches>
