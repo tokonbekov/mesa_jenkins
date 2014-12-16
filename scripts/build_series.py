@@ -6,6 +6,10 @@ import sys
 import urllib
 import urllib2
 import time
+import os
+
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
+import build_support as bs
 
 parser = argparse.ArgumentParser(description="builds a sequence of commits on jenkins")
 
@@ -15,8 +19,9 @@ parser.add_argument('--start_rev', type=str, default='',
 parser.add_argument('--end_rev', type=str, default='',
                     help="The sha ending the sequence to be tested")
 
-parser.add_argument('--repo', type=str, default='.',
-                    help="The mesa repository to use for calculating the revision sequence")
+parser.add_argument('--project', type=str, default='all-test',
+                    choices=['all-test', 'piglit-build'],
+                    help="The jenkins project to build")
 
 parser.add_argument('--series_name', type=str, default='',
                     help="The name to apply to each custom build")
@@ -27,11 +32,27 @@ if not args.series_name:
     print "ERROR: --series_name required"
     sys.exit(-1)
 
-try:
-    repo = git.Repo(args.repo)
-except:
-    print "ERROR: mesa repository not found.  Please provide --repo"
-    sys.exit(-1)
+repos = bs.RepoSet()
+repos.fetch()
+
+found = False
+
+for project in ["mesa", "piglit-build", "waffle", "drm"]:
+    try:
+        revspec = bs.RevisionSpecification(from_cmd_line=[project + "=" + args.start_rev])
+        revspec.checkout()
+    except:
+        print args.start_rev + " not found in " + project
+        continue
+
+    print args.start_rev + " found in " + project
+    found = True
+    break
+
+if not found:
+    sys.exit(-1)    
+
+repo = repos.repo(project)
 
 try:
     repo.git.checkout(args.end_rev)
@@ -46,15 +67,16 @@ for commit in repo.iter_commits(max_count=1000):
         break
 
 if args.start_rev not in commits[-1].hexsha:
-    print "ERROR: could not find start_rev: " + args.start_rev + ". Please provide --start_rev"
+    print "ERROR: could not find start_rev in history: " + args.start_rev + ". Please provide --start_rev"
 
 print "building series:"
 for commit in commits:
     print commit.hexsha
 
     custom_url = "http://otc-gfxtest-01.jf.intel.com/job/mesa_custom/buildWithParameters?token=xyzzy&{0}"
-    job_args = { "name" : args.series_name,
-                 "revision" : "mesa=" + commit.hexsha }
+    job_args = { "name" : args.series_name + "_" + commit.hexsha[:8],
+                 "revision" : "mesa=" + commit.hexsha,
+                 "project" : args.project }
     url = custom_url.format(urllib.urlencode(job_args))
 
     failcount = 0
