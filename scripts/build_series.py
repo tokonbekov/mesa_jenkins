@@ -69,6 +69,7 @@ for commit in repo.iter_commits(max_count=1000):
 if args.start_rev not in commits[-1].hexsha:
     print "ERROR: could not find start_rev in history: " + args.start_rev + ". Please provide --start_rev"
 
+commits.reverse()
 print "building series:"
 for commit in commits:
     print commit.hexsha
