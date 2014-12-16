@@ -12,10 +12,14 @@ deb-src http://linux-ftp.jf.intel.com/pub/mirrors/debian/ sid main
 EOF
 
 apt-get update -y
-DEBIAN_FRONTEND=noninteractive \
-APT_LISTCHANGES_FRONTEND=mail \
-	apt-get -o Dpkg::Options::="--force-confdef" \
-	--force-yes -fuy dist-upgrade
+# Do a dist-upgrade. for some reason this doesn't complete so force it to
+# do a dist-upgrade multiple times
+for _ in `seq 3`; do
+	DEBIAN_FRONTEND=noninteractive \
+	APT_LISTCHANGES_FRONTEND=mail \
+		apt-get -o Dpkg::Options::="--force-confdef" \
+		--force-yes -fuy dist-upgrade
+done
 
 # systemd-sysv requires '--force-yes' to be installed without supervision, it
 # cannot be isntalled in package select. It also must be installed after the sid
@@ -25,6 +29,7 @@ apt-get install -y --force-yes systemd-sysv
 # install additional packages. Many of these are i386 dev packages that cannot
 # be co-installed with the amd64 versions in debian stale but can on sid
 apt-get install -y --force-yes \
+	avahi-daemon \
 	libdrm2 libdrm2:i386 \
 	freeglut3 freeglut3:i386 \
 	gcc-4.9-base gcc-4.9-base:i386 \
@@ -77,6 +82,9 @@ apt-get install -y --force-yes \
 	x11proto-gl-dev \
 	x11proto-present-dev \
 
+# Remove any unused applications and libs
+apt-get autoremove -y --force-yes
+
 # Disable the pc-spkr module
 echo 'blacklist pcspkr' > /etc/modprobe.d/pcspkr.conf
 
@@ -112,21 +120,31 @@ server_type = 5
 server_port = 1080
 EOF
 
-# Symlink some i386 dev packages.
+# Symlink some i386 dev packages if the file doesn't already exist
 # This works around debian bugs
 for x in libEGL libGLU libgbm libGL libwayland-client libwayland-egl; do
-	ln -s "/usr/lib/i386-linux-gnu/${x}.so.1" "/usr/lib/i386-linux-gnu/${x}.so"
+	if [ ! -a /usr/lib/i386-linux-gnu/${x}.so ]; then
+		if [ -a /usr/lib/i386-linux-gnu/${x}.so.1 ]; then
+			ln -s "/usr/lib/i386-linux-gnu/${x}.so.1" "/usr/lib/i386-linux-gnu/${x}.so"
+		elif [ -a /usr/lib/i386-linux-gnu/${x}.so.0 ]; then
+			ln -s "/usr/lib/i386-linux-gnu/${x}.so.0" "/usr/lib/i386-linux-gnu/${x}.so"
+		fi
+	fi
 done
 
 # Modify the ntp server to use the local mirror, not the debian mirrors
 sed -i -e 's!^server!#server!g' /etc/ntp.conf
 sed -i -e 's!#server ntp.your-provider.example!server amr.corp.intel.com!g' /etc/ntp.conf
 
-# use ntp to set the clock, force it to sync regardless
+# use ntp to set the clock, force it to set the time
 systemctl stop ntp
 ntpd -gq
 
 # Configure the cache size for the jenkins user
 su jenkins -c 'ccache -M 10G'
 
+# Allow jenkins to reboot the machine
 echo -e "jenkins\tALL=(ALL:ALL) /sbin/reboot, NOPASSWD: /sbin/reboot\n" >> /etc/sudoers
+
+# fix logind to not turn off the display when the lid is closed
+sed -i -e 's!^#HandleLidSwitch=.*!HandleLidSwitch=ignore!g' /etc/systemd/logind.conf
