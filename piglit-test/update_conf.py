@@ -39,12 +39,19 @@ for f in xmls:
     c.read(conf_file)
     
     for afail in r.findall(".//failure/.."):
+        
         # strip the arch/hw off the end of the name
         name = ".".join(afail.attrib["name"].split(".")[:-1])
         name = afail.attrib["classname"] + "." + name
         name = name.replace("=", ".")
         name = name.replace(":", ".")
-        c.set("expected-failures", name)
+
+        failnode = afail.find("./failure")
+        if failnode.attrib["type"] == "fail":
+            c.set("expected-failures", name)
+            continue
+        assert(failnode.attrib["type"] == "pass")
+        c.remove_option("expected-failures", name)
 
     for acrash in r.findall(".//error/.."):
         # strip the arch/hw off the end of the name
