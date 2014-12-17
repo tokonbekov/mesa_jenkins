@@ -1,4 +1,5 @@
 import os, multiprocessing, re, subprocess
+import xml.etree.ElementTree as ET
 from . import Options
 from . import ProjectMap
 from . import run_batch_command
@@ -277,11 +278,14 @@ class PiglitTester(object):
             os.makedirs(single_out_dir)
 
         if os.path.exists(out_dir + "/results.xml"):
-            # uniquely name all test files in one directory, for jenkins
-            os.rename(out_dir + "/results.xml",
-                      single_out_dir + "_".join(["/" + pm.current_project(),
-                                                 suffix,
-                                                 o.arch]) + ".xml")
+            # remove skipped tests, which uses ram on jenkins when
+            # displaying and provides no value.  Also, uniquely name
+            # all test files in one directory, for jenkins
+            print "INFO: filtering tests from " + out_dir + "/results.xml"
+            self.filter_skipped_tests(out_dir + "/results.xml",
+                                      single_out_dir + "_".join(["/" + pm.current_project(),
+                                                                 suffix,
+                                                                 o.arch]) + ".xml")
 
         # create a copy of the test xml in the source root, where
         # jenkins can access it.
@@ -291,6 +295,13 @@ class PiglitTester(object):
 
         Export().export()
 
+    def filter_skipped_tests(self, infile, outfile):
+        t = ET.parse(infile)
+        for a_suite in t.findall("testsuite"):
+            for a_skip in a_suite.findall("testcase/skipped/.."):
+                a_suite.remove(a_skip)
+
+        t.write(outfile)
 
     def build(self):
         pass
