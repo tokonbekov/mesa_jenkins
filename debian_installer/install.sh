@@ -71,4 +71,5 @@ apt-get install \
 	docbook-website \
 	avahi-daemon \
 	sudo \
-    libtxc-dxtn-s2tc0
+    libtxc-dxtn-s2tc0 \
+    valgrind

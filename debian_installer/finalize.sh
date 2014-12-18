@@ -81,6 +81,7 @@ apt-get install -y --force-yes \
 	x11proto-dri3-dev \
 	x11proto-gl-dev \
 	x11proto-present-dev \
+    valgrind \
 
 # Remove any unused applications and libs
 apt-get autoremove -y --force-yes
