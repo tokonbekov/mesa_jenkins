@@ -1,4 +1,5 @@
 import os
+import urllib
 import urllib2
 import ast
 import time
@@ -17,6 +18,7 @@ triggered_builds_str = []
 
 def abort_builds(ignore, _):
     jen = Jenkins(None, None)
+    print "Aborting builds"
     for an_invoke_str in triggered_builds_str:
         jen.abort(ProjectInvoke(from_string=an_invoke_str))
     raise BuildAborted()
@@ -134,10 +136,11 @@ class Jenkins:
         build_link = self.get_build_link(project_invoke, block=False)
         if not build_link:
             return False
-        build_link += "stop"
+        data = urllib.urlencode({'token': 'xyzzy'})
+        build_link = build_link + "stop/"
 
         try:
-            f = self._reliable_url_open(build_link)
+            f = urllib2.urlopen(build_link, data=data)
             f.read()
         except (urllib2.HTTPError, urllib2.URLError):
             # stopping build on abort typically fails for at least one build
