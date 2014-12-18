@@ -327,6 +327,9 @@ class Jenkins:
         failure_builds = []
         success = True
         pm = ProjectMap()
+        summary_xml = pm.source_root() + "/summary.xml"
+        if os.path.exists(summary_xml):
+            os.remove(summary_xml)
 
         while success:
             self.print_builds()
