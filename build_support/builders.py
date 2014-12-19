@@ -21,6 +21,13 @@ def get_package_config_path():
                       "/usr/lib/pkgconfig"
     return pkg_config_path
 
+def delete_src_pyc(path):
+    for dirpath, _, filenames in os.walk(path):
+        for each_file in filenames:
+            if each_file.endswith('.pyc'):
+                if os.path.exists(os.path.join(dirpath, each_file)):
+                    os.remove(os.path.join(dirpath, each_file))
+
 class AutoBuilder(object):
 
     def __init__(self, o=None, configure_options=None):
@@ -107,6 +114,8 @@ class AutoBuilder(object):
         if os.path.exists(self._build_dir):
             rmtree(self._build_dir)
 
+        delete_src_pyc(self._src_dir)
+
 
 class CMakeBuilder(object):
     def __init__(self, extra_definitions=None):
@@ -157,6 +166,8 @@ class CMakeBuilder(object):
         if os.path.exists(self._build_dir):
             rmtree(self._build_dir)
 
+        delete_src_pyc(self._src_dir)
+        
     def test(self):
         savedir = os.getcwd()
         os.chdir(self._build_dir)
