@@ -52,6 +52,7 @@ for f in xmls:
             continue
         assert(failnode.attrib["type"] == "pass")
         c.remove_option("expected-failures", name)
+        c.remove_option("expected-crashes", name)
 
     for acrash in r.findall(".//error/.."):
         # strip the arch/hw off the end of the name
