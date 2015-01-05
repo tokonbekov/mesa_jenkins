@@ -273,6 +273,10 @@ class PiglitTester(object):
         if os.path.exists(hardware_conf):
             cmd = cmd + ["--config", hardware_conf]
 
+        if "hsw" in o.hardware:
+            # intermittent on haswell
+            cmd = cmd + ["--exclude-tests", "ARB_uniform_buffer_object.bufferstorage"]
+
         if self.piglit_test:
             # only use the last two components of test name, excluding
             # suffix
