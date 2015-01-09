@@ -550,7 +550,7 @@ def write_summary(out_dir, completed_builds, ljen, failure=False):
             <td value="{project}" bgcolor="#66FF33" fontcolor="black" fontattribute="normal" align="center" width="200"/>
             <td value="{revision}" bgcolor="#66FF33" fontcolor="black" fontattribute="normal" align="center"  width="200"/>
             <td value={log} bgcolor="#66FF33" fontcolor="black" fontattribute="normal" align="center"  width="200"/>
-        </tr>""".format(project=project, revision=rev, log=git_log[project]))
+        </tr>""".format(project=project, revision=rev, log=git_log[project].encode('utf-8')))
     outf.write("""\
     </table>
     <field name="Build """ + build_status + '" titlecolor="'+ ljen.status_colors.get(build_status) + """" value="" detailcolor="" href="" />
