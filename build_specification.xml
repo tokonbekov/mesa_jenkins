@@ -39,13 +39,13 @@
     </project>
 
     <project name="test-single-arch">
-      <prerequisite name="piglit-test" hardware="ilk,g45,snbgt1,snbgt2,ivbgt2,ivbgt1"/>
+      <prerequisite name="piglit-test" hardware="ilk,g45,snbgt1,snbgt2,ivbgt2,ivbgt1,hswgt2"/>
       <prerequisite only_for_type="daily" name="piglit-test" hardware="byt,g965,bdwgt2,hswgt1"/>
       <prerequisite name="piglit-cpu-test" hardware="builder"/>
     </project>
 
     <project name="reboot-slaves">
-      <prerequisite name="reboot-slave" hardware="g45-01,g965-01,ilk-01,ilk-02,ilk-03,ivbgt2-01,ivbgt2-02,snbgt1-01,snbgt1-02,snbgt2-01,snbgt2-02,bdwgt2-01,bdwgt2-02,hswgt1-01,hswgt1-02,ivbgt1-01,ivbgt1-02"/>
+      <prerequisite name="reboot-slave" hardware="g45-01,g965-01,ilk-01,ilk-02,ilk-03,ivbgt2-01,ivbgt2-02,snbgt1-01,snbgt1-02,snbgt2-01,snbgt2-02,bdwgt2-01,bdwgt2-02,hswgt1-01,hswgt1-02,ivbgt1-01,ivbgt1-02,hswgt2-01,hswgt2-02"/>
     </project>
 
     <project name="reboot-slave"/>
