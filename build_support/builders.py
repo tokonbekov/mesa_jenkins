@@ -277,6 +277,11 @@ class PiglitTester(object):
             # intermittent on haswell
             cmd = cmd + ["--exclude-tests", "ARB_uniform_buffer_object.bufferstorage"]
 
+        if "g965" in o.hardware:
+            # intermittent GPU hang on g965
+            cmd = cmd + ["--exclude-tests",
+                         "ARB_shader_texture_lod.execution.tex-miplevel-selection"]
+
         if self.piglit_test:
             # only use the last two components of test name, excluding
             # suffix
