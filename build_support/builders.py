@@ -208,7 +208,11 @@ class PiglitTester(object):
                 br + "/lib/piglit/lib",
 
                 "LIBGL_DRIVERS_PATH" : br + "/lib/dri",
-                "GBM_DRIVERS_PATH" : br + "/lib/dri"
+                "GBM_DRIVERS_PATH" : br + "/lib/dri",
+                # fixes dxt subimage tests that fail due to a
+                # combination of unreasonable tolerances and possibly
+                # bugs in debian's s2tc library.  Recommended by nroberts
+                "S2TC_DITHER_MODE" : "NONE"
         }
         dev_ids = { "byt" : "0x0F32",
                     "g45" : "0x2E22",
