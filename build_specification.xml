@@ -56,6 +56,8 @@
     </project>
 
     <project name="reboot-slave"/>
+
+    <project name="scons-buildtest"/>
     
   </projects>
 
