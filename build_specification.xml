@@ -26,7 +26,7 @@
       <prerequisite name="mesa" hardware="builder"/>
     </project>
 
-    <project name="nir-test">
+    <project name="piglit-nir-test">
       <prerequisite name="piglit-build" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
     </project>
@@ -47,6 +47,8 @@
       <prerequisite name="piglit-test" hardware="ilk,g45,snbgt1,snbgt2,ivbgt2,ivbgt1,hswgt2,hswgt3e"/>
       <prerequisite only_for_type="daily" name="piglit-test" hardware="byt,g965,bdwgt2,hswgt1"/>
       <prerequisite name="piglit-cpu-test" hardware="builder"/>
+      <!-- any haswell will suffice for nir test -->
+      <prerequisite name="piglit-nir-test" hardware="hsw"/>
     </project>
 
     <project name="reboot-slaves">
