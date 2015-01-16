@@ -256,6 +256,8 @@ class PiglitTester(object):
         suffix = o.hardware
         if self.device_override:
             suffix = self.device_override
+        if self.nir:
+            suffix = "nir_" + suffix
         cmd = [br + "/bin/piglit",
                "run",
                "-p", "gbm",
