@@ -41,6 +41,7 @@
     <project name="all-test">
       <!-- <prerequisite name="piglit-test" arch="m32,m64" hardware="snb,ivb"/> -->
       <prerequisite name="test-single-arch" arch="m64,m32"/>
+      <prerequisite name="scons-buildtest" hardware="builder"/>
     </project>
 
     <project name="test-single-arch">

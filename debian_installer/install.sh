@@ -72,4 +72,7 @@ apt-get install \
 	avahi-daemon \
 	sudo \
     libtxc-dxtn-s2tc0 \
-    valgrind
+    valgrind \
+    libedit-dev \
+    libreadline-dev \
+    zlib1g-dev
