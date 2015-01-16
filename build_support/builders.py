@@ -188,10 +188,11 @@ class CMakeBuilder(object):
             #bs.GTest(bin_dir, exe, working_dir=bin_dir).run_tests()
     
 class PiglitTester(object):
-    def __init__(self, _piglit_test=None, _suite="quick", device_override=None):
+    def __init__(self, _piglit_test=None, _suite="quick", device_override=None, nir=False):
         self.piglit_test = _piglit_test
         self.suite = _suite
         self.device_override = device_override
+        self.nir = nir
 
     def test(self):
         pm = ProjectMap()
@@ -214,6 +215,9 @@ class PiglitTester(object):
                 # bugs in debian's s2tc library.  Recommended by nroberts
                 "S2TC_DITHER_MODE" : "NONE"
         }
+        if self.nir:
+            env["INTEL_USE_NIR"] = "1"
+
         dev_ids = { "byt" : "0x0F32",
                     "g45" : "0x2E22",
                     "g965" : "0x29A2",

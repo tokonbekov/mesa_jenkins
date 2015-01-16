@@ -26,6 +26,11 @@
       <prerequisite name="mesa" hardware="builder"/>
     </project>
 
+    <project name="nir-test">
+      <prerequisite name="piglit-build" hardware="builder"/>
+      <prerequisite name="mesa" hardware="builder"/>
+    </project>
+
     <project name="piglit-cpu-test">
       <prerequisite name="piglit-build" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
