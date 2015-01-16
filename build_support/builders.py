@@ -54,15 +54,21 @@ class AutoBuilder(object):
         if not os.path.exists(self._build_dir):
             os.makedirs(self._build_dir)
 
+        optflags = ""
+        if self._options.config != "debug":
+            optflags = " -O2 -DNDEBUG"
+            
         savedir = os.getcwd()
         os.chdir(self._build_dir)
         flags = []
         if self._options.arch == "m32":
-            flags = ["CFLAGS=-m32", "CXXFLAGS=-m32", 
+            flags = ["CFLAGS=-m32" + optflags,
+                     "CXXFLAGS=-m32" + optflags, 
                      "--enable-32-bit",
                      "--host=i686-pc-linux-gnu"]
         else:
-            flags = ["CFLAGS=-m64", "CXXFLAGS=-m64"]
+            flags = ["CFLAGS=-m64" + optflags,
+                     "CXXFLAGS=-m64" + optflags]
 
         run_batch_command(["../autogen.sh", 
                            "PKG_CONFIG_PATH=" + get_package_config_path(), 
