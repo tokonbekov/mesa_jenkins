@@ -12,12 +12,8 @@ class SconsBuilder(object):
         self.src_dir = bs.ProjectMap().source_root() + "/repos/mesa"
 
     def clean(self):
-        save_dir = os.getcwd()
-        os.chdir(self.src_dir)
-        bs.run_batch_command(["scons", "-c"])
-        bs.rmtree("build")
-        os.chdir(save_dir)
-
+        pass
+    
     def test(self):
         pass
 
@@ -26,6 +22,8 @@ class SconsBuilder(object):
         os.chdir(self.src_dir)
         bs.run_batch_command(["scons", "-j",
                               str(multiprocessing.cpu_count() + 1)])
+        bs.run_batch_command(["scons", "-c"])
+        bs.rmtree("build")
         os.chdir(save_dir)
         
 def main():
