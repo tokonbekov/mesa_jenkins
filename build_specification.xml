@@ -124,23 +124,28 @@
 
     <branch name="mesa_10.3" project="all-test">
       <mesa branch="origin/10.3"/>
+      <piglit-build branch="janesma/jenkins"/>
     </branch>
 
     <branch name="mesa_10.4" project="all-test">
       <mesa branch="origin/10.4"/>
+      <piglit-build branch="janesma/jenkins"/>
     </branch>
 
 
     <branch name="jekstrand" project="all-test">
       <mesa branch="jekstrand/jenkins"/>
+      <piglit-build branch="janesma/jenkins"/>
     </branch>
 
     <branch name="kwg" project="all-test">
       <mesa branch="kwg/jenkins"/>
+      <piglit-build branch="janesma/jenkins"/>
     </branch>
 
     <branch name="krh" project="all-test">
       <mesa branch="krh/jenkins"/>
+      <piglit-build branch="janesma/jenkins"/>
     </branch>
 
     <branch name="bwidawsk" project="all-test">
@@ -150,14 +155,17 @@
 
     <branch name="idr" project="all-test">
       <mesa branch="idr/glsl-diet-v4"/>
+      <piglit-build branch="janesma/jenkins"/>
     </branch>
 
     <branch name="mattst88" project="all-test">
       <mesa branch="mattst88/jenkins"/>
+      <piglit-build branch="janesma/jenkins"/>
     </branch>
 
     <branch name="majanes" project="all-test">
       <mesa branch="janesma/jenkins"/>
+      <piglit-build branch="janesma/jenkins"/>
     </branch>
 
     <branch name="dcbaker" project="all-test">
@@ -167,14 +175,17 @@
     <branch name="chadv" project="all-test">
       <mesa branch="origin/10.3"/>
       <waffle branch="chadv/jenkins"/>
+      <piglit-build branch="janesma/jenkins"/>
     </branch>
 
     <branch name="cworth" project="all-test">
       <mesa branch="cworth/jenkins"/>
+      <piglit-build branch="janesma/jenkins"/>
     </branch>
 
     <branch name="jljusten" project="all-test">
       <mesa branch="jljusten/jenkins"/>
+      <piglit-build branch="janesma/jenkins"/>
     </branch>
 
     <branch name="ldeks" project="all-test">
