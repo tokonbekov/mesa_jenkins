@@ -161,7 +161,6 @@
     </branch>
 
     <branch name="dcbaker" project="all-test">
-      <mesa branch="origin/10.3"/>
       <piglit-build branch="dcbaker/jenkins"/>
     </branch>
 
