@@ -20,10 +20,16 @@ class SconsBuilder(object):
     def build(self):
         save_dir = os.getcwd()
         os.chdir(self.src_dir)
+
+        # scons build is broken, will occasionally fail if temporaries
+        # are still around.  Use git's nuclear clean method instead of
+        # the clean targets.
+        bs.run_batch_command(["git", "clean", "-dfx"])
+
         bs.run_batch_command(["scons", "-j",
                               str(multiprocessing.cpu_count() + 1)])
-        bs.run_batch_command(["scons", "-c"])
-        bs.rmtree("build")
+
+        bs.run_batch_command(["git", "clean", "-dfx"])
         os.chdir(save_dir)
         
 def main():
