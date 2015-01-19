@@ -111,7 +111,7 @@
       <!-- these repo tags exist soley to trigger a master build when
            anything changes -->
       <mesa/>
-      <piglit-build/>
+      <piglit-build branch="janesma/jenkins"/>
       <waffle/>
       <drm/>
     </branch>
