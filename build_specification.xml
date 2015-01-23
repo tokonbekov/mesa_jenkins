@@ -148,7 +148,7 @@
     </branch>
 
     <branch name="idr" project="all-test">
-      <mesa branch="idr/glsl-diet-v4"/>
+      <mesa branch="idr/jenkins"/>
     </branch>
 
     <branch name="mattst88" project="all-test">
