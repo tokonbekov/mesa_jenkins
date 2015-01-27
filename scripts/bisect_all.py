@@ -141,6 +141,16 @@ class TestLister:
     def Tests(self):
         return self._tests.values()
 
+def get_commits(repo_name, good_revisions):
+    target_repo = repos.repo(repo_name)
+    commits = []
+    for commit in target_repo.iter_commits(max_count=1000):
+        commits.append(commit)
+        if good_revisions[repo_name] in commit.hexsha:
+            break
+        print "    " + commit.hexsha
+    return commits
+    
 parser = argparse.ArgumentParser(description="bisects everything")
 parser.add_argument("--bad_rev", type=str)
 parser.add_argument("--good_rev", type=str)
@@ -154,26 +164,24 @@ repos.fetch()
 _revspec = bs.RevisionSpecification(from_cmd_line=args.bad_rev.split())
 _revspec.checkout()
 
-good_revisions = {}
+_good_revisions = {}
 for arev in args.good_rev.split():
     rev = arev.split("=")
-    good_revisions[rev[0]] = rev[1]
+    _good_revisions[rev[0]] = rev[1]
 
 hash_str = _revspec.to_cmd_line_param().replace(" ", "_")
 tl = TestLister("/mnt/jenkins/results/mesa_master/" +
                 hash_str + "/daily/test/")
 
-target_repo = repos.repo("piglit-build")
-commits = []
-for commit in target_repo.iter_commits(max_count=1000):
-    commits.append(commit)
-    if good_revisions["piglit-build"] in commit.hexsha:
-        break
-    print "    " + commit.hexsha
+piglit_commits = get_commits("piglit-build", _good_revisions)
+mesa_commits = get_commits("mesa", _good_revisions)
+waffle_commits = get_commits("waffle", _good_revisions)
+drm_commits = get_commits("drm", _good_revisions)
 
 # create bisectorset with all the test objects
-b = BisectorSet(tl.Tests(), piglit_range=commits, mesa_range=["9f5fee8"],
-                waffle_range=["a72df8f"], drm_range=["28ee135"])
+b = BisectorSet(tl.Tests(),
+                piglit_range=piglit_commits, mesa_range=mesa_commits,
+                waffle_range=waffle_commits, drm_range=drm_commits)
 # run a build on first piglit rev, to identify which tests are from
 # piglit.  make a list of bisector objects for them.
 
