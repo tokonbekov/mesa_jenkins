@@ -303,7 +303,7 @@ class PiglitTester(object):
             for test in tests:
                 # only use the last two components of test name, excluding
                 # suffix
-                test_name = ".".join(self.piglit_test.split(".")[1:-1])
+                test_name = ".".join(self.test.split(".")[1:-1])
                 cmd = cmd + ["--include-tests", test_name]
             
         cmd = cmd + [self.suite,
