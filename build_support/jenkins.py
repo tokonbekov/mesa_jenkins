@@ -354,7 +354,10 @@ class Jenkins:
 
                 try:
                     print "Starting: " + an_invoke.to_short_string()
-                    self.build(an_invoke, branch=branch, extra_arg=extra_arg)
+                    if (an_invoke.project == "piglit-test"):
+                        self.build(an_invoke, branch=branch, extra_arg=extra_arg)
+                    else:
+                        self.build(an_invoke, branch=branch)
                     an_invoke.set_info("trigger_time", time.time())
                     triggered_builds_str.append(str(an_invoke))
                 except(BuildInProgress) as e:

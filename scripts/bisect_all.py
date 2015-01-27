@@ -44,18 +44,18 @@ class BisectorSet:
         test_arg = "--piglit_test=" + ",".join(test_list)
 
         revs = ["piglit-build="+piglit_range[-1].hexsha,
-                "mesa="+mesa_range[0],
-                "waffle="+waffle_range[0],
-                "drm="+drm_range[0]]
+                "mesa="+mesa_range[0].hexsha,
+                "waffle="+waffle_range[0].hexsha,
+                "drm="+drm_range[0].hexsha]
         revspec = bs.RevisionSpecification(from_cmd_line=revs)
         hashstr = revspec.to_cmd_line_param().replace(" ", "_")
         out_dir = "/mnt/jenkins/results/bisect/" + hashstr
         j=bs.Jenkins(revspec, out_dir)
 
-        o = bs.Options()
+        o = bs.Options(["bisect_all.py"])
         o.result_path = out_dir
         depGraph = bs.DependencyGraph(["all-test"], o)
-        j.build_all(depGraph, test_arg)
+        j.build_all(depGraph, extra_arg=test_arg)
 
 
 class PiglitTest:
@@ -159,7 +159,7 @@ parser.add_argument("--good_rev", type=str)
 args = parser.parse_args(sys.argv[1:])
 
 repos = bs.RepoSet()
-repos.fetch()
+#repos.fetch()
 
 _revspec = bs.RevisionSpecification(from_cmd_line=args.bad_rev.split())
 _revspec.checkout()
