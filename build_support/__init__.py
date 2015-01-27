@@ -24,6 +24,7 @@ from export import Export
 from gtest import *
 from builders import *
 from jenkins import *
+from bisect import *
 
 class DefaultTimeout:
     def __init__(self, options=None):

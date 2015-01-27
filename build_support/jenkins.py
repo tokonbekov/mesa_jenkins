@@ -315,7 +315,7 @@ class Jenkins:
                 return None
             time.sleep(1)
 
-    def build_all(self, depGraph, branch="mesa_master", extra_arg=None):
+    def build_all(self, depGraph, branch="mesa_master", extra_arg=None, print_summary=True):
         signal.signal(signal.SIGINT, abort_builds)
         signal.signal(signal.SIGABRT, abort_builds)
         signal.signal(signal.SIGTERM, abort_builds)
@@ -419,9 +419,10 @@ class Jenkins:
 
                 #stub_test_results(out_test_dir, o.hardware)
                 # CleanServer(o).clean()
-                write_summary(pm.source_root(), 
-                              failure_builds + completed_builds, 
-                              self)
+                if print_summary:
+                    write_summary(pm.source_root(), 
+                                  failure_builds + completed_builds, 
+                                  self)
                 if failure_builds:
                     raise BuildFailure(failure_builds[0], "")
 

@@ -5,31 +5,43 @@ import xml.etree.ElementTree as ET
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
 import build_support as bs
 
-class Bisector:
+class ProjectBisector:
     """tracks down bisections for a set of tests"""
-    def __init__(self):
+    def __init__(self, project, test_lister, revisions):
         # has a test list, a single range, and a base_revision to
         # check.
-        self.target_tests = []
-        self.bisect_project = None
-        self.revision_range = []
-        self.base_revisions = None
+        self.bisect_project = project
+        self.target_tests = test_lister
+        self.revision_range = revisions
 
-        # after bisect, this list grows
-        self.generated_bisections = []
-
-        # if bisect identifies a revision, this list grows.  Contains
-        # PiglitTest objects
-        self.bisected_tests = []
-        self.bisected_revision = None
-
+        # save the current revisions as a starting point
+        self.revspec = bs.RevisionSpecification()
+        
+        # when bisect identifies a revision, this dict grows.  values
+        # are test names
+        self.bisected_revisions = {}
         
     def Bisect(self):
-        """performs a bisection.  can generate more Bisector objects if tests
-        split on the bisection."""
-        pass
-    
+        """performs bisections for each test on the project"""
+        for a_piglit_test in self.target_tests.Tests():
+            self.revspec.checkout()
+            bisector = bs.Bisector("piglit-test", a_piglit_test.test_name,
+                                   a_piglit_test.arch,
+                                   a_piglit_test.hardware,
+                                   self.revision_range)
+            first_failure = bisector.Bisect()
+            if first_failure not in self.bisected_revisions:
+                self.bisected_revisions[first_failure] = []
+            self.bisected_revisions[first_failure].append(a_piglit_test.test_name)
 
+    def Print(self):
+        print "Project: " + self.bisect_project
+        for (a_rev, test_list) in self.bisected_revisions.items():
+            print "\tRevision: " + a_rev
+            for a_test in test_list:
+                print "\t\tTest: " + a_test.Print()
+            
+        
 class BisectorSet:
     """Contains a set of Bisector objects.  Iterates on the set,
     appending new Bisector objects with subsets of tests when necessary"""
@@ -48,20 +60,87 @@ class BisectorSet:
                 "waffle="+waffle_range[0].hexsha,
                 "drm="+drm_range[0].hexsha]
         revspec = bs.RevisionSpecification(from_cmd_line=revs)
+        revspec.checkout()
+        revspec = bs.RevisionSpecification()
+
+        hashstr = revspec.to_cmd_line_param().replace(" ", "_")
+        spec_xml = bs.ProjectMap().build_spec()
+        results_dir = spec_xml.find("build_master").attrib["results_dir"]
+        out_dir = "/".join([results_dir, "bisect", hashstr])
+
+        j=bs.Jenkins(revspec, out_dir)
+
+        o = bs.Options(["bisect_all.py"])
+        o.result_path = out_dir
+        depGraph = bs.DependencyGraph(["piglit-gpu-all"], o)
+        j.build_all(depGraph, extra_arg=test_arg, print_summary=False)
+
+        tl = TestLister(out_dir + "/test/")
+        self._bisectors.append(bs.Bisector("piglit-build", tl, piglit_range))
+
+        revs = ["piglit-build="+piglit_range[0].hexsha,
+                "mesa="+mesa_range[-1].hexsha,
+                "waffle="+waffle_range[0].hexsha,
+                "drm="+drm_range[0].hexsha]
+        revspec = bs.RevisionSpecification(from_cmd_line=revs)
         hashstr = revspec.to_cmd_line_param().replace(" ", "_")
         out_dir = "/mnt/jenkins/results/bisect/" + hashstr
         j=bs.Jenkins(revspec, out_dir)
 
         o = bs.Options(["bisect_all.py"])
         o.result_path = out_dir
-        depGraph = bs.DependencyGraph(["all-test"], o)
-        j.build_all(depGraph, extra_arg=test_arg)
+        depGraph = bs.DependencyGraph(["piglit-gpu-all"], o)
+        j.build_all(depGraph, extra_arg=test_arg, print_summary=False)
 
+        tl = TestLister(out_dir + "/test/")
+        self._bisectors.append(bs.Bisector("mesa", tl, mesa_range))
+
+        revs = ["piglit-build="+piglit_range[0].hexsha,
+                "mesa="+mesa_range[0].hexsha,
+                "waffle="+waffle_range[-1].hexsha,
+                "drm="+drm_range[0].hexsha]
+        revspec = bs.RevisionSpecification(from_cmd_line=revs)
+        hashstr = revspec.to_cmd_line_param().replace(" ", "_")
+        out_dir = "/mnt/jenkins/results/bisect/" + hashstr
+        j=bs.Jenkins(revspec, out_dir)
+
+        o = bs.Options(["bisect_all.py"])
+        o.result_path = out_dir
+        depGraph = bs.DependencyGraph(["piglit-gpu-all"], o)
+        j.build_all(depGraph, extra_arg=test_arg, print_summary=False)
+
+        tl = TestLister(out_dir + "/test/")
+        self._bisectors.append(bs.Bisector("waffle", tl, waffle_range))
+
+        revs = ["piglit-build="+piglit_range[0].hexsha,
+                "mesa="+mesa_range[0].hexsha,
+                "waffle="+waffle_range[0].hexsha,
+                "drm="+drm_range[-1].hexsha]
+        revspec = bs.RevisionSpecification(from_cmd_line=revs)
+        hashstr = revspec.to_cmd_line_param().replace(" ", "_")
+        out_dir = "/mnt/jenkins/results/bisect/" + hashstr
+        j=bs.Jenkins(revspec, out_dir)
+
+        o = bs.Options(["bisect_all.py"])
+        o.result_path = out_dir
+        depGraph = bs.DependencyGraph(["piglit-gpu-all"], o)
+        j.build_all(depGraph, extra_arg=test_arg, print_summary=False)
+        
+        tl = TestLister(out_dir + "/test/")
+        self._bisectors.append(bs.Bisector("drm", tl, drm_range))
+
+    def Bisect(self):
+        for a_project in self._bisectors:
+            a_project.Bisect()
+        
+    def Print(self):
+        for a_project in self._bisectors:
+            a_project.Print()
 
 class PiglitTest:
     """Represents a single test.  Has the primary arch that will be
-    tested, and a list of other arches that are expected to be caused
-    by the same revision"""
+    tested, and a list of other arches that are expected to be caused by
+    the same revision"""
     preferred_arches = ["m64", "m32"]
     preferred_platforms = ["hswgt3e", "hswgt2", "hswgt1", "ivbgt2",
                            "ivbgt1"] # ...
@@ -170,7 +249,7 @@ for arev in args.good_rev.split():
     _good_revisions[rev[0]] = rev[1]
 
 hash_str = _revspec.to_cmd_line_param().replace(" ", "_")
-tl = TestLister("/mnt/jenkins/results/mesa_master/" +
+_tl = TestLister("/mnt/jenkins/results/mesa_master/" +
                 hash_str + "/daily/test/")
 
 piglit_commits = get_commits("piglit-build", _good_revisions)
@@ -179,12 +258,8 @@ waffle_commits = get_commits("waffle", _good_revisions)
 drm_commits = get_commits("drm", _good_revisions)
 
 # create bisectorset with all the test objects
-b = BisectorSet(tl.Tests(),
+b = BisectorSet(_tl.Tests(),
                 piglit_range=piglit_commits, mesa_range=mesa_commits,
                 waffle_range=waffle_commits, drm_range=drm_commits)
-# run a build on first piglit rev, to identify which tests are from
-# piglit.  make a list of bisector objects for them.
 
-# repeat for mesa, waffle, drm
-
-# 
+b.Bisect()
