@@ -315,7 +315,7 @@ class Jenkins:
                 return None
             time.sleep(1)
 
-    def build_all(self, depGraph, branch="mesa_master"):
+    def build_all(self, depGraph, branch="mesa_master", extra_arg=None):
         signal.signal(signal.SIGINT, abort_builds)
         signal.signal(signal.SIGABRT, abort_builds)
         signal.signal(signal.SIGTERM, abort_builds)
@@ -354,7 +354,7 @@ class Jenkins:
 
                 try:
                     print "Starting: " + an_invoke.to_short_string()
-                    self.build(an_invoke, branch=branch)
+                    self.build(an_invoke, branch=branch, extra_arg=extra_arg)
                     an_invoke.set_info("trigger_time", time.time())
                     triggered_builds_str.append(str(an_invoke))
                 except(BuildInProgress) as e:

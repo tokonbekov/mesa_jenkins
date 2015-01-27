@@ -299,10 +299,12 @@ class PiglitTester(object):
                          "ARB_shader_texture_lod.execution.tex-miplevel-selection"]
 
         if self.piglit_test:
-            # only use the last two components of test name, excluding
-            # suffix
-            test_name = ".".join(self.piglit_test.split(".")[-3:-1])
-            cmd = cmd + ["--include-tests", test_name]
+            tests = self.piglit_test.split(",")
+            for test in tests:
+                # only use the last two components of test name, excluding
+                # suffix
+                test_name = ".".join(self.piglit_test.split(".")[1:-1])
+                cmd = cmd + ["--include-tests", test_name]
             
         cmd = cmd + [self.suite,
                      out_dir ]
