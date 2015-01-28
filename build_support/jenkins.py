@@ -375,12 +375,6 @@ class Jenkins:
                     builds_in_round += 1
             except(BuildFailure) as failure:
                 failure.invoke.set_info("status", "failure")
-                url = failure.url
-                job_name = url.split("/")[-3]
-                build_number = url.split("/")[-2]
-                build_directory = "/var/lib/jenkins/jobs/" \
-                                  "{0}/builds/{1}".format(job_name.lower(), 
-                                                          build_number)
 
                 # abort the builds, but let daily/release builds continue
                 # as far as possible
@@ -424,7 +418,7 @@ class Jenkins:
                                   failure_builds + completed_builds, 
                                   self)
                 if failure_builds:
-                    raise BuildFailure(failure_builds[0], "")
+                    raise BuildFailure(failure_builds[0], "", triggered_builds_str)
 
                 return triggered_builds_str
 
