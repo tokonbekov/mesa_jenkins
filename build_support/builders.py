@@ -309,7 +309,14 @@ class PiglitTester(object):
         cmd = cmd + [self.suite,
                      out_dir ]
 
-        run_batch_command(cmd, env=env)
+        streamedOutput = True
+        if self.piglit_test:
+            streamedOutput = False
+        (out, err) = run_batch_command(cmd, env=env,
+                                       expected_return_code=None,
+                                       streamedOutput=streamedOutput)
+        if err and "There are no tests scheduled to run" in err:
+            return;
 
         single_out_dir = br + "/../test"
         if not os.path.exists(single_out_dir):
@@ -331,7 +338,7 @@ class PiglitTester(object):
                br + "/../test", pm.source_root()]
         run_batch_command(cmd)
 
-        Export().export()
+        Export().export_tests()
 
     def filter_skipped_tests(self, infile, outfile):
         t = ET.parse(infile)
