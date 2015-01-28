@@ -30,7 +30,10 @@ class Bisector:
         if not self.commits:
             return
         current_build = len(self.commits) / 2
-        rev = self.project + "=" + self.commits[current_build].hexsha
+        repo_project = self.project
+        if repo_project == "piglit-test":
+            repo_project = "piglit-build"
+        rev = repo_project + "=" + self.commits[current_build].hexsha
         print "Range: " + self.commits[0].hexsha + " - " + self.commits[-1].hexsha
         print "Building revision: " + rev
 

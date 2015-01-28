@@ -36,7 +36,7 @@ class Options(object):
                                   action=CsvAction,
                                   help="Action to recurse with. 'build', "
                                   "'clean' or 'test'. (default: %(default)s)")
-        self._parser.add_argument('--config', type=str, default="release", 
+        self._parser.add_argument('--config', type=str, default="debug", 
                                   choices=['release', 'debug'],
                                   help="Release or Debug build. (default: "
                                   "%(default)s)")
