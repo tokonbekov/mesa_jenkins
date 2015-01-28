@@ -2,6 +2,7 @@ import re
 import os
 import time
 import xml.etree.ElementTree as ET
+import ConfigParser
 
 from . import RevisionSpecification
 from . import Options
@@ -44,6 +45,7 @@ class Bisector:
         o.hardware = self.hardware
         o.action = ["build", "test"]
 
+        print "Bisector Bisect checking out: " + rev
         revspec = RevisionSpecification(from_cmd_line=[rev])
         revspec.checkout()
         revspec = RevisionSpecification()
@@ -67,10 +69,10 @@ class Bisector:
 
         depGraph.build_complete(bi)
         try:
-            jen.build_all(depGraph, "bisect")
+            jen.build_all(depGraph, "bisect", print_summary=False)
             print "Starting: " + bi.to_short_string()
-            test_name_good_chars = re.sub('[_ !:]', ".", self.test_name)
-            jen.build(bi, branch="mesa_master", extra_arg="--piglit_test=" + test_name_good_chars)
+            test_name_good_chars = re.sub('[_ !:=]', ".", self.test_name)
+            jen.build(bi, branch="mesa_master", extra_arg="--piglit_test=" + test_name_good_chars + ".anyhardware")
             jen.wait_for_build()
         except BuildFailure:
             print "BUILD FAILED - exception: " + rev
@@ -100,7 +102,10 @@ class Bisector:
         result = ET.parse(test_result)
         for testcase in result.findall("./testsuite/testcase"):
             testname = testcase.attrib["classname"] + "." + testcase.attrib["name"]
-            if self.test_name not in testname:
+            #strip off the arch/platform and drop the special characters
+            testname = ".".join(testname.split(".")[:-1])
+            testname = re.sub('[=:]', ".", testname)
+            if self.test_name != testname:
                 continue
             if testcase.findall("skipped"):
                 print "ERROR: the target test was skipped"
@@ -127,3 +132,128 @@ class Bisector:
             return self.last_failure
         self.commits = self.commits[:current_build]
         return self.Bisect()
+
+# needed to preserve case in the options
+class CaseConfig(ConfigParser.SafeConfigParser):
+    def optionxform(self, optionstr):
+        return optionstr
+
+class PiglitTest:
+    """Represents a single test.  Has the primary arch that will be
+    tested, and a list of other arches that are expected to be caused by
+    the same revision"""
+    preferred_arches = ["m64", "m32"]
+    preferred_hardware = ["hswgt3e", "hswgt2", "hswgt1", "ivbgt2",
+                          "ivbgt1"] # ...
+
+    def __init__(self, full_test_name, status):
+        """full_test_name includes arch/platform.  status must be one
+        of "pass", "fail", "crash" """
+
+        arch_hardware = full_test_name.split(".")[-1]
+        arch = arch_hardware[-3:]
+        hardware = arch_hardware[:-3]
+        if "gt" in hardware:
+            hardware = hardware[:3]
+
+        self.test_name = ".".join(full_test_name.split(".")[:-1])
+        self.arch = arch
+        self.hardware = hardware
+        self.other_arches = []
+        self.status = status
+        self.bisected_revision = "unknown"
+
+    def AddTest(self, test):
+        assert(test.test_name == self.test_name)
+        assert(test.status == self.status)
+        
+        if self.arch == "m64" or test.arch == "m32":
+            self.other_arches.append((test.arch, test.hardware))
+            return
+
+        # m64 is preferred
+        self.other_arches.append((self.arch, self.hardware))
+        self.arch = test.arch
+        self.hardware = test.hardware
+
+    def Print(self):
+        print " ".join([self.test_name, self.arch, self.hardware,
+                        self.status, str(self.other_arches)])
+
+    def Bisect(self, project, commits):
+        b = Bisector(project, self.test_name, self.arch, self.hardware, commits)
+        self.bisected_revision = project + "=" + b.Bisect()
+
+    def UpdateConf(self, conf_dir):
+        full_list = [(self.arch, self.hardware)] + self.other_arches
+        for arch, hardware in full_list:
+            if "gt" in hardware:
+                hardware = hardware[:3]
+            conf_file = conf_dir + "/" + hardware + arch + ".conf"
+            if not os.path.exists(conf_file):
+                conf_file = conf_dir + "/" + hardware + ".conf"
+            assert (os.path.exists(conf_file))
+            c = CaseConfig(allow_no_value=True)
+            c.optionxform = str
+            c.read(conf_file)
+
+            # remove test from whatever section it might be in, and
+            # add it back to the right place
+            c.remove_option("expected-failures", self.test_name)
+            c.remove_option("expected-crashes", self.test_name)
+            if self.status == "fail":
+                c.set("expected-failures", self.test_name, self.bisected_revision)
+            elif self.status == "crash":
+                c.set("expected-crashes", self.test_name, self.bisected_revision)
+            else:
+                print conf_file + ": removed " + self.test_name
+
+            c.write(open(conf_file, "w"))
+
+class TestLister:
+    """reads xml files and generates a set of PiglitTest objects"""
+    def __init__(self, bad_dir):
+        self._tests = {}
+        # self.test_map is keyed by test name, value is PiglitTest
+        for a_file in os.listdir(bad_dir):
+            if "piglit-test" not in a_file:
+                continue
+            test_path = bad_dir + "/" + a_file
+            self._add_tests(test_path)
+
+    def _make_test(self, test_tag):
+
+        full_test_name = test_tag.attrib["name"]
+        full_test_name = test_tag.attrib["classname"] + "." + full_test_name
+        full_test_name = full_test_name.replace("=", ".")
+        full_test_name = full_test_name.replace(":", ".")
+        failnode = test_tag.find("./failure")
+        if failnode is None:
+            return PiglitTest(full_test_name, "crash")
+        return PiglitTest(full_test_name, failnode.attrib["type"])        
+            
+    def _add_tests(self, test_path):
+        t = ET.parse(test_path)
+        r = t.getroot()
+
+        for afail in r.findall(".//failure/..") + r.findall(".//error/.."):
+            piglit_test = self._make_test(afail)
+            
+            if piglit_test.test_name not in self._tests:
+                self._tests[piglit_test.test_name] = piglit_test
+                continue
+            self._tests[piglit_test.test_name].AddTest(piglit_test)
+
+    def Print(self):
+        for test in self._tests.values():
+            test.Print()
+
+    def Tests(self):
+        return self._tests.values()
+
+    def TestsNotIn(self, other_test_list):
+        out_list = []
+        for (name, test) in self._tests.items():
+            if name not in other_test_list._tests:
+                out_list.append(test)
+        return out_list
