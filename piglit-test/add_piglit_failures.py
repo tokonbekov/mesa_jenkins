@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import sys, os, argparse
+import sys, os, argparse, re
 current_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
 sys.path.append(current_dir + "/..")
 import build_support as bs
@@ -49,7 +49,8 @@ print "Building old piglit to: " + out_dir
 
 test_list = []
 for atest in new_failures.Tests():
-    test_list.append(atest.test_name + ".all_platforms")
+    test_name_good_chars = re.sub('[_ !:=]', ".", atest.test_name)
+    test_list.append(test_name_good_chars + ".all_platforms")
 test_arg = "--piglit_test=" + ",".join(test_list)
 
 

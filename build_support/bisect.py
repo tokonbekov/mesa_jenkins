@@ -69,7 +69,7 @@ class Bisector:
 
         depGraph.build_complete(bi)
         try:
-            jen.build_all(depGraph, "bisect", print_summary=False)
+            jen.build_all(depGraph, "bisect", extra_arg=None, print_summary=False)
             print "Starting: " + bi.to_short_string()
             test_name_good_chars = re.sub('[_ !:=]', ".", self.test_name)
             jen.build(bi, branch="mesa_master", extra_arg="--piglit_test=" + test_name_good_chars + ".anyhardware")
@@ -182,7 +182,8 @@ class PiglitTest:
 
     def Bisect(self, project, commits):
         b = Bisector(project, self.test_name, self.arch, self.hardware, commits)
-        self.bisected_revision = project + "=" + b.Bisect()
+        self.bisected_revision = b.Bisect()
+        self.bisected_revision = self.bisected_revision.replace("=", " ")
 
     def UpdateConf(self, conf_dir):
         full_list = [(self.arch, self.hardware)] + self.other_arches

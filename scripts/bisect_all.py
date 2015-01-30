@@ -25,11 +25,13 @@ class ProjectBisector:
         """performs bisections for each test on the project"""
         for a_piglit_test in self.target_tests:
             self.revspec.checkout()
-            bisector = bs.Bisector("piglit-test", a_piglit_test.test_name,
+            print "ProjectBisector bisecting " + self.bisect_project + " for " + a_piglit_test.test_name
+            bisector = bs.Bisector(self.bisect_project, a_piglit_test.test_name,
                                    a_piglit_test.arch,
                                    a_piglit_test.hardware,
                                    self.revision_range)
             first_failure = bisector.Bisect()
+            print "ProjectBisector found failure: " + first_failure + " " + a_piglit_test.test_name
             if first_failure not in self.bisected_revisions:
                 self.bisected_revisions[first_failure] = []
             self.bisected_revisions[first_failure].append(a_piglit_test.test_name)
@@ -73,11 +75,13 @@ class BisectorSet:
         o = bs.Options(["bisect_all.py"])
         o.result_path = out_dir
         depGraph = bs.DependencyGraph(["piglit-gpu-all"], o)
+
+        print "Building old piglit to: " + out_dir
         j.build_all(depGraph, extra_arg=test_arg, print_summary=False)
 
         # any test not in this list will be a result of piglit
         tl = TestLister(out_dir + "/test/")
-        print "piglit"
+        print "failures due to piglit:"
         for a_test in all_test_list.TestsNotIn(tl):
             a_test.Print()
         self._bisectors.append(ProjectBisector("piglit-build",
@@ -98,11 +102,13 @@ class BisectorSet:
         o = bs.Options(["bisect_all.py"])
         o.result_path = out_dir
         depGraph = bs.DependencyGraph(["piglit-gpu-all"], o)
+
+        print "Building old mesa to: " + out_dir
         j.build_all(depGraph, extra_arg=test_arg, print_summary=False)
 
         # any test not in this list will be a result of mesa
         tl = TestLister(out_dir + "/test/")
-        print "mesa"
+        print "failures due to mesa:"
         for a_test in all_test_list.TestsNotIn(tl):
             a_test.Print()
         self._bisectors.append(ProjectBisector("mesa",
@@ -123,16 +129,17 @@ class BisectorSet:
         o = bs.Options(["bisect_all.py"])
         o.result_path = out_dir
         depGraph = bs.DependencyGraph(["piglit-gpu-all"], o)
+
+        print "Building old waffle to: " + out_dir
         j.build_all(depGraph, extra_arg=test_arg, print_summary=False)
 
         # any test not in this list will be a result of waffle
         tl = TestLister(out_dir + "/test/")
-        print "waffle"
-        for a_test in all_test_list.TestsNotIn(tl):
-            a_test.Print()
-        self._bisectors.append(ProjectBisector("waffle",
-                                               all_test_list.TestsNotIn(tl),
-                                               waffle_range))
+        waffle_errors = all_test_list.TestsNotIn(tl)
+        if waffle_errors:
+            print "ERROR: failures due to waffle:"
+            for a_test in waffle_errors:
+                a_test.Print()
 
         revs = ["piglit-build="+piglit_range[0].hexsha,
                 "mesa="+mesa_range[0].hexsha,
@@ -148,20 +155,22 @@ class BisectorSet:
         o = bs.Options(["bisect_all.py"])
         o.result_path = out_dir
         depGraph = bs.DependencyGraph(["piglit-gpu-all"], o)
+
+        print "Building old drm to: " + out_dir
         j.build_all(depGraph, extra_arg=test_arg, print_summary=False)
         
         # any test not in this list will be a result of drm
         tl = TestLister(out_dir + "/test/")
-        print "drm"
-        for a_test in all_test_list.TestsNotIn(tl):
-            a_test.Print()
-        self._bisectors.append(ProjectBisector("drm",
-                                               all_test_list.TestsNotIn(tl),
-                                               drm_range))
-
+        drm_errors = all_test_list.TestsNotIn(tl)
+        if drm_errors:
+            print "ERROR: failures due to drm:"
+            for a_test in drm_errors:
+                a_test.Print()
+        
     def Bisect(self):
         for a_project in self._bisectors:
             a_project.Bisect()
+            a_project.Print()
         
     def Print(self):
         for a_project in self._bisectors:
@@ -207,6 +216,8 @@ class PiglitTest:
     def Print(self):
         print " ".join([self.test_name, self.arch, self.hardware,
                         self.status, str(self.other_arches)])
+
+
 
 class TestLister:
     """reads xml files and generates a set of PiglitTest objects"""
@@ -290,7 +301,7 @@ hash_str = _revspec.to_cmd_line_param().replace(" ", "_")
 _tl = TestLister("/mnt/jenkins/results/mesa_master/" +
                 hash_str + "/daily/test/")
 
-piglit_commits = get_commits("piglit-build", _good_revisions)
+_tpiglit_commits = get_commits("piglit-build", _good_revisions)
 mesa_commits = get_commits("mesa", _good_revisions)
 waffle_commits = get_commits("waffle", _good_revisions)
 drm_commits = get_commits("drm", _good_revisions)
