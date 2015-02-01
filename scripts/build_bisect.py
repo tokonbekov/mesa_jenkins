@@ -70,7 +70,9 @@ def main():
     arch = hw_arch[-3:]
     hardware = hw_arch[:-3]
 
-    b = bs.Bisector(project, args.test_name, arch, hardware, commits)
+    test_name = args.test_name.split(".")[:-1]
+
+    b = bs.Bisector(project, test_name, arch, hardware, commits)
     print "FIRST FAILURE: " + b.Bisect()
 
 if __name__=="__main__":
