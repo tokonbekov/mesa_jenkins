@@ -84,6 +84,7 @@
       <remote name="janesma" repo="git://github.com/janesma/mesa"/>
       <remote name="jljusten" repo="git://people.freedesktop.org/~jljusten/mesa"/>
       <remote name="ldeks" repo="git://people.freedesktop.org/~ldeks/mesa"/>
+      <remote name="mperes" repo="git://people.freedesktop.org/~mperes/mesa"/>
     </mesa>
 
     <drm repo="git://anongit.freedesktop.org/mesa/drm"/>
@@ -185,6 +186,11 @@
     </branch>
 
     <branch name="ldeks" project="all-test">
+      <mesa branch="ldeks/jenkins"/>
+      <piglit-build branch="ldeks/jenkins"/>
+    </branch>
+
+    <branch name="mperes" project="all-test">
       <mesa branch="ldeks/jenkins"/>
       <piglit-build branch="ldeks/jenkins"/>
     </branch>
