@@ -83,6 +83,7 @@
       <remote name="jljusten" repo="git://people.freedesktop.org/~jljusten/mesa"/>
       <remote name="ldeks" repo="git://people.freedesktop.org/~ldeks/mesa"/>
       <remote name="mperes" repo="git://people.freedesktop.org/~mperes/mesa"/>
+      <remote name="tpalli" repo="git://people.freedesktop.org/~tpalli/mesa"/>
     </mesa>
 
     <drm repo="git://anongit.freedesktop.org/mesa/drm"/>
@@ -190,6 +191,10 @@
 
     <branch name="mperes" project="test-single-arch">
       <mesa branch="mperes/jenkins"/>
+    </branch>
+
+    <branch name="tpalli" project="test-single-arch">
+      <mesa branch="tpalli/jenkins"/>
     </branch>
 
   </branches>
