@@ -189,8 +189,7 @@
     </branch>
 
     <branch name="mperes" project="test-single-arch">
-      <mesa branch="ldeks/jenkins"/>
-      <piglit-build branch="ldeks/jenkins"/>
+      <mesa branch="mperes/jenkins"/>
     </branch>
 
   </branches>
