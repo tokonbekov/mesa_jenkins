@@ -46,9 +46,7 @@
 
     <project name="test-single-arch">
       <prerequisite name="piglit-test" hardware="ilk,g45,snbgt1,snbgt2,ivbgt2,ivbgt1,hswgt2,hswgt3e"/>
-      <!-- byt offline -->
-      <!-- <prerequisite only_for_type="daily" name="piglit-test" hardware="byt,g965,bdwgt2,hswgt1"/> -->
-      <prerequisite only_for_type="daily" name="piglit-test" hardware="g965,bdwgt2,hswgt1"/>
+      <prerequisite only_for_type="daily" name="piglit-test" hardware="byt,g965,bdwgt2,hswgt1"/>
       <prerequisite name="piglit-cpu-test" hardware="builder"/>
       <!-- any haswell will suffice for nir test -->
       <prerequisite name="piglit-nir-test" hardware="hsw"/>
