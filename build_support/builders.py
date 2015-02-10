@@ -252,6 +252,8 @@ class PiglitTester(object):
             hardware_conf = "bdw"
         if "hsw" in hardware_conf:
             hardware_conf = "hsw"
+        if "skl" in hardware_conf:
+            hardware_conf = "skl"
 
         # all platforms other than g965 have separate 32-bit failures
         if hardware_conf not in ["g965", "g33", "g45", "ilk", "chv"]:
