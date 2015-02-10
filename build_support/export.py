@@ -17,6 +17,8 @@ class Export:
             os.makedirs(self.result_path)
 
     def export(self):
+        if not self.result_path:
+            return
         if not os.path.exists(self.result_path):
             os.makedirs(self.result_path)
 
@@ -31,6 +33,8 @@ class Export:
         self.export_tests()
 
     def export_tests(self):
+        if not self.result_path:
+            return
 
         test_path = os.path.abspath(ProjectMap().build_root() + "/../test")
         if not os.path.exists(test_path):
