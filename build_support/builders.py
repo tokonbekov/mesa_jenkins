@@ -256,7 +256,7 @@ class PiglitTester(object):
             hardware_conf = "skl"
 
         # all platforms other than g965 have separate 32-bit failures
-        if hardware_conf not in ["g965", "g33", "g45", "ilk", "chv"]:
+        if hardware_conf not in ["g965", "g33", "g45", "ilk", "chv", "skl"]:
             if o.arch == "m32":
                 hardware_conf = hardware_conf + "m32"
         hardware_conf = pm.source_root() + "/piglit-test" + \
