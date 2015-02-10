@@ -14,7 +14,8 @@ class SlowTimeout:
         if self.hardware == "g965":
             return 50
         # all other test suites finish in 10 minutes or less.
-        return 25
+        # TODO: put back to 25 when curro's regression is fixed
+        return 40
         
 
 _o = bs.Options([sys.argv[0]])
