@@ -3,20 +3,30 @@
 import xml.etree.ElementTree as ET
 import ConfigParser as CP
 import sys, os, glob
+import argparse
+
+# needed to preserve case in the options
+class CaseConfig(CP.SafeConfigParser):
+    def optionxform(self, optionstr):
+        return optionstr
 
 script_dir = os.path.dirname(sys.argv[0])
 if not script_dir:
     script_dir = "."
 script_dir = script_dir + "/"
     
-xmls = []
-for arg in sys.argv[1:]:
-    xmls = xmls + glob.glob(arg)
+parser = argparse.ArgumentParser(description="updates expected failures")
 
-# needed to preserve case in the options
-class CaseConfig(CP.SafeConfigParser):
-    def optionxform(self, optionstr):
-        return optionstr
+parser.add_argument('--blame_revision', type=str, required=True,
+                    help='revision to specify as the cause of any config changes')
+parser.add_argument('junit_file', metavar='junit_file', type=str, nargs='+',
+                    help='test files to use for update')
+args = parser.parse_args(sys.argv[1:])
+
+xmls = []
+for junit in args.junit_file:
+    xmls = xmls + glob.glob(junit)
+
 
 for f in xmls:
     print "parsing " + f
@@ -53,7 +63,9 @@ for f in xmls:
         assert(failnode.attrib["type"] == "pass")
         c.remove_option("expected-failures", name)
         c.remove_option("expected-crashes", name)
-
+        if not c.has_section("fixed-tests"):
+            c.add_section("fixed-tests")
+        c.set("fixed-tests", name, args.blame_revision)
     for acrash in r.findall(".//error/.."):
         # strip the arch/hw off the end of the name
         name = ".".join(acrash.attrib["name"].split(".")[:-1])
