@@ -181,11 +181,17 @@ class PiglitTest:
                         self.status, str(self.other_arches)])
 
     def Bisect(self, project, commits):
+        print "Bisecting for " + self.test_name
         b = Bisector(project, self.test_name, self.arch, self.hardware, commits)
         self.bisected_revision = b.Bisect()
+        if not self.bisected_revision:
+            print "No bisection found for " + self.test_name
+            return
         self.bisected_revision = self.bisected_revision.replace("=", " ")
 
     def UpdateConf(self, conf_dir):
+        if not self.bisected_revision:
+            return
         full_list = [(self.arch, self.hardware)] + self.other_arches
         for arch, hardware in full_list:
             if "gt" in hardware:
