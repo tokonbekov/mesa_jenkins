@@ -1,5 +1,6 @@
 import git, os, time, json, hashlib
 import xml.etree.ElementTree as ET
+import signal
 
 from . import ProjectMap
 from . import Options
@@ -69,6 +70,14 @@ class BranchSpecification:
             repo = self._repos.repo(name)
             repo.git.checkout(branch.branch)
 
+
+class TimeoutException(Exception):
+    def __init__(self, msg):
+        self._msg = msg
+
+    def __str__(self):
+        return self._msg
+
 class RepoSet:
     """this class represents the set of git repositories which are
     specified in the build_specification.xml file."""
@@ -117,15 +126,25 @@ class RepoSet:
         return self._repos.keys()
 
     def fetch(self):
+        def signal_handler(signum, frame):
+            raise TimeoutException("Fetch timed out.")
+
         for repo in self._repos.values():
+            signal.signal(signal.SIGALRM, signal_handler)
             for remote in repo.remotes:
                 print "fetching " + remote.url
                 try:
+                    signal.alarm(300)   # 5 minutes
                     remote.fetch()
+                    signal.alarm(0)
                 except git.GitCommandError as e:
                     print "error fetching, ignoring: " + str(e)
+                    signal.alarm(0)
                 except AssertionError as e:
                     print "assertion while fetching: " + str(e)
+                    signal.alarm(0)
+                except TimeoutException as e:
+                    print str(e)
         # the fetch has left our repo objects in an inconsistent
         # state.  We need to recreate them.
         self.__init__()
