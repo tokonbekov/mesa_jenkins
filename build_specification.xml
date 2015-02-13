@@ -139,6 +139,9 @@
       <mesa branch="origin/10.4"/>
     </branch>
 
+    <branch name="mesa_10.5" project="all-test">
+      <mesa branch="origin/10.5"/>
+    </branch>
 
     <branch name="jekstrand" project="all-test">
       <mesa branch="jekstrand/jenkins"/>
