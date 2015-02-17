@@ -300,6 +300,9 @@ class PiglitTester(object):
             # intermittent GPU hang on g965
             cmd = cmd + ["--exclude-tests",
                          "ARB_shader_texture_lod.execution.tex-miplevel-selection"]
+        if "bdw" in o.hardware:
+            cmd = cmd + ["--exclude-tests",
+                         "ARB_texture_multisample.texelFetch.fs.sampler2DMSArray.4.98x1x9-98x129x9"]
 
         if self.piglit_test:
             tests = self.piglit_test.split(",")
