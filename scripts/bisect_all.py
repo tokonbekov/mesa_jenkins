@@ -301,7 +301,7 @@ hash_str = _revspec.to_cmd_line_param().replace(" ", "_")
 _tl = TestLister("/mnt/jenkins/results/mesa_master/" +
                 hash_str + "/daily/test/")
 
-_tpiglit_commits = get_commits("piglit-build", _good_revisions)
+piglit_commits = get_commits("piglit-build", _good_revisions)
 mesa_commits = get_commits("mesa", _good_revisions)
 waffle_commits = get_commits("waffle", _good_revisions)
 drm_commits = get_commits("drm", _good_revisions)
