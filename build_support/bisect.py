@@ -35,7 +35,7 @@ class Bisector:
         if repo_project == "piglit-test":
             repo_project = "piglit-build"
         rev = repo_project + "=" + self.commits[current_build].hexsha
-        print "Range: " + self.commits[0].hexsha + " - " + self.commits[-1].hexsha + " (" + len(self.commits) + ")"
+        print "Range: " + self.commits[0].hexsha + " - " + self.commits[-1].hexsha + " (" + str(len(self.commits)) + ")"
         print "Building revision: " + rev
 
         o = Options(args=["ignore"])
