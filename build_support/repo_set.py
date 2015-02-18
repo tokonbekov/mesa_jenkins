@@ -149,6 +149,34 @@ class RepoSet:
         # state.  We need to recreate them.
         self.__init__()
 
+    def branch_missing_revisions(self):
+        """provides the revisions which are on master but are not on the
+        current branch(es).  This information can be used to filter
+        out known test failures that only exist on the branch
+
+        """
+        projects = self.projects()
+        revs = []
+        for project in projects:
+            repo = self.repo(project)
+            # branches can be long-lived: eg mesa_10.4.  300 commits
+            # on the branch is long enough for 10.4
+            branch_commits = [commit.hexsha for commit in repo.iter_commits(max_count=300)]
+            tmp_revs = []
+
+            # branchs can be a long time in the past.  For 10.4, there
+            # have been more than 1000 commits since the branch point.
+            for master_commit in repo.iter_commits('origin/master', max_count=2000):
+                hexsha = master_commit.hexsha
+                if hexsha not in branch_commits:
+                    tmp_revs.append(hexsha)
+                    continue
+                print "Found branch point for " + project + ": " + hexsha
+                revs = revs + tmp_revs
+                break
+
+        return revs
+
 class RevisionSpecification:
     def __init__(self, from_string=None, from_cmd_line=None):
         # key is project, value is revision
