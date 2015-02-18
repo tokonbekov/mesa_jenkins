@@ -6,6 +6,8 @@ from . import run_batch_command
 from . import rmtree
 from . import Export
 from . import GTest
+from . import RepoSet
+from . import PiglitTest
 
 def get_package_config_path():
     lib_dir = ""
@@ -329,14 +331,18 @@ class PiglitTester(object):
             os.makedirs(single_out_dir)
 
         if os.path.exists(out_dir + "/results.xml"):
-            # remove skipped tests, which uses ram on jenkins when
-            # displaying and provides no value.  Also, uniquely name
-            # all test files in one directory, for jenkins
+            # obtain the set of revisions on master which are not on
+            # the current branches.  This set represents the revisions
+            # that should cause tests to be disregared.
+            revisions = RepoSet().branch_missing_revisions()
             print "INFO: filtering tests from " + out_dir + "/results.xml"
-            self.filter_skipped_tests(out_dir + "/results.xml",
-                                      single_out_dir + "_".join(["/" + pm.current_project(),
-                                                                 suffix,
-                                                                 o.arch]) + ".xml")
+            # Uniquely name all test files in one directory, for
+            # jenkins
+            self.filter_tests(revisions,
+                              out_dir + "/results.xml",
+                              single_out_dir + "_".join(["/" + pm.current_project(),
+                                                         suffix,
+                                                         o.arch]) + ".xml")
 
         # create a copy of the test xml in the source root, where
         # jenkins can access it.
@@ -346,12 +352,25 @@ class PiglitTester(object):
 
         Export().export_tests()
 
-    def filter_skipped_tests(self, infile, outfile):
+    def filter_tests(self, revisions, infile, outfile):
         t = ET.parse(infile)
+        r = t.getroot()
         for a_suite in t.findall("testsuite"):
+            # remove skipped tests, which uses ram on jenkins when
+            # displaying and provides no value.  
             for a_skip in a_suite.findall("testcase/skipped/.."):
                 a_suite.remove(a_skip)
 
+            # for each failure, see if there is an entry in the config
+            # file with a revision that was missed by a branch
+            for afail in a_suite.findall("testcase/failure/..") + r.findall("testcase/error/.."):
+                piglit_test = PiglitTest("foo", "foo", afail)
+                regression_revision = piglit_test.GetConfRevision()
+                abbreviated_revisions = [a_rev[:6] for a_rev in revisions]
+                for abbrev_rev in abbreviated_revisions:
+                    if abbrev_rev in regression_revision:
+                        a_suite.remove(afail)
+                
         t.write(outfile)
 
     def build(self):

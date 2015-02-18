@@ -22,9 +22,9 @@ from repo_set import *
 from dependency_graph import DependencyGraph
 from export import Export
 from gtest import *
-from builders import *
 from jenkins import *
 from bisect import *
+from builders import *
 
 class DefaultTimeout:
     def __init__(self, options=None):

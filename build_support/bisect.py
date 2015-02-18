@@ -35,7 +35,7 @@ class Bisector:
         if repo_project == "piglit-test":
             repo_project = "piglit-build"
         rev = repo_project + "=" + self.commits[current_build].hexsha
-        print "Range: " + self.commits[0].hexsha + " - " + self.commits[-1].hexsha
+        print "Range: " + self.commits[0].hexsha + " - " + self.commits[-1].hexsha + " (" + len(self.commits) + ")"
         print "Building revision: " + rev
 
         o = Options(args=["ignore"])
@@ -146,10 +146,21 @@ class PiglitTest:
     preferred_hardware = ["hswgt3e", "hswgt2", "hswgt1", "ivbgt2",
                           "ivbgt1"] # ...
 
-    def __init__(self, full_test_name, status):
+    def __init__(self, full_test_name, status, test_tag=None):
         """full_test_name includes arch/platform.  status must be one
         of "pass", "fail", "crash" """
 
+        if test_tag:
+            full_test_name = test_tag.attrib["name"]
+            full_test_name = test_tag.attrib["classname"] + "." + full_test_name
+            full_test_name = full_test_name.replace("=", ".")
+            full_test_name = full_test_name.replace(":", ".")
+            failnode = test_tag.find("./failure")
+            if failnode:
+                status = failnode.attrib["type"]
+            else:
+                status = "crash"
+        
         arch_hardware = full_test_name.split(".")[-1]
         arch = arch_hardware[-3:]
         hardware = arch_hardware[:-3]
@@ -221,6 +232,27 @@ class PiglitTest:
 
             c.write(open(conf_file, "w"))
 
+    def GetConfRevision(self):
+        hardware = self.hardware
+        if "gt" in hardware:
+            hardware = hardware[:3]
+        conf_file = ProjectMap().source_root() + "/piglit-test/" + hardware + self.arch + ".conf"
+        if not os.path.exists(conf_file):
+            conf_file = ProjectMap().source_root() + "/piglit-test/" + hardware + ".conf"
+        assert (os.path.exists(conf_file))
+        c = CaseConfig(allow_no_value=True)
+        c.optionxform = str
+        c.read(conf_file)
+        for section in ["expected-failures", "expected-crashes", "fixed-tests"]:
+            try:
+                rev = c.get(section, self.test_name)
+                if not rev:
+                    rev = ""
+                return rev
+            except(ConfigParser.NoSectionError, ConfigParser.NoOptionError):
+                pass
+        return ""
+    
 class TestLister:
     """reads xml files and generates a set of PiglitTest objects"""
     def __init__(self, bad_dir):
@@ -232,23 +264,14 @@ class TestLister:
             test_path = bad_dir + "/" + a_file
             self._add_tests(test_path)
 
-    def _make_test(self, test_tag):
-
-        full_test_name = test_tag.attrib["name"]
-        full_test_name = test_tag.attrib["classname"] + "." + full_test_name
-        full_test_name = full_test_name.replace("=", ".")
-        full_test_name = full_test_name.replace(":", ".")
-        failnode = test_tag.find("./failure")
-        if failnode is None:
-            return PiglitTest(full_test_name, "crash")
-        return PiglitTest(full_test_name, failnode.attrib["type"])        
-            
     def _add_tests(self, test_path):
         t = ET.parse(test_path)
         r = t.getroot()
 
         for afail in r.findall(".//failure/..") + r.findall(".//error/.."):
-            piglit_test = self._make_test(afail)
+            piglit_test = PiglitTest(full_test_name="unknown", 
+                                     status="unknown",
+                                     test_tag=afail)
             
             if piglit_test.test_name not in self._tests:
                 self._tests[piglit_test.test_name] = piglit_test
