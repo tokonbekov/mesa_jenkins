@@ -323,7 +323,6 @@ class PiglitTester(object):
                                        streamedOutput=streamedOutput)
         if err and "There are no tests scheduled to run" in err:
             open(out_dir + "/results.xml", "w").write("<testsuites/>")
-            return;
 
         single_out_dir = br + "/../test"
         if not os.path.exists(single_out_dir):
