@@ -239,6 +239,8 @@ class PiglitTest:
         conf_file = ProjectMap().source_root() + "/piglit-test/" + hardware + self.arch + ".conf"
         if not os.path.exists(conf_file):
             conf_file = ProjectMap().source_root() + "/piglit-test/" + hardware + ".conf"
+        if not os.path.exists(conf_file):
+            return ""
         assert (os.path.exists(conf_file))
         c = CaseConfig(allow_no_value=True)
         c.optionxform = str
