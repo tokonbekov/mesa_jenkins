@@ -150,13 +150,13 @@ class PiglitTest:
         """full_test_name includes arch/platform.  status must be one
         of "pass", "fail", "crash" """
 
-        if test_tag:
+        if test_tag is not None:
             full_test_name = test_tag.attrib["name"]
             full_test_name = test_tag.attrib["classname"] + "." + full_test_name
             full_test_name = full_test_name.replace("=", ".")
             full_test_name = full_test_name.replace(":", ".")
             failnode = test_tag.find("./failure")
-            if failnode:
+            if failnode is not None:
                 status = failnode.attrib["type"]
             else:
                 status = "crash"
@@ -164,6 +164,8 @@ class PiglitTest:
         arch_hardware = full_test_name.split(".")[-1]
         arch = arch_hardware[-3:]
         hardware = arch_hardware[:-3]
+        if "nir_" in hardware:
+            hardware = hardware[4:]
         if "gt" in hardware:
             hardware = hardware[:3]
 
