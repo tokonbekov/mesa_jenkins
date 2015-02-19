@@ -252,6 +252,7 @@ class PiglitTest:
                 rev = c.get(section, self.test_name)
                 if not rev:
                     rev = ""
+                print conf_file + " stripping: " + self.test_name + " " + rev
                 return rev
             except(ConfigParser.NoSectionError, ConfigParser.NoOptionError):
                 pass
