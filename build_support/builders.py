@@ -363,7 +363,7 @@ class PiglitTester(object):
 
             # for each failure, see if there is an entry in the config
             # file with a revision that was missed by a branch
-            for afail in a_suite.findall("testcase/failure/..") + r.findall("testcase/error/.."):
+            for afail in a_suite.findall("testcase/failure/..") + a_suite.findall("testcase/error/.."):
                 piglit_test = PiglitTest("foo", "foo", afail)
                 regression_revision = piglit_test.GetConfRevision()
                 abbreviated_revisions = [a_rev[:6] for a_rev in revisions]
