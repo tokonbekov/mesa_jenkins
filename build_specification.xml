@@ -143,53 +143,53 @@
       <mesa branch="origin/10.5"/>
     </branch>
 
-    <branch name="jekstrand" project="all-test">
+    <branch name="jekstrand" project="test-single-arch">
       <mesa branch="jekstrand/jenkins"/>
     </branch>
 
-    <branch name="kwg" project="all-test">
+    <branch name="kwg" project="test-single-arch">
       <mesa branch="kwg/jenkins"/>
     </branch>
 
-    <branch name="krh" project="all-test">
+    <branch name="krh" project="test-single-arch">
       <mesa branch="krh/jenkins"/>
     </branch>
 
-    <branch name="bwidawsk" project="all-test">
+    <branch name="bwidawsk" project="test-single-arch">
       <mesa branch="bwidawsk/jenkins"/>
       <piglit-build branch="bwidawsk/jenkins"/>
     </branch>
 
-    <branch name="idr" project="all-test">
+    <branch name="idr" project="test-single-arch">
       <mesa branch="idr/jenkins"/>
     </branch>
 
-    <branch name="mattst88" project="all-test">
+    <branch name="mattst88" project="test-single-arch">
       <mesa branch="mattst88/jenkins"/>
     </branch>
 
-    <branch name="majanes" project="all-test">
+    <branch name="majanes" project="test-single-arch">
       <mesa branch="janesma/jenkins"/>
     </branch>
 
-    <branch name="dcbaker" project="all-test">
+    <branch name="dcbaker" project="test-single-arch">
       <piglit-build branch="dcbaker/jenkins"/>
     </branch>
 
-    <branch name="chadv" project="all-test">
+    <branch name="chadv" project="test-single-arch">
       <mesa branch="origin/10.3"/>
       <waffle branch="chadv/jenkins"/>
     </branch>
 
-    <branch name="cworth" project="all-test">
+    <branch name="cworth" project="test-single-arch">
       <mesa branch="cworth/jenkins"/>
     </branch>
 
-    <branch name="jljusten" project="all-test">
+    <branch name="jljusten" project="test-single-arch">
       <mesa branch="jljusten/jenkins"/>
     </branch>
 
-    <branch name="ldeks" project="all-test">
+    <branch name="ldeks" project="test-single-arch">
       <mesa branch="ldeks/jenkins"/>
       <piglit-build branch="ldeks/jenkins"/>
     </branch>
