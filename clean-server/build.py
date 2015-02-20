@@ -21,5 +21,7 @@ for a_dir in os.listdir(result_path):
     sub_dir = result_path + a_dir
     for a_build_dir in os.listdir(sub_dir):
         build_dir = sub_dir + "/" + a_build_dir
+        if os.path.islink(build_dir):
+            continue
         if file_age_in_days(build_dir) > 30:
             bs.rmtree(build_dir)
