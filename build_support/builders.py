@@ -297,7 +297,7 @@ class PiglitTester(object):
         if "hsw" in o.hardware:
             # intermittent on haswell
             cmd = cmd + ["--exclude-tests", "ARB_uniform_buffer_object.bufferstorage"] # bug 89219
-            # this occured on 2/19, but I couldn't repeat it
+            # this occured on 2/19, but I couldn't repeat it (hswgt3e)
             #cmd = cmd + ["--exclude-tests", "EXT_transform_feedback.max-varyings"]
 
         if "g965" in o.hardware:
