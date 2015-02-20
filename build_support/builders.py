@@ -297,7 +297,8 @@ class PiglitTester(object):
         if "hsw" in o.hardware:
             # intermittent on haswell
             cmd = cmd + ["--exclude-tests", "ARB_uniform_buffer_object.bufferstorage"] # bug 89219
-            cmd = cmd + ["--exclude-tests", "EXT_transform_feedback.max-varyings"]
+            # this occured on 2/19, but I couldn't repeat it
+            #cmd = cmd + ["--exclude-tests", "EXT_transform_feedback.max-varyings"]
 
         if "g965" in o.hardware:
             # intermittent GPU hang on g965
