@@ -41,7 +41,7 @@
     <project name="all-test">
       <!-- <prerequisite name="piglit-test" arch="m32,m64" hardware="snb,ivb"/> -->
       <prerequisite name="test-single-arch" arch="m64,m32"/>
-      <!-- <prerequisite name="scons-buildtest" hardware="builder"/> -->
+      <prerequisite name="scons-buildtest" hardware="builder"/>
     </project>
 
     <project name="test-single-arch">
@@ -86,6 +86,7 @@
       <remote name="mperes" repo="git://people.freedesktop.org/~mperes/mesa"/>
       <remote name="tpalli" repo="git://people.freedesktop.org/~tpalli/mesa"/>
       <remote name="curro" repo="git://people.freedesktop.org/~currojerez/mesa"/>
+      <remote name="aphogat" repo="git://github.com/aphogat/mesa"/>
     </mesa>
 
     <drm repo="git://anongit.freedesktop.org/mesa/drm"/>
@@ -204,6 +205,10 @@
 
     <branch name="curro" project="test-single-arch">
       <mesa branch="curro/jenkins"/>
+    </branch>
+
+    <branch name="aphogat" project="test-single-arch">
+      <mesa branch="aphogat/jenkins"/>
     </branch>
 
   </branches>
