@@ -296,7 +296,7 @@ class PiglitTester(object):
 
         if "hsw" in o.hardware:
             # intermittent on haswell
-            cmd = cmd + ["--exclude-tests", "ARB_uniform_buffer_object.bufferstorage"]
+            cmd = cmd + ["--exclude-tests", "ARB_uniform_buffer_object.bufferstorage"] # bug 89219
             cmd = cmd + ["--exclude-tests", "EXT_transform_feedback.max-varyings"]
 
         if "g965" in o.hardware:
@@ -306,6 +306,9 @@ class PiglitTester(object):
         if "bdw" in o.hardware:
             cmd = cmd + ["--exclude-tests",
                          "ARB_texture_multisample.texelFetch.fs.sampler2DMSArray"]
+
+        if "byt" in o.hardware:
+            cmd = cmd + ["--exclude-tests", "ARB_uniform_buffer_object.bufferstorage"] # bug 89219
 
         if self.piglit_test:
             tests = self.piglit_test.split(",")
