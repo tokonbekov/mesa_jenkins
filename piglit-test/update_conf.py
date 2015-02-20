@@ -58,7 +58,7 @@ for f in xmls:
 
         failnode = afail.find("./failure")
         if failnode.attrib["type"] == "fail":
-            c.set("expected-failures", name)
+            c.set("expected-failures", name, args.blame_revision)
             continue
         assert(failnode.attrib["type"] == "pass")
         c.remove_option("expected-failures", name)
@@ -72,6 +72,6 @@ for f in xmls:
         name = acrash.attrib["classname"] + "." + name
         name = name.replace("=", ".")
         name = name.replace(":", ".")
-        c.set("expected-crashes", name)
+        c.set("expected-crashes", name, args.blame_revision)
 
     c.write(open(conf_file, "w"))
