@@ -297,6 +297,7 @@ class PiglitTester(object):
         if "hsw" in o.hardware:
             # intermittent on haswell
             cmd = cmd + ["--exclude-tests", "ARB_uniform_buffer_object.bufferstorage"]
+            cmd = cmd + ["--exclude-tests", "EXT_transform_feedback.max-varyings"]
 
         if "g965" in o.hardware:
             # intermittent GPU hang on g965
