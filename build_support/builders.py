@@ -304,9 +304,11 @@ class PiglitTester(object):
             # intermittent GPU hang on g965
             cmd = cmd + ["--exclude-tests",
                          "ARB_shader_texture_lod.execution.tex-miplevel-selection"]
+
         if "bdw" in o.hardware:
+            # many tests match this string and are intermittent on bdw
             cmd = cmd + ["--exclude-tests",
-                         "ARB_texture_multisample.texelFetch.fs.sampler2DMSArray"]
+                         "ARB_texture_multisample.texelFetch.fs.sampler2DMS"]
 
         if "byt" in o.hardware:
             cmd = cmd + ["--exclude-tests", "ARB_uniform_buffer_object.bufferstorage"] # bug 89219
