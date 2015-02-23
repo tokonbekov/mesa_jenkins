@@ -122,7 +122,7 @@
       <!-- these repo tags exist soley to trigger a master build when
            anything changes -->
       <mesa/>
-      <piglit-build branch="janesma/api_underscore"/>
+      <piglit-build/>
       <waffle/>
       <drm/>
     </branch>
@@ -130,104 +130,84 @@
     <branch name="mesa_10.2" project="all-test">
       <mesa branch="origin/10.2"/>
       <waffle branch="stable/master"/>
-      <piglit-build branch="janesma/api_underscore"/>
     </branch>
 
     <branch name="mesa_10.3" project="all-test">
       <mesa branch="origin/10.3"/>
-      <piglit-build branch="janesma/api_underscore"/>
     </branch>
 
     <branch name="mesa_10.4" project="all-test">
       <mesa branch="origin/10.4"/>
-      <piglit-build branch="janesma/api_underscore"/>
     </branch>
 
     <branch name="mesa_10.5" project="all-test">
       <mesa branch="origin/10.5"/>
-      <piglit-build branch="janesma/api_underscore"/>
     </branch>
 
     <branch name="jekstrand" project="test-single-arch">
       <mesa branch="jekstrand/jenkins"/>
-      <piglit-build branch="janesma/api_underscore"/>
     </branch>
 
     <branch name="kwg" project="test-single-arch">
       <mesa branch="kwg/jenkins"/>
-      <piglit-build branch="janesma/api_underscore"/>
     </branch>
 
     <branch name="krh" project="test-single-arch">
       <mesa branch="krh/jenkins"/>
-      <piglit-build branch="janesma/api_underscore"/>
     </branch>
 
     <branch name="bwidawsk" project="test-single-arch">
       <mesa branch="bwidawsk/jenkins"/>
-      <piglit-build branch="janesma/api_underscore"/>
       <!-- <piglit-build branch="bwidawsk/jenkins"/> -->
     </branch>
 
     <branch name="idr" project="test-single-arch">
       <mesa branch="idr/jenkins"/>
-      <piglit-build branch="janesma/api_underscore"/>
     </branch>
 
     <branch name="mattst88" project="test-single-arch">
       <mesa branch="mattst88/jenkins"/>
-      <piglit-build branch="janesma/api_underscore"/>
     </branch>
 
     <branch name="majanes" project="test-single-arch">
       <mesa branch="janesma/jenkins"/>
-      <piglit-build branch="janesma/api_underscore"/>
     </branch>
 
     <branch name="dcbaker" project="test-single-arch">
       <!-- <piglit-build branch="dcbaker/jenkins"/> -->
-      <piglit-build branch="janesma/api_underscore"/>
     </branch>
 
     <branch name="chadv" project="test-single-arch">
       <mesa branch="origin/10.3"/>
       <waffle branch="chadv/jenkins"/>
-      <piglit-build branch="janesma/api_underscore"/>
     </branch>
 
     <branch name="cworth" project="test-single-arch">
       <mesa branch="cworth/jenkins"/>
-      <piglit-build branch="janesma/api_underscore"/>
     </branch>
 
     <branch name="jljusten" project="test-single-arch">
       <mesa branch="jljusten/jenkins"/>
-      <piglit-build branch="janesma/api_underscore"/>
     </branch>
 
     <branch name="ldeks" project="test-single-arch">
       <mesa branch="ldeks/jenkins"/>
       <!-- <piglit-build branch="ldeks/jenkins"/> -->
-      <piglit-build branch="janesma/api_underscore"/>
     </branch>
 
     <branch name="mperes" project="test-single-arch">
-      <piglit-build branch="janesma/api_underscore"/>
       <mesa branch="mperes/jenkins"/>
     </branch>
 
     <branch name="tpalli" project="test-single-arch">
-      <piglit-build branch="janesma/api_underscore"/>
       <mesa branch="tpalli/jenkins"/>
     </branch>
 
     <branch name="curro" project="test-single-arch">
-      <piglit-build branch="janesma/api_underscore"/>
       <mesa branch="curro/jenkins"/>
     </branch>
 
     <branch name="aphogat" project="test-single-arch">
-      <piglit-build branch="janesma/api_underscore"/>
       <mesa branch="aphogat/jenkins"/>
     </branch>
 
