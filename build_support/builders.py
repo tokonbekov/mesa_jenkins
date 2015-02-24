@@ -294,11 +294,14 @@ class PiglitTester(object):
         if os.path.exists(hardware_conf):
             cmd = cmd + ["--config", hardware_conf]
 
+        # this occured intermittently on hsw, ivb and others 2/19 -
+        # 2/23.  Bisect takes 3 minutes to run the test.  It is very
+        # infrequent.
+        cmd = cmd + ["--exclude-tests", "EXT_transform_feedback.max-varyings"]
+
         if "hsw" in o.hardware:
             # intermittent on haswell
             cmd = cmd + ["--exclude-tests", "ARB_uniform_buffer_object.bufferstorage"] # bug 89219
-            # this occured on 2/19, but I couldn't repeat it (hswgt3e)
-            #cmd = cmd + ["--exclude-tests", "EXT_transform_feedback.max-varyings"]
 
         if "g965" in o.hardware:
             # intermittent GPU hang on g965
