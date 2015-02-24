@@ -284,8 +284,8 @@ class PiglitTester(object):
                "--exclude-tests", "glsl-routing",
 
                # fails intermittently
-               "--exclude-tests", "EXT_timer_query",
-               "--exclude-tests", "ARB_timer_query",
+               "--exclude-tests", "ext_timer_query",
+               "--exclude-tests", "arb_timer_query",
 
                # fails intermittently on g45, fails reliably on all
                # others.  Test introduced Oct 2014
@@ -297,24 +297,24 @@ class PiglitTester(object):
         # this occured intermittently on hsw, ivb and others 2/19 -
         # 2/23.  Bisect takes 3 minutes to run the test.  It is very
         # infrequent.
-        cmd = cmd + ["--exclude-tests", "EXT_transform_feedback.max-varyings"]
+        cmd = cmd + ["--exclude-tests", "ext_transform_feedback.max-varyings"]
 
         if "hsw" in o.hardware:
             # intermittent on haswell
-            cmd = cmd + ["--exclude-tests", "ARB_uniform_buffer_object.bufferstorage"] # bug 89219
+            cmd = cmd + ["--exclude-tests", "arb_uniform_buffer_object.bufferstorage"] # bug 89219
 
         if "g965" in o.hardware:
             # intermittent GPU hang on g965
             cmd = cmd + ["--exclude-tests",
-                         "ARB_shader_texture_lod.execution.tex-miplevel-selection"]
+                         "arb_shader_texture_lod.execution.tex-miplevel-selection"]
 
         if "bdw" in o.hardware:
             # many tests match this string and are intermittent on bdw
             cmd = cmd + ["--exclude-tests",
-                         "ARB_texture_multisample.texelFetch.fs.sampler2DMS"]
+                         "arb_texture_multisample.texelFetch.fs.sampler2dms"]
 
         if "byt" in o.hardware:
-            cmd = cmd + ["--exclude-tests", "ARB_uniform_buffer_object.bufferstorage"] # bug 89219
+            cmd = cmd + ["--exclude-tests", "arb_uniform_buffer_object.bufferstorage"] # bug 89219
 
         if self.piglit_test:
             tests = self.piglit_test.split(",")
