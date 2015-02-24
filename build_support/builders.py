@@ -276,9 +276,6 @@ class PiglitTester(object):
                "-c",
                "--junit_suffix", "." + suffix + o.arch,
 
-               # hangs snb
-               "--exclude-tests", "TRIANGLE_STRIP_ADJACENCY",
-               "--exclude-tests", "timestamp-get",
 
                # intermittently fails snb
                "--exclude-tests", "glsl-routing",
@@ -298,6 +295,11 @@ class PiglitTester(object):
         # 2/23.  Bisect takes 3 minutes to run the test.  It is very
         # infrequent.
         cmd = cmd + ["--exclude-tests", "ext_transform_feedback.max-varyings"]
+
+        if "snb" in o.hardware:
+            # hangs snb
+            "--exclude-tests", "TRIANGLE_STRIP_ADJACENCY",
+            "--exclude-tests", "timestamp-get",
 
         if "hsw" in o.hardware:
             # intermittent on haswell
