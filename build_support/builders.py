@@ -276,8 +276,8 @@ class PiglitTester(object):
                "-c",
                "--junit_suffix", "." + suffix + o.arch,
 
-
-               # intermittently fails snb
+               # intermittently fails snb?
+               "--exclude-tests", "timestamp-get",
                "--exclude-tests", "glsl-routing",
 
                # fails intermittently
@@ -298,8 +298,7 @@ class PiglitTester(object):
 
         if "snb" in o.hardware:
             # hangs snb
-            "--exclude-tests", "TRIANGLE_STRIP_ADJACENCY",
-            "--exclude-tests", "timestamp-get",
+            cmd = cmd + ["--exclude-tests", "triangle_strip_adjacency"]
 
         if "hsw" in o.hardware:
             # intermittent on haswell
