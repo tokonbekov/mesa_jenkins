@@ -20,11 +20,16 @@ parser.add_argument('--end_rev', type=str, default='',
                     help="The sha ending the sequence to be tested")
 
 parser.add_argument('--project', type=str, default='all-test',
-                    choices=['all-test', 'piglit-build'],
+                    choices=['all-test', 'piglit-build', 'piglit-test'],
                     help="The jenkins project to build")
 
 parser.add_argument('--series_name', type=str, default='',
                     help="The name to apply to each custom build")
+
+parser.add_argument('--hardware', type=str, default='builder',
+                    help="The hardware to be targeted for test "
+                    "('builder', 'snbgt1', 'ivb', 'hsw', 'bdw'). "
+                    "(default: %(default)s)")
 
 args = parser.parse_args(sys.argv[1:])
 
@@ -77,7 +82,8 @@ for commit in commits:
     custom_url = "http://otc-gfxtest-01.jf.intel.com/job/mesa_custom/buildWithParameters?token=xyzzy&{0}"
     job_args = { "name" : args.series_name + "_" + commit.hexsha[:8],
                  "revision" : "mesa=" + commit.hexsha,
-                 "project" : args.project }
+                 "project" : args.project,
+                 "hardware" : args.hardware }
     url = custom_url.format(urllib.urlencode(job_args))
 
     failcount = 0
