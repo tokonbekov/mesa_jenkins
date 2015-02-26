@@ -20,7 +20,7 @@ parser.add_argument('--end_rev', type=str, default='',
                     help="The sha ending the sequence to be tested")
 
 parser.add_argument('--project', type=str, default='all-test',
-                    choices=['all-test', 'piglit-build', 'piglit-test'],
+                    choices=['test-single-arch', 'piglit-build', 'piglit-test'],
                     help="The jenkins project to build")
 
 parser.add_argument('--series_name', type=str, default='',
