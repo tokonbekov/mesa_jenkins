@@ -122,7 +122,7 @@
            anything changes -->
       <mesa/>
       <piglit-build/>
-      <waffle/>
+      <waffle branch="janesma/jenkins"/>
       <drm/>
     </branch>
 
@@ -133,47 +133,58 @@
 
     <branch name="mesa_10.3" project="all-test">
       <mesa branch="origin/10.3"/>
+      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="mesa_10.4" project="all-test">
       <mesa branch="origin/10.4"/>
+      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="mesa_10.5" project="all-test">
       <mesa branch="origin/10.5"/>
+      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="jekstrand" project="test-single-arch">
       <mesa branch="jekstrand/jenkins"/>
+      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="kwg" project="test-single-arch">
       <mesa branch="kwg/jenkins"/>
+      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="krh" project="test-single-arch">
       <mesa branch="krh/jenkins"/>
+      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="bwidawsk" project="test-single-arch">
       <mesa branch="bwidawsk/jenkins"/>
       <!-- <piglit-build branch="bwidawsk/jenkins"/> -->
+      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="idr" project="test-single-arch">
       <mesa branch="idr/jenkins"/>
+      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="mattst88" project="test-single-arch">
       <mesa branch="mattst88/jenkins"/>
+      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="majanes" project="test-single-arch">
       <mesa branch="janesma/jenkins"/>
+      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="dcbaker" project="test-single-arch">
       <!-- <piglit-build branch="dcbaker/jenkins"/> -->
+      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="chadv" project="test-single-arch">
@@ -183,31 +194,38 @@
 
     <branch name="cworth" project="test-single-arch">
       <mesa branch="cworth/jenkins"/>
+      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="jljusten" project="test-single-arch">
       <mesa branch="jljusten/jenkins"/>
+      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="ldeks" project="test-single-arch">
       <mesa branch="ldeks/jenkins"/>
       <!-- <piglit-build branch="ldeks/jenkins"/> -->
+      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="mperes" project="test-single-arch">
       <mesa branch="mperes/jenkins"/>
+      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="tpalli" project="test-single-arch">
       <mesa branch="tpalli/jenkins"/>
+      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="curro" project="test-single-arch">
       <mesa branch="curro/jenkins"/>
+      <waffle branch="janesma/jenkins"/>
     </branch>
 
     <branch name="aphogat" project="test-single-arch">
       <mesa branch="aphogat/jenkins"/>
+      <waffle branch="janesma/jenkins"/>
     </branch>
 
   </branches>
