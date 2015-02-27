@@ -68,7 +68,7 @@ new_failures = bs.TestLister(bisect_dir + "/test/")
 
 if not new_failures.Tests():
     print "All tests fixed"
-    return
+    sys.exit(0)
 
 test_arg = make_test_list(new_failures)
 
