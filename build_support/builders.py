@@ -323,6 +323,8 @@ class PiglitTester(object):
                 # only use the last two components of test name, excluding
                 # suffix
                 test_name = ".".join(test.split(".")[1:-1])
+                # underscores are special in piglit names.  Replace with a '.'
+                test_name = test_name.replace('_', '.')
                 cmd = cmd + ["--include-tests", test_name]
             
         cmd = cmd + [self.suite,
