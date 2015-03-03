@@ -294,28 +294,34 @@ class PiglitTester(object):
         # this occured intermittently on hsw, ivb and others 2/19 -
         # 2/23.  Bisect takes 3 minutes to run the test.  It is very
         # infrequent.
-        cmd = cmd + ["--exclude-tests", "ext_transform_feedback.max-varyings"]
+        exclude_tests = ["ext_transform_feedback.max-varyings"]
 
         if "snb" in o.hardware:
             # hangs snb
-            cmd = cmd + ["--exclude-tests", "triangle_strip_adjacency"]
+            exclude_tests = exclude_tests + ["triangle_strip_adjacency"]
 
         if "hsw" in o.hardware:
-            # intermittent on haswell
-            cmd = cmd + ["--exclude-tests", "arb_uniform_buffer_object.bufferstorage"] # bug 89219
+            # intermittent on haswell bug 89219
+            exclude_tests = exclude_tests + ["arb_uniform_buffer_object.bufferstorage"]
 
         if "g965" in o.hardware:
             # intermittent GPU hang on g965
-            cmd = cmd + ["--exclude-tests",
-                         "arb_shader_texture_lod.execution.tex-miplevel-selection"]
+            exclude_tests = exclude_tests + ["arb_shader_texture_lod.execution.tex-miplevel-selection",
+                                             # fdo Bug 89398
+                                             "glsl-1_20.execution.clipping.fixed-clip-enables",
+                                             "glsl-1_10.execution.clipping.clip-plane-transformation pos_clipvert"]
 
         if "bdw" in o.hardware:
             # many tests match this string and are intermittent on bdw
-            cmd = cmd + ["--exclude-tests",
-                         "arb_texture_multisample.texelFetch.fs.sampler2dms"]
+            exclude_tests = exclude_tests + ["arb_texture_multisample.texelFetch.fs.sampler2dms"]
 
         if "byt" in o.hardware:
-            cmd = cmd + ["--exclude-tests", "arb_uniform_buffer_object.bufferstorage"] # bug 89219
+            # bug 89219
+            exclude_tests = exclude_tests + ["arb_uniform_buffer_object.bufferstorage"]
+
+        for test in exclude_tests:
+            fixed_test = test.replace('_', '.')
+            cmd = cmd + ["--exclude-tests", fixed_test]
 
         if self.piglit_test:
             tests = self.piglit_test.split(",")
@@ -325,7 +331,7 @@ class PiglitTester(object):
                 test_name = ".".join(test.split(".")[1:-1])
                 # underscores are special in piglit names.  Replace with a '.'
                 test_name = test_name.replace('_', '.')
-                cmd = cmd + ["--include-tests", test_name]
+                exclude_tests = exclude_tests + ["--include-tests", test_name]
             
         cmd = cmd + [self.suite,
                      out_dir ]
