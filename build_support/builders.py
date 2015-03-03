@@ -321,6 +321,7 @@ class PiglitTester(object):
 
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
+            fixed_test = test.replace(' ', '.')
             cmd = cmd + ["--exclude-tests", fixed_test]
 
         if self.piglit_test:
