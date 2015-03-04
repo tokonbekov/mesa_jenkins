@@ -46,7 +46,7 @@ def main():
               "src/mesa/drivers/dri/i965/test_vec4_register_coalesce",
               "./src/mapi/shared-glapi-test"]
 
-    builder.AddGtests(gtests)
+    # builder.AddGtests(gtests)
 
     bs.build(builder)
 
