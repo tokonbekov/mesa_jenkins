@@ -295,7 +295,8 @@ class PiglitTester(object):
         # this occured intermittently on hsw, ivb and others 2/19 -
         # 2/23.  Bisect takes 3 minutes to run the test.  It is very
         # infrequent.
-        exclude_tests = ["ext_transform_feedback.max-varyings"]
+        # Matt improved the runtime of this test by 80%
+        # exclude_tests = ["ext_transform_feedback.max-varyings"]
 
         if "snb" in o.hardware:
             # hangs snb
