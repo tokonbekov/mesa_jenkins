@@ -326,6 +326,7 @@ class PiglitTester(object):
             cmd = cmd + ["--exclude-tests", fixed_test]
 
         if self.piglit_test:
+            include_tests = []
             tests = self.piglit_test.split(",")
             for test in tests:
                 # only use the last two components of test name, excluding
@@ -333,7 +334,8 @@ class PiglitTester(object):
                 test_name = ".".join(test.split(".")[1:-1])
                 # underscores are special in piglit names.  Replace with a '.'
                 test_name = test_name.replace('_', '.')
-                exclude_tests = exclude_tests + ["--include-tests", test_name]
+                include_tests = include_tests + ["--include-tests", test_name]
+            cmd = cmd + include_tests
             
         cmd = cmd + [self.suite,
                      out_dir ]
