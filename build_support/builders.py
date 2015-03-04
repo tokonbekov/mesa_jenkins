@@ -97,7 +97,8 @@ class AutoBuilder(object):
         try:
             run_batch_command(["make",  "-k", "-j", 
                                str(multiprocessing.cpu_count() + 1),
-                               "check"])
+                               ])
+                               #"check"])
         except(subprocess.CalledProcessError):
             print "WARN: make check failed"
 
