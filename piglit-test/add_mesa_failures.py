@@ -30,7 +30,7 @@ def make_test_list(testlister):
     for atest in testlister.Tests():
         test_name_good_chars = re.sub('[_ !:=]', ".", atest.test_name)
         _test_list.append(test_name_good_chars + ".all_platforms")
-        return "--piglit_test=" + ",".join(_test_list)
+    return "--piglit_test=" + ",".join(_test_list)
 
 new_failures = bs.TestLister(args.test_dir)
 test_arg = make_test_list(new_failures)
