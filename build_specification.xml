@@ -13,6 +13,10 @@
       <prerequisite name="drm"/>
     </project>
 
+    <project name="mesa-buildtest" src_dir="mesa">
+      <prerequisite name="drm"/>
+    </project>
+
     <project name="waffle">
       <prerequisite name="mesa" hardware="builder"/>
     </project>

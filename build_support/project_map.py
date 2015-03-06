@@ -1,5 +1,6 @@
 import sys, os
 import xml.etree.ElementTree as ET
+import pdb
 
 from . import Options
 
@@ -46,6 +47,17 @@ class ProjectMap:
 
     def project_source_dir(self, project):
         """location of the git repo for the project"""
+        spec = self.build_spec()
+        projects_tag = spec.find("projects")
+        projects = projects_tag.findall("project")
+        for a_project in projects:
+            if project != a_project.attrib["name"]:
+                continue
+            if a_project.attrib.has_key("src_dir"):
+                sdir = self._source_root + "/repos/" + a_project.attrib["src_dir"]
+                assert(os.path.exists(sdir))
+                return sdir
+
         sdir = self._source_root + "/repos/" + project
         assert(os.path.exists(sdir))
         return sdir

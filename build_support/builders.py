@@ -32,9 +32,10 @@ def delete_src_pyc(path):
 
 class AutoBuilder(object):
 
-    def __init__(self, o=None, configure_options=None):
+    def __init__(self, o=None, configure_options=None, export=True):
         self._options = o
         self._tests = None
+        self._export = export
 
         self._configure_options = configure_options
         if not configure_options:
@@ -85,7 +86,8 @@ class AutoBuilder(object):
 
         os.chdir(savedir)
 
-        Export().export()
+        if self._export:
+            Export().export()
 
     def AddGtests(self, tests):
         self._tests = GTest(binary_dir = self._build_dir, executables=tests)
@@ -104,7 +106,8 @@ class AutoBuilder(object):
         if self._tests:
             self._tests.run_tests()
 
-        Export().export()
+        if self._export:
+            Export().export()
 
         os.chdir(savedir)
 
