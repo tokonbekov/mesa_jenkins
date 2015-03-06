@@ -31,10 +31,11 @@ def main():
 
     builder = bs.AutoBuilder(configure_options=options, export=False)
 
+    pm = bs.ProjectMap()
     try:
         bs.build(builder)
     except subprocess.CalledProcessError as e:
-        test_path = path.abspath(bs.ProjectMap().build_root() + "/../test/")
+        test_path = path.abspath(pm.build_root() + "/../test/")
         if not path.exists(test_path):
             os.makedirs(test_path)
         # filname has to begin with piglit for junit pattern match in jenkins to find it.
@@ -52,6 +53,12 @@ def main():
 </testsuites>""")
         fh.close()
         bs.Export().export_tests()
+
+        # create a copy of the test xml in the source root, where
+        # jenkins can access it.
+        cmd = ["cp", "-a", "-n",
+               pm.build_root() + "/../test", pm.source_root()]
+        bs.run_batch_command(cmd)
 
 if __name__ == '__main__':
     main()
