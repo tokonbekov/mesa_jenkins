@@ -229,7 +229,6 @@ class Jenkins:
                     # page to ensure we have the final status.  Only
                     # incur delays if the build finished less than 10
                     # seconds ago.
-                    print "Waiting for test results to parse"
                     time.sleep(10 )
                 try:
                     f = urllib2.urlopen(job_url + "/api/python")
@@ -401,8 +400,7 @@ class Jenkins:
 
             if finished:
                 finished.invoke.set_info("status", finished.status)
-                print "Build finished: " + finished.url
-                print "Build finished: " + finished.invoke.to_short_string()
+                print "Build finished: " + finished.invoke.to_short_string() + " " + finished.url
 
                 completed_builds.append(finished.invoke)
                 depGraph.build_complete(finished.invoke)
