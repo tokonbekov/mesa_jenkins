@@ -173,7 +173,7 @@
     </branch>
 
     <branch name="dcbaker" project="test-single-arch">
-      <!-- <piglit-build branch="dcbaker/jenkins"/> -->
+      <piglit-build branch="dcbaker/jenkins"/>
     </branch>
 
     <branch name="chadv" project="test-single-arch">
