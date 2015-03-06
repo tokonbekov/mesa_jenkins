@@ -43,9 +43,9 @@ def main():
         fh.write("""\
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="mesa-buildtest-""" + global_opts.arch + """\
-" tests="1">
-    <testcase classname="mesa-buildtest" name="compile.error" status="fail" time="0">
+  <testsuite name="mesa-buildtest" tests="1">
+    <testcase classname="mesa-buildtest-""" + global_opts.arch + """\
+" name="compile.error" status="fail" time="0">
       <system-out>""" + xml.sax.saxutils.escape(str(e)) + """</system-out>
       <failure type="fail" />
     </testcase>
