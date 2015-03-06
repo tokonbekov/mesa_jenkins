@@ -291,7 +291,9 @@ class Jenkins:
             if an_action.has_key("parameters"):
                 build_params = an_action["parameters"]
                 break
-        assert build_params
+        if not build_params:
+            print "WARN: build without params when searching for: " + project_invoke.to_short_string()
+            return False
         hash_str = ""
         for a_param in build_params:
             if a_param["name"] == "hash":
