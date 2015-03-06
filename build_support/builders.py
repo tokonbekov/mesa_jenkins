@@ -292,7 +292,7 @@ class PiglitTester(object):
             cmd = cmd + ["--config", hardware_conf]
 
         # intermittent on at least snbgt1 and nir hswgt3e
-        exclude_tests = ["spec.glsl-1_10.execution.vs-vec2-main-return"]
+        exclude_tests = ["glsl-1_10.execution.vs-vec2-main-return"]
 
         # this occured intermittently on hsw, ivb and others 2/19 -
         # 2/23.  Bisect takes 3 minutes to run the test.  It is very
