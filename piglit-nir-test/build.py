@@ -4,6 +4,13 @@ import sys, os, argparse
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
 import build_support as bs
 
+class SlowTimeout:
+    def __init__(self, options):
+        self.hardware = options.hardware
+
+    def GetDuration(self):
+        return 30
+
 _o = bs.Options([sys.argv[0]])
 parser= argparse.ArgumentParser(description="Allows additional parameters for "\
                                 "specifying test", 
