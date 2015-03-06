@@ -47,6 +47,7 @@ def main():
     </testcase>
   </testsuite>
 </testsuites>""")
+        fh.close()
         bs.Export().export_tests()
 
 if __name__ == '__main__':
