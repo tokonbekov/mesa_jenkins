@@ -51,6 +51,7 @@
       <prerequisite name="piglit-cpu-test" hardware="builder" arch="m64,m32"/>
       <!-- any haswell will suffice for nir test -->
       <prerequisite name="piglit-nir-test" hardware="hsw" arch="m64,m32"/>
+      <prerequisite name="mesa-buildtest" hardware="builder" arch="m64,m32"/>
     </project>
 
     <project name="test-single-arch">
@@ -60,6 +61,7 @@
       <!-- any haswell will suffice for nir test -->
       <prerequisite name="piglit-nir-test" hardware="hsw"/>
       <prerequisite name="scons-buildtest" hardware="builder"/>
+      <prerequisite name="mesa-buildtest" hardware="builder"/>
     </project>
 
     <project name="piglit-gpu-all">
