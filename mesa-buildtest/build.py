@@ -15,9 +15,8 @@ def main():
 
     options = []
     if global_opts.arch == "m32":
-        # gallium requires llvm, which breaks on i386
-        # expat pkg-config fails for some reason on i386
-        options = ['EXPAT_LIBS="-L/usr/lib/i386-linux-gnu -lexpat"']
+        # m32 build not supported
+        return
 
     options = options + ["--enable-gbm",
                          "--with-egl-platforms=x11,drm",
