@@ -57,7 +57,7 @@ for f in xmls:
         name = name.replace(":", ".")
 
         failnode = afail.find("./failure")
-        if failnode.attrib["type"] == "fail":
+        if failnode.attrib["type"] == "fail" or failnode.attrib["type"] == "warn":
             c.set("expected-failures", name, args.blame_revision)
             continue
         assert(failnode.attrib["type"] == "pass")
