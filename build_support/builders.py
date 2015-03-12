@@ -308,8 +308,8 @@ class PiglitTester(object):
             exclude_tests = exclude_tests + ["triangle_strip_adjacency"]
 
         if "hsw" in o.hardware:
-            # intermittent on haswell bug 89219
-            exclude_tests = exclude_tests + ["arb_uniform_buffer_object.bufferstorage"]
+            # intermittent on haswell bug 89219 fixed in 10c82c6c5fc415d323a5e9c6acdc6a4c85d6b712
+            # exclude_tests = exclude_tests + ["arb_uniform_buffer_object.bufferstorage"]
 
         if "g965" in o.hardware:
             # intermittent GPU hang on g965
@@ -323,8 +323,8 @@ class PiglitTester(object):
             exclude_tests = exclude_tests + ["arb_texture_multisample.texelFetch.fs.sampler2dms"]
 
         if "byt" in o.hardware:
-            # bug 89219
-            exclude_tests = exclude_tests + ["arb_uniform_buffer_object.bufferstorage"]
+            # bug 89219, fixed in 10c82c6c5fc415d323a5e9c6acdc6a4c85d6b712
+            # exclude_tests = exclude_tests + ["arb_uniform_buffer_object.bufferstorage"]
 
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
