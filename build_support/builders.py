@@ -310,6 +310,7 @@ class PiglitTester(object):
         if "hsw" in o.hardware:
             # intermittent on haswell bug 89219 fixed in 10c82c6c5fc415d323a5e9c6acdc6a4c85d6b712
             # exclude_tests = exclude_tests + ["arb_uniform_buffer_object.bufferstorage"]
+            pass
 
         if "g965" in o.hardware:
             # intermittent GPU hang on g965
@@ -325,6 +326,7 @@ class PiglitTester(object):
         if "byt" in o.hardware:
             # bug 89219, fixed in 10c82c6c5fc415d323a5e9c6acdc6a4c85d6b712
             # exclude_tests = exclude_tests + ["arb_uniform_buffer_object.bufferstorage"]
+            pass
 
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
