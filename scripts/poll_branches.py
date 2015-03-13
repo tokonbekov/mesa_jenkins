@@ -13,13 +13,15 @@ while True:
         print "Building " + branch
         job_url = "http://" + server + "/job/" + branch + \
                   "/buildWithParameters?token=xyzzy&name=" + commit + "&type=percheckin"
-        while True:
+        retry_count = 0
+        while retry_count < 10:
             try:
                 f = urllib2.urlopen(job_url)
                 f.read()
                 break
             except urllib2.HTTPError as e:
                 print e
+                retry_count = retry_count + 1
                 print "ERROR: failed to reach jenkins, retrying: " + job_url
                 time.sleep(10)
 
