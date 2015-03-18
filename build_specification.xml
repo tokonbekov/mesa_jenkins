@@ -62,6 +62,7 @@
       <!-- any haswell will suffice for nir test -->
       <prerequisite name="piglit-nir-test" hardware="hsw"/>
       <prerequisite name="scons-buildtest" hardware="builder" arch="m64"/>
+      <prerequisite name="mesa-buildtest" hardware="builder"/>
     </project>
 
     <project name="piglit-gpu-all">
