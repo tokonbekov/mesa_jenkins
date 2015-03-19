@@ -101,7 +101,9 @@
       <remote name="aphogat" repo="git://github.com/aphogat/mesa"/>
     </mesa>
 
-    <drm repo="git://anongit.freedesktop.org/mesa/drm"/>
+    <drm repo="git://anongit.freedesktop.org/mesa/drm">
+      <remote name="aphogat" repo="git://github.com/aphogat/drm"/>
+    </drm>
 
     <piglit-build repo="git://anongit.freedesktop.org/piglit">
       <remote name="jekstrand" repo="git://people.freedesktop.org/~jekstrand/piglit"/>
