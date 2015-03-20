@@ -435,6 +435,7 @@ class PiglitTester(object):
             o = Options()
             o.hardware = label
             reboot_invoke = ProjectInvoke(options=o, project="reboot-slave")
+            reboot_invoke.set_info("status", "rebuild")
             Jenkins(RevisionSpecification(),
                     Options().result_path).build(reboot_invoke)
 
