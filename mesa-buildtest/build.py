@@ -30,11 +30,10 @@ def main():
 
     builder = bs.AutoBuilder(configure_options=options, export=False)
 
-    pm = bs.ProjectMap()
     try:
         bs.build(builder)
     except subprocess.CalledProcessError as e:
-        bs.Export.create_failing_test("mesa-buildtest-" + global_opts.arch, str(e)):
+        bs.Export.create_failing_test("mesa-buildtest-" + global_opts.arch, str(e))
 
 if __name__ == '__main__':
     main()
