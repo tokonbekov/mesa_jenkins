@@ -34,30 +34,7 @@ def main():
     try:
         bs.build(builder)
     except subprocess.CalledProcessError as e:
-        test_path = path.abspath(pm.build_root() + "/../test/")
-        if not path.exists(test_path):
-            os.makedirs(test_path)
-        # filname has to begin with piglit for junit pattern match in jenkins to find it.
-        fh = open(test_path + "/piglitmesa-buildtest_" + global_opts.arch + ".xml", "w")
-        fh.write("""\
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuites>
-  <testsuite name="mesa-buildtest" tests="1">
-    <testcase classname="mesa-buildtest-""" + global_opts.arch + """\
-" name="compile.error" status="fail" time="0">
-      <system-out>""" + xml.sax.saxutils.escape(str(e)) + """</system-out>
-      <failure type="fail" />
-    </testcase>
-  </testsuite>
-</testsuites>""")
-        fh.close()
-        bs.Export().export_tests()
-
-        # create a copy of the test xml in the source root, where
-        # jenkins can access it.
-        cmd = ["cp", "-a", "-n",
-               pm.build_root() + "/../test", pm.source_root()]
-        bs.run_batch_command(cmd)
+        bs.Export.create_failing_test("mesa-buildtest-" + global_opts.arch, str(e)):
 
 if __name__ == '__main__':
     main()

@@ -1,4 +1,5 @@
 import os, multiprocessing, re, subprocess
+import socket
 import xml.etree.ElementTree as ET
 from . import Options
 from . import ProjectMap
@@ -8,6 +9,9 @@ from . import Export
 from . import GTest
 from . import RepoSet
 from . import PiglitTest
+from . import ProjectInvoke
+from . import Jenkins
+from . import RevisionSpecification
 
 def get_package_config_path():
     lib_dir = ""
@@ -382,6 +386,7 @@ class PiglitTester(object):
         run_batch_command(cmd)
 
         Export().export_tests()
+        self.check_gpu_hang()
 
     def filter_tests(self, revisions, infile, outfile):
         t = ET.parse(infile)
@@ -403,6 +408,35 @@ class PiglitTester(object):
                         a_suite.remove(afail)
                 
         t.write(outfile)
+
+    def check_gpu_hang(self):
+        # some systems have a gpu hang watchdog which reboots
+        # machines, and others do not.   This method checks dmesg,
+        # produces a failing test if a hang is found, and schedules a
+        # reboot if the host is determined to be a jenkins builder
+        # (user=jenkins)
+        (out, _) = run_batch_command(["dmesg"], quiet=True,
+                                     streamedOutput=False)
+        hang_text = ""
+        for a_line in out.split('\n'):
+            if "gpu hang" in a_line.lower():
+                hang_text = a_line
+                break
+
+        if not hang_text:
+            return
+
+        hostname = socket.gethostname()
+        Export().create_failing_test("gpu-hang-" + hostname,
+                                     hang_text)
+        # trigger reboot
+        if ('otc-gfxtest-' in hostname):
+            label = hostname[len('otc-gfxtest-'):]
+            o = Options()
+            o.hardware = label
+            reboot_invoke = ProjectInvoke(options=o, project="reboot-slave")
+            Jenkins(RevisionSpecification(),
+                    Options().result_path).build(reboot_invoke)
 
     def build(self):
         pass
