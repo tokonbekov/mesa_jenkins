@@ -11,6 +11,11 @@
           <description>this parameter is set to the relevant commit when builds are triggered</description>
           <defaultValue>started on schedule</defaultValue>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>revision</name>
+          <description>space separate list of sha revisions, eg &quot;piglit-build=a0b2c1e waffle=9160580&quot;</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.22">
@@ -23,11 +28,11 @@
       <throttleOption>project</throttleOption>
     </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
   </properties>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.2.5">
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.2.12">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>http://github.com/janesma/mesa_jenkins.git</url>
+        <url>git://github.com/janesma/mesa_jenkins</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -47,14 +52,14 @@
   <authToken>xyzzy</authToken>
   <triggers>
     <hudson.triggers.TimerTrigger>
-      <spec>H 5,11,17,23 * * *</spec>
+      <spec>H 5,11,17 * * *</spec>
     </hudson.triggers.TimerTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
       <command>python -u scripts/checkout_revision_spec.py
-python -u scripts/build_jenkins.py --branch=mesa_master --type=daily --config=debug</command>
+python -u scripts/build_jenkins.py --branch=mesa_master --type=daily --config=debug --revision=&quot;$revision&quot;</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
@@ -63,10 +68,10 @@ python -u scripts/build_jenkins.py --branch=mesa_master --type=daily --config=de
       <latestOnly>false</latestOnly>
       <allowEmptyArchive>false</allowEmptyArchive>
     </hudson.tasks.ArtifactArchiver>
-    <hudson.plugins.summary__report.ACIPluginPublisher plugin="summary_report@1.10">
+    <hudson.plugins.summary__report.ACIPluginPublisher plugin="summary_report@1.12">
       <name>summary.xml</name>
     </hudson.plugins.summary__report.ACIPluginPublisher>
-    <xunit plugin="xunit@1.90">
+    <xunit plugin="xunit@1.94">
       <types>
         <JUnitType>
           <pattern>results/test/piglit*xml</pattern>
@@ -85,7 +90,7 @@ python -u scripts/build_jenkins.py --branch=mesa_master --type=daily --config=de
       </types>
       <thresholds>
         <org.jenkinsci.plugins.xunit.threshold.FailedThreshold>
-          <unstableThreshold>1</unstableThreshold>
+          <unstableThreshold>0</unstableThreshold>
           <unstableNewThreshold></unstableNewThreshold>
           <failureThreshold></failureThreshold>
           <failureNewThreshold></failureNewThreshold>

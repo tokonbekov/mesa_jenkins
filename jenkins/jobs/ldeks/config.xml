@@ -16,16 +16,6 @@
           <description>developer/daily/percheckin/release type specified to the test harnesses</description>
           <defaultValue>developer</defaultValue>
         </hudson.model.StringParameterDefinition>
-        <hudson.model.BooleanParameterDefinition>
-          <name>rebuild</name>
-          <description></description>
-          <defaultValue>false</defaultValue>
-        </hudson.model.BooleanParameterDefinition>
-        <hudson.model.StringParameterDefinition>
-          <name>revision</name>
-          <description>space separate list of sha revisions, eg &quot;piglit-build=a0b2c1e waffle=9160580&quot;</description>
-          <defaultValue></defaultValue>
-        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.22">
@@ -42,7 +32,7 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>http://github.com/janesma/mesa_jenkins.git</url>
+        <url>https://github.com/janesma/mesa_jenkins.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -65,7 +55,7 @@
   <builders>
     <hudson.tasks.Shell>
       <command>python -u scripts/checkout_revision_spec.py
-python -u scripts/build_jenkins.py --branch=mattst88 --type=${type} --config=debug --rebuild=${rebuild} --revision=&quot;$revision&quot;  --project=test-single-arch --arch=m32</command>
+python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=${type} --config=debug</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>

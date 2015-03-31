@@ -103,6 +103,11 @@ python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=${type} --config=
         <testTimeMargin>3000</testTimeMargin>
       </extraConfiguration>
     </xunit>
+    <hudson.tasks.Mailer plugin="mailer@1.8">
+      <recipients>kristian.h.kristensen@intel.com</recipients>
+      <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
+      <sendToIndividuals>false</sendToIndividuals>
+    </hudson.tasks.Mailer>
   </publishers>
   <buildWrappers>
     <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.5.14"/>

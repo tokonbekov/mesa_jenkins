@@ -11,11 +11,17 @@
           <description>this parameter is set to the relevant commit when builds are triggered</description>
           <defaultValue>manually_started</defaultValue>
         </hudson.model.StringParameterDefinition>
-        <hudson.model.StringParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
           <name>type</name>
-          <description>developer/daily/percheckin/release type specified to the test harnesses</description>
-          <defaultValue>developer</defaultValue>
-        </hudson.model.StringParameterDefinition>
+          <description>choose daily to select broadwell/byt</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>developer</string>
+              <string>daily</string>
+              <string>percheckin</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.22">
@@ -55,7 +61,7 @@
   <builders>
     <hudson.tasks.Shell>
       <command>python -u scripts/checkout_revision_spec.py
-python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=${type} --config=debug</command>
+python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=${type} --config=debug --project=test-single-arch --arch=m32</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>

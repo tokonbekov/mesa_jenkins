@@ -9,22 +9,7 @@
         <hudson.model.StringParameterDefinition>
           <name>name</name>
           <description>this parameter is set to the relevant commit when builds are triggered</description>
-          <defaultValue>manually_started</defaultValue>
-        </hudson.model.StringParameterDefinition>
-        <hudson.model.StringParameterDefinition>
-          <name>type</name>
-          <description>developer/daily/percheckin/release type specified to the test harnesses</description>
-          <defaultValue>developer</defaultValue>
-        </hudson.model.StringParameterDefinition>
-        <hudson.model.BooleanParameterDefinition>
-          <name>rebuild</name>
-          <description></description>
-          <defaultValue>false</defaultValue>
-        </hudson.model.BooleanParameterDefinition>
-        <hudson.model.StringParameterDefinition>
-          <name>revision</name>
-          <description>space separate list of sha revisions, eg &quot;piglit-build=a0b2c1e waffle=9160580&quot;</description>
-          <defaultValue></defaultValue>
+          <defaultValue>started on schedule</defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -34,8 +19,10 @@
     <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.3">
       <maxConcurrentPerNode>0</maxConcurrentPerNode>
       <maxConcurrentTotal>0</maxConcurrentTotal>
+      <categories/>
       <throttleEnabled>false</throttleEnabled>
       <throttleOption>project</throttleOption>
+      <configVersion>1</configVersion>
     </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
   </properties>
   <scm class="hudson.plugins.git.GitSCM" plugin="git@2.2.5">
@@ -47,7 +34,7 @@
     </userRemoteConfigs>
     <branches>
       <hudson.plugins.git.BranchSpec>
-        <name>origin/master</name>
+        <name>*/master</name>
       </hudson.plugins.git.BranchSpec>
     </branches>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
@@ -56,16 +43,20 @@
   </scm>
   <assignedNode>master</assignedNode>
   <canRoam>false</canRoam>
-  <disabled>false</disabled>
+  <disabled>true</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <authToken>xyzzy</authToken>
-  <triggers/>
+  <triggers>
+    <hudson.triggers.TimerTrigger>
+      <spec>H 7 * * *</spec>
+    </hudson.triggers.TimerTrigger>
+  </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
       <command>python -u scripts/checkout_revision_spec.py
-python -u scripts/build_jenkins.py --branch=mattst88 --type=${type} --config=debug --rebuild=${rebuild} --revision=&quot;$revision&quot;  --project=test-single-arch --arch=m32</command>
+python -u scripts/build_jenkins.py --branch=mesa_10.4 --type=daily --config=debug</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
@@ -113,6 +104,11 @@ python -u scripts/build_jenkins.py --branch=mattst88 --type=${type} --config=deb
         <testTimeMargin>3000</testTimeMargin>
       </extraConfiguration>
     </xunit>
+    <hudson.tasks.Mailer plugin="mailer@1.8">
+      <recipients>mark.a.janes@intel.com</recipients>
+      <dontNotifyEveryUnstableBuild>true</dontNotifyEveryUnstableBuild>
+      <sendToIndividuals>false</sendToIndividuals>
+    </hudson.tasks.Mailer>
   </publishers>
   <buildWrappers>
     <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.5.14"/>

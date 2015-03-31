@@ -23,9 +23,25 @@
         </hudson.model.BooleanParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>revision</name>
-          <description>rev spec</description>
+          <description>space separate list of sha revisions, eg &quot;piglit-build=a0b2c1e waffle=9160580&quot;</description>
           <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>project</name>
+          <description>project to build</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>test-single-arch</string>
+              <string>all-test</string>
+              <string>piglit-test</string>
+              <string>piglit-build</string>
+              <string>waffle</string>
+              <string>mesa</string>
+              <string>drm</string>
+              <string>mesa-buildtest</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.22">
@@ -34,10 +50,8 @@
     <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.3">
       <maxConcurrentPerNode>0</maxConcurrentPerNode>
       <maxConcurrentTotal>0</maxConcurrentTotal>
-      <categories/>
       <throttleEnabled>false</throttleEnabled>
       <throttleOption>project</throttleOption>
-      <configVersion>1</configVersion>
     </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
   </properties>
   <scm class="hudson.plugins.git.GitSCM" plugin="git@2.2.5">
@@ -67,7 +81,7 @@
   <builders>
     <hudson.tasks.Shell>
       <command>python -u scripts/checkout_revision_spec.py
-python -u scripts/build_jenkins.py --branch=majanes --type=${type} --config=debug --rebuild=${rebuild} --revision=&quot;$revision&quot;</command>
+python -u scripts/build_jenkins.py --branch=majanes --type=${type} --config=debug --rebuild=${rebuild} --revision=&quot;$revision&quot; --project=${project}</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
@@ -115,6 +129,35 @@ python -u scripts/build_jenkins.py --branch=majanes --type=${type} --config=debu
         <testTimeMargin>3000</testTimeMargin>
       </extraConfiguration>
     </xunit>
+    <hudson.plugins.emailext.ExtendedEmailPublisher plugin="email-ext@2.38.2">
+      <recipientList>mark.a.janes@intel.com</recipientList>
+      <configuredTriggers>
+        <hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
+          <email>
+            <recipientList></recipientList>
+            <subject>$PROJECT_DEFAULT_SUBJECT</subject>
+            <body>$PROJECT_DEFAULT_CONTENT</body>
+            <recipientProviders>
+              <hudson.plugins.emailext.plugins.recipients.ListRecipientProvider/>
+            </recipientProviders>
+            <attachmentsPattern></attachmentsPattern>
+            <attachBuildLog>false</attachBuildLog>
+            <compressBuildLog>false</compressBuildLog>
+            <replyTo>$PROJECT_DEFAULT_REPLYTO</replyTo>
+            <contentType>project</contentType>
+          </email>
+        </hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
+      </configuredTriggers>
+      <contentType>default</contentType>
+      <defaultSubject>$DEFAULT_SUBJECT</defaultSubject>
+      <defaultContent>$DEFAULT_CONTENT</defaultContent>
+      <attachmentsPattern></attachmentsPattern>
+      <presendScript>$DEFAULT_PRESEND_SCRIPT</presendScript>
+      <attachBuildLog>false</attachBuildLog>
+      <compressBuildLog>false</compressBuildLog>
+      <replyTo>$DEFAULT_REPLYTO</replyTo>
+      <saveOutput>false</saveOutput>
+    </hudson.plugins.emailext.ExtendedEmailPublisher>
   </publishers>
   <buildWrappers>
     <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.5.14"/>

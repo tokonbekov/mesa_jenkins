@@ -38,14 +38,16 @@
   <authToken>xyzzy</authToken>
   <triggers>
     <hudson.triggers.TimerTrigger>
-      <spec>H 23 * * *</spec>
+      <spec>H 13 * * *</spec>
     </hudson.triggers.TimerTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
       <command>python scripts/checkout_revision_spec.py
-python -u scripts/build_jenkins.py --project=reboot-slaves</command>
+python -u clean-server/build.py
+python -u scripts/build_jenkins.py --project=reboot-slaves
+</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

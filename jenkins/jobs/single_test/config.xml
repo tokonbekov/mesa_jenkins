@@ -7,25 +7,66 @@
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
-          <name>name</name>
-          <description>this parameter is set to the relevant commit when builds are triggered</description>
-          <defaultValue>manually_started</defaultValue>
-        </hudson.model.StringParameterDefinition>
-        <hudson.model.StringParameterDefinition>
-          <name>type</name>
-          <description>developer/daily/percheckin/release type specified to the test harnesses</description>
-          <defaultValue>developer</defaultValue>
-        </hudson.model.StringParameterDefinition>
-        <hudson.model.BooleanParameterDefinition>
-          <name>rebuild</name>
-          <description></description>
-          <defaultValue>false</defaultValue>
-        </hudson.model.BooleanParameterDefinition>
-        <hudson.model.StringParameterDefinition>
-          <name>revision</name>
-          <description>space separate list of sha revisions, eg &quot;piglit-build=a0b2c1e waffle=9160580&quot;</description>
+          <name>test_name</name>
+          <description>paste the full name of the test from the jenkins results, including the hw/arch suffix</description>
           <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>revision_set</name>
+          <description>space separate list of sha revisions, eg &quot;piglit-build=a0b2c1e waffle=9160580&quot;.  This setting overrides revisions from the branch_set</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>hardware</name>
+          <description>platform for the test (if not specified by the suffix of the test name)</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>bdwgt2</string>
+              <string>hswgt3e</string>
+              <string>ilk</string>
+              <string>g45</string>
+              <string>snbgt1</string>
+              <string>snbgt2</string>
+              <string>ivbgt2</string>
+              <string>g965</string>
+              <string>byt</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>arch</name>
+          <description>arch for the build.  (if not specified by the suffix of the test name)</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>m64</string>
+              <string>m32</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>branch_set</name>
+          <description>set of branches to be built, as specified in build_specification.xml.  These values can be overridden with revision parameter</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>mesa_master</string>
+              <string>mesa_10.2</string>
+              <string>mesa_10.3</string>
+              <string>mesa_10.4</string>
+              <string>mesa_10.5</string>
+              <string>jekstrand</string>
+              <string>kwg</string>
+              <string>krh</string>
+              <string>bwidawsk</string>
+              <string>idr</string>
+              <string>mattst88</string>
+              <string>majanes</string>
+              <string>dcbaker</string>
+              <string>chadv</string>
+              <string>cworth</string>
+              <string>jljusten</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.22">
@@ -33,8 +74,8 @@
     </com.sonyericsson.rebuild.RebuildSettings>
     <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.3">
       <maxConcurrentPerNode>0</maxConcurrentPerNode>
-      <maxConcurrentTotal>0</maxConcurrentTotal>
-      <throttleEnabled>false</throttleEnabled>
+      <maxConcurrentTotal>2</maxConcurrentTotal>
+      <throttleEnabled>true</throttleEnabled>
       <throttleOption>project</throttleOption>
     </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
   </properties>
@@ -61,11 +102,11 @@
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <authToken>xyzzy</authToken>
   <triggers/>
-  <concurrentBuild>false</concurrentBuild>
+  <concurrentBuild>true</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
       <command>python -u scripts/checkout_revision_spec.py
-python -u scripts/build_jenkins.py --branch=mattst88 --type=${type} --config=debug --rebuild=${rebuild} --revision=&quot;$revision&quot;  --project=test-single-arch --arch=m32</command>
+python -u scripts/jenkins_single_test.py --test=&quot;${test_name}&quot; --revision=&quot;$revision_set&quot; --hardware=${hardware} --arch=${arch} --branch=${branch_set}</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
@@ -86,13 +127,6 @@ python -u scripts/build_jenkins.py --branch=mattst88 --type=${type} --config=deb
           <deleteOutputFiles>true</deleteOutputFiles>
           <stopProcessingIfError>true</stopProcessingIfError>
         </JUnitType>
-        <GoogleTestType>
-          <pattern>results/test/gtest*xml</pattern>
-          <skipNoTestFiles>true</skipNoTestFiles>
-          <failIfNotNew>false</failIfNotNew>
-          <deleteOutputFiles>true</deleteOutputFiles>
-          <stopProcessingIfError>true</stopProcessingIfError>
-        </GoogleTestType>
       </types>
       <thresholds>
         <org.jenkinsci.plugins.xunit.threshold.FailedThreshold>
@@ -117,7 +151,7 @@ python -u scripts/build_jenkins.py --branch=mattst88 --type=${type} --config=deb
   <buildWrappers>
     <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.5.14"/>
     <org.jenkinsci.plugins.buildnamesetter.BuildNameSetter plugin="build-name-setter@1.3">
-      <template>#${BUILD_NUMBER}-${ENV,var=&quot;name&quot;}-${ENV,var=&quot;type&quot;}</template>
+      <template>${ENV,var=&quot;test_name&quot;}</template>
     </org.jenkinsci.plugins.buildnamesetter.BuildNameSetter>
   </buildWrappers>
 </project>

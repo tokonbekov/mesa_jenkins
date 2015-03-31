@@ -18,14 +18,17 @@
     <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View:majanes</permission>
     <permission>hudson.model.Computer.Build:dcbaker</permission>
     <permission>hudson.model.Computer.Build:majanes</permission>
+    <permission>hudson.model.Computer.Configure:bwidawsk</permission>
     <permission>hudson.model.Computer.Configure:dcbaker</permission>
     <permission>hudson.model.Computer.Configure:majanes</permission>
+    <permission>hudson.model.Computer.Connect:bwidawsk</permission>
     <permission>hudson.model.Computer.Connect:dcbaker</permission>
     <permission>hudson.model.Computer.Connect:majanes</permission>
     <permission>hudson.model.Computer.Create:dcbaker</permission>
     <permission>hudson.model.Computer.Create:majanes</permission>
     <permission>hudson.model.Computer.Delete:dcbaker</permission>
     <permission>hudson.model.Computer.Delete:majanes</permission>
+    <permission>hudson.model.Computer.Disconnect:bwidawsk</permission>
     <permission>hudson.model.Computer.Disconnect:dcbaker</permission>
     <permission>hudson.model.Computer.Disconnect:majanes</permission>
     <permission>hudson.model.Hudson.Administer:dcbaker</permission>
@@ -33,6 +36,7 @@
     <permission>hudson.model.Hudson.ConfigureUpdateCenter:dcbaker</permission>
     <permission>hudson.model.Hudson.ConfigureUpdateCenter:majanes</permission>
     <permission>hudson.model.Hudson.Read:anonymous</permission>
+    <permission>hudson.model.Hudson.Read:bwidawsk</permission>
     <permission>hudson.model.Hudson.Read:dcbaker</permission>
     <permission>hudson.model.Hudson.Read:majanes</permission>
     <permission>hudson.model.Hudson.RunScripts:dcbaker</permission>
@@ -40,6 +44,7 @@
     <permission>hudson.model.Hudson.UploadPlugins:dcbaker</permission>
     <permission>hudson.model.Hudson.UploadPlugins:majanes</permission>
     <permission>hudson.model.Item.Build:anonymous</permission>
+    <permission>hudson.model.Item.Build:bwidawsk</permission>
     <permission>hudson.model.Item.Build:dcbaker</permission>
     <permission>hudson.model.Item.Build:majanes</permission>
     <permission>hudson.model.Item.Cancel:dcbaker</permission>
@@ -51,12 +56,15 @@
     <permission>hudson.model.Item.Delete:dcbaker</permission>
     <permission>hudson.model.Item.Delete:majanes</permission>
     <permission>hudson.model.Item.Discover:anonymous</permission>
+    <permission>hudson.model.Item.Discover:bwidawsk</permission>
     <permission>hudson.model.Item.Discover:dcbaker</permission>
     <permission>hudson.model.Item.Discover:majanes</permission>
     <permission>hudson.model.Item.ExtendedRead:anonymous</permission>
+    <permission>hudson.model.Item.ExtendedRead:bwidawsk</permission>
     <permission>hudson.model.Item.ExtendedRead:dcbaker</permission>
     <permission>hudson.model.Item.ExtendedRead:majanes</permission>
     <permission>hudson.model.Item.Read:anonymous</permission>
+    <permission>hudson.model.Item.Read:bwidawsk</permission>
     <permission>hudson.model.Item.Read:dcbaker</permission>
     <permission>hudson.model.Item.Read:majanes</permission>
     <permission>hudson.model.Item.Workspace:dcbaker</permission>
@@ -72,6 +80,7 @@
     <permission>hudson.model.View.Delete:dcbaker</permission>
     <permission>hudson.model.View.Delete:majanes</permission>
     <permission>hudson.model.View.Read:anonymous</permission>
+    <permission>hudson.model.View.Read:bwidawsk</permission>
     <permission>hudson.model.View.Read:dcbaker</permission>
     <permission>hudson.model.View.Read:majanes</permission>
     <permission>hudson.scm.SCM.Tag:dcbaker</permission>
@@ -98,12 +107,12 @@
       <numExecutors>1</numExecutors>
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
         <host>otc-gfxtest-snbgt1-01.local</host>
         <port>22</port>
         <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
       </launcher>
-      <label>builder snbgt1</label>
+      <label>snbgt1 snb</label>
       <nodeProperties/>
       <userId>majanes</userId>
     </slave>
@@ -114,12 +123,12 @@
       <numExecutors>1</numExecutors>
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
         <host>otc-gfxtest-ilk-01.local</host>
         <port>22</port>
         <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
       </launcher>
-      <label>ilk builder</label>
+      <label>ilk</label>
       <nodeProperties/>
       <userId>anonymous</userId>
     </slave>
@@ -130,7 +139,7 @@
       <numExecutors>1</numExecutors>
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
         <host>otc-gfxtest-byt-01.local</host>
         <port>22</port>
         <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
@@ -146,7 +155,7 @@
       <numExecutors>1</numExecutors>
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
         <host>otc-gfxtest-g965-01.local</host>
         <port>22</port>
         <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
@@ -162,7 +171,7 @@
       <numExecutors>1</numExecutors>
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
         <host>otc-gfxtest-g965-02.local</host>
         <port>22</port>
         <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
@@ -178,75 +187,23 @@
       <numExecutors>1</numExecutors>
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
         <host>otc-gfxtest-snbgt2-01.local</host>
         <port>22</port>
         <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
       </launcher>
-      <label>snbgt2 builder</label>
+      <label>snbgt2 snb</label>
       <nodeProperties/>
       <userId>anonymous</userId>
     </slave>
     <slave>
-      <temporaryOfflineCause class="hudson.slaves.OfflineCause$UserCause">
-        <description>
-          <holder>
-            <owner>hudson.slaves.Messages</owner>
-          </holder>
-          <key>SlaveComputer.DisconnectedBy</key>
-          <args>
-            <string>dcbaker</string>
-            <string> : G33 relies on swrast for pretty much everything, and there is a massive regression in swrast.</string>
-          </args>
-        </description>
-        <user>
-          <fullName>Dylan Baker</fullName>
-          <properties>
-            <hudson.model.PaneStatusProperties>
-              <collapsed/>
-            </hudson.model.PaneStatusProperties>
-            <jenkins.security.ApiTokenProperty>
-              <apiToken>URMlk3XP93HxhJ/64sN7YeyKJ6jeOgqdSpWmI4JQfS53KXUK0GNdoxP3ukUxYgEH</apiToken>
-            </jenkins.security.ApiTokenProperty>
-            <com.cloudbees.plugins.credentials.UserCredentialsProvider_-UserCredentialsProperty plugin="credentials@1.16.1">
-              <domainCredentialsMap class="hudson.util.CopyOnWriteMap$Hash"/>
-            </com.cloudbees.plugins.credentials.UserCredentialsProvider_-UserCredentialsProperty>
-            <hudson.model.MyViewsProperty>
-              <views>
-                <hudson.model.AllView>
-                  <owner class="hudson.model.MyViewsProperty" reference="../../.."/>
-                  <name>All</name>
-                  <filterExecutors>false</filterExecutors>
-                  <filterQueue>false</filterQueue>
-                  <properties class="hudson.model.View$PropertyList"/>
-                </hudson.model.AllView>
-              </views>
-            </hudson.model.MyViewsProperty>
-            <hudson.search.UserSearchProperty>
-              <insensitiveSearch>false</insensitiveSearch>
-            </hudson.search.UserSearchProperty>
-            <hudson.security.HudsonPrivateSecurityRealm_-Details>
-              <passwordHash>#jbcrypt:$2a$10$arvWOupGyOg9Es2573mlae./FVTnkJU6mwKISaSCCGaGJ6tAkbxOG</passwordHash>
-            </hudson.security.HudsonPrivateSecurityRealm_-Details>
-            <hudson.tasks.Mailer_-UserProperty plugin="mailer@1.8">
-              <emailAddress>dylanx.c.baker@intel.com</emailAddress>
-            </hudson.tasks.Mailer_-UserProperty>
-            <jenkins.security.LastGrantedAuthoritiesProperty>
-              <roles>
-                <string>authenticated</string>
-              </roles>
-              <timestamp>1410903426815</timestamp>
-            </jenkins.security.LastGrantedAuthoritiesProperty>
-          </properties>
-        </user>
-      </temporaryOfflineCause>
       <name>g33-01</name>
       <description></description>
       <remoteFS>/home/jenkins</remoteFS>
       <numExecutors>1</numExecutors>
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
         <host>otc-gfxtest-g33-01.local</host>
         <port>22</port>
         <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
@@ -262,7 +219,7 @@
       <numExecutors>1</numExecutors>
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
         <host>otc-gfxtest-g45-01.local</host>
         <port>22</port>
         <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
@@ -278,30 +235,14 @@
       <numExecutors>1</numExecutors>
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
         <host>otc-gfxtest-ivbgt2-01.local</host>
         <port>22</port>
         <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
       </launcher>
-      <label>ivbgt2 builder</label>
+      <label>ivbgt2 builder ivb</label>
       <nodeProperties/>
       <userId>dcbaker</userId>
-    </slave>
-    <slave>
-      <name>byt-02</name>
-      <description></description>
-      <remoteFS>/home/jenkins</remoteFS>
-      <numExecutors>1</numExecutors>
-      <mode>NORMAL</mode>
-      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
-        <host>otc-gfxtest-byt-02.local</host>
-        <port>22</port>
-        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
-      </launcher>
-      <label>byt</label>
-      <nodeProperties/>
-      <userId>majanes</userId>
     </slave>
     <slave>
       <name>ivbgt2-02</name>
@@ -310,12 +251,12 @@
       <numExecutors>1</numExecutors>
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
         <host>otc-gfxtest-ivbgt2-02.local</host>
         <port>22</port>
         <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
       </launcher>
-      <label>ivbgt2 builder</label>
+      <label>ivbgt2 builder ivb</label>
       <nodeProperties/>
       <userId>majanes</userId>
     </slave>
@@ -326,7 +267,7 @@
       <numExecutors>1</numExecutors>
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
         <host>otc-gfxtest-ilk-02.local</host>
         <port>22</port>
         <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
@@ -342,12 +283,12 @@
       <numExecutors>1</numExecutors>
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
         <host>otc-gfxtest-snbgt2-02.local</host>
         <port>22</port>
         <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
       </launcher>
-      <label>snbgt2 builder</label>
+      <label>snbgt2 snb</label>
       <nodeProperties/>
       <userId>majanes</userId>
     </slave>
@@ -358,12 +299,270 @@
       <numExecutors>1</numExecutors>
       <mode>NORMAL</mode>
       <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.5">
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
         <host>otc-gfxtest-ilk-03.local</host>
         <port>22</port>
         <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
       </launcher>
       <label>ilk</label>
+      <nodeProperties/>
+      <userId>majanes</userId>
+    </slave>
+    <slave>
+      <name>bdwgt2-01</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
+        <host>otc-gfxtest-bdwgt2-01.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>bdwgt2 bdw</label>
+      <nodeProperties/>
+      <userId>dcbaker</userId>
+    </slave>
+    <slave>
+      <name>snbgt1-02</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
+        <host>otc-gfxtest-snbgt1-02.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>snbgt1 snb</label>
+      <nodeProperties/>
+      <userId>dcbaker</userId>
+    </slave>
+    <slave>
+      <name>hswgt1-01</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
+        <host>otc-gfxtest-hswgt1-01.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>hswgt1</label>
+      <nodeProperties/>
+      <userId>dcbaker</userId>
+    </slave>
+    <slave>
+      <name>hswgt1-02</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
+        <host>otc-gfxtest-hswgt1-02.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>hswgt1</label>
+      <nodeProperties/>
+      <userId>dcbaker</userId>
+    </slave>
+    <slave>
+      <name>ivbgt1-01</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
+        <host>otc-gfxtest-ivbgt1-01.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>ivbgt1 ivb</label>
+      <nodeProperties/>
+      <userId>dcbaker</userId>
+    </slave>
+    <slave>
+      <name>ivbgt1-02</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
+        <host>otc-gfxtest-ivbgt1-02.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>ivbgt1 ivb</label>
+      <nodeProperties/>
+      <userId>dcbaker</userId>
+    </slave>
+    <slave>
+      <name>hswgt2-01</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
+        <host>otc-gfxtest-hswgt2-01.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>hswgt2 builder hsw</label>
+      <nodeProperties/>
+      <userId>dcbaker</userId>
+    </slave>
+    <slave>
+      <name>hswgt2-02</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
+        <host>otc-gfxtest-hswgt2-02.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>hswgt2 builder hsw</label>
+      <nodeProperties/>
+      <userId>dcbaker</userId>
+    </slave>
+    <slave>
+      <name>hswgt3e-01</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
+        <host>otc-gfxtest-hswgt3e-01.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+        <maxNumRetries>0</maxNumRetries>
+        <retryWaitTime>0</retryWaitTime>
+      </launcher>
+      <label>hswgt3e builder hsw</label>
+      <nodeProperties/>
+      <userId>dcbaker</userId>
+    </slave>
+    <slave>
+      <name>hswgt3e-02</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
+        <host>otc-gfxtest-hswgt3e-02.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>hswgt3e builder hsw</label>
+      <nodeProperties/>
+      <userId>dcbaker</userId>
+    </slave>
+    <slave>
+      <name>g33-02</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
+        <host>otc-gfxtest-g33-02.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>g33</label>
+      <nodeProperties/>
+      <userId>majanes</userId>
+    </slave>
+    <slave>
+      <name>g33-03</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
+        <host>otc-gfxtest-g33-03.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>g33</label>
+      <nodeProperties/>
+      <userId>majanes</userId>
+    </slave>
+    <slave>
+      <name>bdwgt2-02</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
+        <host>otc-gfxtest-bdwgt2-02.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>bdwgt2_t bdw_t</label>
+      <nodeProperties/>
+      <userId>majanes</userId>
+    </slave>
+    <slave>
+      <name>bdwgt2-03</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
+        <host>otc-gfxtest-bdwgt2-03.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>bdwgt2 bdw</label>
+      <nodeProperties/>
+      <userId>majanes</userId>
+    </slave>
+    <slave>
+      <name>bdwgt2-04</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
+        <host>otc-gfxtest-bdwgt2-04.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>bdwgt2 bdw</label>
+      <nodeProperties/>
+      <userId>majanes</userId>
+    </slave>
+    <slave>
+      <name>byt-02</name>
+      <description></description>
+      <remoteFS>/home/jenkins</remoteFS>
+      <numExecutors>1</numExecutors>
+      <mode>NORMAL</mode>
+      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
+      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
+        <host>otc-gfxtest-byt-02.local</host>
+        <port>22</port>
+        <credentialsId>07277ee4-4748-41eb-b496-869829d8ec61</credentialsId>
+      </launcher>
+      <label>byt</label>
       <nodeProperties/>
       <userId>majanes</userId>
     </slave>
@@ -386,17 +585,26 @@
       <properties class="hudson.model.View$PropertyList"/>
       <jobNames>
         <comparator class="hudson.util.CaseInsensitiveComparator"/>
+        <string>aphogat</string>
+        <string>build_series</string>
         <string>bwidawsk</string>
         <string>chadv</string>
+        <string>curro</string>
+        <string>cworth</string>
         <string>dcbaker</string>
         <string>idr</string>
         <string>jekstrand</string>
+        <string>jljusten</string>
         <string>krh</string>
         <string>kwg</string>
+        <string>ldeks</string>
         <string>majanes</string>
         <string>mattst88</string>
         <string>mesa_bisect</string>
         <string>mesa_custom</string>
+        <string>mperes</string>
+        <string>single_test</string>
+        <string>tpalli</string>
       </jobNames>
       <jobFilters/>
       <columns>
@@ -418,10 +626,11 @@
       <properties class="hudson.model.View$PropertyList"/>
       <jobNames>
         <comparator class="hudson.util.CaseInsensitiveComparator" reference="../../../listView/jobNames/comparator"/>
-        <string>mesa_10.2</string>
-        <string>mesa_10.3</string>
+        <string>mesa_10.5</string>
+        <string>mesa_10.5_daily</string>
         <string>mesa_master</string>
         <string>mesa_master_daily</string>
+        <string>oeu</string>
       </jobNames>
       <jobFilters/>
       <columns>

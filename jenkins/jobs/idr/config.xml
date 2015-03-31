@@ -23,13 +23,13 @@
         </hudson.model.BooleanParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>revision</name>
-          <description>rev spec</description>
+          <description>space separate list of sha revisions, eg &quot;piglit-build=a0b2c1e waffle=9160580&quot;</description>
           <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.TextParameterDefinition>
           <name>project</name>
           <description></description>
-          <defaultValue>all-test</defaultValue>
+          <defaultValue>test-single-arch</defaultValue>
         </hudson.model.TextParameterDefinition>
         <hudson.model.TextParameterDefinition>
           <name>hardware</name>
@@ -111,7 +111,7 @@ python -u scripts/build_jenkins.py --branch=idr --type=${type} --config=debug --
       </types>
       <thresholds>
         <org.jenkinsci.plugins.xunit.threshold.FailedThreshold>
-          <unstableThreshold>1</unstableThreshold>
+          <unstableThreshold>0</unstableThreshold>
           <unstableNewThreshold></unstableNewThreshold>
           <failureThreshold></failureThreshold>
           <failureNewThreshold></failureNewThreshold>

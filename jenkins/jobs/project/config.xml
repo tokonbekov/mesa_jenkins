@@ -44,7 +44,7 @@
         </hudson.model.StringParameterDefinition>
         <hudson.model.TextParameterDefinition>
           <name>revision</name>
-          <description></description>
+          <description>space separate list of sha revisions, eg &quot;piglit-build=a0b2c1e waffle=9160580&quot;</description>
           <defaultValue></defaultValue>
         </hudson.model.TextParameterDefinition>
         <org.jvnet.jenkins.plugins.nodelabelparameter.LabelParameterDefinition plugin="nodelabelparameter@1.5.1">
