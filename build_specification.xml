@@ -22,22 +22,22 @@
       <prerequisite name="mesa" hardware="builder"/>
     </project>
 
-    <project name="piglit-build">
+    <project name="piglit">
       <prerequisite name="waffle"/>
     </project>
 
     <project name="piglit-test">
-      <prerequisite name="piglit-build" hardware="builder"/>
+      <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
     </project>
 
     <project name="piglit-nir-test">
-      <prerequisite name="piglit-build" hardware="builder"/>
+      <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
     </project>
 
     <project name="piglit-cpu-test">
-      <prerequisite name="piglit-build" hardware="builder"/>
+      <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
     </project>
     
@@ -105,7 +105,7 @@
       <remote name="aphogat" repo="git://github.com/aphogat/drm"/>
     </drm>
 
-    <piglit-build repo="git://anongit.freedesktop.org/piglit">
+    <piglit repo="git://anongit.freedesktop.org/piglit">
       <remote name="jekstrand" repo="git://people.freedesktop.org/~jekstrand/piglit"/>
       <!-- Dylan's repository is more stable than the origin, and will
            not trigger builds unnecessarily -->
@@ -113,7 +113,7 @@
       <remote name="janesma" repo="git://github.com/janesma/piglit"/>
       <remote name="bwidawsk" repo="git://people.freedesktop.org/~bwidawsk/piglit"/>
       <remote name="ldeks" repo="git://people.freedesktop.org/~ldeks/piglit"/>
-    </piglit-build>
+    </piglit>
 
     <waffle repo="git://github.com/waffle-gl/waffle">
       <remote name="stable" repo="git://github.com/janesma/waffle"/>
@@ -136,7 +136,7 @@
       <!-- these repo tags exist soley to trigger a master build when
            anything changes -->
       <mesa/>
-      <piglit-build/>
+      <piglit/>
       <waffle/>
       <drm/>
     </branch>
@@ -172,7 +172,7 @@
 
     <branch name="bwidawsk" project="test-single-arch">
       <mesa branch="bwidawsk/jenkins"/>
-      <!-- <piglit-build branch="bwidawsk/jenkins"/> -->
+      <!-- <piglit branch="bwidawsk/jenkins"/> -->
     </branch>
 
     <branch name="idr" project="test-single-arch">
@@ -188,7 +188,7 @@
     </branch>
 
     <branch name="dcbaker" project="test-single-arch">
-      <piglit-build branch="dcbaker/jenkins"/>
+      <piglit branch="dcbaker/jenkins"/>
     </branch>
 
     <branch name="chadv" project="test-single-arch">
@@ -206,7 +206,7 @@
 
     <branch name="ldeks" project="test-single-arch">
       <mesa branch="ldeks/jenkins"/>
-      <!-- <piglit-build branch="ldeks/jenkins"/> -->
+      <!-- <piglit branch="ldeks/jenkins"/> -->
     </branch>
 
     <branch name="mperes" project="test-single-arch">

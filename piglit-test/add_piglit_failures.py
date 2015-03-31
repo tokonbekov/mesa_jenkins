@@ -41,13 +41,13 @@ for arev in args.good_rev.split():
     good_revisions[rev[0]] = rev[1]
 
 piglit_commits = []
-piglit_repo = repos.repo("piglit-build")
+piglit_repo = repos.repo("piglit")
 
 print "Piglit revisions under bisection:"
 for commit in piglit_repo.iter_commits(max_count=1000):
     piglit_commits.append(commit)
     print commit.hexsha
-    if good_revisions["piglit-build"] in commit.hexsha:
+    if good_revisions["piglit"] in commit.hexsha:
         break
 
 # retest build, in case expected failures has been updated
@@ -73,7 +73,7 @@ if not new_failures.Tests():
 test_arg = make_test_list(new_failures)
 
 # build old piglit to see what piglit regressions were
-revspec = bs.RevisionSpecification(from_cmd_line=["piglit-build=" + piglit_commits[-1].hexsha])
+revspec = bs.RevisionSpecification(from_cmd_line=["piglit=" + piglit_commits[-1].hexsha])
 revspec.checkout()
 revspec = bs.RevisionSpecification()
 hashstr = revspec.to_cmd_line_param().replace(" ", "_")
