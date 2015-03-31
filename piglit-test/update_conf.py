@@ -52,11 +52,23 @@ for f in xmls:
     if "gt" in hw:
         hw = hw[:3]
 
+    build_name = fn.split("_")[0]
+    nir = False
+    if "nir" in build_name:
+        nir = True
+
     arch = fn.split("_")[2]
     conf_file = script_dir + hw + arch + ".conf"
     if not os.path.exists(conf_file):
         conf_file = script_dir + hw + ".conf"
         assert(os.path.exists(conf_file))
+
+    if nir:
+        # use the nir conf file if one exists
+        nir_conf = conf_file[:-5] + "nir.conf"
+        if os.path.exists(nir_conf):
+            conf_file = nir_conf
+            
     print "updating " + conf_file
     c = CaseConfig(allow_no_value=True)
     c.optionxform = str

@@ -249,27 +249,27 @@ class PiglitTester(object):
 
         out_dir = br + "/test/" + o.hardware
 
-        hardware_conf = o.hardware
+        hardware = o.hardware
         if self.device_override:
-            hardware_conf = self.device_override
+            hardware = self.device_override
 
-        if "snb" in hardware_conf:
-            hardware_conf = "snb"
-        if "ivb" in hardware_conf:
-            hardware_conf = "ivb"
-        if "bdw" in hardware_conf:
-            hardware_conf = "bdw"
-        if "hsw" in hardware_conf:
-            hardware_conf = "hsw"
-        if "skl" in hardware_conf:
-            hardware_conf = "skl"
+        # strip the gtX strings off of the hardware, because there are
+        # no examples where a sku has a different config
+        if "gt" in hardware:
+            hardware = hardware[:3]
 
-        # all platforms other than g965 have separate 32-bit failures
-        if hardware_conf not in ["g965", "g33", "g45", "ilk", "chv", "skl"]:
-            if o.arch == "m32":
-                hardware_conf = hardware_conf + "m32"
-        hardware_conf = pm.source_root() + "/piglit-test" + \
-                        "/" + hardware_conf + ".conf"
+        script_dir = pm.source_root() + "/piglit-test/"
+
+        # use m32 / m64 variants of the conf file if they exist
+        conf_file = script_dir + hardware + o.arch + ".conf"
+        if not os.path.exists(conf_file):
+            conf_file = script_dir + hardware + ".conf"
+
+        # for nir, use a nir-specific file if it exists
+        if self.nir:
+            nir_conf_file = conf_file[:-5] + "nir.conf"
+            if os.path.exists(nir_conf_file):
+                conf_file = nir_conf_file
 
         suffix = o.hardware
         if self.device_override:
@@ -295,8 +295,8 @@ class PiglitTester(object):
                # others.  Test introduced Oct 2014
                "--exclude-tests", "vs-float-main-return"]
 
-        if os.path.exists(hardware_conf):
-            cmd = cmd + ["--config", hardware_conf]
+        if os.path.exists(conf_file):
+            cmd = cmd + ["--config", conf_file]
 
         # intermittent on at least snbgt1 and nir hswgt3e
         exclude_tests = ["glsl-1_10.execution.vs-vec2-main-return"]
