@@ -164,8 +164,10 @@ class PiglitTest:
         arch_hardware = full_test_name.split(".")[-1]
         arch = arch_hardware[-3:]
         hardware = arch_hardware[:-3]
+        self.nir = False
         if "nir_" in hardware:
             hardware = hardware[4:]
+            self.nir = True
         if "gt" in hardware:
             hardware = hardware[:3]
 
@@ -202,17 +204,31 @@ class PiglitTest:
             return
         self.bisected_revision = self.bisected_revision.replace("=", " ")
 
-    def UpdateConf(self, conf_dir):
+    def GetConf(self):
+        # this hacky code exists in several places and should be combined
+        conf_dir = ProjectMap().source_root() + "/piglit-test/"
+        conf_file = conf_dir + "/" + self.hardware + self.arch + ".conf"
+        if not os.path.exists(conf_file):
+            conf_file = conf_dir + "/" + self.hardware + ".conf"
+        if self.nir:
+            # if a nir-specific conf file exists, use it instead
+            # of the hw/arch conf file.
+            nir_conf = conf_file[:-5] + "nir.conf"
+            if os.path.exists(nir_conf):
+                conf_file = nir_conf
+            
+        assert (os.path.exists(conf_file))
+        return conf_file
+
+        
+    def UpdateConf(self):
         if not self.bisected_revision:
             return
         full_list = [(self.arch, self.hardware)] + self.other_arches
-        for arch, hardware in full_list:
+        for _, hardware in full_list:
             if "gt" in hardware:
                 hardware = hardware[:3]
-            conf_file = conf_dir + "/" + hardware + arch + ".conf"
-            if not os.path.exists(conf_file):
-                conf_file = conf_dir + "/" + hardware + ".conf"
-            assert (os.path.exists(conf_file))
+            conf_file = self.GetConf()
             c = CaseConfig(allow_no_value=True)
             c.optionxform = str
             c.read(conf_file)
@@ -238,12 +254,7 @@ class PiglitTest:
         hardware = self.hardware
         if "gt" in hardware:
             hardware = hardware[:3]
-        conf_file = ProjectMap().source_root() + "/piglit-test/" + hardware + self.arch + ".conf"
-        if not os.path.exists(conf_file):
-            conf_file = ProjectMap().source_root() + "/piglit-test/" + hardware + ".conf"
-        if not os.path.exists(conf_file):
-            return ""
-        assert (os.path.exists(conf_file))
+        conf_file = self.GetConf()
         c = CaseConfig(allow_no_value=True)
         c.optionxform = str
         c.read(conf_file)

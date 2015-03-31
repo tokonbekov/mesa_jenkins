@@ -96,5 +96,5 @@ for a_test in piglit_failures:
 
 for a_test in piglit_failures:
     a_test.Bisect("piglit-test", piglit_commits)
-    a_test.UpdateConf(current_dir)
+    a_test.UpdateConf()
 

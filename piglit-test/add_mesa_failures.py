@@ -96,5 +96,5 @@ for a_test in mesa_failures:
 
 for a_test in mesa_failures:
     a_test.Bisect("mesa", mesa_commits)
-    a_test.UpdateConf(current_dir)
+    a_test.UpdateConf()
 
