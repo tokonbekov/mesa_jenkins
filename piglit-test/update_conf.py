@@ -1,9 +1,14 @@
 #!/usr/bin/python
 
-import xml.etree.ElementTree as ET
 import ConfigParser as CP
-import sys, os, glob
 import argparse
+from email.mime.text import MIMEText
+import git
+import glob
+import os
+import smtplib
+import sys
+import xml.etree.ElementTree as ET
 
 # needed to preserve case in the options
 class CaseConfig(CP.SafeConfigParser):
@@ -19,7 +24,11 @@ parser = argparse.ArgumentParser(description="updates expected failures")
 
 parser.add_argument('--blame_revision', type=str, required=True,
                     help='revision to specify as the cause of any config changes')
-parser.add_argument('junit_file', metavar='junit_file', type=str, nargs='+',
+parser.add_argument('--result_path', metavar='result_path', type=str, default="",
+                    help='path to build results')
+parser.add_argument('--to', metavar='to', type=str, default="",
+                    help='send resulting patch to this email')
+parser.add_argument('junit_file', metavar='junit_file', type=str, nargs='*',
                     help='test files to use for update')
 args = parser.parse_args(sys.argv[1:])
 
@@ -27,6 +36,11 @@ xmls = []
 for junit in args.junit_file:
     xmls = xmls + glob.glob(junit)
 
+if args.result_path and os.path.exists(args.result_path):
+    test_dir = args.result_path + "/test"
+    for a_file in os.listdir(test_dir):
+        if "piglit-" in a_file and not "-nir" in a_file:
+            xmls = xmls + [test_dir + "/" + a_file]
 
 for f in xmls:
     print "parsing " + f
@@ -75,3 +89,13 @@ for f in xmls:
         c.set("expected-crashes", name, args.blame_revision)
 
     c.write(open(conf_file, "w"))
+
+if args.to:
+    patch_text = git.Repo().git.diff()
+    msg = MIMEText(patch_text)
+    msg["Subject"] = "[PATCH] mesa jenkins updates due to " + args.blame_revision
+    msg["From"] = "Do Not Reply <mesa_jenkins@intel.com>"
+    msg["To"] = args.to
+    s = smtplib.SMTP('or-out.intel.com')
+    to = args.to.split(",")
+    s.sendmail(msg["From"], to, msg.as_string())
