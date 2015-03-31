@@ -604,8 +604,14 @@ def write_summary(out_dir, completed_builds, ljen, failure=False):
     outf.write("""\
 </table>
 <br/>
+    <field name="Build link to accept failed tests" 
+    titlecolor="black" 
+    value="generate patch" 
+    detailcolor="" 
+    href="http://otc-gfxtest-01.jf.intel.com/job/update_piglit_failures/parambuild/?result_path={result_path}" />
+<br/>
     <field name="Test Results" titlecolor="black" value="" detailcolor="" href="" />
-</section>""")
+</section>""".format(result_path=ljen._result_path))
     outf.close()
 
 
