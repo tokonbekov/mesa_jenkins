@@ -10,6 +10,9 @@ import smtplib
 import sys
 import xml.etree.ElementTree as ET
 
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
+import build_support as bs
+
 # needed to preserve case in the options
 class CaseConfig(CP.SafeConfigParser):
     def optionxform(self, optionstr):
@@ -49,8 +52,6 @@ for f in xmls:
 
     fn = os.path.splitext(os.path.split(f)[-1])[0]
     hw = fn.split("_")[1]
-    if "gt" in hw:
-        hw = hw[:3]
 
     build_name = fn.split("_")[0]
     nir = False
@@ -58,16 +59,8 @@ for f in xmls:
         nir = True
 
     arch = fn.split("_")[2]
-    conf_file = script_dir + hw + arch + ".conf"
-    if not os.path.exists(conf_file):
-        conf_file = script_dir + hw + ".conf"
-        assert(os.path.exists(conf_file))
-
-    if nir:
-        # use the nir conf file if one exists
-        nir_conf = conf_file[:-5] + "nir.conf"
-        if os.path.exists(nir_conf):
-            conf_file = nir_conf
+    
+    conf_file = bs.get_conf_file(hw, arch, nir)
             
     print "updating " + conf_file
     c = CaseConfig(allow_no_value=True)

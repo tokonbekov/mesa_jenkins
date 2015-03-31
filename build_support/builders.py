@@ -12,6 +12,7 @@ from . import PiglitTest
 from . import ProjectInvoke
 from . import Jenkins
 from . import RevisionSpecification
+from . import get_conf_file
 
 def get_package_config_path():
     lib_dir = ""
@@ -253,24 +254,8 @@ class PiglitTester(object):
         if self.device_override:
             hardware = self.device_override
 
-        # strip the gtX strings off of the hardware, because there are
-        # no examples where a sku has a different config
-        if "gt" in hardware:
-            hardware = hardware[:3]
-
-        script_dir = pm.source_root() + "/piglit-test/"
-
-        # use m32 / m64 variants of the conf file if they exist
-        conf_file = script_dir + hardware + o.arch + ".conf"
-        if not os.path.exists(conf_file):
-            conf_file = script_dir + hardware + ".conf"
-
-        # for nir, use a nir-specific file if it exists
-        if self.nir:
-            nir_conf_file = conf_file[:-5] + "nir.conf"
-            if os.path.exists(nir_conf_file):
-                conf_file = nir_conf_file
-
+        conf_file = get_conf_file(hardware, o.arch, self.nir)
+        
         suffix = o.hardware
         if self.device_override:
             suffix = self.device_override

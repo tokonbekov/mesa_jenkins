@@ -14,6 +14,24 @@ from . import ProjectInvoke
 from . import BuildFailure
 #from . import 
 
+def get_conf_file(hardware, arch, nir):
+    # strip the gtX strings off of the hardware, because there are
+    # no examples where a sku has a different config
+    if "gt" in hardware:
+        hardware = hardware[:3]
+    conf_dir = ProjectMap().source_root() + "/piglit-test/"
+    conf_file = conf_dir + "/" + hardware + arch + ".conf"
+    if not os.path.exists(conf_file):
+        conf_file = conf_dir + "/" + hardware + ".conf"
+    if nir:
+        # if a nir-specific conf file exists, use it instead
+        # of the hw/arch conf file.
+        nir_conf = conf_file[:-5] + "nir.conf"
+        if os.path.exists(nir_conf):
+            conf_file = nir_conf
+
+    assert (os.path.exists(conf_file))
+    return conf_file
 
 class Bisector:
     def __init__(self, project, test_name, arch, hardware,
@@ -205,20 +223,7 @@ class PiglitTest:
         self.bisected_revision = self.bisected_revision.replace("=", " ")
 
     def GetConf(self):
-        # this hacky code exists in several places and should be combined
-        conf_dir = ProjectMap().source_root() + "/piglit-test/"
-        conf_file = conf_dir + "/" + self.hardware + self.arch + ".conf"
-        if not os.path.exists(conf_file):
-            conf_file = conf_dir + "/" + self.hardware + ".conf"
-        if self.nir:
-            # if a nir-specific conf file exists, use it instead
-            # of the hw/arch conf file.
-            nir_conf = conf_file[:-5] + "nir.conf"
-            if os.path.exists(nir_conf):
-                conf_file = nir_conf
-            
-        assert (os.path.exists(conf_file))
-        return conf_file
+        return get_conf_file(self.hardware, self.arch, self.nir)
 
         
     def UpdateConf(self):
