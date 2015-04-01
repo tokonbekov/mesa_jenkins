@@ -38,7 +38,7 @@ def main():
     try:
         bs.build(b)
     except subprocess.CalledProcessError as e:
-        bs.Export.create_failing_test("mesa-scons-buildtest" + bs.Options().arch, str(e))
+        bs.Export().create_failing_test("mesa-scons-buildtest" + bs.Options().arch, str(e))
 
 if __name__ == '__main__':
     main()
