@@ -42,7 +42,7 @@ for junit in args.junit_file:
 if args.result_path and os.path.exists(args.result_path):
     test_dir = args.result_path + "/test"
     for a_file in os.listdir(test_dir):
-        if "piglit-" in a_file and not "-nir" in a_file:
+        if "piglit-" in a_file:
             xmls = xmls + [test_dir + "/" + a_file]
 
 for f in xmls:
@@ -51,7 +51,7 @@ for f in xmls:
     r = t.getroot()
 
     fn = os.path.splitext(os.path.split(f)[-1])[0]
-    hw = fn.split("_")[1]
+    hw = fn.split("_")[-2]
 
     build_name = fn.split("_")[0]
     nir = False
