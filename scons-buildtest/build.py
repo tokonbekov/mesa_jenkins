@@ -4,6 +4,7 @@ import sys
 import os
 import os.path as path
 import multiprocessing
+import subprocess
 sys.path.append(path.join(path.dirname(path.abspath(sys.argv[0])), ".."))
 import build_support as bs
 
@@ -34,8 +35,10 @@ class SconsBuilder(object):
         
 def main():
     b = SconsBuilder()
-    bs.build(b)
-
+    try:
+        bs.build(b)
+    except subprocess.CalledProcessError as e:
+        bs.Export.create_failing_test("mesa-scons-buildtest" + bs.Options(), str(e))
 
 if __name__ == '__main__':
     main()
