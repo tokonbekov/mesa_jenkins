@@ -390,7 +390,7 @@ class PiglitTester(object):
                 abbreviated_revisions = [a_rev[:6] for a_rev in revisions]
                 for abbrev_rev in abbreviated_revisions:
                     if abbrev_rev in regression_revision:
-                        print "stripping: " + afail + " " + regression_revision
+                        print "stripping: " + afail + " " + piglit_test.test_name
                         a_suite.remove(afail)
                 
         t.write(outfile)
