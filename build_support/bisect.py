@@ -221,18 +221,22 @@ class PiglitTest:
             return
         self.bisected_revision = self.bisected_revision.replace("=", " ")
 
-    def GetConf(self):
-        return get_conf_file(self.hardware, self.arch, self.nir)
+    def GetConf(self, hardware=None, arch=None):
+        if not hardware:
+            hardware = self.hardware
+        if not arch:
+            arch = self.arch
+        return get_conf_file(hardware, arch, self.nir)
 
         
     def UpdateConf(self):
         if not self.bisected_revision:
             return
         full_list = [(self.arch, self.hardware)] + self.other_arches
-        for _, hardware in full_list:
+        for arch, hardware in full_list:
             if "gt" in hardware:
                 hardware = hardware[:3]
-            conf_file = self.GetConf()
+            conf_file = self.GetConf(hardware=hardware, arch=arch)
             c = CaseConfig(allow_no_value=True)
             c.optionxform = str
             c.read(conf_file)
@@ -309,4 +313,12 @@ class TestLister:
         for (name, test) in self._tests.items():
             if name not in other_test_list._tests:
                 out_list.append(test)
+                continue
+            other_test = other_test_list._tests[name]
+            if other_test.arch != test.arch or other_test.hardware != test.hardware:
+                # didn't get the same primary failure.  It's likely
+                # that the test was marked as fixed for only one
+                # platform
+                out_list.append(test)
+                continue
         return out_list
