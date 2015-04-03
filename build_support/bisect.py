@@ -125,9 +125,6 @@ class Bisector:
             testname = re.sub('[=:]', ".", testname)
             if self.test_name != testname:
                 continue
-            if testcase.findall("skipped"):
-                print "ERROR: the target test was skipped"
-                assert(False)
             if testcase.findall("failure") or testcase.findall("error"):
                 print "TEST FAILED: " + rev
                 self.last_failure = rev
@@ -137,6 +134,8 @@ class Bisector:
                 self.commits = self.commits[current_build + 1:]
                 return self.Bisect()
 
+            if testcase.findall("skipped"):
+                print "INFO: the target test was skipped"
             print "TEST PASSED: " + rev
             if current_build == 0:
                 print "LAST DETECTED SUCCESS: " + rev
