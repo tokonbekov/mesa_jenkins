@@ -380,6 +380,8 @@ class PiglitTester(object):
             # remove skipped tests, which uses ram on jenkins when
             # displaying and provides no value.  
             for a_skip in a_suite.findall("testcase/skipped/.."):
+                if a_skip.attrib["status"] in ["crash", "fail"]:
+                    continue
                 a_suite.remove(a_skip)
 
             # for each failure, see if there is an entry in the config
