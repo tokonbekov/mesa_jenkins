@@ -6,15 +6,19 @@ sys.path.append(current_dir + "/..")
 import build_support as bs
 
 parser = argparse.ArgumentParser(description="bisects all mesa failures")
-parser.add_argument("--test_dir", type=str)
+parser.add_argument("--result_path", type=str)
 parser.add_argument("--good_rev", type=str)
+parser.add_argument('--to', metavar='to', type=str, default="",
+                    help='send resulting patch to this email')
 args = parser.parse_args(sys.argv[1:])
 
 # get revisions from out directory
-dirnames = os.path.abspath(args.test_dir).split("/")
-if dirnames[-1] != "test":
-    args.test_dir = args.test_dir + "/test"
-    dirnames = os.path.abspath(args.test_dir).split("/")
+test_dir = os.path.abspath(args.result_path + "/test")
+if not os.path.exists(test_dir):
+    print "ERROR: no tests in --result_path: " + test_dir
+    sys.exit(-1)
+
+dirnames = os.path.abspath(test_dir).split("/")
 hash_dir = dirnames[5]
 revs = hash_dir.split("_")
 
@@ -32,11 +36,15 @@ def make_test_list(testlister):
         _test_list.append(test_name_good_chars + ".all_platforms")
     return "--piglit_test=" + ",".join(_test_list)
 
-new_failures = bs.TestLister(args.test_dir)
+new_failures = bs.TestLister(test_dir)
 test_arg = make_test_list(new_failures)
 
 good_revisions = {}
+# accept either a single rev or a revision hash
 for arev in args.good_rev.split():
+    if "=" not in arev:
+        good_revisions["mesa"] = arev
+        continue
     rev = arev.split("=")
     good_revisions[rev[0]] = rev[1]
 
@@ -98,3 +106,12 @@ for a_test in mesa_failures:
     a_test.Bisect("mesa", mesa_commits)
     a_test.UpdateConf()
 
+if args.to:
+    patch_text = git.Repo().git.diff()
+    msg = MIMEText(patch_text)
+    msg["Subject"] = "[PATCH] jenkins updates due to bisect of mesa"
+    msg["From"] = "Do Not Reply <mesa_jenkins@intel.com>"
+    msg["To"] = args.to
+    s = smtplib.SMTP('or-out.intel.com')
+    to = args.to.split(",")
+    s.sendmail(msg["From"], to, msg.as_string())

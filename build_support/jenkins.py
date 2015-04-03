@@ -610,6 +610,20 @@ def write_summary(out_dir, completed_builds, ljen, failure=False):
     detailcolor="" 
     href="http://otc-gfxtest-01.jf.intel.com/job/update_piglit_failures/parambuild/?result_path={result_path}" />
 <br/>
+<br/>
+    <field name="Build link to bisect failures in mesa" 
+    titlecolor="black" 
+    value="generate patch" 
+    detailcolor="" 
+    href="http://otc-gfxtest-01.jf.intel.com/job/bisect_mesa_failures/parambuild/?result_path={result_path}" />
+<br/>
+<br/>
+    <field name="Build link to bisect failures in piglit" 
+    titlecolor="black" 
+    value="generate patch" 
+    detailcolor="" 
+    href="http://otc-gfxtest-01.jf.intel.com/job/bisect_piglit_failures/parambuild/?result_path={result_path}" />
+<br/>
     <field name="Test Results" titlecolor="black" value="" detailcolor="" href="" />
 </section>""".format(result_path=ljen._result_path))
     outf.close()
