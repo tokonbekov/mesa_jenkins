@@ -282,7 +282,8 @@ class TestLister:
         self._tests = {}
         # self.test_map is keyed by test name, value is PiglitTest
         for a_file in os.listdir(bad_dir):
-            if "piglit-test" not in a_file:
+            if ("piglit-test" not in a_file and
+                "piglit-nir-test" not in a_file) :
                 continue
             test_path = bad_dir + "/" + a_file
             self._add_tests(test_path)
