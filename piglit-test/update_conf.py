@@ -58,7 +58,7 @@ for f in xmls:
     if "nir" in build_name:
         nir = True
 
-    arch = fn.split("_")[2]
+    arch = fn.split("_")[-1]
     
     conf_file = bs.get_conf_file(hw, arch, nir)
             
