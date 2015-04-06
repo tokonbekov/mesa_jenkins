@@ -65,7 +65,7 @@ cmd = ["rsync", "-rlptD", "/".join(dirnames[:-1]) +"/", bisect_dir]
 bs.run_batch_command(cmd)
 bs.rmtree(bisect_dir + "/test")
 bs.rmtree(bisect_dir + "/piglit-test")
-bs.rmtree(old_out_dir + "/piglit-nir-test")
+bs.rmtree(bisect_dir + "/piglit-nir-test")
 
 j=bs.Jenkins(_revspec, bisect_dir)
 o = bs.Options(["bisect_all.py"])
