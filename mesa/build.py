@@ -12,25 +12,25 @@ def main():
 
     options = []
     if global_opts.arch == "m32":
-        # gallium requires llvm, which breaks on i386
         # expat pkg-config fails for some reason on i386
-        options = ['EXPAT_LIBS="-L/usr/lib/i386-linux-gnu -lexpat"',
-                   "--with-gallium-drivers=",
-                   "--disable-gallium-egl",
-                   "--disable-gallium-gbm"]
+        options = ['EXPAT_LIBS="-L/usr/lib/i386-linux-gnu -lexpat"']
 
     options = options + ["--enable-gbm",
                          "--with-egl-platforms=x11,drm",
                          "--enable-glx-tls", 
                          "--enable-gles1",
                          "--enable-gles2",
+                         "--with-dri-drivers=i965,swrast,i915",
 
                          # disable video drivers:
                          # bbe6f7f865cd4316b5f885507ee0b128a20686eb
                          # caused build failure unrelated to intel mesa
                          # team.
                          "--disable-xvmc",
-                         "--disable-vdpau"]
+                         "--disable-vdpau",
+
+                         # gallium tested with mesa-buildtest
+                         "--without-gallium-drivers"]
 
     if global_opts.config == 'debug':
         options.append('--enable-debug')
