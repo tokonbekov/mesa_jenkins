@@ -35,7 +35,9 @@ def main():
     if global_opts.config == 'debug':
         options.append('--enable-debug')
 
-    builder = bs.AutoBuilder(configure_options=options)
+    # always enable optimizations in mesa because tests are too slow
+    # without them.
+    builder = bs.AutoBuilder(configure_options=options, opt_flags="-O2")
 
     gtests = ["src/glsl/tests/general-ir-test",
               "src/glsl/tests/sampler-types-test",

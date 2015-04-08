@@ -37,10 +37,12 @@ def delete_src_pyc(path):
 
 class AutoBuilder(object):
 
-    def __init__(self, o=None, configure_options=None, export=True):
+    def __init__(self, o=None, configure_options=None, export=True,
+                 opt_flags=""):
         self._options = o
         self._tests = None
         self._export = export
+        self._opt_flags = opt_flags
 
         self._configure_options = configure_options
         if not configure_options:
@@ -48,7 +50,7 @@ class AutoBuilder(object):
 
         if not o:
             self._options = Options()
-            
+
         self._project_map = ProjectMap()
         project = self._project_map.current_project()
 
@@ -62,21 +64,21 @@ class AutoBuilder(object):
         if not os.path.exists(self._build_dir):
             os.makedirs(self._build_dir)
 
-        optflags = ""
+        optflags = self._opt_flags
         if self._options.config != "debug":
-            optflags = " -O2 -DNDEBUG"
+            optflags = "-O2 -DNDEBUG"
             
         savedir = os.getcwd()
         os.chdir(self._build_dir)
         flags = []
         if self._options.arch == "m32":
-            flags = ["CFLAGS=-m32" + optflags,
-                     "CXXFLAGS=-m32" + optflags, 
+            flags = ["CFLAGS=-m32 " + optflags,
+                     "CXXFLAGS=-m32 " + optflags, 
                      "--enable-32-bit",
                      "--host=i686-pc-linux-gnu"]
         else:
-            flags = ["CFLAGS=-m64" + optflags,
-                     "CXXFLAGS=-m64" + optflags]
+            flags = ["CFLAGS=-m64 " + optflags,
+                     "CXXFLAGS=-m64 " + optflags]
 
         run_batch_command(["../autogen.sh", 
                            "PKG_CONFIG_PATH=" + get_package_config_path(), 
