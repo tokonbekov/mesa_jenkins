@@ -1,6 +1,13 @@
 #!/usr/bin/python
 
-import sys, os, argparse, re
+from email.mime.text import MIMEText
+import argparse
+import git
+import os
+import re
+import smtplib
+import sys
+
 current_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
 sys.path.append(current_dir + "/..")
 import build_support as bs
