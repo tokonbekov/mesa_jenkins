@@ -101,8 +101,14 @@ class RepoSet:
             project_repo_dir = repo_dir + "/" + project
             if not os.path.exists(project_repo_dir):
                 os.makedirs(project_repo_dir)
-                print "cloning " + url
-                git.Repo.clone_from(url, project_repo_dir)
+                try:
+                    build_lab_url = "git://otc-gfxtest-01.local/git/" + project + "/origin"
+                    print "attempting clone of " + build_lab_url
+                    git.Repo.clone_from(build_lab_url,
+                                        project_repo_dir)
+                except:
+                    print "clone failed, cloning from " + url
+                    git.Repo.clone_from(url, project_repo_dir)
             repo = git.Repo(project_repo_dir)
             self._repos[project] = repo
             self._remotes[project] = {}
@@ -113,9 +119,16 @@ class RepoSet:
             for a_remote in tag.findall("remote"):
                 remote_name = a_remote.attrib["name"]
                 if not self._remotes[project].has_key(remote_name):
-                    print "Adding remote: " + remote_name + " " + url
                     url = a_remote.attrib["repo"]
-                    remote = repo.create_remote(remote_name, url)
+                    build_lab_url = "git://otc-gfxtest-01.local/git/" + project + "/" + remote_name
+                    print "Adding remote: " + remote_name + " " + build_lab_url
+                    try:
+                        remote = repo.create_remote(remote_name, build_lab_url)
+                        remote.fetch()
+                    except:
+                        repo.delete_remote(remote_name)
+                        print "build lab url failed, using " + url
+                        remote = repo.create_remote(remote_name, url)
                     self._remotes[project][remote_name] = remote
                 
 
