@@ -7,6 +7,7 @@ from . import Options
 from . import ProjectMap
 from . import rmfile
 from . import run_batch_command
+from . import Export
 
 class GTest:
     """Runs google test executables, publishing results to server"""
@@ -42,19 +43,22 @@ class GTest:
 
             test_path = os.path.join(self._bin_dir, test)
             if not os.path.exists(test_path):
-                print "ERROR: gtest does not exist: " + test_path
-                sys.exit(-1)
+                Export().create_failing_test("missing-gtest-" + test,
+                                             "ERROR: gtest does not exist: " + test_path)
+                continue
             cmd = [test_path,
                    "--gtest_output=xml:" + outpath,
                    "--gtest_catch_exceptions"]
             try:
                 run_batch_command(cmd)
             except(subprocess.CalledProcessError):
-                print "WARN: gtest returned non-zero status"
-            
+                Export().create_failing_test("failing-gtest-" + test,
+                                             "WARN: gtest returned non-zero status: " + test_path)
+                continue
             if not os.path.exists(outpath):
-                print "ERROR: gtest produced no output: " + test_path
-                sys.exit(-1)
+                Export().create_failing_test("silent-gtest-" + test,
+                                             "ERROR: gtest produced no output: " + test_path)
+                continue
 
         # create a copy of the test xml in the source root, where
         # jenkins can access it.

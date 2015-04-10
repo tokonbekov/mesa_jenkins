@@ -89,11 +89,11 @@ class Export:
         randstr = socket.gethostname() + "_" + str(random.random())[2:6]
         # filname has to begin with piglit for junit pattern match in jenkins to find it.
         fh = open(test_path + "/piglit-fail-" + o.hardware + o.arch + "_" + randstr + ".xml", "w")
-
+        failure_name = failure_name + "-" + o.hardware + o.arch
         fh.write("""\
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="mesa-buildtest" tests="1">
+  <testsuite name="generated-failures" tests="1">
     <testcase classname="failure-""" + failure_name + """\
 " name="compile.error" status="fail" time="0">
       <system-out>""" + xml.sax.saxutils.escape(output) + """</system-out>
