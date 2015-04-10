@@ -80,6 +80,9 @@ o.result_path = bisect_dir
 depGraph = bs.DependencyGraph(["piglit-gpu-all"], o)
 print "Retesting mesa to: " + bisect_dir
 j.build_all(depGraph, extra_arg=test_arg, print_summary=False)
+
+# make sure there is enough time for the test files to sync to nfs
+time.sleep(20)
 new_failures = bs.TestLister(bisect_dir + "/test/")
 
 if not new_failures.Tests():
@@ -105,6 +108,9 @@ depGraph = bs.DependencyGraph(["piglit-gpu-all"], o)
 print "Building old mesa to: " + old_out_dir
 
 j.build_all(depGraph, extra_arg=test_arg, print_summary=False)
+
+# make sure there is enough time for the test files to sync to nfs
+time.sleep(20)
 tl = bs.TestLister(old_out_dir + "/test/")
 print "failures due to mesa:"
 mesa_failures = new_failures.TestsNotIn(tl)
