@@ -23,7 +23,7 @@ def get_conf_file(hardware, arch, nir):
     conf_file = conf_dir + "/" + hardware + arch + ".conf"
     if not os.path.exists(conf_file):
         conf_file = conf_dir + "/" + hardware + ".conf"
-    if nir:
+    if not nir:
         # if a nir-specific conf file exists, use it instead
         # of the hw/arch conf file.
         nir_conf = conf_file[:-5] + "nir.conf"
