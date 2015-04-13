@@ -197,7 +197,9 @@ class PiglitTest:
 
     def AddTest(self, test):
         assert(test.test_name == self.test_name)
-        assert(test.status == self.status)
+        if (test.status != self.status):
+            print "WARNING: test status mismatch: " + self.test_name
+            return
         
         if self.arch == "m64" or test.arch == "m32":
             self.other_arches.append((test.arch, test.hardware))
