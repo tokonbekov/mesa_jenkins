@@ -396,6 +396,9 @@ class PiglitTester(object):
                     if abbrev_rev in regression_revision:
                         print "stripping: " + piglit_test.test_name + " " + regression_revision
                         a_suite.remove(afail)
+                        # a test may match more than one revision
+                        # encoded in a comment
+                        break
                 
         t.write(outfile)
 
