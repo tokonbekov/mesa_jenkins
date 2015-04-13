@@ -227,6 +227,10 @@
       <mesa branch="aphogat/jenkins"/>
     </branch>
 
+    <branch name="tpohjola" project="test-single-arch">
+      <mesa branch="tpohjola/jenkins"/>
+    </branch>
+
   </branches>
 
 </build_specification>
