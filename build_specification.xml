@@ -50,8 +50,14 @@
                     arch="m64,m32"/>
       <prerequisite only_for_type="daily" name="piglit-test" hardware="byt,g33" arch="m64,m32"/>
       <prerequisite name="piglit-cpu-test" hardware="builder" arch="m64,m32"/>
-      <!-- any haswell will suffice for nir test -->
-      <prerequisite name="piglit-nir-test" hardware="hsw" arch="m64,m32"/>
+
+      <!-- default is nir.  piglit-nir-test tests without nir.  as per
+           Jason, test on gen 4 or 5 era, Sandy Bridge, Ivy Bridge or
+           Haswell, and Broadwell.  For 10.5 branch, this will just
+           repeat piglit, since nir is not default on that branch -->
+      <prerequisite only_for_type="daily" name="piglit-nir-test" hardware="hsw,snb,bdw,ilk"
+                    arch="m64,m32"/>
+
       <prerequisite name="mesa-buildtest" hardware="builder" arch="m64"/>
     </project>
 
@@ -59,8 +65,6 @@
       <prerequisite name="piglit-test" hardware="ilk,g45,snb,ivb,hsw,bdwgt2,g965"/>
       <prerequisite only_for_type="daily" name="piglit-test" hardware="byt,g33"/>
       <prerequisite name="piglit-cpu-test" hardware="builder"/>
-      <!-- any haswell will suffice for nir test -->
-      <prerequisite name="piglit-nir-test" hardware="hsw"/>
       <prerequisite name="scons-buildtest" hardware="builder" arch="m64"/>
       <prerequisite name="mesa-buildtest" hardware="builder"/>
     </project>

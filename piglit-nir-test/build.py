@@ -40,4 +40,4 @@ suite = "gpu"
 if piglit_test:
     suite = "quick"
 
-bs.build(bs.PiglitTester(piglit_test, _suite=suite, nir=True), time_limit=SlowTimeout(_o))
+bs.build(bs.PiglitTester(piglit_test, _suite=suite, nir=False), time_limit=SlowTimeout(_o))

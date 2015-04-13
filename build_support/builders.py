@@ -206,7 +206,7 @@ class CMakeBuilder(object):
             #bs.GTest(bin_dir, exe, working_dir=bin_dir).run_tests()
     
 class PiglitTester(object):
-    def __init__(self, _piglit_test=None, _suite="quick", device_override=None, nir=False):
+    def __init__(self, _piglit_test=None, _suite="quick", device_override=None, nir=True):
         self.piglit_test = _piglit_test
         self.suite = _suite
         self.device_override = device_override
@@ -233,8 +233,8 @@ class PiglitTester(object):
                 # bugs in debian's s2tc library.  Recommended by nroberts
                 "S2TC_DITHER_MODE" : "NONE"
         }
-        if self.nir:
-            env["INTEL_USE_NIR"] = "1"
+        if not self.nir:
+            env["INTEL_USE_NIR"] = "0"
 
         dev_ids = { "byt" : "0x0F32",
                     "g45" : "0x2E22",
@@ -261,7 +261,8 @@ class PiglitTester(object):
         suffix = o.hardware
         if self.device_override:
             suffix = self.device_override
-        if self.nir:
+        if not self.nir:
+            # use the nir suffix for the non-default case (eg, without nir)
             suffix = "nir_" + suffix
         cmd = [br + "/bin/piglit",
                "run",
