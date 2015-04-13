@@ -60,11 +60,14 @@ mesa_commits = []
 mesa_repo = repos.repo("mesa")
 
 print "mesa revisions under bisection:"
-for commit in mesa_repo.iter_commits(max_count=1000):
+found = False
+for commit in mesa_repo.iter_commits(max_count=5000):
     mesa_commits.append(commit)
     print commit.hexsha
     if good_revisions["mesa"] in commit.hexsha:
+        found = True
         break
+assert(found)
 
 # retest build, in case expected failures has been updated
 # copy build root to bisect directory
@@ -92,6 +95,8 @@ if not new_failures.Tests():
 
 test_arg = make_test_list(new_failures)
 
+print "Found failures: " + test_arg
+
 # build old mesa to see what mesa regressions were
 revspec = bs.RevisionSpecification(from_cmd_line=["mesa=" + mesa_commits[-1].hexsha])
 revspec.checkout()
@@ -113,6 +118,7 @@ j.build_all(depGraph, extra_arg=test_arg, print_summary=False)
 # make sure there is enough time for the test files to sync to nfs
 time.sleep(20)
 tl = bs.TestLister(old_out_dir + "/test/")
+print "old failures: " + make_test_list(tl)
 print "failures due to mesa:"
 mesa_failures = new_failures.TestsNotIn(tl)
 for a_test in mesa_failures:
