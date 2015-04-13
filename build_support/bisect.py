@@ -200,15 +200,29 @@ class PiglitTest:
         if (test.status != self.status):
             print "WARNING: test status mismatch: " + self.test_name
             return
-        
-        if self.arch == "m64" or test.arch == "m32":
-            self.other_arches.append((test.arch, test.hardware))
-            return
 
-        # m64 is preferred
-        self.other_arches.append((self.arch, self.hardware))
-        self.arch = test.arch
-        self.hardware = test.hardware
+        primary_arch = self.arch
+        primary_hw = self.hardware
+        secondary_arch = test.arch
+        secondary_hw = test.hardware
+
+        if self.arch == "m32" and test.arch == "m64":
+            # m64 is preferred
+            primary_arch = test.arch
+            primary_hw = test.hardware
+            secondary_arch = self.arch
+            secondary_hw = self.hardware
+        elif (self.hardware not in PiglitTest.preferred_hardware and 
+              test.hardware in PiglitTest.preferred_hardware):
+            # else prefer faster platform
+            primary_arch = test.arch
+            primary_hw = test.hardware
+            secondary_arch = self.arch
+            secondary_hw = self.hardware
+        
+        self.other_arches.append((secondary_arch, secondary_hw))
+        self.arch = primary_arch
+        self.hardware = primary_hw
 
     def Print(self):
         print " ".join([self.test_name, self.arch, self.hardware,

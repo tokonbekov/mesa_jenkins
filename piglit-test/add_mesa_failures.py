@@ -82,6 +82,7 @@ j=bs.Jenkins(_revspec, bisect_dir)
 o = bs.Options(["bisect_all.py"])
 o.result_path = bisect_dir
 depGraph = bs.DependencyGraph(["piglit-gpu-all"], o)
+
 print "Retesting mesa to: " + bisect_dir
 j.build_all(depGraph, extra_arg=test_arg, print_summary=False)
 
@@ -95,7 +96,8 @@ if not new_failures.Tests():
 
 test_arg = make_test_list(new_failures)
 
-print "Found failures: " + test_arg
+print "Found failures:"
+new_failures.Print()
 
 # build old mesa to see what mesa regressions were
 revspec = bs.RevisionSpecification(from_cmd_line=["mesa=" + mesa_commits[-1].hexsha])
@@ -118,7 +120,8 @@ j.build_all(depGraph, extra_arg=test_arg, print_summary=False)
 # make sure there is enough time for the test files to sync to nfs
 time.sleep(20)
 tl = bs.TestLister(old_out_dir + "/test/")
-print "old failures: " + make_test_list(tl)
+print "old failures:"
+tl.Print()
 print "failures due to mesa:"
 mesa_failures = new_failures.TestsNotIn(tl)
 for a_test in mesa_failures:
