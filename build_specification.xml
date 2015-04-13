@@ -100,6 +100,7 @@
       <remote name="tpalli" repo="git://people.freedesktop.org/~tpalli/mesa"/>
       <remote name="curro" repo="git://people.freedesktop.org/~currojerez/mesa"/>
       <remote name="aphogat" repo="git://github.com/aphogat/mesa"/>
+      <remote name="tpohjola" repo="git://people.freedesktop.org/~tpohjola/mesa"/>
     </mesa>
 
     <drm repo="git://anongit.freedesktop.org/mesa/drm">
