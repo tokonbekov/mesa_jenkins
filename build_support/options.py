@@ -56,6 +56,9 @@ class Options(object):
         self._parser.add_argument('--result_path', type=str, default='',
                                   help="The location on the build master "
                                   "for placing and fetching built binaries.")
+        self._parser.add_argument('--retest_path', type=str, default='',
+                                  help="If specified, test actions only invoke "
+                                  "failing tests at this result_path.")
 
         if None != from_xml:
             self.from_xml(from_xml)
@@ -73,6 +76,7 @@ class Options(object):
         self.config = ""
         self.type = ""
         self.result_path = ""
+        self.retest_path = ""
         # Parse the args and explode it into the Options class
         self.__dict__.update(vars(self._parser.parse_args(args)))
 
@@ -85,6 +89,8 @@ class Options(object):
         arglist += ["--type", self.type]
         if self.result_path != "":
             arglist += ["--result_path", self.result_path]
+        if self.retest_path != "":
+            arglist += ["--retest_path", self.retest_path]
 
         return " ".join(arglist)
 
@@ -95,6 +101,7 @@ class Options(object):
         tag.set("config", self.config)
         tag.set("hardware", self.hardware)
         tag.set("result_path", self.result_path)
+        tag.set("retest_path", self.retest_path)
         tag.set("type", self.type)
         return tag
 
@@ -107,6 +114,7 @@ class Options(object):
         self.config = xml.attrib["config"]
         self.hardware = xml.attrib["hardware"]
         self.result_path = xml.attrib["result_path"]
+        self.retest_path = xml.attrib["retest_path"]
         self.type = xml.attrib["type"]
 
     def update_arg0(self, arg0=None):

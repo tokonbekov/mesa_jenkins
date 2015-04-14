@@ -104,7 +104,7 @@ class Jenkins:
                     raise
                 time.sleep(5)
 
-    def build(self, project_invoke, branch="", extra_arg=None):
+    def build(self, project_invoke, branch=""):
         status = project_invoke.get_info("status", block=False)
         if status == "building":
             raise BuildInProgress(project_invoke, self._revspec)
@@ -123,8 +123,6 @@ class Jenkins:
             self._jenkins_params(project_invoke),
             branch
         )
-        if extra_arg:
-            url = url + "&extra_arg=" + extra_arg
 
         f = self._reliable_url_open(url)
         f.read()
@@ -161,6 +159,8 @@ class Jenkins:
         p.append("result_path=" + o.result_path)
         p.append("hardware=" + o.hardware)
         p.append("hash=" + invoke.hash(self._time))
+        if o.retest_path:
+            p.append("extra_arg=--retest_path=" + o.retest_path)
 
         label = o.hardware
         p.append("label=" + label)
@@ -316,7 +316,7 @@ class Jenkins:
                 return None
             time.sleep(1)
 
-    def build_all(self, depGraph, branch="mesa_master", extra_arg=None, print_summary=True):
+    def build_all(self, depGraph, branch="mesa_master", print_summary=True):
         signal.signal(signal.SIGINT, abort_builds)
         signal.signal(signal.SIGABRT, abort_builds)
         signal.signal(signal.SIGTERM, abort_builds)
@@ -356,7 +356,7 @@ class Jenkins:
                 try:
                     print "Starting: " + an_invoke.to_short_string()
                     if (an_invoke.project == "piglit-test"):
-                        self.build(an_invoke, branch=branch, extra_arg=extra_arg)
+                        self.build(an_invoke, branch=branch)
                     else:
                         self.build(an_invoke, branch=branch)
                     an_invoke.set_info("trigger_time", time.time())

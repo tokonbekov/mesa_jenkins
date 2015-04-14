@@ -73,6 +73,9 @@
       <prerequisite name="piglit-test"
                     arch="m64,m32"
                     hardware="ilk,g45,snbgt1,snbgt2,ivbgt2,ivbgt1,hswgt2,hswgt3e,byt,g965,bdwgt2,hswgt1,g33"/>
+      <prerequisite name="piglit-nir-test"
+                    arch="m64,m32"
+                    hardware="hsw,snb,bdw,ilk"/>
     </project>
     
     <project name="reboot-slaves">

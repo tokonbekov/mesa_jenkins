@@ -13,6 +13,7 @@ from . import ProjectInvoke
 from . import Jenkins
 from . import RevisionSpecification
 from . import get_conf_file
+from . import TestLister
 
 def get_package_config_path():
     lib_dir = ""
@@ -206,12 +207,17 @@ class CMakeBuilder(object):
             #bs.GTest(bin_dir, exe, working_dir=bin_dir).run_tests()
     
 class PiglitTester(object):
-    def __init__(self, _piglit_test=None, _suite="quick", device_override=None, nir=True):
-        self.piglit_test = _piglit_test
-        self.suite = _suite
+    def __init__(self, _suite="quick", device_override=None, nir=True):
         self.device_override = device_override
         self.nir = nir
+
         o = Options()
+        self.suite = _suite
+        # in bisect, a test may be in either the cpu or gpu suite.
+        # use the quick suite, which is more comprehensive
+        if o.retest_path:
+            self.suite = "quick"
+
         pm = ProjectMap()
         self.build_root = pm.build_root()
         libdir = "x86_64-linux-gnu"
@@ -263,8 +269,10 @@ class PiglitTester(object):
         conf_file = get_conf_file(hardware, o.arch, self.nir)
         
         suffix = o.hardware
+        hardware = o.hardware
         if self.device_override:
             suffix = self.device_override
+            hardware = self.device_override
         if not self.nir:
             # use the nir suffix for the non-default case (eg, without nir)
             suffix = "nir_" + suffix
@@ -299,27 +307,27 @@ class PiglitTester(object):
         # Matt improved the runtime of this test by 80%
         # exclude_tests = ["ext_transform_feedback.max-varyings"]
 
-        if "snb" in o.hardware:
+        if "snb" in hardware:
             # hangs snb
             exclude_tests = exclude_tests + ["triangle_strip_adjacency"]
 
-        if "hsw" in o.hardware:
+        if "hsw" in hardware:
             # intermittent on haswell bug 89219 fixed in 10c82c6c5fc415d323a5e9c6acdc6a4c85d6b712
             # exclude_tests = exclude_tests + ["arb_uniform_buffer_object.bufferstorage"]
             pass
 
-        if "g965" in o.hardware:
+        if "g965" in hardware:
             # intermittent GPU hang on g965
             exclude_tests = exclude_tests + ["arb_shader_texture_lod.execution.tex-miplevel-selection",
                                              # fdo Bug 89398
                                              "glsl-1_20.execution.clipping.fixed-clip-enables",
                                              "glsl-1_10.execution.clipping.clip-plane-transformation pos_clipvert"]
 
-        if "bdw" in o.hardware:
+        if "bdw" in hardware:
             # many tests match this string and are intermittent on bdw
             exclude_tests = exclude_tests + ["arb_texture_multisample.texelFetch.fs.sampler2dms"]
 
-        if "byt" in o.hardware:
+        if "byt" in hardware:
             # bug 89219, fixed in 10c82c6c5fc415d323a5e9c6acdc6a4c85d6b712
             # exclude_tests = exclude_tests + ["arb_uniform_buffer_object.bufferstorage"]
             pass
@@ -329,23 +337,25 @@ class PiglitTester(object):
             fixed_test = fixed_test.replace(' ', '.')
             cmd = cmd + ["--exclude-tests", fixed_test]
 
-        if self.piglit_test:
+        if o.retest_path:
+            # only test items which previously failed
             include_tests = []
-            tests = self.piglit_test.split(",")
-            for test in tests:
-                # only use the last two components of test name, excluding
-                # suffix
-                test_name = ".".join(test.split(".")[1:-1])
-                # underscores are special in piglit names.  Replace with a '.'
-                test_name = test_name.replace('_', '.')
+            testlist = TestLister(o.retest_path + "/test/")
+            for atest in testlist.Tests():
+                test_name_good_chars = re.sub('[_ !:=]', ".", atest.test_name)
+                # drop the spec
+                test_name = ".".join(test_name_good_chars.split(".")[1:])
                 include_tests = include_tests + ["--include-tests", test_name]
+            if not include_tests:
+                # we were supposed to retest failures, but there were none
+                return
             cmd = cmd + include_tests
             
         cmd = cmd + [self.suite,
                      out_dir ]
 
         streamedOutput = True
-        if self.piglit_test:
+        if o.retest_path:
             streamedOutput = False
         (out, err) = run_batch_command(cmd, env=self.env,
                                        expected_return_code=None,
@@ -368,7 +378,7 @@ class PiglitTester(object):
             self.filter_tests(revisions,
                               out_dir + "/results.xml",
                               single_out_dir + "_".join(["/" + pm.current_project(),
-                                                         suffix,
+                                                         hardware,
                                                          o.arch]) + ".xml")
 
         # create a copy of the test xml in the source root, where

@@ -56,7 +56,7 @@ for f in xmls:
     build_name = fn.split("_")[0]
     nir = False
     if "nir" in build_name:
-        nir = True
+        nir = False
 
     arch = fn.split("_")[-1]
     

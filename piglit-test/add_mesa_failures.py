@@ -44,9 +44,6 @@ def make_test_list(testlister):
         _test_list.append(test_name_good_chars + ".all_platforms")
     return "--piglit_test=" + ",".join(_test_list)
 
-new_failures = bs.TestLister(test_dir)
-test_arg = make_test_list(new_failures)
-
 good_revisions = {}
 # accept either a single rev or a revision hash
 for arev in args.good_rev.split():
@@ -81,10 +78,11 @@ bs.rmtree(bisect_dir + "/piglit-nir-test")
 j=bs.Jenkins(_revspec, bisect_dir)
 o = bs.Options(["bisect_all.py"])
 o.result_path = bisect_dir
+o.retest_path = args.result_path
 depGraph = bs.DependencyGraph(["piglit-gpu-all"], o)
 
 print "Retesting mesa to: " + bisect_dir
-j.build_all(depGraph, extra_arg=test_arg, print_summary=False)
+j.build_all(depGraph, print_summary=False)
 
 # make sure there is enough time for the test files to sync to nfs
 time.sleep(20)
@@ -94,8 +92,7 @@ if not new_failures.Tests():
     print "All tests fixed"
     sys.exit(0)
 
-test_arg = make_test_list(new_failures)
-
+#test_arg = make_test_list(new_failures)
 print "Found failures:"
 new_failures.Print()
 
@@ -112,10 +109,11 @@ bs.rmtree(old_out_dir + "/piglit-nir-test")
 j=bs.Jenkins(revspec, old_out_dir)
 o = bs.Options(["bisect_all.py"])
 o.result_path = old_out_dir
+o.retest_path = bisect_dir
 depGraph = bs.DependencyGraph(["piglit-gpu-all"], o)
 print "Building old mesa to: " + old_out_dir
 
-j.build_all(depGraph, extra_arg=test_arg, print_summary=False)
+j.build_all(depGraph, print_summary=False)
 
 # make sure there is enough time for the test files to sync to nfs
 time.sleep(20)

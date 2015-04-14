@@ -24,8 +24,9 @@ def get_conf_file(hardware, arch, nir):
     if not os.path.exists(conf_file):
         conf_file = conf_dir + "/" + hardware + ".conf"
     if not nir:
-        # if a nir-specific conf file exists, use it instead
-        # of the hw/arch conf file.
+        # if a nir-specific conf file exists, use it instead of the
+        # hw/arch conf file.  Logic is backwards here: nir conf files
+        # are used when nir is disabled.
         nir_conf = conf_file[:-5] + "nir.conf"
         if os.path.exists(nir_conf):
             conf_file = nir_conf
@@ -34,23 +35,25 @@ def get_conf_file(hardware, arch, nir):
     return conf_file
 
 class Bisector:
-    def __init__(self, project, test_name, arch, hardware,
-                 commits):
-        self.project = project
+    def __init__(self, bisect_project, test,
+                 commits, retest_path):
+        self.project = bisect_project
+        self.test = test
         # remove inadvertent whitespace, which is easy to add when
         # triggering builds on jenkins
-        self.test_name = test_name.strip()
-        self.arch = arch
-        self.hardware = hardware
+        self.test_name = test.test_name.strip()
+        self.arch = test.arch
+        self.hardware = test.hardware
         self.commits = commits
         self.last_failure = None
+        self._retest_path=retest_path
 
     def Bisect(self):
         if not self.commits:
             return
         current_build = len(self.commits) / 2
         repo_project = self.project
-        if repo_project == "piglit-test":
+        if "piglit" in repo_project:
             repo_project = "piglit"
         rev = repo_project + "=" + self.commits[current_build].hexsha
         print "Range: " + self.commits[0].hexsha + " - " + self.commits[-1].hexsha + " (" + str(len(self.commits)) + ")"
@@ -72,25 +75,25 @@ class Bisector:
         results_dir = spec_xml.find("build_master").attrib["results_dir"]
         result_path = "/".join([results_dir, "bisect", hashstr])
         o.result_path = result_path
+        o.retest_path = self._retest_path
         rmtree(result_path + "/test")
 
         global jen
         jen = Jenkins(result_path=result_path,
-                         revspec=revspec)
+                      revspec=revspec)
 
-        depGraph = DependencyGraph("piglit-test", o)
+        depGraph = DependencyGraph(self.test.project, o)
         # remove test build from graph, because we always want to build
         # it.
-        bi = ProjectInvoke(project="piglit-test", 
-                              options=o)
+        bi = ProjectInvoke(project=self.test.project, 
+                           options=o)
         bi.set_info("status", "bisect-rebuild")
 
         depGraph.build_complete(bi)
         try:
-            jen.build_all(depGraph, "bisect", extra_arg=None, print_summary=False)
+            jen.build_all(depGraph, "bisect", print_summary=False)
             print "Starting: " + bi.to_short_string()
-            test_name_good_chars = re.sub('[_ !:=]', ".", self.test_name)
-            jen.build(bi, branch="mesa_master", extra_arg="--piglit_test=" + test_name_good_chars + ".anyhardware")
+            jen.build(bi, branch="mesa_master")
             jen.wait_for_build()
         except BuildFailure:
             print "BUILD FAILED - exception: " + rev
@@ -101,54 +104,21 @@ class Bisector:
             self.commits = self.commits[current_build+1:]
             return self.Bisect()
 
-        test_result = "/".join([result_path, "test", "piglit-test_" + 
-                                o.hardware + "_" + o.arch + ".xml"])
-        iteration = 0
-        while not os.path.exists(test_result):
-            if iteration < 40:
-                time.sleep(1)
-                iteration = iteration + 1
-                continue
-            print "BUILD FAILED - no test results: " + rev + " : " + test_result
-            self.last_failure = rev
-            if current_build + 1 == len(self.commits):
-                print "FIRST DETECTED FAILURE: " + rev
-                return rev
-            self.commits = self.commits[current_build + 1:]
-            return self.Bisect()
-
-        result = ET.parse(test_result)
-        for testcase in result.findall("./testsuite/testcase"):
-            testname = testcase.attrib["classname"] + "." + testcase.attrib["name"]
-            #strip off the arch/platform and drop the special characters
-            testname = ".".join(testname.split(".")[:-1])
-            testname = re.sub('[=:]', ".", testname)
-            if self.test_name != testname:
-                continue
-            if testcase.findall("failure") or testcase.findall("error"):
-                print "TEST FAILED: " + rev
-                self.last_failure = rev
-                if current_build + 1 == len(self.commits):
-                    print "FIRST DETECTED FAILURE: " + rev
-                    return rev
-                self.commits = self.commits[current_build + 1:]
-                return self.Bisect()
-
-            if testcase.findall("skipped"):
-                print "INFO: the target test was skipped"
-            print "TEST PASSED: " + rev
+        if self.test.Passed(result_path, rev):
             if current_build == 0:
                 print "LAST DETECTED SUCCESS: " + rev
                 return self.last_failure
             self.commits = self.commits[:current_build]
             return self.Bisect()
+        else:
+            # test failed
+            if current_build + 1 == len(self.commits):
+                print "FIRST DETECTED FAILURE: " + rev
+                return rev
+            self.last_failure = rev
+            self.commits = self.commits[current_build + 1:]
+            return self.Bisect()
 
-        print "ERROR -- TEST NOT FOUND: " + self.test_name
-        if current_build == 0:
-            print "LAST DETECTED SUCCESS: " + rev
-            return self.last_failure
-        self.commits = self.commits[:current_build]
-        return self.Bisect()
 
 # needed to preserve case in the options
 class CaseConfig(ConfigParser.SafeConfigParser):
@@ -163,7 +133,7 @@ class PiglitTest:
     preferred_hardware = ["hswgt3e", "hswgt2", "hswgt1", "ivbgt2",
                           "ivbgt1"] # ...
 
-    def __init__(self, full_test_name, status, test_tag=None):
+    def __init__(self, full_test_name, status, test_tag=None, retest_path=""):
         """full_test_name includes arch/platform.  status must be one
         of "pass", "fail", "crash" """
 
@@ -177,14 +147,14 @@ class PiglitTest:
                 status = failnode.attrib["type"]
             else:
                 status = "crash"
-        
+        self._retest_path = retest_path
         arch_hardware = full_test_name.split(".")[-1]
         arch = arch_hardware[-3:]
         hardware = arch_hardware[:-3]
-        self.nir = False
+        self.project = "piglit-test"
         if "nir_" in hardware:
             hardware = hardware[4:]
-            self.nir = True
+            self.project = "piglit-nir-test"
         if "gt" in hardware:
             hardware = hardware[:3]
 
@@ -225,12 +195,13 @@ class PiglitTest:
         self.hardware = primary_hw
 
     def Print(self):
-        print " ".join([self.test_name, self.arch, self.hardware,
+        print " ".join([self.project, self.test_name, self.arch, self.hardware,
                         self.status, str(self.other_arches)])
 
-    def Bisect(self, project, commits):
+    def Bisect(self, bisect_project, commits):
         print "Bisecting for " + self.test_name
-        b = Bisector(project, self.test_name, self.arch, self.hardware, commits)
+        b = Bisector(bisect_project, self, 
+                     commits, self._retest_path)
         self.bisected_revision = b.Bisect()
         if not self.bisected_revision:
             print "No bisection found for " + self.test_name
@@ -242,7 +213,8 @@ class PiglitTest:
             hardware = self.hardware
         if not arch:
             arch = self.arch
-        return get_conf_file(hardware, arch, self.nir)
+        return get_conf_file(hardware, arch, 
+                             self.project != "piglit-nir-test")
 
         
     def UpdateConf(self):
@@ -291,11 +263,49 @@ class PiglitTest:
             except(ConfigParser.NoSectionError, ConfigParser.NoOptionError):
                 pass
         return ""
+
+    def Passed(self, result_path, rev):
+        # returns true if the piglit test passed at the specified result_path
+        test_result = "/".join([result_path, "test", self.project + "_" +
+                                self.hardware + "_" + self.arch + ".xml"])
+        iteration = 0
+        while not os.path.exists(test_result):
+            if iteration < 40:
+                time.sleep(1)
+                iteration = iteration + 1
+                continue
+            print "BUILD FAILED - no test results: " + test_result
+            return False
+
+        result = ET.parse(test_result)
+        for testcase in result.findall("./testsuite/testcase"):
+            testname = testcase.attrib["classname"] + "." + testcase.attrib["name"]
+            #strip off the arch/platform and drop the special characters
+            testname = ".".join(testname.split(".")[:-1])
+            testname = re.sub('[=:]', ".", testname)
+            if self.test_name != testname:
+                continue
+            if testcase.findall("failure") or testcase.findall("error"):
+                print "TEST FAILED: " + rev
+                return False
+
+            if testcase.findall("skipped"):
+                print "INFO: the target test was skipped"
+            print "TEST PASSED: " + rev
+            return True
+
+        print "ERROR -- TEST NOT FOUND, treating as success: " + rev + " " + self.test_name
+        return True
     
 class TestLister:
     """reads xml files and generates a set of PiglitTest objects"""
     def __init__(self, bad_dir):
         self._tests = {}
+        self._tests["piglit-test"] = {}
+        self._tests["piglit-nir-test"] = {}
+        # used to limit the number of tests run to the ones that are
+        # under bisection
+        self._retest_path = os.path.abspath(bad_dir + "/..")
         # self.test_map is keyed by test name, value is PiglitTest
         for a_file in os.listdir(bad_dir):
             if ("piglit-test" not in a_file and
@@ -311,31 +321,39 @@ class TestLister:
         for afail in r.findall(".//failure/..") + r.findall(".//error/.."):
             piglit_test = PiglitTest(full_test_name="unknown", 
                                      status="unknown",
-                                     test_tag=afail)
-            
-            if piglit_test.test_name not in self._tests:
-                self._tests[piglit_test.test_name] = piglit_test
+                                     test_tag=afail,
+                                     retest_path=self._retest_path)
+
+            project = piglit_test.project
+            name = piglit_test.test_name
+            if name not in self._tests[project]:
+                self._tests[project][name] = piglit_test
                 continue
-            self._tests[piglit_test.test_name].AddTest(piglit_test)
+            self._tests[project][name].AddTest(piglit_test)
 
     def Print(self):
-        for test in self._tests.values():
-            test.Print()
+        for project in self._tests.values():
+            for test in project.values():
+                test.Print()
 
     def Tests(self):
-        return self._tests.values()
+        tests = []
+        for project in self._tests.values():
+            tests = tests + project.values()
+        return tests
 
     def TestsNotIn(self, other_test_list):
         out_list = []
-        for (name, test) in self._tests.items():
-            if name not in other_test_list._tests:
-                out_list.append(test)
-                continue
-            other_test = other_test_list._tests[name]
-            if other_test.arch != test.arch or other_test.hardware != test.hardware:
-                # didn't get the same primary failure.  It's likely
-                # that the test was marked as fixed for only one
-                # platform
-                out_list.append(test)
-                continue
+        for (project, tests) in self._tests.items():
+            for (name, test) in tests.items():
+                if name not in other_test_list._tests[project]:
+                    out_list.append(test)
+                    continue
+                other_test = other_test_list._tests[project][name]
+                if other_test.arch != test.arch or other_test.hardware != test.hardware:
+                    # didn't get the same primary failure.  It's likely
+                    # that the test was marked as fixed for only one
+                    # platform
+                    out_list.append(test)
+                    continue
         return out_list
