@@ -211,30 +211,34 @@ class PiglitTester(object):
         self.suite = _suite
         self.device_override = device_override
         self.nir = nir
-
-    def test(self):
-        pm = ProjectMap()
-        br = pm.build_root()
         o = Options()
-
+        pm = ProjectMap()
+        self.build_root = pm.build_root()
         libdir = "x86_64-linux-gnu"
         if o.arch == "m32":
             libdir = "i386-linux-gnu"
-            
-        env = { "LD_LIBRARY_PATH" : br + "/lib:" + \
-                br + "/lib/" + libdir + ":" + \
-                br + "/lib/dri:" + \
-                br + "/lib/piglit/lib",
+        self.env = { "LD_LIBRARY_PATH" : self.build_root + "/lib:" + \
+                self.build_root + "/lib/" + libdir + ":" + \
+                self.build_root + "/lib/dri:" + \
+                self.build_root + "/lib/piglit/lib",
 
-                "LIBGL_DRIVERS_PATH" : br + "/lib/dri",
-                "GBM_DRIVERS_PATH" : br + "/lib/dri",
+                "LIBGL_DRIVERS_PATH" : self.build_root + "/lib/dri",
+                "GBM_DRIVERS_PATH" : self.build_root + "/lib/dri",
                 # fixes dxt subimage tests that fail due to a
                 # combination of unreasonable tolerances and possibly
                 # bugs in debian's s2tc library.  Recommended by nroberts
                 "S2TC_DITHER_MODE" : "NONE"
         }
+
+    def test(self):
+        pm = ProjectMap()
+        o = Options()
+
         if not self.nir:
-            env["INTEL_USE_NIR"] = "0"
+            if "10.5" in self.mesa_version():
+                print "WARNING: nir tests disabled.  Mesa 10.5 does not support nir"
+                return
+            self.env["INTEL_USE_NIR"] = "0"
 
         dev_ids = { "byt" : "0x0F32",
                     "g45" : "0x2E22",
@@ -248,9 +252,9 @@ class PiglitTester(object):
                     "sklgt3" : "0x192B",
         }
         if self.device_override:
-            env["INTEL_DEVID_OVERRIDE"] = dev_ids[self.device_override]
+            self.env["INTEL_DEVID_OVERRIDE"] = dev_ids[self.device_override]
 
-        out_dir = br + "/test/" + o.hardware
+        out_dir = self.build_root + "/test/" + o.hardware
 
         hardware = o.hardware
         if self.device_override:
@@ -264,7 +268,7 @@ class PiglitTester(object):
         if not self.nir:
             # use the nir suffix for the non-default case (eg, without nir)
             suffix = "nir_" + suffix
-        cmd = [br + "/bin/piglit",
+        cmd = [self.build_root + "/bin/piglit",
                "run",
                "-p", "gbm",
                "-b", "junit",
@@ -343,13 +347,13 @@ class PiglitTester(object):
         streamedOutput = True
         if self.piglit_test:
             streamedOutput = False
-        (out, err) = run_batch_command(cmd, env=env,
+        (out, err) = run_batch_command(cmd, env=self.env,
                                        expected_return_code=None,
                                        streamedOutput=streamedOutput)
         if err and "There are no tests scheduled to run" in err:
             open(out_dir + "/results.xml", "w").write("<testsuites/>")
 
-        single_out_dir = br + "/../test"
+        single_out_dir = self.build_root + "/../test"
         if not os.path.exists(single_out_dir):
             os.makedirs(single_out_dir)
 
@@ -370,7 +374,7 @@ class PiglitTester(object):
         # create a copy of the test xml in the source root, where
         # jenkins can access it.
         cmd = ["cp", "-a", "-n",
-               br + "/../test", pm.source_root()]
+               self.build_root + "/../test", pm.source_root()]
         run_batch_command(cmd)
 
         Export().export_tests()
@@ -432,6 +436,21 @@ class PiglitTester(object):
             reboot_invoke.set_info("status", "rebuild")
             Jenkins(RevisionSpecification(),
                     Options().result_path).build(reboot_invoke)
+
+    def mesa_version(self):
+        (out, _) = run_batch_command([self.build_root + "/bin/wflinfo",
+                                      "--platform=gbm", "-a", "gl"],
+                                     streamedOutput=False,
+                                     env=self.env)
+        for a_line in out.splitlines():
+            if "OpenGL version string" not in a_line:
+                continue
+            tokens = a_line.split(":")
+            assert len(tokens) == 2
+            version_string = tokens[1].strip()
+            version_tokens = version_string.split()
+            assert len(version_tokens) >= 3
+            return version_tokens[2]
 
     def build(self):
         pass
