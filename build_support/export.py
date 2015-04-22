@@ -3,6 +3,7 @@ import os
 import random
 import socket
 import subprocess
+import time
 import xml.sax.saxutils
 from . import run_batch_command
 from . import rmtree
@@ -49,6 +50,7 @@ class Export:
 
         try:
             run_batch_command(cmd)
+            run_batch_command(["sync"])
         except subprocess.CalledProcessError as e:
             print "WARN: some errors copying: " + str(e)
         
@@ -56,9 +58,13 @@ class Export:
     def import_build_root(self):
         o = Options()
         result_path = o.result_path + "/" + o.arch
-        if not result_path:
+        if not o.result_path:
             return
         if not os.path.exists(result_path):
+            print "WARN: no build root to import, sleeping"
+            time.sleep(10)
+        if not os.path.exists(result_path):
+            print "WARN: no build root to import: " + result_path
             return
 
         br = os.path.dirname(ProjectMap().build_root())
@@ -76,6 +82,7 @@ class Export:
 
         try:
             run_batch_command(cmd)
+            run_batch_command(["sync"])
         except subprocess.CalledProcessError as e:
             print "WARN: some errors copying: " + str(e)
 
