@@ -36,6 +36,12 @@ def delete_src_pyc(path):
                 if os.path.exists(os.path.join(dirpath, each_file)):
                     os.remove(os.path.join(dirpath, each_file))
 
+def git_clean(src_dir):
+    savedir = os.getcwd()
+    os.chdir(src_dir)
+    run_batch_command(["git", "clean", "-xfd"])
+    os.chdir(savedir)
+                    
 class AutoBuilder(object):
 
     def __init__(self, o=None, configure_options=None, export=True,
@@ -120,21 +126,8 @@ class AutoBuilder(object):
         os.chdir(savedir)
 
     def clean(self):
-        savedir = os.getcwd()
-        if not os.path.exists(self._build_dir):
-            return
-        os.chdir(self._build_dir)
-        if os.path.exists("Makefile"):
-            try:
-                run_batch_command(["make", "distclean"])
-            except(subprocess.CalledProcessError):
-                pass
-        os.chdir(savedir)
-        if os.path.exists(self._build_dir):
-            rmtree(self._build_dir)
-
-        delete_src_pyc(self._src_dir)
-
+        git_clean(self._src_dir)
+        assert(not os.path.exists(self._build_dir))
 
 class CMakeBuilder(object):
     def __init__(self, extra_definitions=None):
@@ -182,10 +175,8 @@ class CMakeBuilder(object):
         Export().export()
 
     def clean(self):
-        if os.path.exists(self._build_dir):
-            rmtree(self._build_dir)
-
-        delete_src_pyc(self._src_dir)
+        git_clean(self._src_dir)
+        assert(not os.path.exists(self._build_dir))
         
     def test(self):
         savedir = os.getcwd()

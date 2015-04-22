@@ -31,7 +31,9 @@ def main():
     builder = bs.AutoBuilder(configure_options=options, export=False)
 
     try:
+        bs.clean(builder)
         bs.build(builder)
+        bs.clean(builder)
     except subprocess.CalledProcessError as e:
         bs.Export().create_failing_test("mesa-buildtest", str(e))
 
