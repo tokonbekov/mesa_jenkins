@@ -90,6 +90,7 @@ class Export:
         o = Options()
         pm = ProjectMap()
         test_path = os.path.abspath(pm.build_root() + "/../test/")
+        print "ERROR: creating a failing test: " + failure_name + " : " + output
         if not os.path.exists(test_path):
             os.makedirs(test_path)
 
