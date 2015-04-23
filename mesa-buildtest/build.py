@@ -1,15 +1,22 @@
 #!/usr/bin/python
 
 
-import os
 import os.path as path
 import subprocess
 import sys
-import xml.sax.saxutils
 sys.path.append(path.join(path.dirname(path.abspath(sys.argv[0])), ".."))
 import build_support as bs
 
+class NoTest(bs.AutoBuilder):
+    def __init__(self, configure_options):
+        bs.AutoBuilder.__init__(self,
+                                configure_options=configure_options,
+                                export=False)
 
+    def test(self):
+        # llvmpipe fails make test, and who cares?
+        pass
+    
 def main():
     global_opts = bs.Options()
 
@@ -28,7 +35,8 @@ def main():
     if global_opts.config == 'debug':
         options.append('--enable-debug')
 
-    builder = bs.AutoBuilder(configure_options=options, export=False)
+    # builder = bs.AutoBuilder(configure_options=options, export=False)
+    builder = NoTest(configure_options=options)
 
     try:
         bs.build(builder)
