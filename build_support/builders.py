@@ -60,6 +60,7 @@ class AutoBuilder(object):
 
         self._project_map = ProjectMap()
         project = self._project_map.current_project()
+        self._project = project
 
         self._src_dir = self._project_map.project_source_dir(project)
         self._build_root = self._project_map.build_root()
@@ -116,7 +117,8 @@ class AutoBuilder(object):
                                "check"])
         except(subprocess.CalledProcessError):
             print "WARN: make check failed"
-
+            Export().create_failing_test(self._project +
+                                         "-make-check-failure", "")
         if self._tests:
             self._tests.run_tests()
 
