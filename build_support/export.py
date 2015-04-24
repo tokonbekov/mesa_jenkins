@@ -82,7 +82,6 @@ class Export:
 
         try:
             run_batch_command(cmd)
-            run_batch_command(["sync"])
         except subprocess.CalledProcessError as e:
             print "WARN: some errors copying: " + str(e)
 
