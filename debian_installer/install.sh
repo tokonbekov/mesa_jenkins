@@ -75,4 +75,5 @@ apt-get install \
     valgrind \
     libedit-dev \
     libreadline-dev \
-    zlib1g-dev
+    zlib1g-dev \
+    xutils-dev
