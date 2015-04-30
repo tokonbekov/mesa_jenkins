@@ -1,4 +1,5 @@
 import os, multiprocessing, re, subprocess
+import sys
 import socket
 import xml.etree.ElementTree as ET
 from . import Options
@@ -14,6 +15,7 @@ from . import Jenkins
 from . import RevisionSpecification
 from . import get_conf_file
 from . import TestLister
+from . import NoConfigFile
 
 def get_package_config_path():
     lib_dir = ""
@@ -259,7 +261,12 @@ class PiglitTester(object):
         if self.device_override:
             hardware = self.device_override
 
-        conf_file = get_conf_file(hardware, o.arch, self.nir)
+        try:
+            conf_file = get_conf_file(hardware, o.arch, self.nir)
+        except NoConfigFile:
+            print >>sys.stderr, 'No config file found for hardware: {0} arch: {1} nir: {2}'.format(
+                hardware, o.arch, str(self.nir))
+            sys.exit(1)
         
         suffix = o.hardware
         hardware = o.hardware

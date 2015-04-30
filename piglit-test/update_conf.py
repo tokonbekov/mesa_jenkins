@@ -60,7 +60,10 @@ for f in xmls:
 
     arch = fn.split("_")[-1]
     
-    conf_file = bs.get_conf_file(hw, arch, nir)
+    try:
+        conf_file = bs.get_conf_file(hw, arch, nir)
+    except bs.NoConfigFile:
+        continue
             
     print "updating " + conf_file
     c = CaseConfig(allow_no_value=True)

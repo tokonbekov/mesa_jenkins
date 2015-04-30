@@ -14,6 +14,11 @@ from . import ProjectInvoke
 from . import BuildFailure
 #from . import 
 
+
+class NoConfigFile(Exception):
+    pass
+
+
 def get_conf_file(hardware, arch, nir):
     # strip the gtX strings off of the hardware, because there are
     # no examples where a sku has a different config
@@ -31,7 +36,8 @@ def get_conf_file(hardware, arch, nir):
         if os.path.exists(nir_conf):
             conf_file = nir_conf
 
-    assert (os.path.exists(conf_file))
+    if not os.path.exists(conf_file):
+        raise NoConfigFile
     return conf_file
 
 class Bisector:
@@ -224,7 +230,10 @@ class PiglitTest:
         for arch, hardware in full_list:
             if "gt" in hardware:
                 hardware = hardware[:3]
-            conf_file = self.GetConf(hardware=hardware, arch=arch)
+            try:
+                conf_file = self.GetConf(hardware=hardware, arch=arch)
+            except NoConfigFile:
+                continue
             c = CaseConfig(allow_no_value=True)
             c.optionxform = str
             c.read(conf_file)
@@ -250,7 +259,11 @@ class PiglitTest:
         hardware = self.hardware
         if "gt" in hardware:
             hardware = hardware[:3]
-        conf_file = self.GetConf()
+        try:
+            conf_file = self.GetConf()
+        except NoConfigFile:
+            return ''
+
         c = CaseConfig(allow_no_value=True)
         c.optionxform = str
         c.read(conf_file)
