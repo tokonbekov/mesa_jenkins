@@ -81,7 +81,7 @@ o.result_path = bisect_dir
 o.retest_path = args.result_path
 depGraph = bs.DependencyGraph(["piglit-gpu-all"], o)
 print "Retesting piglit to: " + bisect_dir
-j.build_all(depGraph, extra_arg=test_arg, print_summary=False)
+j.build_all(depGraph, print_summary=False)
 
 # make sure there is enough time for the test files to sync to nfs
 time.sleep(20)
