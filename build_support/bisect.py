@@ -150,7 +150,8 @@ class PiglitTest:
             full_test_name = full_test_name.replace(":", ".")
             failnode = test_tag.find("./failure")
             if failnode is not None:
-                status = failnode.attrib["type"]
+                # assume fail type is crash if the type attribute doesn't exist
+                status = failnode.attrib.get("type", "crash")
             else:
                 status = "crash"
         self._retest_path = retest_path
