@@ -330,7 +330,8 @@ class PiglitTester(object):
         if "bdw" in hardware:
             # many tests match this string and are intermittent on bdw
             exclude_tests = exclude_tests + ["arb_texture_multisample.texelFetch.fs.sampler2dms"]
-
+            # TODO: write bugs for
+            exclude_tests = exclude_tests + ["variable-indexing.vs-output-array-vec4-index-wr-before-gs"]
         if "byt" in hardware:
             # bug 89219, fixed in 10c82c6c5fc415d323a5e9c6acdc6a4c85d6b712
             # exclude_tests = exclude_tests + ["arb_uniform_buffer_object.bufferstorage"]
