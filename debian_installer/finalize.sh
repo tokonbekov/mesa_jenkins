@@ -77,6 +77,7 @@ apt-get install -y --force-yes \
 	libxshmfence-dev libxshmfence-dev:i386 \
 	libxxf86vm-dev libxxf86vm-dev:i386 \
 	linux-libc-dev linux-libc-dev:i386 \
+    scons \
 	x11proto-dri2-dev \
 	x11proto-dri3-dev \
 	x11proto-gl-dev \
