@@ -1,60 +1,40 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <project>
   <actions/>
-  <description></description>
+  <description>builds arbitrary projects for a mesa build scheduler.</description>
+  <logRotator class="hudson.tasks.LogRotator">
+    <daysToKeep>-1</daysToKeep>
+    <numToKeep>10</numToKeep>
+    <artifactDaysToKeep>-1</artifactDaysToKeep>
+    <artifactNumToKeep>-1</artifactNumToKeep>
+  </logRotator>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
-          <name>series_name</name>
-          <description>this string will be set on the build names.  </description>
-          <defaultValue>must_set</defaultValue>
+          <name>to</name>
+          <description>resulting patch will be sent to this address</description>
+          <defaultValue>mark.a.janes@intel.com</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
-          <name>start_rev</name>
-          <description>sha revision</description>
+          <name>good_revision</name>
+          <description>sha of the mesa build which did not have the failures</description>
           <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
-          <name>end_rev</name>
-          <description>sha of commit ending the series</description>
+          <name>result_path</name>
+          <description>path to target build.  Required</description>
           <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
-        <hudson.model.ChoiceParameterDefinition>
-          <name>hardware</name>
-          <description></description>
-          <choices class="java.util.Arrays$ArrayList">
-            <a class="string-array">
-              <string>builder</string>
-              <string>hsw</string>
-              <string>bwd</string>
-              <string>ivb</string>
-              <string>snb</string>
-            </a>
-          </choices>
-        </hudson.model.ChoiceParameterDefinition>
-        <hudson.model.ChoiceParameterDefinition>
-          <name>project</name>
-          <description>choose test-single-arch to test all platforms on m64 arch.
-choose piglit-build for a build test
-choose piglit-test to test a single hardware platform</description>
-          <choices class="java.util.Arrays$ArrayList">
-            <a class="string-array">
-              <string>test-single-arch</string>
-              <string>piglit-build</string>
-              <string>piglit-test</string>
-            </a>
-          </choices>
-        </hudson.model.ChoiceParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.22">
       <autoRebuild>false</autoRebuild>
     </com.sonyericsson.rebuild.RebuildSettings>
     <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.3">
-      <maxConcurrentPerNode>0</maxConcurrentPerNode>
-      <maxConcurrentTotal>2</maxConcurrentTotal>
+      <maxConcurrentPerNode>1</maxConcurrentPerNode>
+      <maxConcurrentTotal>0</maxConcurrentTotal>
       <throttleEnabled>true</throttleEnabled>
       <throttleOption>project</throttleOption>
     </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
@@ -63,7 +43,7 @@ choose piglit-test to test a single hardware platform</description>
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>http://github.com/janesma/mesa_jenkins.git</url>
+        <url>git://github.com/janesma/mesa_jenkins</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -75,6 +55,7 @@ choose piglit-test to test a single hardware platform</description>
     <submoduleCfg class="list"/>
     <extensions/>
   </scm>
+  <scmCheckoutRetryCount>5</scmCheckoutRetryCount>
   <assignedNode>master</assignedNode>
   <canRoam>false</canRoam>
   <disabled>false</disabled>
@@ -85,14 +66,15 @@ choose piglit-test to test a single hardware platform</description>
   <concurrentBuild>true</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>python -u scripts/build_series.py --start_rev=${start_rev} --end_rev=${end_rev} --project=${project} --series_name=&quot;$series_name&quot; --hardware=${hardware}</command>
+      <command>python -u scripts/checkout_revision_spec.py
+python -u piglit-test/add_mesa_failures.py --good_rev=&quot;${good_revision}&quot; --result_path ${result_path} --to ${to}</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>
   <buildWrappers>
     <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.6"/>
     <org.jenkinsci.plugins.buildnamesetter.BuildNameSetter plugin="build-name-setter@1.3">
-      <template>#${BUILD_NUMBER}-${ENV,var=&quot;name&quot;}-${ENV,var=&quot;type&quot;}</template>
+      <template>${ENV,var=&quot;blame_revision&quot;}</template>
     </org.jenkinsci.plugins.buildnamesetter.BuildNameSetter>
   </buildWrappers>
 </project>

@@ -115,7 +115,7 @@
     <hudson.tasks.Shell>
       <command>echo project:${project} arch:${arch} result_path:${result_path} config:${config} type:${type} revision:${revision} hardware:${hardware} hash:${hash}
 rm -rf /tmp/build_root
-python scripts/checkout_revision_spec.py ${revision}
+python -u scripts/checkout_revision_spec.py ${revision}
 export http_proxy=http://proxy.jf.intel.com:911
 unset revision
 python ${project}/build.py --arch ${arch} --result_path ${result_path} --config ${config} --type ${type} --hardware ${hardware} --action clean,build,test ${extra_arg}</command>
@@ -189,7 +189,7 @@ python ${project}/build.py --arch ${arch} --result_path ${result_path} --config 
     </xunit>
   </publishers>
   <buildWrappers>
-    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.5.14"/>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.6"/>
     <org.jenkinsci.plugins.buildnamesetter.BuildNameSetter plugin="build-name-setter@1.3">
       <template>${ENV,var=&quot;project&quot;}-${ENV,var=&quot;branch&quot;}-${ENV,var=&quot;arch&quot;}-${ENV,var=&quot;hardware&quot;}</template>
     </org.jenkinsci.plugins.buildnamesetter.BuildNameSetter>

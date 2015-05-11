@@ -103,9 +103,14 @@ python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=${type}</command>
         <testTimeMargin>3000</testTimeMargin>
       </extraConfiguration>
     </xunit>
+    <hudson.tasks.Mailer plugin="mailer@1.8">
+      <recipients>mark.a.janes@intel.com,baker.dylan.c@gmail.com</recipients>
+      <dontNotifyEveryUnstableBuild>true</dontNotifyEveryUnstableBuild>
+      <sendToIndividuals>false</sendToIndividuals>
+    </hudson.tasks.Mailer>
   </publishers>
   <buildWrappers>
-    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.5.14"/>
+    <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.6"/>
     <org.jenkinsci.plugins.buildnamesetter.BuildNameSetter plugin="build-name-setter@1.3">
       <template>#${BUILD_NUMBER}-${ENV,var=&quot;name&quot;}-${ENV,var=&quot;type&quot;}</template>
     </org.jenkinsci.plugins.buildnamesetter.BuildNameSetter>
