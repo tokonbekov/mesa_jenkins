@@ -301,10 +301,6 @@ class PiglitTester(object):
         # intermittent on at least snbgt1 and nir hswgt3e
         exclude_tests = ["glsl-1_10.execution.vs-vec2-main-return"]
 
-        # Bug 90407
-        exclude_tests = exclude_tests + ["shaders.glsl-fs-vec4-indexing-temp-dst",
-                                         "shaders.glsl-fs-vec4-indexing-temp-src-in-nested-loop-outer"]
-
         # this occured intermittently on hsw, ivb and others 2/19 -
         # 2/23.  Bisect takes 3 minutes to run the test.  It is very
         # infrequent.
