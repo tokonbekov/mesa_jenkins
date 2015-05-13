@@ -102,7 +102,7 @@ class RepoSet:
             if not os.path.exists(project_repo_dir):
                 os.makedirs(project_repo_dir)
                 try:
-                    build_lab_url = "git://otc-gfxtest-01.local/git/" + project + "/origin"
+                    build_lab_url = "git://otc-mesa-ci.local/git/" + project + "/origin"
                     print "attempting clone of " + build_lab_url
                     git.Repo.clone_from(build_lab_url,
                                         project_repo_dir)
@@ -120,7 +120,7 @@ class RepoSet:
                 remote_name = a_remote.attrib["name"]
                 if not self._remotes[project].has_key(remote_name):
                     url = a_remote.attrib["repo"]
-                    build_lab_url = "git://otc-gfxtest-01.local/git/" + project + "/" + remote_name
+                    build_lab_url = "git://otc-mesa-ci.local/git/" + project + "/" + remote_name
                     print "Adding remote: " + remote_name + " " + build_lab_url
                     try:
                         remote = repo.create_remote(remote_name, build_lab_url)
