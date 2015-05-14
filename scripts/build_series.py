@@ -79,7 +79,7 @@ print "building series:"
 for commit in commits:
     print commit.hexsha
 
-    custom_url = "http://otc-gfxtest-01.jf.intel.com/job/mesa_custom/buildWithParameters?token=xyzzy&{0}"
+    custom_url = "http://otc-mesa-ci.jf.intel.com/job/mesa_custom/buildWithParameters?token=xyzzy&{0}"
     job_args = { "name" : args.series_name + "_" + commit.hexsha[:8],
                  "revision" : "mesa=" + commit.hexsha,
                  "project" : args.project,
