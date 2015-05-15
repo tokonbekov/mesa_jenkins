@@ -49,7 +49,7 @@
                     hardware="ilk,g45,snbgt1,snbgt2,ivbgt2,ivbgt1,hswgt2,bdwgt2,hswgt3e,hswgt1,g965"
                     arch="m64,m32"/>
       <prerequisite only_for_type="daily" name="piglit-test" hardware="byt,g33" arch="m64,m32"/>
-      <prerequisite name="piglit-cpu-test" hardware="builder" arch="m64,m32"/>
+      <prerequisite name="piglit-cpu-test" hardware="hswgt3e" arch="m64,m32"/>
 
       <!-- default is nir.  piglit-nir-test tests without nir.  as per
            Jason, test on gen 4 or 5 era, Sandy Bridge, Ivy Bridge or
