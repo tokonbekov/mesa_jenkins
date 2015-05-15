@@ -221,7 +221,11 @@ class RevisionSpecification:
         self._revisions = spec.attrib
 
     def to_cmd_line_param(self):
-        revs = [project + "=" + rev for (project, rev) in self._revisions.iteritems()]
+        revs = []
+        for (project, rev) in self._revisions.iteritems():
+            if project == "mesa_jenkins":
+                continue
+            revs.append(project + "=" + rev)
         return " ".join(revs)
 
     def from_cmd_line_param(self, params):
