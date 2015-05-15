@@ -128,6 +128,10 @@
       <remote name="chadv" repo="git://github.com/chadversary/waffle"/>
       <remote name="janesma" repo="git://github.com/janesma/waffle"/>
     </waffle>
+
+    <!-- just so the master can cache it for the builders -->
+    <mesa_jenkins repo="git://github.com/janesma/mesa_jenkins.git"/>
+
   </repos>
 
 
