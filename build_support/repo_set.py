@@ -37,6 +37,10 @@ class BranchSpecification:
             name = a_project.tag
             assert(self._project_branches.has_key(name))
             self._project_branches[name].trigger = True
+            # allow the spec to set a "stable" branch that won't trigger
+            if a_project.attrib.has_key("trigger"):
+                trigger = (a_project.attrib["trigger"] == "true")
+                self._project_branches[name].trigger = trigger
             if a_project.attrib.has_key("branch"):
                 self._project_branches[name].branch = a_project.attrib["branch"]
 
