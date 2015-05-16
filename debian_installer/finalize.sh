@@ -107,7 +107,7 @@ EOF
 chmod +x /usr/local/bin/git
 
 # Add our nfs mount to fstab
-echo 'otc-gfxtest-01.jf.intel.com:/srv/jenkins       /mnt/jenkins    nfs     defaults,comment=systemd.automount        0       0' >> /etc/fstab
+echo 'otc-mesa-ci.local:/srv/jenkins       /mnt/jenkins    nfs     defaults,comment=systemd.automount        0       0' >> /etc/fstab
 
 # Create the jenkins directory
 mkdir /mnt/jenkins
@@ -115,7 +115,7 @@ chmod 0666 /mnt/jenkins
 
 # Write a tsocks configuration
 cat > /etc/tsocks.conf <<EOF
-local = 192.168.0.0/255.255.255.0
+local = 192.168.0.0/255.255.0.0
 local = 134.134.0.0/255.255.0.0
 local = 10.0.0.0/255.0.0.0
 server = 10.7.211.16
