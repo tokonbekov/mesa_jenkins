@@ -1,11 +1,14 @@
-import os, multiprocessing, re, subprocess
-import sys
+import multiprocessing
+import os
+import re
 import socket
+import subprocess
+import sys
+import urllib2
 import xml.etree.ElementTree as ET
 from . import Options
 from . import ProjectMap
 from . import run_batch_command
-from . import rmtree
 from . import Export
 from . import GTest
 from . import RepoSet
@@ -456,8 +459,11 @@ class PiglitTester(object):
             o.hardware = label
             reboot_invoke = ProjectInvoke(options=o, project="reboot-slave")
             reboot_invoke.set_info("status", "rebuild")
-            Jenkins(RevisionSpecification(),
-                    Options().result_path).build(reboot_invoke)
+            try:
+                Jenkins(RevisionSpecification(),
+                        Options().result_path).build(reboot_invoke)
+            except(urllib2.URLError):
+                print "ERROR: encountered error triggering reboot"
 
     def mesa_version(self):
         (out, _) = run_batch_command([self.build_root + "/bin/wflinfo",
