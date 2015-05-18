@@ -2,9 +2,7 @@
 
 import time
 import os
-from command import rmtree
-from command import run_batch_command
-from command import rmfile
+from command import *
 #from command import killMajorProcesses
 from options import Options
 from project_map import ProjectMap
