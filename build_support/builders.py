@@ -19,7 +19,12 @@ from . import RevisionSpecification
 from . import get_conf_file
 from . import TestLister
 from . import NoConfigFile
-from . import cpu_count
+
+def cpu_count():
+    cpus = multiprocessing.cpu_count() + 1
+    if cpus > 18:
+        cpus = 18
+    return cpus
 
 def get_package_config_path():
     lib_dir = ""

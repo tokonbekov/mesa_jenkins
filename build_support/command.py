@@ -134,8 +134,3 @@ def rmtree(in_path):
         else:
             rmfile(unicode_path)
 
-def cpu_count():
-    cpus = multiprocessing.cpu_count() + 1
-    if cpus > 18:
-        cpus = 18
-    return cpus
