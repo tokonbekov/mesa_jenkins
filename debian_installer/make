@@ -15,9 +15,11 @@ deb_source=${2}
 
 # Make a clean working directory
 printf "Creating work dir..."
-[[ ! -d ${deb_source} ]] && exit 1
-cp -r ${deb_source} cd || exit 1
-chmod +w -R cd  || exit 1
+[[ ! -d ${deb_source} ]] && echo "no source dir: ${deb_source}" && exit 1
+echo "copying files from source dir"
+cp -r ${deb_source} cd || (echo "could not copy" && exit 1)
+echo "changing permissions on temp directory"
+chmod +w -R cd  || (echo "could not chmod" && exit 1)
 echo " done"
 
 # Add preseed file to the initrd
@@ -43,8 +45,8 @@ echo " done"
 if [[ $DEBUG == 'true' ]]; then read -p 'continue? ' cont; fi
 
 printf "Updating boot config..."
-cp isolinux.cfg cd/isolinux/ || exit 1
-cp grub.cfg cd/boot/grub/ || exit 1
+cp isolinux.cfg cd/isolinux/ || (echo "could not copy isolinux.cfg" && exit 1)
+cp grub.cfg cd/boot/grub/ || (echo "could not copy grub.cfg" && exit 1)
 echo " done"
 if [[ $DEBUG == 'true' ]]; then read -p 'continue? ' cont; fi
 
@@ -55,6 +57,9 @@ md5sum `find ! -name "md5sum.txt" ! -path "./isolinux/*" -follow -type f 2>/dev/
 cd ..
 echo " done"
 if [[ $DEBUG == 'true' ]]; then read -p 'continue? ' cont; fi
+
+isohdpfx="/usr/share/syslinux/isohdpfx.bin"
+[[ ! -e ${isohdpfx} ]] && isohdpfx="/usr/lib/ISOLINUX/isohdpfx.bin"
 
 # Regenerate iso image
 printf "Building iso image..."
@@ -68,22 +73,23 @@ xorriso -as mkisofs -graft-points \
 	-no-emul-boot \
 	-b isolinux/isolinux.bin \
 	-c isolinux/boot.cat \
-	-isohybrid-mbr /usr/share/syslinux/isohdpfx.bin \
+	-isohybrid-mbr ${isohdpfx} \
 	-eltorito-alt-boot \
 	-e boot/grub/efi.img \
 	-no-emul-boot \
 	-isohybrid-gpt-basdat \
 	-o test.iso \
-	./cd  2> /dev/null || exit 1
+	./cd  || (echo "could not xorriso" && exit 1)
 sync
 echo " done"
 if [[ $DEBUG == 'true' ]]; then read -p 'continue? ' cont; fi
 
 printf "Writing to disk..."
-sudo dd if=test.iso of=/dev/${installer} bs=4k &>/dev/null || exit 1
+sudo dd if=test.iso of=/dev/${installer} bs=4k &>/dev/null || (echo "could not dd" && exit 1)
 sync
 echo " done"
 
 printf "Cleaning up..."
+if [[ $DEBUG == 'true' ]]; then read -p 'continue? ' cont; fi
 sudo rm -rf cd initrd test.iso
 echo " done"
