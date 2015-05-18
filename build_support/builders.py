@@ -19,6 +19,7 @@ from . import RevisionSpecification
 from . import get_conf_file
 from . import TestLister
 from . import NoConfigFile
+from . import cpu_count
 
 def get_package_config_path():
     lib_dir = ""
@@ -101,7 +102,7 @@ class AutoBuilder(object):
                           flags + self._configure_options)
 
         run_batch_command(["make",  "-j", 
-                           str(multiprocessing.cpu_count() + 1)])
+                           str(cpu_count())])
         run_batch_command(["make",  "install"])
 
         os.chdir(savedir)
@@ -118,7 +119,7 @@ class AutoBuilder(object):
 
         try:
             run_batch_command(["make",  "-k", "-j", 
-                               str(multiprocessing.cpu_count() + 1),
+                               str(cpu_count()),
                                "check"])
         except(subprocess.CalledProcessError):
             print "WARN: make check failed"
@@ -174,7 +175,7 @@ class CMakeBuilder(object):
                                "CXXFLAGS":cxxflag})
 
         run_batch_command(["cmake", "--build", self._build_dir,
-                           "--", "-j" + str(multiprocessing.cpu_count() + 1)])
+                           "--", "-j" + str(cpu_count())])
         run_batch_command(["make", "install"])
 
         os.chdir(savedir)
