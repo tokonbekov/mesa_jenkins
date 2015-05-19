@@ -468,7 +468,7 @@ class PiglitTester(object):
             reboot_invoke.set_info("status", "rebuild")
             try:
                 Jenkins(RevisionSpecification(),
-                        Options().result_path).build(reboot_invoke)
+                        Options().result_path).reboot_builder(label)
             except(urllib2.URLError):
                 print "ERROR: encountered error triggering reboot"
 

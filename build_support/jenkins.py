@@ -128,6 +128,16 @@ class Jenkins:
         f.read()
         return True
 
+    def reboot_builder(self, builder):
+        self._job_url = "http://" + self._server + "/job/Leeroy"
+        url = "http://{0}/job/reboot_single/buildWithParameters?token=xyzzy&label={1}".format(
+            self._server,
+            builder)
+
+        f = self._reliable_url_open(url)
+        f.read()
+        return True
+
     def abort(self, project_invoke):
         if project_invoke.get_info("status") != "building":
             return

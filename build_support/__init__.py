@@ -21,7 +21,7 @@ from dependency_graph import DependencyGraph
 from export import Export
 from gtest import *
 from jenkins import *
-from bisect import *
+from bisect_test import *
 from builders import *
 
 class DefaultTimeout:

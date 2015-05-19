@@ -12,7 +12,6 @@ from . import Jenkins
 from . import DependencyGraph
 from . import ProjectInvoke
 from . import BuildFailure
-#from . import 
 
 
 class NoConfigFile(Exception):
