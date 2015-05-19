@@ -51,6 +51,7 @@ def git_clean(src_dir):
     savedir = os.getcwd()
     os.chdir(src_dir)
     run_batch_command(["git", "clean", "-xfd"])
+    run_batch_command(["git", "reset", "--hard", "HEAD"])
     os.chdir(savedir)
                     
 class AutoBuilder(object):
