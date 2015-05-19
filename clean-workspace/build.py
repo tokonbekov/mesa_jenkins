@@ -6,3 +6,4 @@ import build_support as bs
 
 bs.run_batch_command(["git", "clean", "-xfd"])
 bs.run_batch_command(["git", "reset", "--hard", "HEAD"])
+bs.rmtree("repos")
