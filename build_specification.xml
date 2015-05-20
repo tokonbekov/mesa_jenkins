@@ -1,5 +1,5 @@
 <build_specification>
-  <build_master host="otc-mesa-ci.local" results_dir="/mnt/jenkins/results"/>
+  <build_master host="otc-mesa-ci.jf.intel.com" results_dir="/mnt/jenkins/results"/>
 
   <!-- specified the dependency relationships between projects -->
   <projects>
