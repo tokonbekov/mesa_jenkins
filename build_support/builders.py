@@ -9,6 +9,7 @@ import xml.etree.ElementTree as ET
 from . import Options
 from . import ProjectMap
 from . import run_batch_command
+from . import rmtree
 from . import Export
 from . import GTest
 from . import RepoSet
@@ -76,7 +77,7 @@ class AutoBuilder(object):
 
         self._src_dir = self._project_map.project_source_dir(project)
         self._build_root = self._project_map.build_root()
-        self._build_dir = self._src_dir + "/build_" + self._options.arch
+        self._build_dir = "/tmp/" + project + "/build_" + self._options.arch
 
     def build(self):
         if not os.path.exists(self._build_root):
@@ -89,6 +90,7 @@ class AutoBuilder(object):
             optflags = "-O2 -DNDEBUG"
             
         savedir = os.getcwd()
+        pkg_config = get_package_config_path()
         os.chdir(self._build_dir)
         flags = []
         if self._options.arch == "m32":
@@ -100,8 +102,11 @@ class AutoBuilder(object):
             flags = ["CFLAGS=-m64 " + optflags,
                      "CXXFLAGS=-m64 " + optflags]
 
-        run_batch_command(["../autogen.sh", 
-                           "PKG_CONFIG_PATH=" + get_package_config_path(), 
+        os.chdir(self._src_dir)
+        run_batch_command(["autoreconf", "--verbose", "--install", "-s"])
+        os.chdir(self._build_dir)
+        run_batch_command([self._src_dir + "/configure", 
+                           "PKG_CONFIG_PATH=" + pkg_config, 
                            "CC=ccache gcc -" + self._options.arch, 
                            "CXX=ccache g++ -" + self._options.arch, 
                            "--prefix=" + self._build_root] + \
@@ -131,16 +136,17 @@ class AutoBuilder(object):
             print "WARN: make check failed"
             Export().create_failing_test(self._project +
                                          "-make-check-failure", "")
+        os.chdir(savedir)
+
         if self._tests:
             self._tests.run_tests()
 
         if self._export:
             Export().export()
 
-        os.chdir(savedir)
-
     def clean(self):
         git_clean(self._src_dir)
+        rmtree(self._build_dir)
         assert(not os.path.exists(self._build_dir))
 
 class CMakeBuilder(object):
@@ -190,6 +196,7 @@ class CMakeBuilder(object):
 
     def clean(self):
         git_clean(self._src_dir)
+        rmtree(self._build_dir)
         assert(not os.path.exists(self._build_dir))
         
     def test(self):
