@@ -47,14 +47,16 @@
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.22">
       <autoRebuild>false</autoRebuild>
     </com.sonyericsson.rebuild.RebuildSettings>
-    <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.3">
+    <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.4">
       <maxConcurrentPerNode>0</maxConcurrentPerNode>
       <maxConcurrentTotal>0</maxConcurrentTotal>
+      <categories/>
       <throttleEnabled>false</throttleEnabled>
       <throttleOption>project</throttleOption>
+      <configVersion>1</configVersion>
     </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
   </properties>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.2.12">
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.3.5">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
@@ -87,13 +89,16 @@ python -u scripts/build_jenkins.py --branch=majanes --type=${type} --config=debu
   <publishers>
     <hudson.tasks.ArtifactArchiver>
       <artifacts>summary.xml</artifacts>
-      <latestOnly>false</latestOnly>
       <allowEmptyArchive>false</allowEmptyArchive>
+      <onlyIfSuccessful>false</onlyIfSuccessful>
+      <fingerprint>false</fingerprint>
+      <defaultExcludes>true</defaultExcludes>
     </hudson.tasks.ArtifactArchiver>
-    <hudson.plugins.summary__report.ACIPluginPublisher plugin="summary_report@1.12">
+    <hudson.plugins.summary__report.ACIPluginPublisher plugin="summary_report@1.13">
       <name>summary.xml</name>
+      <shownOnProjectPage>false</shownOnProjectPage>
     </hudson.plugins.summary__report.ACIPluginPublisher>
-    <xunit plugin="xunit@1.94">
+    <xunit plugin="xunit@1.95">
       <types>
         <JUnitType>
           <pattern>results/test/piglit*xml</pattern>
@@ -129,7 +134,7 @@ python -u scripts/build_jenkins.py --branch=majanes --type=${type} --config=debu
         <testTimeMargin>3000</testTimeMargin>
       </extraConfiguration>
     </xunit>
-    <hudson.plugins.emailext.ExtendedEmailPublisher plugin="email-ext@2.39.3">
+    <hudson.plugins.emailext.ExtendedEmailPublisher plugin="email-ext@2.40.1">
       <recipientList>mark.a.janes@intel.com</recipientList>
       <configuredTriggers>
         <hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
