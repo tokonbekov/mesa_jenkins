@@ -31,6 +31,7 @@ apt-get install -y --force-yes systemd-sysv
 apt-get install -y --force-yes \
 	avahi-daemon \
 	libdrm2 libdrm2:i386 \
+    emacs \
 	freeglut3 freeglut3:i386 \
 	gcc-4.9-base gcc-4.9-base:i386 \
 	libc6 libc6:i386 \
