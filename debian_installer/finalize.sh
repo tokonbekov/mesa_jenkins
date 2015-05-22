@@ -90,7 +90,7 @@ apt-get install -y --force-yes \
 apt-get autoremove -y --force-yes
 
 # Disable the pc-spkr module
-echo 'blacklist pcspkr' > /etc/modprobe.d/pcspkr.conf
+echo 'blacklist pcspkr\nblacklist snd_pc' > /etc/modprobe.d/pcspkr.conf
 
 # Enable and disable some services
 systemctl enable ntp avahi-daemon
