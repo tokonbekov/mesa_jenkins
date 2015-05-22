@@ -176,6 +176,10 @@
       <mesa branch="origin/10.5"/>
     </branch>
 
+    <branch name="mesa_10.6" project="all-test">
+      <mesa branch="origin/10.6"/>
+    </branch>
+
     <branch name="jekstrand" project="test-single-arch">
       <mesa branch="jekstrand/jenkins"/>
     </branch>
