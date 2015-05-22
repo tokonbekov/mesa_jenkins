@@ -152,3 +152,7 @@ echo -e "jenkins\tALL=(ALL:ALL) /sbin/reboot, NOPASSWD: /sbin/reboot\n" >> /etc/
 
 # fix logind to not turn off the display when the lid is closed
 sed -i -e 's!^#HandleLidSwitch=.*!HandleLidSwitch=ignore!g' /etc/systemd/logind.conf
+
+# enable user namespaces, so we can unshare bind mounts in /tmp.  This
+# enables parallelization of jenkins builds.
+echo "kernel.unprivileged_userns_clone=1" > /etc/sysctl.d/50-unprivleged-userns-clone.conf
