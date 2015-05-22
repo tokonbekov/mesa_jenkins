@@ -28,7 +28,7 @@ class SconsBuilder(object):
         bs.run_batch_command(["git", "clean", "-dfx"])
 
         bs.run_batch_command(["scons", "-j",
-                              str(multiprocessing.cpu_count() + 1)])
+                              str(bs.cpu_count())])
 
         bs.run_batch_command(["git", "clean", "-dfx"])
         os.chdir(save_dir)
