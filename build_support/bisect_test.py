@@ -81,33 +81,39 @@ class Bisector:
         result_path = "/".join([results_dir, "bisect", hashstr])
         o.result_path = result_path
         o.retest_path = self._retest_path
-        rmtree(result_path + "/test")
 
-        global jen
-        jen = Jenkins(result_path=result_path,
-                      revspec=revspec)
+        # if retest_path == result_path, then we don't have to build.
+        # This will occur when bisect has reached the most recent
+        # revision.  The newest revision was already
+        # built/tested. before beginning the bisect.
+        if (o.result_path != o.retest_path):
+            rmtree(result_path + "/test")
 
-        depGraph = DependencyGraph(self.test.project, o)
-        # remove test build from graph, because we always want to build
-        # it.
-        bi = ProjectInvoke(project=self.test.project, 
-                           options=o)
-        bi.set_info("status", "bisect-rebuild")
+            global jen
+            jen = Jenkins(result_path=result_path,
+                          revspec=revspec)
 
-        depGraph.build_complete(bi)
-        try:
-            jen.build_all(depGraph, "bisect", print_summary=False)
-            print "Starting: " + bi.to_short_string()
-            jen.build(bi, branch="mesa_master")
-            jen.wait_for_build()
-        except BuildFailure:
-            print "BUILD FAILED - exception: " + rev
-            if current_build + 1 == len(self.commits):
-                print "FIRST DETECTED FAILURE: " + rev
-                return rev
-            self.last_failure = rev
-            self.commits = self.commits[current_build+1:]
-            return self.Bisect()
+            depGraph = DependencyGraph(self.test.project, o)
+            # remove test build from graph, because we always want to build
+            # it.
+            bi = ProjectInvoke(project=self.test.project, 
+                               options=o)
+            bi.set_info("status", "bisect-rebuild")
+
+            depGraph.build_complete(bi)
+            try:
+                jen.build_all(depGraph, "bisect", print_summary=False)
+                print "Starting: " + bi.to_short_string()
+                jen.build(bi, branch="mesa_master")
+                jen.wait_for_build()
+            except BuildFailure:
+                print "BUILD FAILED - exception: " + rev
+                if current_build + 1 == len(self.commits):
+                    print "FIRST DETECTED FAILURE: " + rev
+                    return rev
+                self.last_failure = rev
+                self.commits = self.commits[current_build+1:]
+                return self.Bisect()
 
         if self.test.Passed(result_path, rev):
             if current_build == 0:
