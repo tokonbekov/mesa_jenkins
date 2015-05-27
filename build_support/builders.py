@@ -309,6 +309,11 @@ class PiglitTester(object):
                "--exclude-tests", "ext_timer_query",
                "--exclude-tests", "arb_timer_query",
 
+               # crashes intermittently, or at least Dylan's tracking
+               # reports "Incomplete run"
+               # TODO: write bug
+               "--exclude-tests", "spec.khr_debug.object-label_gl",
+               
                # fails intermittently on g45, fails reliably on all
                # others.  Test introduced Oct 2014
                "--exclude-tests", "vs-float-main-return"]
