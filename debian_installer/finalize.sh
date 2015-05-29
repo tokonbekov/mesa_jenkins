@@ -148,7 +148,7 @@ ntpd -gq
 su jenkins -c 'ccache -M 10G'
 
 # Allow jenkins to reboot the machine
-echo -e "jenkins\tALL=(ALL:ALL) /sbin/reboot, NOPASSWD: /sbin/reboot\n" >> /etc/sudoers
+echo -e "jenkins   ALL=(root:root) NOPASSWD: /sbin/reboot\n" >> /etc/sudoers.d/10_jenkins_reboot
 
 # fix logind to not turn off the display when the lid is closed
 sed -i -e 's!^#HandleLidSwitch=.*!HandleLidSwitch=ignore!g' /etc/systemd/logind.conf
