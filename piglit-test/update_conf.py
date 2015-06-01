@@ -79,6 +79,9 @@ for f in xmls:
         name = name.replace(":", ".")
 
         failnode = afail.find("./failure")
+        if not failnode.attrib.has_key("type"):
+            print "error: no fail type: " + name
+            continue
         if failnode.attrib["type"] == "fail" or failnode.attrib["type"] == "warn":
             c.set("expected-failures", name, args.blame_revision)
             continue
