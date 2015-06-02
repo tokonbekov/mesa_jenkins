@@ -9,6 +9,8 @@ class SlowTimeout:
         self.hardware = bs.Options().hardware
 
     def GetDuration(self):
+        if self.hardware == "bsw":
+            return 120
         if self.hardware == "byt":
             return 120
         if self.hardware == "g33":
