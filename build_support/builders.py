@@ -367,6 +367,10 @@ class PiglitTester(object):
             # exclude_tests = exclude_tests + ["arb_uniform_buffer_object.bufferstorage"]
             pass
 
+        if "bsw" in hardware:
+            # bug 90830
+            exclude_tests = exclude_tests + ["arb_gpu_shader5.execution.sampler_array_indexing"]
+
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
             fixed_test = fixed_test.replace(' ', '.')
