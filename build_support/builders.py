@@ -368,7 +368,8 @@ class PiglitTester(object):
             pass
 
         if "bsw" in hardware:
-            pass
+            # bug 90830 (need to disable for bisect)
+            exclude_tests = exclude_tests + ["arb_gpu_shader5.execution.sampler_array_indexing"]
 
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
