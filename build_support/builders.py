@@ -253,11 +253,17 @@ class PiglitTester(object):
         pm = ProjectMap()
         o = Options()
 
+        mesa_version = self.mesa_version()
         if not self.nir:
-            if "10.5" in self.mesa_version():
+            if "10.5" in mesa_version:
                 print "WARNING: nir tests disabled.  Mesa 10.5 does not support nir"
                 return
             self.env["INTEL_USE_NIR"] = "0"
+
+        if o.hardware == "bsw":
+            if "10.5" in mesa_version or "10.6" in mesa_version:
+                print "WARNING: piglit hangs on bsw for stable mesa"
+                return
 
         dev_ids = { "byt" : "0x0F32",
                     "g45" : "0x2E22",
