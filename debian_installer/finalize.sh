@@ -7,8 +7,8 @@ sed -i -e 's!GRUB_CMDLINE_LINUX=""!GRUB_CMDLINE_LINUX="drm.rnodes=1 i915.enable_
 # Replace wheezy with sid in the sources.list file, then updates to sid, the
 # does a dist-upgrade to sid in a fully non-interactive way
 cat > /etc/apt/sources.list << EOF
-deb http://linux-ftp.jf.intel.com/pub/mirrors/debian/ sid main
-deb-src http://linux-ftp.jf.intel.com/pub/mirrors/debian/ sid main
+deb http://linux-ftp.jf.intel.com/pub/mirrors/debian/ testing main
+deb-src http://linux-ftp.jf.intel.com/pub/mirrors/debian/ testing main
 EOF
 
 apt-get update -y
