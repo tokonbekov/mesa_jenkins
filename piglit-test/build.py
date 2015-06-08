@@ -21,5 +21,27 @@ class SlowTimeout:
         # TODO: put back to 25 when curro's regression is fixed
         return 40
         
+# add the --piglit_test option to the standard options.  Parse the
+# options, and strip the piglit_test so the options will work as usual
+# for subsequent objects.
+o = bs.Options([sys.argv[0]])
+parser= argparse.ArgumentParser(description="piglit args allow a specific test", 
+                                parents=[o._parser], 
+                                conflict_handler="resolve")
+parser.add_argument('--piglit_test', type=str, default="",
+                    help="single piglit test to run.")
 
-bs.build(bs.PiglitTester(_suite="gpu"), time_limit=SlowTimeout())
+args = parser.parse_args()
+piglit_test = ""
+if args.piglit_test:
+    piglit_test = args.piglit_test
+
+vdict = vars(args)
+del vdict["piglit_test"]
+o.__dict__.update(vdict)
+sys.argv = ["bogus"] + o.to_string().split()
+
+
+bs.build(bs.PiglitTester(_suite="gpu",
+                         piglit_test=piglit_test),
+         time_limit=SlowTimeout())

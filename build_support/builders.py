@@ -220,15 +220,23 @@ class CMakeBuilder(object):
             #bs.GTest(bin_dir, exe, working_dir=bin_dir).run_tests()
     
 class PiglitTester(object):
-    def __init__(self, _suite="quick", device_override=None, nir=True):
+    def __init__(self, _suite="quick", device_override=None,
+                 nir=True, piglit_test=None):
         self.device_override = device_override
         self.nir = nir
+        self._piglit_test = None
+        if piglit_test:
+            # drop the hw/arch suffix
+            self._piglit_test = ".".join(piglit_test.split(".")[:-1])
 
         o = Options()
         self.suite = _suite
-        # in bisect, a test may be in either the cpu or gpu suite.
+
+        # in bisect or single_test, a test may be in either the cpu or gpu suite.
         # use the quick suite, which is more comprehensive
         if o.retest_path:
+            self.suite = "quick"
+        if piglit_test:
             self.suite = "quick"
 
         pm = ProjectMap()
@@ -394,6 +402,10 @@ class PiglitTester(object):
                 # we were supposed to retest failures, but there were none
                 return
             cmd = cmd + include_tests
+
+        if self._piglit_test:
+            # support for running a single test
+            cmd = cmd + ["--include-tests", self._piglit_test]
             
         cmd = cmd + [self.suite,
                      out_dir ]

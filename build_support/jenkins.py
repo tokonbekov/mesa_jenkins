@@ -104,7 +104,7 @@ class Jenkins:
                     raise
                 time.sleep(5)
 
-    def build(self, project_invoke, branch=""):
+    def build(self, project_invoke, branch="", extra_arg=None):
         status = project_invoke.get_info("status", block=False)
         if status == "building":
             raise BuildInProgress(project_invoke, self._revspec)
@@ -124,6 +124,9 @@ class Jenkins:
             branch
         )
 
+        if extra_arg:
+            url = url + "&extra_arg=" + urllib2.quote(extra_arg)
+            
         f = self._reliable_url_open(url)
         f.read()
         return True

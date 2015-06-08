@@ -98,8 +98,8 @@ def main():
 
     jen = bs.Jenkins(result_path=result_path,
                      revspec=revspec)
-    jen.build_all(depGraph, "bisect")
-    jen.build(bi, branch=branch, extra_arg="--piglit_test=" + test)
+    jen.build_all(depGraph)
+    jen.build(bi, extra_arg="--piglit_test=" + test)
     jen.wait_for_build()
     time.sleep(10)
 
