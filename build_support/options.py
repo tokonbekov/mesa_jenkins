@@ -122,3 +122,33 @@ class Options(object):
         self.prog = arg0
         self.component_dir = os.path.dirname(os.path.abspath(arg0))
 
+class CustomOptions(object):
+    def __init__(self, description="no description"):
+        self._options = Options([sys.argv[0]])
+        self._parser = argparse.ArgumentParser(description=description, 
+                                               parents=[self._options._parser], 
+                                               conflict_handler="resolve")
+        self.extra_args = []
+    def add_argument(self, arg, type=str, default="",
+                     help="No help provided"):
+        self._parser.add_argument(arg, type=type, default=default, help=help)
+        self.extra_args.append(arg[2:])
+
+    def parse_args(self):
+        args = self._parser.parse_args()
+
+        # record args in self, so they can be accessed
+        vdict = vars(args)
+        self.__dict__.update(vdict)
+
+        # remove the extra args, and make a standard options object
+        # that can be normally parsed.
+        fixed_dict = vars(args)
+        for extra in self.extra_args:
+            del fixed_dict[extra]
+        self._options.__dict__.update(fixed_dict)
+
+        # update argv with the standard options.
+        sys.argv = [sys.argv[0]] + self._options.to_string().split()
+        
+    

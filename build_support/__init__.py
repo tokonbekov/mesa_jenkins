@@ -4,7 +4,7 @@ import time
 import os
 from command import *
 #from command import killMajorProcesses
-from options import Options
+from options import *
 from project_map import ProjectMap
 #from export import Export
 #from export import ExportTest
