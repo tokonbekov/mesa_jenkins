@@ -39,7 +39,7 @@ if args.piglit_test:
 vdict = vars(args)
 del vdict["piglit_test"]
 o.__dict__.update(vdict)
-sys.argv = ["bogus"] + o.to_string().split()
+sys.argv = [sys.argv[0]] + o.to_string().split()
 
 
 bs.build(bs.PiglitTester(_suite="gpu",
