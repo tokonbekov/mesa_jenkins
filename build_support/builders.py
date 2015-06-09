@@ -382,7 +382,8 @@ class PiglitTester(object):
             pass
 
         if "bsw" in hardware:
-            pass
+            # TODO: write bug
+            exclude_tests = exclude_tests + ["glsl-3_30.execution.built-in-functions.fs-floatbitstouint"]
 
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
