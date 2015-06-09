@@ -381,6 +381,10 @@ class PiglitTester(object):
             # exclude_tests = exclude_tests + ["arb_uniform_buffer_object.bufferstorage"]
             pass
 
+        if "skl" in hardware:
+            # hangs skl
+            exclude_tests = exclude_tests + ["fbo-depth-array.depth-clear"]
+
         if "bsw" in hardware:
             # TODO: write bug
             exclude_tests = exclude_tests + ["glsl-3_30.execution.built-in-functions.fs-floatbitstouint"]
