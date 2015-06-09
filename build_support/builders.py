@@ -312,7 +312,6 @@ class PiglitTester(object):
                "run",
                "-p", "gbm",
                "-b", "junit",
-               "-c",
                "--junit_suffix", "." + suffix + o.arch,
 
                # intermittently fails snb?
@@ -383,7 +382,7 @@ class PiglitTester(object):
 
         if "skl" in hardware:
             # hangs skl
-            exclude_tests = exclude_tests + ["fbo-depth-array.depth-clear"]
+            exclude_tests = exclude_tests + ["fbo-depth-array"]
 
         if "bsw" in hardware:
             # TODO: write bug
@@ -411,6 +410,11 @@ class PiglitTester(object):
         if self._piglit_test:
             # support for running a single test
             cmd = cmd + ["--include-tests", self._piglit_test]
+            
+        concurrency_option = "-c"
+        if "skl" in hardware:
+            concurrency_option = "-1"
+        cmd.append(concurrency_option)
             
         cmd = cmd + [self.suite,
                      out_dir ]
