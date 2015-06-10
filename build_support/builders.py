@@ -411,10 +411,10 @@ class PiglitTester(object):
             # support for running a single test
             cmd = cmd + ["--include-tests", self._piglit_test]
             
-        concurrency_option = "-c"
+        concurrency_options = ["-c"]
         if "skl" in hardware:
-            concurrency_option = "-1"
-        cmd.append(concurrency_option)
+            concurrency_options = ["-1", "-v"]
+        cmd = cmd + concurrency_options
             
         cmd = cmd + [self.suite,
                      out_dir ]
