@@ -84,7 +84,7 @@ CONFIG_DEFAULTS = {
     'cycletime': CYCLETIME,
     'userid': 'admin',
     'password': '4321',
-    'hostname': '192.168.0.100'
+    'hostname': '192.168.1.2'
 }
 CONFIG_FILE = os.path.expanduser('~/.dlipower.conf')
 
