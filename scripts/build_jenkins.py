@@ -114,8 +114,10 @@ def main():
 
     # use a global, so signal handler can abort builds when scheduler
     # is interrupted
-    jen.build_all(depGraph, branch=branch)
-    collate_tests(result_path, out_test_dir)
+    try:
+        jen.build_all(depGraph, branch=branch)
+    finally:
+        collate_tests(result_path, out_test_dir)
 
 if __name__=="__main__":
     try:
