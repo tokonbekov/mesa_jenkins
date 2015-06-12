@@ -8,21 +8,12 @@ import glob
 import os
 import smtplib
 import sys
+import time
 import xml.etree.ElementTree as ET
 
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
 import build_support as bs
 
-# needed to preserve case in the options
-class CaseConfig(CP.SafeConfigParser):
-    def optionxform(self, optionstr):
-        return optionstr
-
-script_dir = os.path.dirname(sys.argv[0])
-if not script_dir:
-    script_dir = "."
-script_dir = script_dir + "/"
-    
 parser = argparse.ArgumentParser(description="updates expected failures")
 
 parser.add_argument('--blame_revision', type=str, required=True,
@@ -31,75 +22,70 @@ parser.add_argument('--result_path', metavar='result_path', type=str, default=""
                     help='path to build results')
 parser.add_argument('--to', metavar='to', type=str, default="",
                     help='send resulting patch to this email')
-parser.add_argument('junit_file', metavar='junit_file', type=str, nargs='*',
-                    help='test files to use for update')
 args = parser.parse_args(sys.argv[1:])
 
-xmls = []
-for junit in args.junit_file:
-    xmls = xmls + glob.glob(junit)
+# get revisions from out directory
+test_dir = os.path.abspath(args.result_path + "/test")
+if not os.path.exists(test_dir):
+    print "ERROR: no tests in --result_path: " + test_dir
+    sys.exit(-1)
 
-if args.result_path and os.path.exists(args.result_path):
-    test_dir = args.result_path + "/test"
-    for a_file in os.listdir(test_dir):
-        if "piglit-" in a_file:
-            xmls = xmls + [test_dir + "/" + a_file]
+dirnames = os.path.abspath(test_dir).split("/")
+hash_dir = dirnames[5]
+revs = hash_dir.split("_")
 
-for f in xmls:
-    print "parsing " + f
-    t = ET.parse(f)
-    r = t.getroot()
+rev_hash = {}
+for a_rev in revs:
+    proj = a_rev.split("=")[0]
+    rev = a_rev.split("=")[1]
+    rev_hash[proj] = rev
 
-    fn = os.path.splitext(os.path.split(f)[-1])[0]
-    hw = fn.split("_")[-2]
+blame = args.blame_revision.split("=")
+if len(blame) != 2:
+    print "ERROR: --blame_revision must be in the format: project=rev"
+    sys.exit(-1)
 
-    build_name = fn.split("_")[0]
-    nir = True
-    if "nir" in build_name:
-        nir = False
+if not rev_hash.has_key(blame[0]):
+    print "ERROR: invalid project in --blame_revision: " + blame[0]
+    print "ERROR: acceptable projects: " + ",".join(rev_hash.keys())
+    sys.exit(-1)
 
-    arch = fn.split("_")[-1]
-    
-    try:
-        conf_file = bs.get_conf_file(hw, arch, nir)
-    except bs.NoConfigFile:
-        continue
-            
-    print "updating " + conf_file
-    c = CaseConfig(allow_no_value=True)
-    c.optionxform = str
-    c.read(conf_file)
-    
-    for afail in r.findall(".//failure/.."):
-        
-        # strip the arch/hw off the end of the name
-        name = ".".join(afail.attrib["name"].split(".")[:-1])
-        name = afail.attrib["classname"] + "." + name
-        name = name.replace("=", ".")
-        name = name.replace(":", ".")
+rev_hash[blame[0]] = blame[1]
 
-        failnode = afail.find("./failure")
-        if not failnode.attrib.has_key("type"):
-            print "error: no fail type: " + name
-            continue
-        if failnode.attrib["type"] == "fail" or failnode.attrib["type"] == "warn":
-            c.set("expected-failures", name, args.blame_revision)
-            continue
-        assert(failnode.attrib["type"] == "pass")
-        c.remove_option("expected-failures", name)
-        c.remove_option("expected-crashes", name)
-        if not c.has_section("fixed-tests"):
-            c.add_section("fixed-tests")
-        c.set("fixed-tests", name, args.blame_revision)
-    for acrash in r.findall(".//error/.."):
-        # strip the arch/hw off the end of the name
-        name = ".".join(acrash.attrib["name"].split(".")[:-1])
-        name = acrash.attrib["classname"] + "." + name
-        name = name.replace("=", ".")
-        name = name.replace(":", ".")
-        c.set("expected-crashes", name, args.blame_revision)
 
-    c.write(open(conf_file, "w"))
+# retest the set of failed tests on the specified blame revision
+repos = bs.RepoSet()
+_revspec = bs.RevisionSpecification(from_cmd_line=[k + "=" + v for k,v in rev_hash.items()])
+_revspec.checkout()
+_revspec = bs.RevisionSpecification()
+
+spec_xml = bs.ProjectMap().build_spec()
+results_dir = spec_xml.find("build_master").attrib["results_dir"]
+hashstr = _revspec.to_cmd_line_param().replace(" ", "_")
+bisect_dir = results_dir + "/bisect/" + hashstr
+bs.rmtree(bisect_dir + "/test")
+bs.rmtree(bisect_dir + "/piglit-test")
+bs.rmtree(bisect_dir + "/piglit-nir-test")
+
+j=bs.Jenkins(_revspec, bisect_dir)
+o = bs.Options(["bisect_all.py"])
+o.result_path = bisect_dir
+o.retest_path = args.result_path
+depGraph = bs.DependencyGraph(["piglit-gpu-all"], o)
+
+print "Retesting mesa to: " + bisect_dir
+j.build_all(depGraph, print_summary=False)
+
+# make sure there is enough time for the test files to sync to nfs
+time.sleep(20)
+reproduced_failures = bs.TestLister(bisect_dir + "/test/")
+
+print "Found failures:"
+reproduced_failures.Print()
+
+for a_fail in reproduced_failures.Tests():
+    a_fail.bisected_revision = " ".join(blame)
+    a_fail.UpdateConf()
 
 if args.to:
     patch_text = git.Repo().git.diff()
