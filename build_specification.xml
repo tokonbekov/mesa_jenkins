@@ -116,6 +116,7 @@
       <remote name="dcbaker" repo="git://people.freedesktop.org/~dbaker/mesa"/>
       <remote name="nchery" repo="git://people.freedesktop.org/~nchery/mesa"/>
       <remote name="cwabbott0" repo="git://people.freedesktop.org/~cwabbott0/mesa"/>
+      <remote name="bpeel" repo="git://github.com/bpeel/mesa"/>
     </mesa>
 
     <drm repo="git://anongit.freedesktop.org/mesa/drm">
@@ -256,6 +257,10 @@
 
     <branch name="cwabbott0" project="test-single-arch">
       <mesa branch="cwabbott0/jenkins"/>
+    </branch>
+
+    <branch name="bpeel" project="test-single-arch">
+      <mesa branch="bpeel/jenkins"/>
     </branch>
 
   </branches>
