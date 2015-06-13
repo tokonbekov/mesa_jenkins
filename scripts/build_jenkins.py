@@ -118,6 +118,12 @@ def main():
         jen.build_all(depGraph, branch=branch)
     finally:
         collate_tests(result_path, out_test_dir)
+        bs.rmtree("test_summary.txt")
+        fh = open("test_summary.txt", "w")
+        tl = bs.TestLister(out_test_dir + "/test")
+        for atest in tl.Tests():
+            atest.PrettyPrint(fh)
+        fh.close()
 
 if __name__=="__main__":
     try:

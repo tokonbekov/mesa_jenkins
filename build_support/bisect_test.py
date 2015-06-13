@@ -147,7 +147,7 @@ class PiglitTest:
     def __init__(self, full_test_name, status, test_tag=None, retest_path=""):
         """full_test_name includes arch/platform.  status must be one
         of "pass", "fail", "crash" """
-
+        self.command_line = ""
         if test_tag is not None:
             full_test_name = test_tag.attrib["name"]
             full_test_name = test_tag.attrib["classname"] + "." + full_test_name
@@ -159,6 +159,11 @@ class PiglitTest:
                 status = failnode.attrib.get("type", "crash")
             else:
                 status = "crash"
+            system_out_node = test_tag.find("./system-out")
+
+            if system_out_node is not None:
+                self.command_line = system_out_node.text.splitlines()[0]
+                
         self._retest_path = retest_path
         arch_hardware = full_test_name.split(".")[-1]
         arch = arch_hardware[-3:]
@@ -209,6 +214,15 @@ class PiglitTest:
     def Print(self):
         print " ".join([self.project, self.test_name, self.arch, self.hardware,
                         self.status, str(self.other_arches)])
+
+    def PrettyPrint(self, fh):
+        fh.write("Project: " + self.project + "\n"
+                 "Test: " + self.test_name + "\n"
+                 "Status: " + self.status + "\n"
+                 "Platform/arch:\n\t"+ self.hardware + "/" + self.arch)
+        for arch, hw in self.other_arches:
+            fh.write(", " + hw + "/" + arch)
+        fh.write("\nCommand line: " + self.command_line + "\n\n")
 
     def Bisect(self, bisect_project, commits):
         print "Bisecting for " + self.test_name
