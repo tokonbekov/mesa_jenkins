@@ -283,6 +283,7 @@ class PiglitTester(object):
                     "bdwgt2" : "0x161E",
                     "chv" : "0x22B0",
                     "sklgt3" : "0x192B",
+                    "bsw" : "0x22B1",
         }
         if self.device_override:
             self.env["INTEL_DEVID_OVERRIDE"] = dev_ids[self.device_override]
