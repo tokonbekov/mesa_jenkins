@@ -220,10 +220,8 @@ class CMakeBuilder(object):
             #bs.GTest(bin_dir, exe, working_dir=bin_dir).run_tests()
     
 class PiglitTester(object):
-    def __init__(self, _suite="quick", device_override=None,
-                 nir=True, piglit_test=None):
+    def __init__(self, _suite="quick", device_override=None, piglit_test=None):
         self.device_override = device_override
-        self.nir = nir
         self._piglit_test = None
         if piglit_test:
             # drop the hw/arch suffix
@@ -262,12 +260,6 @@ class PiglitTester(object):
         o = Options()
 
         mesa_version = self.mesa_version()
-        if not self.nir:
-            if "10.5" in mesa_version:
-                print "WARNING: nir tests disabled.  Mesa 10.5 does not support nir"
-                return
-            self.env["INTEL_USE_NIR"] = "0"
-
         if o.hardware == "bsw":
             if "10.5" in mesa_version or "10.6" in mesa_version:
                 print "WARNING: piglit hangs on bsw for stable mesa"
@@ -295,10 +287,10 @@ class PiglitTester(object):
             hardware = self.device_override
 
         try:
-            conf_file = get_conf_file(hardware, o.arch, self.nir)
+            conf_file = get_conf_file(hardware, o.arch)
         except NoConfigFile:
-            print >>sys.stderr, 'No config file found for hardware: {0} arch: {1} nir: {2}'.format(
-                hardware, o.arch, str(self.nir))
+            print >>sys.stderr, 'No config file found for hardware: {0} arch: {1}'.format(
+                hardware, o.arch)
             sys.exit(1)
         
         suffix = o.hardware
@@ -306,9 +298,6 @@ class PiglitTester(object):
         if self.device_override:
             suffix = self.device_override
             hardware = self.device_override
-        if not self.nir:
-            # use the nir suffix for the non-default case (eg, without nir)
-            suffix = "nir_" + suffix
         cmd = [self.build_root + "/bin/piglit",
                "run",
                "-p", "gbm",
@@ -335,7 +324,7 @@ class PiglitTester(object):
         if os.path.exists(conf_file):
             cmd = cmd + ["--config", conf_file]
 
-        # intermittent on at least snbgt1 and nir hswgt3e
+        # intermittent on at least snbgt1
         exclude_tests = ["glsl-1_10.execution.vs-vec2-main-return"]
 
         # Bug 90407

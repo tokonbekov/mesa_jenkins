@@ -18,7 +18,7 @@ class NoConfigFile(Exception):
     pass
 
 
-def get_conf_file(hardware, arch, nir):
+def get_conf_file(hardware, arch):
     # strip the gtX strings off of the hardware, because there are
     # no examples where a sku has a different config
     if "gt" in hardware:
@@ -27,13 +27,6 @@ def get_conf_file(hardware, arch, nir):
     conf_file = conf_dir + "/" + hardware + arch + ".conf"
     if not os.path.exists(conf_file):
         conf_file = conf_dir + "/" + hardware + ".conf"
-    if not nir:
-        # if a nir-specific conf file exists, use it instead of the
-        # hw/arch conf file.  Logic is backwards here: nir conf files
-        # are used when nir is disabled.
-        nir_conf = conf_file[:-5] + "nir.conf"
-        if os.path.exists(nir_conf):
-            conf_file = nir_conf
 
     if not os.path.exists(conf_file):
         raise NoConfigFile
@@ -169,9 +162,6 @@ class PiglitTest:
         arch = arch_hardware[-3:]
         hardware = arch_hardware[:-3]
         self.project = "piglit-test"
-        if "nir_" in hardware:
-            hardware = hardware[4:]
-            self.project = "piglit-nir-test"
         if "gt" in hardware:
             hardware = hardware[:3]
 
@@ -239,8 +229,7 @@ class PiglitTest:
             hardware = self.hardware
         if not arch:
             arch = self.arch
-        return get_conf_file(hardware, arch, 
-                             self.project != "piglit-nir-test")
+        return get_conf_file(hardware, arch)
 
         
     def UpdateConf(self):
@@ -335,14 +324,12 @@ class TestLister:
     def __init__(self, bad_dir):
         self._tests = {}
         self._tests["piglit-test"] = {}
-        self._tests["piglit-nir-test"] = {}
         # used to limit the number of tests run to the ones that are
         # under bisection
         self._retest_path = os.path.abspath(bad_dir + "/..")
         # self.test_map is keyed by test name, value is PiglitTest
         for a_file in os.listdir(bad_dir):
             if ("piglit-test" not in a_file and
-                "piglit-nir-test" not in a_file and
                 "piglit-cpu-test" not in a_file) :
                 continue
             test_path = bad_dir + "/" + a_file
