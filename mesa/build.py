@@ -16,7 +16,7 @@ def main():
         options = ['EXPAT_LIBS="-L/usr/lib/i386-linux-gnu -lexpat"']
 
     options = options + ["--enable-gbm",
-                         "--with-egl-platforms=x11,drm",
+                         "--with-egl-platforms=x11,drm,surfaceless",
                          "--enable-glx-tls", 
                          "--enable-gles1",
                          "--enable-gles2",
