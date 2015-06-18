@@ -161,6 +161,7 @@
       <piglit/>
       <waffle/>
       <drm/>
+      <deqp branch="origin/gbm"/>
     </branch>
 
     <branch name="mesa_10.2" project="all-test">
