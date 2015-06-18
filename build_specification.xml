@@ -22,6 +22,10 @@
       <prerequisite name="mesa" hardware="builder"/>
     </project>
 
+    <project name="deqp">
+      <prerequisite name="mesa" hardware="builder"/>
+    </project>
+    
     <project name="piglit">
       <prerequisite name="waffle"/>
     </project>
