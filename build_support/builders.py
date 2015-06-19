@@ -316,6 +316,10 @@ class PiglitTester(object):
                # reports "Incomplete run"
                # TODO: write bug
                "--exclude-tests", "spec.khr_debug.object-label_gl",
+
+               # fails intermittently on bdw, byt, and bsw
+               # Bug 91017
+               "--exclude-tests", "arb_framebuffer_no_attachments.arb_framebuffer_no_attachments-atomic",
                
                # fails intermittently on g45, fails reliably on all
                # others.  Test introduced Oct 2014
