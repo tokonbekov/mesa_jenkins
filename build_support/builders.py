@@ -486,9 +486,6 @@ class PiglitTester(object):
             if "gpu hang" in a_line.lower():
                 hang_text = a_line
                 break
-            if "hangcheck" in a_line.lower():
-                hang_text = a_line
-                break
 
         if not hang_text:
             return
