@@ -107,6 +107,7 @@
       <remote name="nchery" repo="git://people.freedesktop.org/~nchery/mesa"/>
       <remote name="cwabbott0" repo="git://people.freedesktop.org/~cwabbott0/mesa"/>
       <remote name="bpeel" repo="git://github.com/bpeel/mesa"/>
+      <remote name="chadv" repo="git://github.com/chadversary/mesa"/>
     </mesa>
 
     <drm repo="git://anongit.freedesktop.org/mesa/drm">
