@@ -122,6 +122,7 @@
       <remote name="janesma" repo="git://github.com/janesma/piglit"/>
       <remote name="bwidawsk" repo="git://people.freedesktop.org/~bwidawsk/piglit"/>
       <remote name="nchery" repo="git://people.freedesktop.org/~nchery/piglit"/>
+      <remote name="chadv" repo="git://github.com/chadversary/piglit"/>
     </piglit>
 
     <waffle repo="git://github.com/waffle-gl/waffle">
