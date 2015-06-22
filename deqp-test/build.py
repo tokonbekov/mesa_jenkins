@@ -53,11 +53,24 @@ class DeqpTrie:
             self._trie[name]._add_tag(child)
 
     def filter(self, blacklist):
-        pass
+        for group in blacklist._trie.keys():
+            if group not in self._trie:
+                print "ERROR: blacklist of " + group + " not in tests"
+                continue
+            self._trie[group].filter(blacklist._trie[group])
+            if len(self._trie[group]._trie) == 0:
+                del(self._trie[group])
 
-    def write_caselist(self, outfh):
-        pass
-
+    def write_caselist(self, outfh, prefix=""):
+        for group, trie in self._trie.items():
+            if len(trie._trie) == 0:
+                outfh.write(prefix + "." + group + "\n")
+                continue
+            # else
+            if prefix:
+                group = prefix + "." + group
+            trie.write_caselist(outfh, group)
+            
 class DeqpBuilder:
     def __init__(self):
         o = bs.Options()
@@ -130,21 +143,31 @@ class DeqpBuilder:
             testlist.filter(skip)
 
             # generate testlist file
-            caselist = module + "-cases.txt"
+            caselist = open(module + "-cases.txt", "w")
             testlist.write_caselist(caselist)
 
         # invoke piglit
         self.env["PIGLIT_DEQP_GLES2_BIN"] = self.build_root + "/opt/deqp/modules/gles2/deqp-gles2"
-        self.env["PIGLIT_DEQP_GLES2_EXTRA_ARGS"] = self.build_root + "/opt/deqp/modules/gles2/gles2-cases.txt"
+        self.env["PIGLIT_DEQP_GLES2_EXTRA_ARGS"] =  ("--deqp-surface-type=fbo "
+                                                     "--deqp-log-images=disable "
+                                                     '--deqp-surface-width=100 '
+                                                     '--deqp-surface-height=100 '
+                                                     "--deqp-caselist-file=" +
+                                                     self.build_root + "/opt/deqp/modules/gles2/gles2-cases.txt")
         self.env["PIGLIT_DEQP_GLES3_EXE"] = self.build_root + "/opt/deqp/modules/gles3/deqp-gles3"
-        self.env["PIGLIT_DEQP_GLES3_EXTRA_ARGS"] = self.build_root + "/opt/deqp/modules/gles3/gles3-cases.txt"
+        self.env["PIGLIT_DEQP_GLES3_EXTRA_ARGS"] = ("--deqp-surface-type=fbo "
+                                                    "--deqp-log-images=disable "
+                                                    '--deqp-surface-width=100 '
+                                                    '--deqp-surface-height=100 '
+                                                    "--deqp-caselist-file=" +
+                                                    self.build_root + "/opt/deqp/modules/gles3/gles3-cases.txt")
         out_dir = self.build_root + "/test/" + o.hardware
         cmd = [self.build_root + "/bin/piglit",
                "run",
                "-p", "gbm",
                "-b", "junit",
                "--junit_suffix", "." + o.hardware + o.arch,
-               "deqp", out_dir ]
+               "deqp_gles2", "deqp_gles3", out_dir ]
             
         bs.run_batch_command(cmd, env=self.env,
                              expected_return_code=None,
