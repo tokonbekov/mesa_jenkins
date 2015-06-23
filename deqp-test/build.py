@@ -174,7 +174,30 @@ class DeqpBuilder:
                              expected_return_code=None,
                              streamedOutput=True)
         os.chdir(savedir)
-        
+
+        single_out_dir = self.build_root + "/../test"
+        if not os.path.exists(single_out_dir):
+            os.makedirs(single_out_dir)
+
+        if os.path.exists(out_dir + "/results.xml"):
+            # Uniquely name all test files in one directory, for
+            # jenkins
+            cmd = ["cp", "-a", "-n", out_dir + "/results.xml",
+                              single_out_dir + "_".join(["/" + "piglit-deqp",
+                                                         o.hardware,
+                                                         o.arch]) + ".xml"]
+            bs.run_batch_command(cmd)
+
+            # create a copy of the test xml in the source root, where
+            # jenkins can access it.
+            cmd = ["cp", "-a", "-n",
+                   self.build_root + "/../test", pm.source_root()]
+            bs.run_batch_command(cmd)
+            bs.Export().export_tests()
+        else:
+            print "ERROR: no results at " + out_dir + "/results.xml"
+
+        bs.PiglitTester().check_gpu_hang()
 
 class SlowTimeout:
     def __init__(self):
