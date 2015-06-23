@@ -58,6 +58,7 @@ apt-get install -y --force-yes \
 	libllvm3.4 libllvm3.4:i386 \
 	libpciaccess-dev libpciaccess-dev:i386 \
 	libpciaccess0 libpciaccess0:i386 \
+    libpng12-dev \
 	libpthread-stubs0-dev \
 	libtinfo-dev libtinfo-dev:i386 \
 	libudev-dev libudev-dev:i386 \
