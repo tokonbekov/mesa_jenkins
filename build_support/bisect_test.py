@@ -18,12 +18,12 @@ class NoConfigFile(Exception):
     pass
 
 
-def get_conf_file(hardware, arch):
+def get_conf_file(hardware, arch, project="piglit-test"):
     # strip the gtX strings off of the hardware, because there are
     # no examples where a sku has a different config
     if "gt" in hardware:
         hardware = hardware[:3]
-    conf_dir = ProjectMap().source_root() + "/piglit-test/"
+    conf_dir = ProjectMap().source_root() + "/" + project + "/"
     conf_file = conf_dir + "/" + hardware + arch + ".conf"
     if not os.path.exists(conf_file):
         conf_file = conf_dir + "/" + hardware + ".conf"
@@ -162,6 +162,8 @@ class PiglitTest:
         arch = arch_hardware[-3:]
         hardware = arch_hardware[:-3]
         self.project = "piglit-test"
+        if "piglit.deqp" in full_test_name.lower():
+            self.project = "deqp-test"
         if "gt" in hardware:
             hardware = hardware[:3]
 
@@ -229,8 +231,7 @@ class PiglitTest:
             hardware = self.hardware
         if not arch:
             arch = self.arch
-        return get_conf_file(hardware, arch)
-
+        return get_conf_file(hardware, arch, project=self.project)
         
     def UpdateConf(self):
         if not self.bisected_revision:
@@ -330,7 +331,8 @@ class TestLister:
         # self.test_map is keyed by test name, value is PiglitTest
         for a_file in os.listdir(bad_dir):
             if ("piglit-test" not in a_file and
-                "piglit-cpu-test" not in a_file) :
+                "piglit-cpu-test" not in a_file and
+                "piglit-deqp" not in a_file) :
                 continue
             test_path = bad_dir + "/" + a_file
             self._add_tests(test_path)

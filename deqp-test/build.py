@@ -80,13 +80,15 @@ class DeqpBuilder:
         if o.arch == "m32":
             libdir = "i386-linux-gnu"
         self.env = { "LD_LIBRARY_PATH" : self.build_root + "/lib:" + \
-                self.build_root + "/lib/" + libdir + ":" + self.build_root + "/lib/dri",
-                "LIBGL_DRIVERS_PATH" : self.build_root + "/lib/dri",
-                "GBM_DRIVERS_PATH" : self.build_root + "/lib/dri",
-                # fixes dxt subimage tests that fail due to a
-                # combination of unreasonable tolerances and possibly
-                # bugs in debian's s2tc library.  Recommended by nroberts
-                "S2TC_DITHER_MODE" : "NONE"
+                     self.build_root + "/lib/" + libdir + ":" + self.build_root + "/lib/dri",
+                     "LIBGL_DRIVERS_PATH" : self.build_root + "/lib/dri",
+                     "GBM_DRIVERS_PATH" : self.build_root + "/lib/dri",
+                     # fixes dxt subimage tests that fail due to a
+                     # combination of unreasonable tolerances and possibly
+                     # bugs in debian's s2tc library.  Recommended by nroberts
+                     "S2TC_DITHER_MODE" : "NONE",
+                     # forces deqp to run headless
+                     "EGL_PLATFORM" : "surfaceless"
         }
 
     def build(self):
@@ -162,10 +164,12 @@ class DeqpBuilder:
                                                     "--deqp-caselist-file=" +
                                                     self.build_root + "/opt/deqp/modules/gles3/gles3-cases.txt")
         out_dir = self.build_root + "/test/" + o.hardware
+        conf_file = bs.get_conf_file(o.hardware, o.arch, "deqp-test")
         cmd = [self.build_root + "/bin/piglit",
                "run",
                "-p", "gbm",
                "-b", "junit",
+               "--config", conf_file,
                "-c",
                "--junit_suffix", "." + o.hardware + o.arch,
                "deqp_gles2", "deqp_gles3", out_dir ]
