@@ -166,6 +166,7 @@ class DeqpBuilder:
                "run",
                "-p", "gbm",
                "-b", "junit",
+               "-c",
                "--junit_suffix", "." + o.hardware + o.arch,
                "deqp_gles2", "deqp_gles3", out_dir ]
             
@@ -175,5 +176,12 @@ class DeqpBuilder:
         os.chdir(savedir)
         
 
-bs.build(DeqpBuilder())
+class SlowTimeout:
+    def __init__(self):
+        self.hardware = bs.Options().hardware
+
+    def GetDuration(self):
+        return 500
+
+bs.build(DeqpBuilder(), time_limit=SlowTimeout())
         
