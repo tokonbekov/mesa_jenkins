@@ -44,9 +44,15 @@ class BranchSpecification:
             if a_project.attrib.has_key("branch"):
                 self._project_branches[name].branch = a_project.attrib["branch"]
 
-        for (_, branch) in self._project_branches.iteritems():
+        invalid = []
+        for (name, branch) in self._project_branches.iteritems():
             repo = repos.repo(branch.name)
-            branch.sha = repo.commit(branch.branch).hexsha
+            try:
+                branch.sha = repo.commit(branch.branch).hexsha
+            except:
+                invalid.append(name)
+        for i in invalid:
+            del(self._project_branches[i])
 
     def update_commits(self):
         # get the current commit for each project
