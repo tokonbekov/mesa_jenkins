@@ -134,6 +134,10 @@
     <!-- just so the master can cache it for the builders -->
     <mesa_jenkins repo="git://github.com/janesma/mesa_jenkins.git"/>
 
+    <deqp repo="git://github.com/janesma/deqp.git">
+      <remote name="chadv" repo="git://github.com/chadversary/deqp.git"/>
+    </deqp>
+
   </repos>
 
 
