@@ -65,7 +65,7 @@ hashstr = _revspec.to_cmd_line_param().replace(" ", "_")
 bisect_dir = results_dir + "/bisect/" + hashstr
 bs.rmtree(bisect_dir + "/test")
 bs.rmtree(bisect_dir + "/piglit-test")
-bs.rmtree(bisect_dir + "/piglit-nir-test")
+bs.rmtree(bisect_dir + "/deqp-test")
 
 j=bs.Jenkins(_revspec, bisect_dir)
 o = bs.Options(["bisect_all.py"])
