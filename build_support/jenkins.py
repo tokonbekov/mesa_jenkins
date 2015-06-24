@@ -390,21 +390,26 @@ class Jenkins:
             except(BuildFailure) as failure:
                 failure.invoke.set_info("status", "failure")
 
+                # ben widawski felt like for mesa's CI, developers
+                # typically want as much information as possible in a
+                # failure case.  Allowing completion is not too
+                # expensive, so we will let unblocked builds complete.
+
                 # abort the builds, but let daily/release builds continue
                 # as far as possible
-                if build_type == "percheckin" or build_type == "developer":
-                    time.sleep(6)  # quiet period
-                    for an_invoke_str in triggered_builds_str:
-                        print "Aborting: " + an_invoke_str
-                        pi = ProjectInvoke(from_string=an_invoke_str)
-                        self.abort(pi)
-                        failure_builds.append(pi)
-                    #CleanServer(o).clean()
-                    write_summary(pm.source_root(), 
-                                     failure_builds + completed_builds, 
-                                     self, 
-                                     failure=True)
-                    raise
+                # if build_type == "percheckin" or build_type == "developer":
+                #     time.sleep(6)  # quiet period
+                #     for an_invoke_str in triggered_builds_str:
+                #         print "Aborting: " + an_invoke_str
+                #         pi = ProjectInvoke(from_string=an_invoke_str)
+                #         self.abort(pi)
+                #         failure_builds.append(pi)
+                #     #CleanServer(o).clean()
+                #     write_summary(pm.source_root(), 
+                #                      failure_builds + completed_builds, 
+                #                      self, 
+                #                      failure=True)
+                #     raise
 
                 # else for release/daily builds, continue waiting for the
                 # rest of the builds.
