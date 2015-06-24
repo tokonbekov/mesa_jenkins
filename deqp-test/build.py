@@ -123,6 +123,8 @@ class DeqpBuilder:
         elif "snb" in o.hardware:
             expectations_dir = src_dir + "/chromiumos-autotest/graphics_dEQP/expectations/sandybridge"
 
+        conf_file = bs.get_conf_file(o.hardware, o.arch, "deqp-test")
+
         for module in ["gles2", "gles3"]:
             skip = DeqpTrie()
             # for each skip list, parse into skip trie
@@ -164,7 +166,6 @@ class DeqpBuilder:
                                                     "--deqp-caselist-file=" +
                                                     self.build_root + "/opt/deqp/modules/gles3/gles3-cases.txt")
         out_dir = self.build_root + "/test/" + o.hardware
-        conf_file = bs.get_conf_file(o.hardware, o.arch, "deqp-test")
         cmd = [self.build_root + "/bin/piglit",
                "run",
                "-p", "gbm",
