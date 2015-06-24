@@ -325,6 +325,7 @@ class TestLister:
     def __init__(self, bad_dir):
         self._tests = {}
         self._tests["piglit-test"] = {}
+        self._tests["deqp-test"] = {}
         # used to limit the number of tests run to the ones that are
         # under bisection
         self._retest_path = os.path.abspath(bad_dir + "/..")

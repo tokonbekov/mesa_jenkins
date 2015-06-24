@@ -1,7 +1,9 @@
 #!/usr/bin/python
 
-import sys, os
 import bz2
+import os
+import re
+import sys
 import xml.etree.ElementTree  as ET
 
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
@@ -150,6 +152,8 @@ class DeqpBuilder:
             caselist = open(module + "-cases.txt", "w")
             testlist.write_caselist(caselist)
 
+        os.chdir(savedir)
+
         # invoke piglit
         self.env["PIGLIT_DEQP_GLES2_BIN"] = self.build_root + "/opt/deqp/modules/gles2/deqp-gles2"
         self.env["PIGLIT_DEQP_GLES2_EXTRA_ARGS"] =  ("--deqp-surface-type=fbo "
@@ -166,19 +170,29 @@ class DeqpBuilder:
                                                     "--deqp-caselist-file=" +
                                                     self.build_root + "/opt/deqp/modules/gles3/gles3-cases.txt")
         out_dir = self.build_root + "/test/" + o.hardware
+
+        include_tests = []
+        if o.retest_path:
+            testlist = bs.TestLister(o.retest_path + "/test/")
+            for atest in testlist.Tests():
+                test_name_good_chars = re.sub('[_ !:=]', ".", atest.test_name)
+                # drop the spec
+                test_name = ".".join(test_name_good_chars.split(".")[1:])
+                include_tests = include_tests + ["--include-tests", test_name]
+            
         cmd = [self.build_root + "/bin/piglit",
                "run",
                "-p", "gbm",
                "-b", "junit",
                "--config", conf_file,
                "-c",
-               "--junit_suffix", "." + o.hardware + o.arch,
-               "deqp_gles2", "deqp_gles3", out_dir ]
-            
+               "--junit_suffix", "." + o.hardware + o.arch] + \
+            include_tests + \
+            ["deqp_gles2", "deqp_gles3", out_dir ]
+        
         bs.run_batch_command(cmd, env=self.env,
                              expected_return_code=None,
                              streamedOutput=True)
-        os.chdir(savedir)
 
         single_out_dir = self.build_root + "/../test"
         if not os.path.exists(single_out_dir):
