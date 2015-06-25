@@ -76,8 +76,11 @@ def main():
 
     hashstr = revspec.to_cmd_line_param().replace(" ", "_")
 
+    pm = bs.ProjectMap()
+    bs.rmtree(pm.source_root() + "/test_summary.txt")
+    
     # create a result_path that is unique for this set of builds
-    spec_xml = bs.ProjectMap().build_spec()
+    spec_xml = pm.build_spec()
     results_dir = spec_xml.find("build_master").attrib["results_dir"]
     result_path = "/".join([results_dir, branch, hashstr, o.type])
     o.result_path = result_path
@@ -86,7 +89,6 @@ def main():
         print "Removing existing results."
         bs.rmtree(result_path)
 
-    pm = bs.ProjectMap()
     if not projects:
         branchspec = bspec.branch_specification(branch)
         projects = [branchspec.project]
