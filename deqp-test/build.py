@@ -115,8 +115,8 @@ class DeqpBuilder:
         deqp_options = ["./deqp-gles2",
                         "--deqp-surface-type=fbo",
                         "--deqp-log-images=disable",
-                        "--deqp-surface-width=100",
-                        "--deqp-surface-height=100"]
+                        "--deqp-surface-width=256",
+                        "--deqp-surface-height=256"]
 
 
         expectations_dir = None

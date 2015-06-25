@@ -172,6 +172,7 @@ class Jenkins:
         p.append("result_path=" + o.result_path)
         p.append("hardware=" + o.hardware)
         p.append("hash=" + invoke.hash(self._time))
+        p.append("shard=" + o.shard)
         if o.retest_path:
             p.append("extra_arg=--retest_path=" + o.retest_path)
 
