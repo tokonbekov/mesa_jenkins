@@ -365,12 +365,15 @@ class ProjectInvoke:
         
     def info_file(self):
         o = self.options
+        shard_str = ""
+        if o.shard != 0:
+            shard_str = "_" + o.shard
         return "/".join([o.result_path, 
                          self.project,
                          o.arch,
                          o.config,
                          o.hardware, 
-                         "_build_info.txt"])
+                         "_build_info" + shard_str + ".txt"])
 
     def _read_info(self):
         """returns a dictionary of status content"""
@@ -432,7 +435,10 @@ class ProjectInvoke:
         return hashlib.md5(salt + str(self)).hexdigest()
         
     def to_short_string(self):
-        return " ".join([self.project,
-                         self.options.arch, 
-                         self.options.config, 
-                         self.options.hardware])
+        items = [self.project,
+                 self.options.arch, 
+                 self.options.config, 
+                 self.options.hardware]
+        if self.options.shard != "0":
+            items.append(self.options.shard)
+        return " ".join(items)

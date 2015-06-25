@@ -114,12 +114,21 @@ class DependencyGraph:
                 hardwares = attrib["hardware"].split(",")
             for arch in arches:
                 for hardware in hardwares:
-                    pistr = str(project_invoke)
-                    prereq_invoke = ProjectInvoke(from_string=pistr)
-                    prereq_invoke.project = attrib["name"]
-                    prereq_invoke.options.hardware = hardware
-                    prereq_invoke.options.arch = arch
-                    results.append(prereq_invoke)
+                    shards = ["0"]
+                    p_shard = "0"
+                    if a_prereq.attrib.has_key("shard"):
+                        p_shard = a_prereq.attrib["shard"]
+                    if p_shard != "0" and ":" not in p_shard:
+                        i_shards = range(0,int(p_shard))
+                        shards = [str(s + 1) + ":" + p_shard for s in i_shards]
+                    for shard in shards:
+                        pistr = str(project_invoke)
+                        prereq_invoke = ProjectInvoke(from_string=pistr)
+                        prereq_invoke.project = attrib["name"]
+                        prereq_invoke.options.hardware = hardware
+                        prereq_invoke.options.arch = arch
+                        prereq_invoke.options.shard = shard
+                        results.append(prereq_invoke)
 
         return results
 
@@ -127,6 +136,14 @@ class DependencyGraph:
     def _add_to_graph(self, project_invoke):
         """adds the build_invoke and all prerequisites to the
         _dependency_graph"""
+        shard = project_invoke.options.shard
+        if shard != "0" and ":" not in shard:
+            for i in range(0,int(shard)):
+                # make a deep copy of the project invoke
+                p = ProjectInvoke(from_string=str(project_invoke))
+                p.shard = str(i + 1) + ":" + str(shard)
+                self._add_to_graph(p)
+        
         graph = self._dependency_graph
         if graph.has_key(str(project_invoke)):
             # multiple dependencies on this invocation, which has

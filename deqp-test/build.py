@@ -28,6 +28,8 @@ class DeqpTrie:
         if not line:
             return
         group = line[0]
+        if line == "performance":
+            return
         if not self._trie.has_key(group):
             self._trie[group] = DeqpTrie()
         self._trie[group]._add_split_line(line[1:])
@@ -48,6 +50,8 @@ class DeqpTrie:
 
     def _add_tag(self, tag):
         name = tag.attrib["Name"]
+        if name == "performance":
+            return
         if not self._trie.has_key(name):
             self._trie[name] = DeqpTrie()
 
@@ -64,7 +68,10 @@ class DeqpTrie:
                 del(self._trie[group])
 
     def write_caselist(self, outfh, prefix=""):
-        for group, trie in self._trie.items():
+        items = self._trie.items()
+        # ensure stable order, so sharding will work correctly
+        items.sort()
+        for group, trie in items:
             if len(trie._trie) == 0:
                 outfh.write(prefix + "." + group + "\n")
                 continue
@@ -149,8 +156,11 @@ class DeqpBuilder:
             testlist.filter(skip)
 
             # generate testlist file
-            caselist = open(module + "-cases.txt", "w")
+            caselist_fn = module + "-cases.txt"
+            caselist = open(caselist_fn, "w")
             testlist.write_caselist(caselist)
+            caselist.close()
+            self.shard_caselist(caselist_fn, o.shard)
 
         os.chdir(savedir)
 
@@ -204,7 +214,7 @@ class DeqpBuilder:
             cmd = ["cp", "-a", "-n", out_dir + "/results.xml",
                               single_out_dir + "_".join(["/" + "piglit-deqp",
                                                          o.hardware,
-                                                         o.arch]) + ".xml"]
+                                                         o.arch, o.shard]) + ".xml"]
             bs.run_batch_command(cmd)
 
             # create a copy of the test xml in the source root, where
@@ -217,6 +227,29 @@ class DeqpBuilder:
             print "ERROR: no results at " + out_dir + "/results.xml"
 
         bs.PiglitTester().check_gpu_hang()
+
+    def shard_caselist(self, caselist_fn, shard):
+        if shard == "0":
+            return
+
+        assert(":" in shard)
+        shardargs = shard.split(":")
+        shardno = int(shardargs[0])
+        shardcount = int(shardargs[1])
+        assert(shardno <= shardcount)
+
+        shard_tests = []
+        test_no = 0
+        test_list = open(caselist_fn).readlines()
+        for a_test in test_list:
+            if test_no % shardcount == shardno:
+                shard_tests.append(a_test)
+            test_no = test_no + 1
+
+        bs.rmtree(caselist_fn)
+        caselist_fh = open(caselist_fn, "w")
+        for a_test in shard_tests:
+            caselist_fh.write(a_test)
 
 class SlowTimeout:
     def __init__(self):
