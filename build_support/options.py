@@ -59,6 +59,10 @@ class Options(object):
         self._parser.add_argument('--retest_path', type=str, default='',
                                   help="If specified, test actions only invoke "
                                   "failing tests at this result_path.")
+        self._parser.add_argument('--shard', type=str, default="0",
+                                  help="If specified, a fraction of tests will be executed.  "
+                                  "EG: --shard=3:5 will divide the tests into 5 equal groups and "
+                                  "execute the tess in the third group.")
 
         if None != from_xml:
             self.from_xml(from_xml)
@@ -77,6 +81,7 @@ class Options(object):
         self.type = ""
         self.result_path = ""
         self.retest_path = ""
+        self.shard = ""
         # Parse the args and explode it into the Options class
         self.__dict__.update(vars(self._parser.parse_args(args)))
 
@@ -91,6 +96,8 @@ class Options(object):
             arglist += ["--result_path", self.result_path]
         if self.retest_path != "":
             arglist += ["--retest_path", self.retest_path]
+        if self.shard != "0":
+            arglist += ["--shard", self.shard]
 
         return " ".join(arglist)
 
@@ -103,6 +110,7 @@ class Options(object):
         tag.set("result_path", self.result_path)
         tag.set("retest_path", self.retest_path)
         tag.set("type", self.type)
+        tag.set("shard", self.shard)
         return tag
 
     def from_xml(self, xml):
@@ -116,6 +124,7 @@ class Options(object):
         self.result_path = xml.attrib["result_path"]
         self.retest_path = xml.attrib["retest_path"]
         self.type = xml.attrib["type"]
+        self.shard = xml.attrib["shard"]
 
     def update_arg0(self, arg0=None):
         # We should really do better for this:
