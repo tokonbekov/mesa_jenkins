@@ -19,7 +19,7 @@ def main():
         # surfaceless not supported on 10.6 and earlier
         surfaceless = ",surfaceless"
 
-        options = options + ["--enable-gbm",
+    options = options + ["--enable-gbm",
                          "--with-egl-platforms=x11,drm" + surfaceless,
                          "--enable-glx-tls", 
                          "--enable-gles1",
