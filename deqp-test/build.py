@@ -242,7 +242,7 @@ class DeqpBuilder:
         test_no = 0
         test_list = open(caselist_fn).readlines()
         for a_test in test_list:
-            if test_no % shardcount == shardno:
+            if (test_no % shardcount) + 1 == shardno:
                 shard_tests.append(a_test)
             test_no = test_no + 1
 
