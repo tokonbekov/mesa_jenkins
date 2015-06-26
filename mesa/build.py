@@ -1,6 +1,5 @@
 #!/usr/bin/python
 
-
 import sys
 import os.path as path
 sys.path.append(path.join(path.dirname(path.abspath(sys.argv[0])), ".."))
@@ -15,8 +14,13 @@ def main():
         # expat pkg-config fails for some reason on i386
         options = ['EXPAT_LIBS="-L/usr/lib/i386-linux-gnu -lexpat"']
 
-    options = options + ["--enable-gbm",
-                         "--with-egl-platforms=x11,drm,surfaceless",
+    surfaceless = ""
+    if path.exists(bs.ProjectMap().project_source_dir() + "/src/egl/drivers/dri2/platform_surfaceless.c"):
+        # surfaceless not supported on 10.6 and earlier
+        surfaceless = ",surfaceless"
+
+        options = options + ["--enable-gbm",
+                         "--with-egl-platforms=x11,drm" + surfaceless,
                          "--enable-glx-tls", 
                          "--enable-gles1",
                          "--enable-gles2",

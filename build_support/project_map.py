@@ -45,8 +45,10 @@ class ProjectMap:
         cb = self._source_root + "/" + project
         return cb
 
-    def project_source_dir(self, project):
+    def project_source_dir(self, project=None):
         """location of the git repo for the project"""
+        if project == None:
+            project = self.current_project()
         spec = self.build_spec()
         projects_tag = spec.find("projects")
         projects = projects_tag.findall("project")
