@@ -63,6 +63,9 @@ def main():
 
     bspec = bs.BuildSpecification()
 
+    pm = bs.ProjectMap()
+    bs.rmtree(pm.source_root() + "/test_summary.txt")
+
     # start with the specified branch, then layer any revision spec on
     # top of it
     bspec.checkout(branch)
@@ -76,9 +79,6 @@ def main():
 
     hashstr = revspec.to_cmd_line_param().replace(" ", "_")
 
-    pm = bs.ProjectMap()
-    bs.rmtree(pm.source_root() + "/test_summary.txt")
-    
     # create a result_path that is unique for this set of builds
     spec_xml = pm.build_spec()
     results_dir = spec_xml.find("build_master").attrib["results_dir"]
