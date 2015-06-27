@@ -75,7 +75,7 @@
     <project name="piglit-gpu-all">
       <prerequisite name="piglit-test"
                     arch="m64,m32"
-                    hardware="ilk,g45,snbgt1,snbgt2,ivbgt2,ivbgt1,hswgt2,hswgt3e,bsw,byt,g965,bdwgt2,hswgt1,g33,skl"/>
+                    hardware="ilk,g45,snb,ivb,hsw,bsw,byt,g965,bdw,g33,skl"/>
       <prerequisite name="deqp-test" arch="m64" hardware="hsw,snb"/>
     </project>
 
