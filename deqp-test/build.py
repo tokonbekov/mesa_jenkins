@@ -62,6 +62,10 @@ class DeqpTrie:
             self._trie[name]._add_tag(child)
 
     def filter(self, blacklist):
+        if not blacklist._trie and self._trie:
+            # caller is filtering out a group of tests with a common
+            # prefix.
+            self._trie = {}
         for group in blacklist._trie.keys():
             if group not in self._trie:
                 print "ERROR: blacklist of " + group + " not in tests"
@@ -166,7 +170,7 @@ class DeqpBuilder:
                      ]
             intermittent = DeqpTrie()
             for skip in skips:
-                intermittent.add_line("deqp-" + module + "." + skip)
+                intermittent.add_line("dEQP-" + module.upper() + "." + skip)
             testlist.filter(intermittent)
 
             # generate testlist file
