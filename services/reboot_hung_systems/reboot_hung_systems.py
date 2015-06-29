@@ -1,5 +1,13 @@
 #!/usr/bin/python
 
+# This service operates the web-power-switch that is deployed in the
+# JF1 OTC lab.  Systems which have a history of hard-hang are
+# connected to that power strip.  This service should be deployed only
+# on otc-mesa-ci.jf.intel.com.  To add another unstable system, find
+# an empty outlet on the power strip and add the host/outlet# to
+# self.systems in the HangReboot constructor.
+
+
 """
 ###############################################################
 Digital Loggers Web Power Switch management

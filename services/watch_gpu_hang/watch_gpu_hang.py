@@ -11,6 +11,14 @@ sys.path.append("/var/lib/git/mesa_jenkins/services/")
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
 from daemon import Daemon
 
+# This service is intended to be deployed on unstable systems where a
+# hard GPU hang can occur within a single piglit run.  On systems which
+# are more stable, the piglit test harness will detect GPU hang and
+# schedule a reboot at the end of each test run.
+
+# TLDR: don't enable this service except on non-production systems.
+
+
 class GpuWatchDaemon(Daemon):
     def __init__(self, pidfile, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null'):
         Daemon.__init__(self, pidfile, stdin, stdout, stderr)
