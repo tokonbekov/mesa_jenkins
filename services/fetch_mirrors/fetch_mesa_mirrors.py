@@ -41,7 +41,7 @@ class RepoSyncer(Daemon):
         success = False
         while not success:
             try:
-                bs.run_batch_command(["git", "clone", "--mirror",
+                bs.run_batch_command(["/usr/local/bin/git", "clone", "--mirror",
                                       url, directory])
                 success = True
             except(subprocess.CalledProcessError):
@@ -53,7 +53,7 @@ class RepoSyncer(Daemon):
         while not _success:
             try:
                 _repo = git.Repo("/var/lib/git/mesa_jenkins")
-                _repo.git.pull()
+                _repo.remotes.origin.pull()
                 _success = True
             except:
                 print "Error: could not update buildsupport"
