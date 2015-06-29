@@ -38,6 +38,7 @@ class Poller(Daemon):
         return hashlib.md5(open(fname, 'rb').read()).digest()
 
     def run(self):
+        os.environ["GIT_PYTHON_GIT_EXECUTABLE"] = "/usr/local/bin/git"
         try:
             bs.ProjectMap()
         except:
