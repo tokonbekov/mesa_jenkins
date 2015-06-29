@@ -38,7 +38,12 @@ class Poller(Daemon):
         return hashlib.md5(open(fname, 'rb').read()).digest()
 
     def run(self):
+        # running a service through intel's proxy requires some
+        # annoying settings.
         os.environ["GIT_PYTHON_GIT_EXECUTABLE"] = "/usr/local/bin/git"
+        # without this, git-remote-https spins at 100%
+        os.environ["http_proxy"] = "http://proxy.jf.intel.com:911/"
+        os.environ["https_proxy"] = "http://proxy.jf.intel.com:911/"
         try:
             bs.ProjectMap()
         except:

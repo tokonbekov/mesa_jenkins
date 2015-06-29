@@ -67,7 +67,12 @@ class RepoSyncer(Daemon):
         signal.signal(signal.SIGINT, signal_handler_quit)
         signal.signal(signal.SIGTERM, signal_handler_quit)
 
+        # running a service through intel's proxy requires some
+        # annoying settings.
         os.environ["GIT_PYTHON_GIT_EXECUTABLE"] = "/usr/local/bin/git"
+        # without this, git-remote-https spins at 100%
+        os.environ["http_proxy"] = "http://proxy.jf.intel.com:911/"
+        os.environ["https_proxy"] = "http://proxy.jf.intel.com:911/"
 
         try:
             bs.ProjectMap()
