@@ -46,6 +46,10 @@ class Daemon:
             sys.stderr.write("fork #2 failed: %d (%s)\n" % (e.errno, e.strerror))
             sys.exit(1) 
     
+        # fix path, so services can find the right git
+        if "/usr/local/bin" not in os.environ["PATH"]:
+            os.environ["PATH"] = "/usr/local/bin:" + os.environ["PATH"]
+            
         # redirect standard file descriptors
         sys.stdout.flush()
         sys.stderr.flush()
