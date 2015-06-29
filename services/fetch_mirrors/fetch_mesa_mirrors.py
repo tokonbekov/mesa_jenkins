@@ -67,6 +67,8 @@ class RepoSyncer(Daemon):
         signal.signal(signal.SIGINT, signal_handler_quit)
         signal.signal(signal.SIGTERM, signal_handler_quit)
 
+        os.environ["GIT_PYTHON_GIT_EXECUTABLE"] = "/usr/local/bin/git"
+
         try:
             bs.ProjectMap()
         except:
