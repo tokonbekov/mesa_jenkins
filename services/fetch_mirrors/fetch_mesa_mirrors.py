@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import git
+import hashlib
 import os
 import signal
 import subprocess
@@ -12,28 +13,10 @@ sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."
 from daemon import Daemon
 
 sys.path.append("/var/lib/git/mesa_jenkins/")
-
-_success = False
-while not _success:
-    try:
-        _repo = git.Repo("/var/lib/git/mesa_jenkins")
-        _repo.git.pull()
-        _success = True
-    except:
-        print "Error: could not update buildsupport"
-        time.sleep(10)
-
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "../.."))
 import build_support as bs
 
 sys.argv[0] = os.path.abspath(sys.argv[0])
-
-try:
-    bs.ProjectMap()
-except(AssertionError):
-    # if we are executing as a service, the script will not be within
-    # a git source tree
-    sys.argv[0] = "/var/lib/git/mesa_jenkins/services/fetch_mirrors/fetch_mesa_mirrors.py"
 
 class TimeoutException(Exception):
     def __init__(self, msg):
@@ -64,52 +47,83 @@ class RepoSyncer(Daemon):
             except(subprocess.CalledProcessError):
                 print "Error: could not clone " + url
                 time.sleep(10)
-        
+
+    def robust_update(self):
+        _success = False
+        while not _success:
+            try:
+                _repo = git.Repo("/var/lib/git/mesa_jenkins")
+                _repo.git.pull()
+                _success = True
+            except:
+                print "Error: could not update buildsupport"
+                time.sleep(10)
+                
+    def file_checksum(self, fname):
+        return hashlib.md5(open(fname, 'rb').read()).digest()
+
     def run(self):
         signal.signal(signal.SIGALRM, signal_handler)
         signal.signal(signal.SIGINT, signal_handler_quit)
         signal.signal(signal.SIGTERM, signal_handler_quit)
 
+        try:
+            bs.ProjectMap()
+        except:
+            sys.argv[0] = "/var/lib/git/mesa_jenkins/foo.py"
+
+        pm = bs.ProjectMap()
+        spec_file = pm.source_root() + "/build_specification.xml"
+        new_spec_hash = None
+
         while True:
-            buildspec = bs.ProjectMap().build_spec()
+            orig_spec_hash = self.file_checksum(spec_file)
+            if new_spec_hash is not None:
+                print "Build Specification updated"
+            new_spec_hash = self.file_checksum(spec_file)
 
-            repo_dir = "/var/lib/git/"
+            while new_spec_hash == orig_spec_hash:
+                buildspec = bs.ProjectMap().build_spec()
 
-            # build up a list of git repo objects for all known repos.  If the
-            # origin or the remotes are not already cloned, clone them.
-            repos = []
-            repo_tags = buildspec.find("repos")
-            for tag in repo_tags:
-                url = tag.attrib["repo"]
-                project = tag.tag
-                origin_dir = repo_dir + project + "/origin"
-                if not os.path.exists(origin_dir):
-                    self.robust_clone(url, origin_dir)
-                    bs.run_batch_command(["touch", origin_dir + "/git-daemon-export-ok"])
-                repos.append(git.Repo(origin_dir))
-                for a_remote in tag.findall("remote"):
-                    remote_dir = repo_dir + project + "/" + a_remote.attrib["name"]
-                    if not os.path.exists(remote_dir):
-                        self.robust_clone(a_remote.attrib["repo"], remote_dir)
-                        bs.run_batch_command(["touch", remote_dir + "/git-daemon-export-ok"])
-                    repos.append(git.Repo(remote_dir))
+                repo_dir = "/var/lib/git/"
 
-            for repo in repos:
-                try:
-                    signal.alarm(300)   # 5 minutes
-                    repo.git.fetch()
-                    signal.alarm(0)
-                except git.GitCommandError as e:
-                    print "error fetching, ignoring: " + str(e)
-                    signal.alarm(0)
-                except AssertionError as e:
-                    print "assertion while fetching: " + str(e)
-                    signal.alarm(0)
-                except TimeoutException as e:
-                    print str(e)
-                    signal.alarm(0)
-            # pause a bit before fetching the next round
-            time.sleep(20)
+                # build up a list of git repo objects for all known repos.  If the
+                # origin or the remotes are not already cloned, clone them.
+                repos = []
+                repo_tags = buildspec.find("repos")
+                for tag in repo_tags:
+                    url = tag.attrib["repo"]
+                    project = tag.tag
+                    origin_dir = repo_dir + project + "/origin"
+                    if not os.path.exists(origin_dir):
+                        self.robust_clone(url, origin_dir)
+                        bs.run_batch_command(["touch", origin_dir + "/git-daemon-export-ok"])
+                    repos.append(git.Repo(origin_dir))
+                    for a_remote in tag.findall("remote"):
+                        remote_dir = repo_dir + project + "/" + a_remote.attrib["name"]
+                        if not os.path.exists(remote_dir):
+                            self.robust_clone(a_remote.attrib["repo"], remote_dir)
+                            bs.run_batch_command(["touch", remote_dir + "/git-daemon-export-ok"])
+                        repos.append(git.Repo(remote_dir))
+
+                for repo in repos:
+                    try:
+                        signal.alarm(300)   # 5 minutes
+                        repo.git.fetch()
+                        signal.alarm(0)
+                    except git.GitCommandError as e:
+                        print "error fetching, ignoring: " + str(e)
+                        signal.alarm(0)
+                    except AssertionError as e:
+                        print "assertion while fetching: " + str(e)
+                        signal.alarm(0)
+                    except TimeoutException as e:
+                        print str(e)
+                        signal.alarm(0)
+                # pause a bit before fetching the next round
+                time.sleep(20)
+                self.robust_update()
+                new_spec_hash = self.file_checksum(spec_file)
 
 
 if __name__ == "__main__":

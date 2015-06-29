@@ -34,6 +34,9 @@ class Poller(Daemon):
     def __init__(self, pidfile, stdin='/dev/null', stdout='/dev/null', stderr='/dev/null'):
         Daemon.__init__(self, pidfile, stdin, stdout, stderr)
     
+    def file_checksum(self, fname):
+        return hashlib.md5(open(fname, 'rb').read()).digest()
+
     def run(self):
         try:
             bs.ProjectMap()
@@ -42,17 +45,14 @@ class Poller(Daemon):
         pm = bs.ProjectMap()
         spec_file = pm.source_root() + "/build_specification.xml"
 
-        def file_checksum(fname):
-            return hashlib.md5(open(fname, 'rb').read()).digest()
-
         new_spec_hash = None
         while True:
-            orig_spec_hash = file_checksum(spec_file)
+            orig_spec_hash = self.file_checksum(spec_file)
             spec = pm.build_spec()
             server = spec.find("build_master").attrib["host"]
             if new_spec_hash is not None:
                 print "Build Specification updated"
-            new_spec_hash = file_checksum(spec_file)
+            new_spec_hash = self.file_checksum(spec_file)
             status = bs.RepoStatus()
             while new_spec_hash == orig_spec_hash:
                 branches = status.poll()
@@ -73,7 +73,7 @@ class Poller(Daemon):
                             print "ERROR: failed to reach jenkins, retrying: " + job_url
                             time.sleep(10)
 
-                new_spec_hash = file_checksum(spec_file)
+                new_spec_hash = self.file_checksum(spec_file)
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:
