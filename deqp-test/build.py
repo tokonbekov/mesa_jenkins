@@ -22,8 +22,11 @@ class DeqpTrie:
 
         for line in fh.readlines():
             line = line.strip()
-            self._add_split_line(line.split("."))
+            self.add_line(line)
 
+    def add_line(self, line):
+        self._add_split_line(line.split("."))
+            
     def _add_split_line(self, line):
         if not line:
             return
@@ -154,6 +157,17 @@ class DeqpBuilder:
 
             # filter skip trie from testlist trie
             testlist.filter(skip)
+
+            # filter intermittent tests
+            # TODO(janesma) : write bug
+            skips = ["functional.fragment_ops.interaction.basic_shader",
+                     "functional.shaders.random.basic_expression.combined",
+                     "functional.shaders.random.conditionals.combined" 
+                     ]
+            intermittent = DeqpTrie()
+            for skip in skips:
+                intermittent.add_line("deqp-" + module + "." + skip)
+            testlist.filter(intermittent)
 
             # generate testlist file
             caselist_fn = module + "-cases.txt"
