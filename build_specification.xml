@@ -60,7 +60,7 @@
 
     <project name="test-single-arch">
       <prerequisite name="piglit-test" hardware="ilk,g45,snb,ivb,hsw,bdwgt2,g965"/>
-      <prerequisite only_for_type="daily" name="piglit-test" hardware="bsw,byt,g33"/>
+      <prerequisite only_for_type="daily" name="piglit-test" hardware="bsw,byt,g33,skl"/>
       <prerequisite name="piglit-cpu-test" hardware="fastgpu"/>
       <prerequisite name="scons-buildtest" hardware="builder" arch="m64"/>
       <prerequisite name="mesa-buildtest" hardware="builder"/>
