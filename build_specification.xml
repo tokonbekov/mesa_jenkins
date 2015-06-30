@@ -85,10 +85,6 @@
                     arch="m64"
                     hardware="hsw,snb"
                     shard="5"/>
-      <prerequisite name="deqp-test"
-                    arch="m64"
-                    hardware="ivb"
-                    shard="4"/>
     </project>
 
     <project name="reboot-slaves">
