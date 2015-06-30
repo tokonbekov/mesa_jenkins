@@ -53,8 +53,8 @@
                     hardware="ilk,g45,snbgt1,snbgt2,ivbgt2,ivbgt1,hswgt2,bdwgt2,hswgt3e,hswgt1,g965"
                     arch="m64,m32"/>
       <prerequisite only_for_type="daily" name="piglit-test" hardware="bsw,byt,g33,skl" arch="m64,m32"/>
+      <prerequisite only_for_type="daily" name="deqp-full"/>
       <prerequisite name="piglit-cpu-test" hardware="fastgpu" arch="m64,m32"/>
-
       <prerequisite name="mesa-buildtest" hardware="builder" arch="m64"/>
     </project>
 
@@ -85,6 +85,10 @@
                     arch="m64"
                     hardware="hsw,snb"
                     shard="5"/>
+      <prerequisite name="deqp-test"
+                    arch="m64"
+                    hardware="ivb"
+                    shard="4"/>
     </project>
 
     <project name="reboot-slaves">
