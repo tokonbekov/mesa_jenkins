@@ -71,9 +71,8 @@ class Poller(Daemon):
                     retry_count = 0
                     while retry_count < 10:
                         try:
-                            #f = urllib2.urlopen(job_url)
-                            #f.read()
-                            print job_url
+                            f = urllib2.urlopen(job_url)
+                            f.read()
                             break
                         except urllib2.HTTPError as e:
                             print e
