@@ -69,6 +69,11 @@ class Poller(Daemon):
                     job_url = "http://" + server + "/job/" + branch + \
                               "/buildWithParameters?token=xyzzy&name=" + commit + "&type=percheckin"
                     retry_count = 0
+
+                    # how wonderful, the proxy setting is required for
+                    # git but prevents the service from accessing
+                    # otc-mesa-ci.
+                    os.environ["http_proxy"] = ""
                     while retry_count < 10:
                         try:
                             f = urllib2.urlopen(job_url)
@@ -79,6 +84,7 @@ class Poller(Daemon):
                             retry_count = retry_count + 1
                             print "ERROR: failed to reach jenkins, retrying: " + job_url
                             time.sleep(10)
+                    os.environ["http_proxy"] = "http://proxy.jf.intel.com:911/"
 
                 new_spec_hash = self.file_checksum(spec_file)
 
