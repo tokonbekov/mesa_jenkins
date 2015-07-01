@@ -407,7 +407,7 @@ class PiglitTester(object):
             cmd = cmd + ["--include-tests", self._piglit_test]
             
         concurrency_options = ["-c"]
-        if "skl" in hardware:
+        if "skl" in hardware and self.suite != "cpu":
             concurrency_options = ["-1", "-v"]
         cmd = cmd + concurrency_options
             
