@@ -7,7 +7,7 @@ import build_support as bs
 class DeqpBuilder(bs.CMakeBuilder):
     # override the CMakeBuilder to check the version of mesa before building.
     def __init__(self, extra_definitions):
-        bs.CMakeBuilder(self, extra_definitions)
+        bs.CMakeBuilder.__init__(self, extra_definitions)
 
     def build(self):
         # todo: now that there is more than one component that needs
