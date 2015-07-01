@@ -114,6 +114,14 @@ class DeqpBuilder:
         pass
 
     def test(self):
+        # todo: now that there is more than one component that needs
+        # to call mesa_version, it should be moved to a more sharable
+        # location
+        mesa_version = bs.PiglitTester().mesa_version()
+        if "10.5" in mesa_version or "10.6" in mesa_version:
+            print "WARNING: deqp not supported on 10.6 and earlier."
+            return
+        
         o = bs.Options()
         pm = bs.ProjectMap()
         src_dir = pm.project_source_dir(pm.current_project())
