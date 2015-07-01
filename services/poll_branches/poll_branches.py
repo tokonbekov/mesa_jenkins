@@ -86,6 +86,7 @@ class Poller(Daemon):
                             time.sleep(10)
                     os.environ["http_proxy"] = "http://proxy.jf.intel.com:911/"
 
+                time.sleep(30)
                 new_spec_hash = self.file_checksum(spec_file)
 
 if __name__ == "__main__":
