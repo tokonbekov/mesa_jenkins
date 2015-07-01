@@ -29,6 +29,8 @@
 
     <project name="deqp">
       <prerequisite name="mesa" hardware="builder"/>
+      <!-- for wflinfo, to check version support -->
+      <prerequisite name="waffle" hardware="builder"/>
     </project>
     
     <project name="piglit">
