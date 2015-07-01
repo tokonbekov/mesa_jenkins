@@ -22,4 +22,4 @@ class DeqpBuilder(bs.CMakeBuilder):
     def test(self):
         return
 
-bs.build(bs.CMakeBuilder(extra_definitions=["-DDEQP_TARGET=drm"]))
+bs.build(DeqpBuilder(extra_definitions=["-DDEQP_TARGET=drm"]))
