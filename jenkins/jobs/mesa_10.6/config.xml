@@ -15,12 +15,12 @@
         <hudson.model.StringParameterDefinition>
           <name>name</name>
           <description>this parameter is set to the relevant commit when builds are triggered</description>
-          <defaultValue>started on schedule</defaultValue>
+          <defaultValue>manually_started</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
-          <name>revision</name>
-          <description>space separate list of sha revisions, eg &quot;piglit-build=a0b2c1e waffle=9160580&quot;</description>
-          <defaultValue></defaultValue>
+          <name>type</name>
+          <description>developer/daily/percheckin/release type specified to the test harnesses</description>
+          <defaultValue>developer</defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
@@ -30,11 +30,13 @@
     <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.4">
       <maxConcurrentPerNode>0</maxConcurrentPerNode>
       <maxConcurrentTotal>0</maxConcurrentTotal>
-      <categories/>
       <throttleEnabled>false</throttleEnabled>
       <throttleOption>project</throttleOption>
-      <configVersion>1</configVersion>
     </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
+    <jenkins.advancedqueue.jobinclusion.strategy.JobInclusionJobProperty plugin="PrioritySorter@3.2">
+      <useJobGroup>false</useJobGroup>
+      <jobGroupName>Leeroy</jobGroupName>
+    </jenkins.advancedqueue.jobinclusion.strategy.JobInclusionJobProperty>
   </properties>
   <scm class="hudson.plugins.git.GitSCM" plugin="git@2.3.5">
     <configVersion>2</configVersion>
@@ -58,16 +60,12 @@
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <authToken>xyzzy</authToken>
-  <triggers>
-    <hudson.triggers.TimerTrigger>
-      <spec>H 5,11,17 * * *</spec>
-    </hudson.triggers.TimerTrigger>
-  </triggers>
+  <triggers/>
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
       <command>python -u scripts/checkout_revision_spec.py
-python -u scripts/build_jenkins.py --branch=mesa_master --type=daily --config=debug --revision=&quot;$revision&quot;</command>
+python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=${type}</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>

@@ -115,10 +115,12 @@
       <jobNames>
         <comparator class="hudson.util.CaseInsensitiveComparator"/>
         <string>aphogat</string>
+        <string>bpeel</string>
         <string>build_series</string>
         <string>bwidawsk</string>
         <string>chadv</string>
         <string>curro</string>
+        <string>cwabbott0</string>
         <string>cworth</string>
         <string>dcbaker</string>
         <string>idr</string>
@@ -132,6 +134,7 @@
         <string>mesa_bisect</string>
         <string>mesa_custom</string>
         <string>mperes</string>
+        <string>nchery</string>
         <string>single_test</string>
         <string>tpalli</string>
         <string>tpohjola</string>
@@ -158,6 +161,9 @@
         <comparator class="hudson.util.CaseInsensitiveComparator" reference="../../../listView/jobNames/comparator"/>
         <string>mesa_10.5</string>
         <string>mesa_10.5_daily</string>
+        <string>mesa_10.6</string>
+        <string>mesa_10.6_daily</string>
+        <string>mesa_custom</string>
         <string>mesa_master</string>
         <string>mesa_master_daily</string>
       </jobNames>
