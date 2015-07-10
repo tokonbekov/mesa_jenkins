@@ -370,7 +370,7 @@ class PiglitTester(object):
             exclude_tests = exclude_tests + ["variable-indexing.vs-output-array-vec4-index-wr-before-gs"]
 
             # bug: 91298
-            exclude_tests.append(['piglit.spec.arb_shader_atomic_counters.unused-result'])
+            exclude_tests = exclude_tests + ['piglit.spec.arb_shader_atomic_counters.unused-result']
         
         if "byt" in hardware:
             # bug 89219, fixed in 10c82c6c5fc415d323a5e9c6acdc6a4c85d6b712
