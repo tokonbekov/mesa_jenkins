@@ -255,7 +255,7 @@ class PiglitTester(object):
                 "S2TC_DITHER_MODE" : "NONE",
 
                 # In the event of a piglit related bug, we want the backtrace
-                "PIGLIT_DEBUG": 1,
+                "PIGLIT_DEBUG": "1",
         }
 
     def test(self):
