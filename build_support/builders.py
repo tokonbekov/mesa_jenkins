@@ -252,7 +252,10 @@ class PiglitTester(object):
                 # fixes dxt subimage tests that fail due to a
                 # combination of unreasonable tolerances and possibly
                 # bugs in debian's s2tc library.  Recommended by nroberts
-                "S2TC_DITHER_MODE" : "NONE"
+                "S2TC_DITHER_MODE" : "NONE",
+
+                # In the event of a piglit related bug, we want the backtrace
+                "PIGLIT_DEBUG": 1,
         }
 
     def test(self):
