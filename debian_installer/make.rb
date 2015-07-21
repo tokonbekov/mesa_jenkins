@@ -45,24 +45,25 @@ def parser
     Generator for mesa-jenkins installer
 
     Usage:
-      make [options] <source>
-    where <source> is the contents of a debian installer
+      make [options]
     where [options] are:
     EOS
 
+    opt(:ia32, 'An i386 image', default: 'nil')
+    opt(:x64, 'an x86-64 image', default: 'nil')
     opt(:filename, 'Where to save the generated iso', default: 'jenkins.iso')
     opt(:write_target, 'Write the iso to a drive if set', default: '/dev/null')
     opt(:debug, 'Run with debug prints', default: false)
   end
 
-  opts = Trollop.with_standard_exception_handling parser do
+  opts = Trollop.with_standard_exception_handling(parser) do
     fail Trollop.HelpNeeded if ARGV.empty? # show help screen
     parser.parse ARGV
   end
 
-  abort 'Error: Only one source may be set' unless parser.leftovers.length == 1
+  opts[:ia32] = nil if opts[:ia32] == 'nil'
 
-  opts[:source] = parser.leftovers[0]
+  abort 'Error: x64 source required' if opts[:x64] == 'nil'
 
   opts
 end
@@ -78,14 +79,27 @@ def make_workdir(opts)
   end
 end
 
-# Copy the contents of the cd into the working directory
-def copy_cd(opts)
-  unless Dir.exist?(opts[:source])
-    abort "Error: No such directory #{opts[:source]}"
+# Mount the cd images
+def mount_cds(opts)
+  FileUtils.mkdir('x64') unless Dir.exist?('x64')
+  system("sudo mount -o loop #{opts[:x64]} x64 &>/dev/null") if Dir['x64/*'].empty?
+
+  if opts[:ia32]
+    FileUtils.mkdir('ia32') unless Dir.exist?('ia32')
+    system("sudo mount -o loop #{opts[:ia32]} ia32 &>/dev/null") if Dir['ia32/*'].empty?
   end
 
+  # Allow the mounts to settle
+  sleep(1)
+
+  abort "Error: #{opts[:x64]} image not mounted" if Dir['x64/*'].empty?
+  abort "Error: #{opts[:ia32]} image not mounted" if opts[:ia32] && Dir['ia32/*'].empty?
+end
+
+# Copy the contents of the cd into the working directory
+def copy_cd
   begin
-    FileUtils.cp_r("#{opts[:source]}/.", 'work')
+    FileUtils.cp_r('x64/.', 'work')
   rescue Errno::EACCES
     abort 'Error: permsission denied while writing to "work"'
   end
@@ -98,7 +112,7 @@ def decompress_initrd(opts)
     abort 'Error: could not remove initrd folder' unless status == true
   end
 
-  unless File.exist?("#{opts[:source]}/install.amd/initrd.gz")
+  unless File.exist?("x64/install.amd/initrd.gz")
     abort 'Error: initrd.gz missing, is the source dir an image?'
   end
 
@@ -106,7 +120,7 @@ def decompress_initrd(opts)
   FileUtils.cd('initrd')
 
   out = opts[:debug] ? '' : '2>/dev/null'
-  status = system("gzip -d < ../#{opts[:source]}/install.amd/initrd.gz | "\
+  status = system('gzip -d < ../x64/install.amd/initrd.gz | '\
                   'sudo cpio --extract --make-directories '\
                   "--no-absolute-filenames #{out}")
   abort 'Error: could not decompress initrd.gz' unless status == true
@@ -140,13 +154,58 @@ def add_finalize
   end
 end
 
+# Build a hybrid grub efi that can boot either ia32 or x64
+def hybrid_grub(opts)
+  return unless opts[:ia32]
+
+  begin
+    FileUtils.cp_r('ia32/boot/grub/i386-efi', 'work/boot/grub')
+  rescue Errno::EACCES
+    abort 'Error: Could not copy i386-efi directory to work directory'
+  end
+
+  # Create a new 100mb efi image, which will contain both x64 and ia32 images
+  File.delete('efi.img') if File.exist?('efi.img')
+  FileUtils.mkdir('efi_temp') unless Dir.exist?('efi_temp')
+
+  command = 'sudo dd if=/dev/zero of=efi.img bs=1k count=100000'
+  command += ' &>/dev/null' unless opts[:debug]
+  system(command)
+
+  command = 'sudo mkfs.vfat efi.img'
+  command += ' &>/dev/null' unless opts[:debug]
+  system(command)
+
+  system('sudo mount -o loop efi.img efi_temp')
+  system('sudo mkdir -p efi_temp/efi/boot')
+
+  # Copy the efi images from both arches
+  FileUtils.mkdir('temp') unless Dir.exist?('temp')
+  %w(x64 ia32).each do |arch|
+    system("sudo mount -o loop #{arch}/boot/grub/efi.img temp")
+    system("sudo cp temp/efi/boot/boot#{arch}.efi efi_temp/efi/boot")
+    system('sudo umount temp')
+  end
+
+  # Cleanup
+  status = system('sudo umount efi_temp')
+  abort 'Error: Temporary efi filesystem not unmounted' unless status == true
+  FileUtils.rm_r('efi_temp')
+  FileUtils.rm_r('temp')
+end
+
 # update bootloader configurations
-def update_boot
+def update_boot(opts)
   FileUtils.rm('work/isolinux/isolinux.cfg')
   FileUtils.cp('isolinux.cfg', 'work/isolinux')
 
   FileUtils.rm('work/boot/grub/grub.cfg')
   FileUtils.cp('grub.cfg', 'work/boot/grub')
+
+  return unless opts[:ia32]
+
+  FileUtils.rm('work/boot/grub/efi.img')
+  FileUtils.cp('efi.img', 'work/boot/grub')
 end
 
 # Regenerate md5 sums
@@ -205,15 +264,23 @@ def write_image(opts)
 end
 
 # Cleanup working directories
-def cleanup
+def cleanup(opts)
   system('sudo rm -rf initrd work')
+  system('sudo umount x64')
+  FileUtils.rm_r('x64')
+
+  return unless opts[:ia32]
+
+  system('sudo umount ia32')
+  FileUtils.rm_r('ia32')
 end
 
 # Make the installer
 def make_installer(opts)
   print 'Creating working directory... '
   make_workdir(opts)
-  copy_cd(opts)
+  mount_cds(opts)
+  copy_cd
   puts 'done'
 
   print 'Regenerateing initrd image... '
@@ -227,7 +294,8 @@ def make_installer(opts)
   puts 'done'
 
   print 'Updating boot config... '
-  update_boot
+  hybrid_grub(opts)
+  update_boot(opts)
   puts 'done'
 
   print 'Regenerating md5sums... '
@@ -248,7 +316,7 @@ def make_installer(opts)
 
   if opts[:debug] == false
     print 'Cleaning up temporary files... '
-    cleanup
+    cleanup(opts)
     puts 'done'
   else
     puts 'Debug enabled, not cleaning up temporary files'
