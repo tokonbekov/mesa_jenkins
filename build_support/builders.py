@@ -337,12 +337,13 @@ class PiglitTester(object):
         # Bug 90407
         exclude_tests = exclude_tests + ["shaders.glsl-fs-vec4-indexing-temp-dst",
                                          "shaders.glsl-fs-vec4-indexing-temp-src-in-nested-loop-outer"]
-        
-        # this occured intermittently on hsw, ivb and others 2/19 -
-        # 2/23.  Bisect takes 3 minutes to run the test.  It is very
-        # infrequent.
-        # Matt improved the runtime of this test by 80%
-        # exclude_tests = ["ext_transform_feedback.max-varyings"]
+
+        # TODO: bisect these intermittent failures and write bugs
+        exclude_tests = exclude_tests + ["arb_separate_shader_objects.validateprogrampipeline",
+                                         "glsl-1_50.execution.geometry.clip-distance",
+                                         "glsl-1_50.execution.gs-redeclares-pervertex-out-only",
+                                         "glsl-1_50.execution.redeclare-pervertex-subset-vs-to-gs",
+                                         "glsl-1_50.transform-feedback-type-and-size"]
 
         if "snb" in hardware:
             # hangs snb
