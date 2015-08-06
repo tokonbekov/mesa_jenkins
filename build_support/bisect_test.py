@@ -289,7 +289,14 @@ class PiglitTest:
 
     def Passed(self, result_path, rev):
         # returns true if the piglit test passed at the specified result_path
-        test_result = "/".join([result_path, "test", self.project + "_" +
+        base_name = self.project
+
+        # not all result xmls are named by the project name.  Jenkins
+        # results handling requires the filename to match piglit*xml,
+        # so deqp-test names files "piglit-deqp.*.xml"
+        if self.project == "deqp-test":
+            base_name = "piglit-deqp"
+        test_result = "/".join([result_path, "test", base_name + "_" +
                                 self.hardware + "_" + self.arch + ".xml"])
         iteration = 0
         while not os.path.exists(test_result):
