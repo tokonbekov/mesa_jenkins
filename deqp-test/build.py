@@ -237,10 +237,15 @@ class DeqpBuilder:
         if os.path.exists(out_dir + "/results.xml"):
             # Uniquely name all test files in one directory, for
             # jenkins
+            filename_components = ["/piglit-deqp",
+                                   o.hardware,
+                                   o.arch]
+            if o.shard != "0":
+                # only put the shard suffix on for non-zero shards.
+                # Having _0 suffix interferes with bisection.
+                filename_components.append(o.shard)
             cmd = ["cp", "-a", "-n", out_dir + "/results.xml",
-                              single_out_dir + "_".join(["/" + "piglit-deqp",
-                                                         o.hardware,
-                                                         o.arch, o.shard]) + ".xml"]
+                              single_out_dir + "_".join(filename_components) + ".xml"]
             bs.run_batch_command(cmd)
 
             # create a copy of the test xml in the source root, where
