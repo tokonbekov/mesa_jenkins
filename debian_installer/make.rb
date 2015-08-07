@@ -54,6 +54,7 @@ def parser
     opt(:filename, 'Where to save the generated iso', default: 'jenkins.iso')
     opt(:write_target, 'Write the iso to a drive if set', default: '/dev/null')
     opt(:debug, 'Run with debug prints', default: false)
+    opt(:cleanup, 'cleanup after finishing', default: false)
   end
 
   opts = Trollop.with_standard_exception_handling(parser) do
@@ -314,12 +315,12 @@ def make_installer(opts)
     puts 'No write target specified, not writing to disk'
   end
 
-  if opts[:debug] == false
+  if opts[:cleanup]
     print 'Cleaning up temporary files... '
     cleanup(opts)
     puts 'done'
   else
-    puts 'Debug enabled, not cleaning up temporary files'
+    puts 'Cleanup disabled, not cleaning up temporary files'
   end
 end
 
