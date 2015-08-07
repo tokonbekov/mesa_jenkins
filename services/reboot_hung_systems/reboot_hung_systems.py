@@ -482,8 +482,7 @@ class HangReboot(Daemon):
     def __init__(self, pidfile, stdin='/dev/null',
                  stdout='/dev/null', stderr='/dev/null'):
         Daemon.__init__(self, pidfile, stdin, stdout, stderr)
-        self.systems = { "otc-gfxtest-byt-01.local" : 0,
-                         "otc-gfxtest-byt-02.local" : 1,
+        self.systems = { "otc-gfxtest-byt-06.local" : 0,
                          "otc-gfxtest-sklgt2-01.local" : 2,
                          "otc-gfxtest-sklgt2-02.local" : 3 }
 
