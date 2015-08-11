@@ -376,7 +376,9 @@ class PiglitTester(object):
             exclude_tests = exclude_tests + ["variable-indexing.vs-output-array-vec4-index-wr-before-gs"]
 
             # bug: 91298
-            exclude_tests = exclude_tests + ['piglit.spec.arb_shader_atomic_counters.unused-result']
+            exclude_tests = exclude_tests + ['piglit.spec.arb_shader_atomic_counters.unused-result',
+                                             # bug 91611
+                                             "arb_shader_image_load_store.execution.basic-imagestore-from-uniform"]
         
         if "byt" in hardware:
             # bug 89219, fixed in 10c82c6c5fc415d323a5e9c6acdc6a4c85d6b712
@@ -391,7 +393,10 @@ class PiglitTester(object):
         if "bsw" in hardware:
             # TODO: write bug
             exclude_tests = exclude_tests + ["glsl-3_30.execution.built-in-functions.fs-floatbitstouint",
-                                             "shaders.point-vertex-id.gl_instanceid.divisor"]
+                                             # bug 91610
+                                             "shaders.point-vertex-id.gl_instanceid.divisor",
+                                             # bug 91611
+                                             "arb_shader_image_load_store.execution.basic-imagestore-from-uniform"]
 
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
