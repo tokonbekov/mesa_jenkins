@@ -390,7 +390,8 @@ class PiglitTester(object):
 
         if "bsw" in hardware:
             # TODO: write bug
-            exclude_tests = exclude_tests + ["glsl-3_30.execution.built-in-functions.fs-floatbitstouint"]
+            exclude_tests = exclude_tests + ["glsl-3_30.execution.built-in-functions.fs-floatbitstouint",
+                                             "shaders.point-vertex-id.gl_instanceid.divisor"]
 
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
