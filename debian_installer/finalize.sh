@@ -143,6 +143,7 @@ sed -i -e 's!^server!#server!g' /etc/ntp.conf
 sed -i -e 's!#server ntp.your-provider.example!server amr.corp.intel.com!g' /etc/ntp.conf
 
 # use ntp to set the clock, force it to set the time
+# TODO: replace ntp with systemd-timesyncd
 systemctl stop ntp
 ntpd -gq
 
@@ -150,9 +151,10 @@ ntpd -gq
 su jenkins -c 'ccache -M 10G'
 
 # Allow jenkins to reboot the machine
-echo -e "jenkins\tALL=(ALL:ALL) /sbin/reboot, NOPASSWD: /sbin/reboot\n" >> /etc/sudoers
+echo -e "jenkins   ALL=(root:root) NOPASSWD: /sbin/reboot\n" >> /etc/sudoers.d/10_jenkins_reboot
 
 # fix logind to not turn off the display when the lid is closed
+# TODO: in later systemds this could be put in /etc/systemd/login.conf.d/lid.conf
 sed -i -e 's!^#HandleLidSwitch=.*!HandleLidSwitch=ignore!g' /etc/systemd/logind.conf
 
 # enable user namespaces, so we can unshare bind mounts in /tmp.  This
