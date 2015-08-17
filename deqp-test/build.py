@@ -194,15 +194,15 @@ class DeqpBuilder:
         self.env["PIGLIT_DEQP_GLES2_BIN"] = self.build_root + "/opt/deqp/modules/gles2/deqp-gles2"
         self.env["PIGLIT_DEQP_GLES2_EXTRA_ARGS"] =  ("--deqp-surface-type=fbo "
                                                      "--deqp-log-images=disable "
-                                                     '--deqp-surface-width=100 '
-                                                     '--deqp-surface-height=100 '
+                                                     '--deqp-surface-width=256 '
+                                                     '--deqp-surface-height=256 '
                                                      "--deqp-caselist-file=" +
                                                      self.build_root + "/opt/deqp/modules/gles2/gles2-cases.txt")
         self.env["PIGLIT_DEQP_GLES3_EXE"] = self.build_root + "/opt/deqp/modules/gles3/deqp-gles3"
         self.env["PIGLIT_DEQP_GLES3_EXTRA_ARGS"] = ("--deqp-surface-type=fbo "
                                                     "--deqp-log-images=disable "
-                                                    '--deqp-surface-width=100 '
-                                                    '--deqp-surface-height=100 '
+                                                    '--deqp-surface-width=256 '
+                                                    '--deqp-surface-height=256 '
                                                     "--deqp-caselist-file=" +
                                                     self.build_root + "/opt/deqp/modules/gles3/gles3-cases.txt")
         out_dir = self.build_root + "/test/" + o.hardware
