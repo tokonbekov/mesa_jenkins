@@ -484,7 +484,8 @@ class HangReboot(Daemon):
         Daemon.__init__(self, pidfile, stdin, stdout, stderr)
         self.systems = { "otc-gfxtest-byt-06.local" : 0,
                          "otc-gfxtest-sklgt2-01.local" : 2,
-                         "otc-gfxtest-sklgt2-02.local" : 3 }
+                         "otc-gfxtest-sklgt2-02.local" : 3,
+                         "otc-gfxtest-sklgt2-02.local" : 7}
 
         self.hangs = []
         self.switch = PowerSwitch(hostname="192.168.1.2",
@@ -516,7 +517,7 @@ class HangReboot(Daemon):
                         print("rebooting system: " + system)
                         self.reboot(system)
                 self.hangs = []
-                time.sleep(120)
+                time.sleep(360)
 
             for system in self.systems.keys():
                 if not self.ping(system):
