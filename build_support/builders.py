@@ -345,6 +345,9 @@ class PiglitTester(object):
                                          "glsl-1_50.execution.redeclare-pervertex-subset-vs-to-gs",
                                          "glsl-1_50.transform-feedback-type-and-size"]
 
+        # Bug 91718
+        exclude_tests = exclude_tests + ["arb_image_load_store"]
+
         if "snb" in hardware:
             # hangs snb
             exclude_tests = exclude_tests + ["triangle_strip_adjacency"]
