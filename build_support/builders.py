@@ -346,7 +346,7 @@ class PiglitTester(object):
                                          "glsl-1_50.transform-feedback-type-and-size"]
 
         # Bug 91718
-        exclude_tests = exclude_tests + ["arb_image_load_store"]
+        exclude_tests = exclude_tests + ["arb_image_load_store.invalid"]
 
         if "snb" in hardware:
             # hangs snb
