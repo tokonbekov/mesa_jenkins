@@ -345,15 +345,13 @@ class PiglitTester(object):
                                          "glsl-1_50.execution.redeclare-pervertex-subset-vs-to-gs",
                                          "glsl-1_50.transform-feedback-type-and-size"]
 
-        # Bug 91718
-        exclude_tests = exclude_tests + ["arb_image_load_store.invalid"]
-
         if "snb" in hardware:
             # hangs snb
             exclude_tests = exclude_tests + ["triangle_strip_adjacency"]
             
         if "ivb" in hardware:
-            pass
+            # Bug 91718
+            exclude_tests = exclude_tests + ["arb_image_load_store.invalid"]
 
         if "hsw" in hardware:
             # intermittent on haswell bug 89219 fixed in 10c82c6c5fc415d323a5e9c6acdc6a4c85d6b712
@@ -381,7 +379,8 @@ class PiglitTester(object):
             # bug: 91298
             exclude_tests = exclude_tests + ['piglit.spec.arb_shader_atomic_counters.unused-result',
                                              # bug 91611
-                                             "arb_shader_image_load_store.execution.basic-imagestore-from-uniform"]
+                                             "arb_shader_image_load_store.execution.basic-imagestore-from-uniform",
+                                             "arb_shader_image_load_store.host-mem-barrier"]
         
         if "byt" in hardware:
             # bug 89219, fixed in 10c82c6c5fc415d323a5e9c6acdc6a4c85d6b712
@@ -399,7 +398,8 @@ class PiglitTester(object):
                                              # bug 91610
                                              "shaders.point-vertex-id.gl_instanceid.divisor",
                                              # bug 91611
-                                             "arb_shader_image_load_store.execution.basic-imagestore-from-uniform"]
+                                             "arb_shader_image_load_store.execution.basic-imagestore-from-uniform",
+                                             "arb_shader_image_load_store.host-mem-barrier"]
 
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
