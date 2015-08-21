@@ -63,6 +63,8 @@ spec_xml = bs.ProjectMap().build_spec()
 results_dir = spec_xml.find("build_master").attrib["results_dir"]
 hashstr = _revspec.to_cmd_line_param().replace(" ", "_")
 bisect_dir = results_dir + "/bisect/" + hashstr
+cmd = ["rsync", "-rlptD", "/".join(dirnames[:-1]) +"/", bisect_dir]
+bs.run_batch_command(cmd)
 bs.rmtree(bisect_dir + "/test")
 bs.rmtree(bisect_dir + "/piglit-test")
 bs.rmtree(bisect_dir + "/deqp-test")
