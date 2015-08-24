@@ -86,7 +86,7 @@
     <project name="deqp-full">
       <prerequisite name="deqp-test"
                     arch="m64"
-                    hardware="hsw,snb,bdw,byt"
+                    hardware="hsw,snb,bdw,byt,bsw"
                     shard="5"/>
     </project>
 
