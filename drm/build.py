@@ -7,7 +7,7 @@ import build_support as bs
 
 class DrmBuilder(bs.AutoBuilder):
     def __init__(self):
-        bs.AutoBuilder.__init__(self)
+        bs.AutoBuilder.__init__(self, configure_options=["LDFLAGS=-lm"])
 
     def test(self):
         # libdrm now has a 2-minute long test, which is too long to
