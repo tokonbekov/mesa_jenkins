@@ -152,10 +152,11 @@ class DeqpBuilder:
         for module in ["gles2", "gles3"]:
             skip = DeqpTrie()
             # for each skip list, parse into skip trie
-            for askipfile in os.listdir(expectations_dir):
-                if module not in askipfile.lower():
-                    continue
-                skip.add_txt(expectations_dir + "/" + askipfile)
+            if os.path.exists(expectations_dir):
+                for askipfile in os.listdir(expectations_dir):
+                    if module not in askipfile.lower():
+                        continue
+                    skip.add_txt(expectations_dir + "/" + askipfile)
 
             # create test trie
             os.chdir(self.build_root + "/opt/deqp/modules/" + module)
