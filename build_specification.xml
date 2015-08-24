@@ -80,7 +80,7 @@
       <prerequisite name="piglit-test"
                     arch="m64,m32"
                     hardware="ilk,g45,snb,ivb,hsw,bsw,byt,g965,bdw,g33,skl"/>
-      <prerequisite name="deqp-test" arch="m64" hardware="hsw,snb,bdw,byt"/>
+      <prerequisite name="deqp-test" arch="m64" hardware="hsw,snb,bdw,byt,bsw"/>
     </project>
 
     <project name="deqp-full">
