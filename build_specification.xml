@@ -203,7 +203,7 @@
       <mesa branch="origin/10.6"/>
     </branch>
 
-    <branch name="jekstrand" project="test-single-arch">
+    <branch name="jekstrand" project="test-single-arch-skl">
       <mesa branch="jekstrand/jenkins"/>
     </branch>
 
