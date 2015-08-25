@@ -134,6 +134,7 @@
 
     <drm repo="git://anongit.freedesktop.org/mesa/drm">
       <remote name="aphogat" repo="git://github.com/aphogat/drm"/>
+      <remote name="janesma" repo="git://github.com/janesma/drm"/>
     </drm>
 
     <piglit repo="git://anongit.freedesktop.org/piglit">
