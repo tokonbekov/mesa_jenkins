@@ -72,7 +72,7 @@
     <!-- this is used for ben's percheckin build -->
     <project name="test-single-arch-skl">
       <prerequisite name="test-single-arch"/>
-      <prerequisite name="piglit-test" hardware="skl"/>
+      <prerequisite name="piglit-test" hardware="skl,bsw"/>
     </project>
 
     <!-- for bisecting failures -->
