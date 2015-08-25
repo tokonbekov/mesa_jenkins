@@ -349,7 +349,7 @@ class PiglitTester(object):
             # hangs snb
             exclude_tests = exclude_tests + ["triangle_strip_adjacency"]
             
-        if "ivb" in hardware:
+        if "ivb" in hardware or "byt" in hardware:
             # Bug 91718
             exclude_tests = exclude_tests + ["arb.shader.image.load.store.invalid"]
 
