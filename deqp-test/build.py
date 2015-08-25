@@ -146,6 +146,8 @@ class DeqpBuilder:
             expectations_dir = src_dir + "/chromiumos-autotest/graphics_dEQP/expectations/ivybridge"
         elif "snb" in o.hardware:
             expectations_dir = src_dir + "/chromiumos-autotest/graphics_dEQP/expectations/sandybridge"
+        elif "bsw" in o.hardware:
+            expectations_dir = pm.project_build_dir(pm.current_project()) + "/bsw_expectations"
 
         conf_file = bs.get_conf_file(o.hardware, o.arch, "deqp-test")
 
