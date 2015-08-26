@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-
+import os
 import os.path as path
 import subprocess
 import sys
@@ -38,9 +38,12 @@ def main():
     # builder = bs.AutoBuilder(configure_options=options, export=False)
     builder = NoTest(configure_options=options)
 
+    save_dir = os.getcwd()
     try:
         bs.build(builder)
     except subprocess.CalledProcessError as e:
+        # build may have taken us to a place where ProjectMap doesn't work
+        os.chdir(save_dir)  
         bs.Export().create_failing_test("mesa-buildtest", str(e))
 
 if __name__ == '__main__':

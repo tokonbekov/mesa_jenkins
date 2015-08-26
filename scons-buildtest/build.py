@@ -3,7 +3,6 @@
 import sys
 import os
 import os.path as path
-import multiprocessing
 import subprocess
 sys.path.append(path.join(path.dirname(path.abspath(sys.argv[0])), ".."))
 import build_support as bs
@@ -35,9 +34,12 @@ class SconsBuilder(object):
         
 def main():
     b = SconsBuilder()
+    save_dir = os.getcwd()
     try:
         bs.build(b)
     except subprocess.CalledProcessError as e:
+        # build may have taken us to a place where ProjectMap doesn't work
+        os.chdir(save_dir)  
         bs.Export().create_failing_test("mesa-scons-buildtest", str(e))
 
 if __name__ == '__main__':
