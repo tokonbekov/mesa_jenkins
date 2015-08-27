@@ -135,8 +135,9 @@ class AutoBuilder(object):
         except(subprocess.CalledProcessError):
             print "WARN: make check failed"
             os.chdir(savedir)
-            Export().create_failing_test(self._project +
-                                         "-make-check-failure", "")
+            # bug 91773
+            # Export().create_failing_test(self._project +
+            #                              "-make-check-failure", "")
         os.chdir(savedir)
 
         if self._tests:
