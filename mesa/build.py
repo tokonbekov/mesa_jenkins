@@ -47,7 +47,8 @@ def main():
               "src/glsl/tests/sampler-types-test",
               "src/glsl/tests/uniform-initializer-test",
               "src/glx/tests/glx-test",
-              "src/mesa/main/tests/main-test",
+              # bug 91773
+              # "src/mesa/main/tests/main-test",
               "src/mesa/drivers/dri/i965/test_vec4_copy_propagation",
               "src/mesa/drivers/dri/i965/test_vec4_register_coalesce",
               "./src/mapi/shared-glapi-test"]
