@@ -5,6 +5,7 @@ import ast
 import time
 import sys
 import signal
+import git
 import xml.sax.saxutils
 
 if __name__=="__main__":
@@ -118,15 +119,18 @@ class Jenkins:
         project_invoke.set_info("url", "")
         self._jobs.append(project_invoke)
 
-        url = "{0}/buildWithParameters?token=xyzzy&build_support_branch=origin/master&{1}&branch={2}".format(
+        # use the current build_support branch on the component builds
+        r = git.Repo(os.getcwd())
+        bs_branch = r.commit().hexsha
+        url = "{0}/buildWithParameters?token=xyzzy&{1}&branch={2}&build_support_branch={3}".format(
             self._job_url,
             self._jenkins_params(project_invoke),
-            branch
+            branch,
+            bs_branch
         )
-
         if extra_arg:
             url = url + "&extra_arg=" + urllib2.quote(extra_arg)
-            
+
         f = self._reliable_url_open(url)
         f.read()
         return True
