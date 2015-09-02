@@ -396,8 +396,6 @@ class PiglitTester(object):
         if "bsw" in hardware:
             # TODO: write bug
             exclude_tests = exclude_tests + ["glsl-3_30.execution.built-in-functions.fs-floatbitstouint",
-                                             # bug 91610
-                                             "shaders.point-vertex-id.gl_instanceid.divisor",
                                              # bug 91611
                                              "arb_shader_image_load_store.execution.basic-imagestore-from-uniform",
                                              "arb_shader_image_load_store.host-mem-barrier"]
