@@ -66,6 +66,7 @@
       <prerequisite name="piglit-cpu-test" hardware="fastgpu"/>
       <prerequisite name="scons-buildtest" hardware="builder" arch="m64"/>
       <prerequisite name="mesa-buildtest" hardware="builder"/>
+      <prerequisite name="deqp-test" hardware="bdwgt3e" arch="m64" shard="2"/>
       <prerequisite only_for_type="daily" name="deqp-full"/>
     </project>
 
