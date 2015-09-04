@@ -306,6 +306,7 @@
     
     <branch name="ickle" project="test-single-arch">
       <mesa branch="ickle/jenkins"/>
+      <deqp branch="chadv/chadv"/>
     </branch>
 
   </branches>
