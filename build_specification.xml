@@ -131,6 +131,7 @@
       <remote name="cwabbott0" repo="git://people.freedesktop.org/~cwabbott0/mesa"/>
       <remote name="bpeel" repo="git://github.com/bpeel/mesa"/>
       <remote name="chadv" repo="git://github.com/chadversary/mesa"/>
+      <remote name="ickle" repo="git://people.freedesktop.org/~ickle/mesa"/>
     </mesa>
 
     <drm repo="git://anongit.freedesktop.org/mesa/drm">
@@ -301,6 +302,10 @@
     <branch name="bpeel" project="test-single-arch">
       <mesa branch="bpeel/jenkins"/>
       <deqp branch="chadv/chadv"/>
+    </branch>
+    
+    <branch name="ickle" project="test-single-arch">
+      <mesa branch="ickle/jenkins"/>
     </branch>
 
   </branches>
