@@ -392,6 +392,8 @@ class PiglitTester(object):
             # hard hangs skl
             exclude_tests = exclude_tests + ["fbo-depth-array"]
             exclude_tests = exclude_tests + ["ext_framebuffer_multisample.no-color"]
+            # intermittent, bug 91926
+            exclude_tests = exclude_tests + ["spec.arb_pixel_buffer_object.texsubimage.pbo"]
 
         if "bsw" in hardware:
             # TODO: write bug
