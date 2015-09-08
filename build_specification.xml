@@ -58,6 +58,7 @@
       <prerequisite only_for_type="daily" name="deqp-full"/>
       <prerequisite name="piglit-cpu-test" hardware="fastgpu" arch="m64,m32"/>
       <prerequisite name="mesa-buildtest" hardware="builder" arch="m64"/>
+      <prerequisite name="deqp-test" hardware="bdwgt3e" arch="m64" shard="2"/>
     </project>
 
     <project name="test-single-arch">
@@ -87,7 +88,7 @@
     <project name="deqp-full">
       <prerequisite name="deqp-test"
                     arch="m64"
-                    hardware="hsw,snb,bdw,byt,bsw"
+                    hardware="hsw,snb,byt,bsw"
                     shard="5"/>
     </project>
 
