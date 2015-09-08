@@ -209,105 +209,105 @@
 
     <branch name="jekstrand" project="test-single-arch-skl">
       <mesa branch="jekstrand/jenkins"/>
-      <deqp branch="chadv/chadv"/>
+      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
     <branch name="kwg" project="test-single-arch">
       <mesa branch="kwg/jenkins"/>
-      <deqp branch="chadv/chadv"/>
+      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
     <branch name="krh" project="test-single-arch">
       <mesa branch="krh/jenkins"/>
-      <deqp branch="chadv/chadv"/>
+      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
     <branch name="bwidawsk" project="test-single-arch-skl">
       <mesa branch="bwidawsk/jenkins"/>
       <!-- <piglit branch="bwidawsk/jenkins"/> -->
-      <deqp branch="chadv/chadv"/>
+      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
     <branch name="idr" project="test-single-arch">
       <mesa branch="idr/jenkins"/>
-      <deqp branch="chadv/chadv"/>
+      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
     <branch name="mattst88" project="test-single-arch">
       <mesa branch="mattst88/jenkins"/>
-      <deqp branch="chadv/chadv"/>
+      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
     <branch name="majanes" project="test-single-arch">
       <mesa branch="janesma/jenkins"/>
-      <deqp branch="chadv/chadv"/>
+      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
     <branch name="dcbaker" project="test-single-arch">
       <piglit branch="dcbaker/jenkins"/>
       <mesa branch="dcbaker/jenkins"/>
-      <deqp branch="chadv/chadv"/>
+      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
     <branch name="chadv" project="test-single-arch">
       <mesa branch="origin/10.3"/>
       <waffle branch="chadv/jenkins"/>
-      <deqp branch="chadv/chadv"/>
+      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
     <branch name="cworth" project="test-single-arch">
       <mesa branch="cworth/jenkins"/>
-      <deqp branch="chadv/chadv"/>
+      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
     <branch name="jljusten" project="test-single-arch">
       <mesa branch="jljusten/jenkins"/>
-      <deqp branch="chadv/chadv"/>
+      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
     <branch name="mperes" project="test-single-arch">
       <mesa branch="mperes/jenkins"/>
-      <deqp branch="chadv/chadv"/>
+      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
     <branch name="tpalli" project="test-single-arch">
       <mesa branch="tpalli/jenkins"/>
-      <deqp branch="chadv/chadv"/>
+      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
     <branch name="curro" project="test-single-arch">
       <mesa branch="curro/jenkins"/>
-      <deqp branch="chadv/chadv"/>
+      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
     <branch name="aphogat" project="test-single-arch">
       <mesa branch="aphogat/jenkins"/>
-      <deqp branch="chadv/chadv"/>
+      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
     <branch name="tpohjola" project="test-single-arch">
       <mesa branch="tpohjola/jenkins"/>
-      <deqp branch="chadv/chadv"/>
+      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
     <branch name="nchery" project="test-single-arch">
       <mesa branch="nchery/jenkins"/>
-      <deqp branch="chadv/chadv"/>
+      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
     <branch name="cwabbott0" project="test-single-arch">
       <mesa branch="cwabbott0/jenkins"/>
-      <deqp branch="chadv/chadv"/>
+      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
     <branch name="bpeel" project="test-single-arch">
       <mesa branch="bpeel/jenkins"/>
-      <deqp branch="chadv/chadv"/>
+      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
     
     <branch name="ickle" project="test-single-arch">
       <mesa branch="ickle/jenkins"/>
-      <deqp branch="chadv/chadv"/>
+      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
   </branches>
