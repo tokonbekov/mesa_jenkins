@@ -260,11 +260,6 @@
       <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
-    <branch name="cworth" project="test-single-arch">
-      <mesa branch="cworth/jenkins"/>
-      <deqp branch="chadv/chadv" trigger="false"/>
-    </branch>
-
     <branch name="jljusten" project="test-single-arch">
       <mesa branch="jljusten/jenkins"/>
       <deqp branch="chadv/chadv" trigger="false"/>
