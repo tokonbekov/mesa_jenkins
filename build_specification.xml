@@ -203,6 +203,11 @@
       <mesa branch="origin/10.5"/>
     </branch>
 
+    <branch name="mesa_11.0" project="all-test">
+      <mesa branch="origin/11.0"/>
+      <deqp branch="chadv/chadv" trigger="false"/>
+    </branch>
+
     <branch name="mesa_10.6" project="all-test">
       <mesa branch="origin/10.6"/>
     </branch>
