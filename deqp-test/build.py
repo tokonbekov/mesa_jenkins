@@ -179,7 +179,9 @@ class DeqpBuilder:
             # TODO(janesma) : write bug
             skips = ["functional.fragment_ops.interaction.basic_shader",
                      "functional.shaders.random.basic_expression.combined",
-                     "functional.shaders.random.conditionals.combined" 
+                     "functional.shaders.random.conditionals.combined",
+                     # fails intermittently on at least bdw and hsw
+                     "functional.flush_finish.flush"
                      ]
             intermittent = DeqpTrie()
             for skip in skips:
