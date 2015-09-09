@@ -91,7 +91,7 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>http://github.com/janesma/mesa_jenkins.git</url>
+        <url>git://otc-mesa-ci.local/git/mesa_jenkins/origin</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -118,8 +118,7 @@ rm -rf /tmp/build_root
 python scripts/checkout_revision_spec.py ${revision}
 export http_proxy=http://proxy.jf.intel.com:911
 unset revision
-python ${project}/build.py --arch ${arch} --result_path ${result_path} --config ${config} --type ${type} --hardware ${hardware} --action clean,build,test ${extra_arg}</command>
-    </hudson.tasks.Shell>
+python ${project}/build.py --arch ${arch} --result_path ${result_path} --config ${config} --type ${type} --hardware ${hardware} --action clean,build,test ${extra_arg}</command>git://otc-mesa-ci.local/git/mesa_jenkins/origin</hudson.tasks.Shell>
   </builders>
   <publishers>
     <hudson.plugins.warnings.WarningsPublisher plugin="warnings@4.41">

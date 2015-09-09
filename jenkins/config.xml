@@ -121,8 +121,8 @@
         <string>chadv</string>
         <string>curro</string>
         <string>cwabbott0</string>
-        <string>cworth</string>
         <string>dcbaker</string>
+        <string>ickle</string>
         <string>idr</string>
         <string>jekstrand</string>
         <string>jljusten</string>
@@ -159,10 +159,10 @@
       <properties class="hudson.model.View$PropertyList"/>
       <jobNames>
         <comparator class="hudson.util.CaseInsensitiveComparator" reference="../../../listView/jobNames/comparator"/>
-        <string>mesa_10.5</string>
-        <string>mesa_10.5_daily</string>
         <string>mesa_10.6</string>
         <string>mesa_10.6_daily</string>
+        <string>mesa_11.0</string>
+        <string>mesa_11.0_daily</string>
         <string>mesa_custom</string>
         <string>mesa_master</string>
         <string>mesa_master_daily</string>

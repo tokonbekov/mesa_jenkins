@@ -40,7 +40,7 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>https://github.com/janesma/mesa_jenkins.git</url>
+        <url>git://otc-mesa-ci.local/git/mesa_jenkins/origin</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>

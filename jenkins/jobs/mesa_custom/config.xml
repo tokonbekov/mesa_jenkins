@@ -50,6 +50,8 @@
             <a class="string-array">
               <string>test-single-arch</string>
               <string>all-test</string>
+              <string>crucible</string>
+              <string>crucible-test</string>
               <string>piglit-test</string>
               <string>piglit-cpu-test</string>
               <string>mesa</string>
@@ -84,6 +86,7 @@
               <string>bsw</string>
               <string>builder</string>
               <string>sklgt2</string>
+              <string>bdwgt3e</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>

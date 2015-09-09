@@ -13,7 +13,7 @@
     <maxNumRetries>0</maxNumRetries>
     <retryWaitTime>0</retryWaitTime>
   </launcher>
-  <label>bdw bdwgt2</label>
+  <label>dbdw dbdwgt2</label>
   <nodeProperties/>
   <userId>majanes</userId>
 </slave>
