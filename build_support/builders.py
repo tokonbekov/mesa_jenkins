@@ -468,6 +468,9 @@ class PiglitTester(object):
         self.check_gpu_hang()
 
     def filter_tests(self, revisions, infile, outfile):
+        """this functionality has been duplicated in deqp-test/build.py.  If
+        it needs to change, then either change it everywhere or refactor out
+        the duplication."""
         t = ET.parse(infile)
         r = t.getroot()
         for a_suite in t.findall("testsuite"):

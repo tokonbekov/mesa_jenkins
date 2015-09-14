@@ -251,9 +251,12 @@ class DeqpBuilder:
                 # only put the shard suffix on for non-zero shards.
                 # Having _0 suffix interferes with bisection.
                 filename_components.append(o.shard)
-            cmd = ["cp", "-a", "-n", out_dir + "/results.xml",
-                              single_out_dir + "_".join(filename_components) + ".xml"]
-            bs.run_batch_command(cmd)
+
+            revisions = RepoSet().branch_missing_revisions()
+            print "INFO: filtering tests from " + out_dir + "/results.xml"
+            self.filter_tests(revisions,
+                              out_dir + "/results.xml",
+                              single_out_dir + "_".join(filename_components) + ".xml")
 
             # create a copy of the test xml in the source root, where
             # jenkins can access it.
@@ -288,6 +291,33 @@ class DeqpBuilder:
         caselist_fh = open(caselist_fn, "w")
         for a_test in shard_tests:
             caselist_fh.write(a_test)
+
+    def filter_tests(self, revisions, infile, outfile):
+        """this method is ripped bleeding from builders.py / PiglitTester"""
+        t = ET.parse(infile)
+        for a_suite in t.findall("testsuite"):
+            # remove skipped tests, which uses ram on jenkins when
+            # displaying and provides no value.  
+            for a_skip in a_suite.findall("testcase/skipped/.."):
+                if a_skip.attrib["status"] in ["crash", "fail"]:
+                    continue
+                a_suite.remove(a_skip)
+
+            # for each failure, see if there is an entry in the config
+            # file with a revision that was missed by a branch
+            for afail in a_suite.findall("testcase/failure/..") + a_suite.findall("testcase/error/.."):
+                piglit_test = bs.PiglitTest("foo", "foo", afail)
+                regression_revision = piglit_test.GetConfRevision()
+                abbreviated_revisions = [a_rev[:6] for a_rev in revisions]
+                for abbrev_rev in abbreviated_revisions:
+                    if abbrev_rev in regression_revision:
+                        print "stripping: " + piglit_test.test_name + " " + regression_revision
+                        a_suite.remove(afail)
+                        # a test may match more than one revision
+                        # encoded in a comment
+                        break
+                
+        t.write(outfile)
 
 class SlowTimeout:
     def __init__(self):
