@@ -252,7 +252,7 @@ class DeqpBuilder:
                 # Having _0 suffix interferes with bisection.
                 filename_components.append(o.shard)
 
-            revisions = RepoSet().branch_missing_revisions()
+            revisions = bs.RepoSet().branch_missing_revisions()
             print "INFO: filtering tests from " + out_dir + "/results.xml"
             self.filter_tests(revisions,
                               out_dir + "/results.xml",
