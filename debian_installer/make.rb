@@ -24,9 +24,10 @@ require 'trollop'
 
 # Helper for setting the ISOLINUX constant
 def _set_isolinux
-  ['/usr/share/syslinux/isohdpfx.bin', '/usr/lib/ISOLINUX/isohdpfx.bin'].each do |b|
-    return b if File.exist?(b)
-  end
+  ['/usr/share/syslinux/isohdpfx.bin',     # Gentoo
+   '/usr/lib/ISOLINUX/isohdpfx.bin',       # Debian
+   '/usr/lib/syslinux/bios/isohdpfx.bin',  # Arch
+  ].each { |b| return b if File.exist?(b) }
   abort 'Error: Missing isohdpfx.bin from isolinux'
 end
 
