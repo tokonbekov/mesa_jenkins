@@ -24,8 +24,10 @@ require 'trollop'
 
 # Helper for setting the ISOLINUX constant
 def _set_isolinux
-  ['/usr/share/syslinux/isohdpfx.bin',
-   '/usr/lib/ISOLINUX/isohdpfx.bin'].each { |b| return b if File.exist?(b) }
+  ['/usr/share/syslinux/isohdpfx.bin', '/usr/lib/ISOLINUX/isohdpfx.bin'].each do |b|
+    return b if File.exist?(b)
+  end
+  abort 'Error: Missing isohdpfx.bin from isolinux'
 end
 
 ISOLINUX = _set_isolinux
@@ -35,7 +37,6 @@ def env_check
   %w(cpio sudo xorriso gzip find md5sum dd sync rm cp).each do |bin|
     abort "Error: requires #{bin} binary" unless system("which #{bin} >/dev/null")
   end
-  abort 'Error: Missing isohdpfx.bin from isolinux' unless File.exist?(ISOLINUX)
 end
 
 # Parse command line options
