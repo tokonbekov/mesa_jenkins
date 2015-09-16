@@ -149,6 +149,7 @@
       <remote name="bwidawsk" repo="git://people.freedesktop.org/~bwidawsk/piglit"/>
       <remote name="nchery" repo="git://people.freedesktop.org/~nchery/piglit"/>
       <remote name="chadv" repo="git://github.com/chadversary/piglit"/>
+      <remote name="idr" repo="git://people.freedesktop.org/~idr/piglit"/>
     </piglit>
 
     <waffle repo="git://github.com/waffle-gl/waffle">
