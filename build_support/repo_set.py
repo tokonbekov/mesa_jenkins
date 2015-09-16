@@ -96,7 +96,7 @@ class RepoSet:
         self._repos = {}
         # key is project, value is dictionary of remote name => remote object
         self._remotes = {}
-        if type(buildspec) == str:
+        if type(buildspec) == str or type(buildspec) == unicode:
             buildspec = ET.parse(buildspec)
         repo_dir = ProjectMap().source_root() + "/repos"
         repos = buildspec.find("repos")
@@ -224,7 +224,7 @@ class RevisionSpecification:
             self._revisions[p] = rev
 
     def from_string(self, spec):
-        if type(spec) == str:
+        if type(spec) == str or type(spec) == unicode:
             spec = ET.fromstring(spec)
         assert(spec.tag == "RevSpec")
         self._revisions = spec.attrib
@@ -264,7 +264,7 @@ class RepoStatus:
     def __init__(self, buildspec=None):
         if not buildspec:
             buildspec = ProjectMap().build_spec()
-        if type(buildspec) == str:
+        if type(buildspec) == str or type(buildspec) == unicode:
             buildspec = ET.parse(buildspec)
 
         # key is project, value is repo object
@@ -303,7 +303,7 @@ class BuildSpecification:
     def __init__(self, buildspec=None):
         if not buildspec:
             buildspec = ProjectMap().build_spec()
-        if type(buildspec) == str:
+        if type(buildspec) == str or type(buildspec) == unicode:
             buildspec = ET.parse(buildspec)
 
         self._buildspec = buildspec
