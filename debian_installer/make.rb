@@ -57,6 +57,7 @@ def parser
     opt(:write_target, 'Write the iso to a drive if set', default: '/dev/null')
     opt(:debug, 'Run with debug prints', default: false)
     opt(:cleanup, 'cleanup after finishing', default: false)
+    opt(:target_disk, 'the disk to install debian onto', default: 'sda')
   end
 
   opts = Trollop.with_standard_exception_handling(parser) do
@@ -144,8 +145,9 @@ def compress_initrd(opts)
 end
 
 # add files to initrd
-def update_initrd
+def update_initrd(opts)
   FileUtils.cp('jenkins.cfg', 'initrd/preseed.cfg')
+  system("sed -i -e 's!<disk>!#{opts[:target_disk]}!g' initrd/preseed.cfg")
 end
 
 # Add finalize.sh to work
@@ -288,7 +290,7 @@ def make_installer(opts)
 
   print 'Regenerating initrd image... '
   decompress_initrd(opts)
-  update_initrd
+  update_initrd(opts)
   compress_initrd(opts)
   puts 'done'
 
