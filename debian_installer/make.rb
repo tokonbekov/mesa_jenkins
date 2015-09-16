@@ -286,7 +286,7 @@ def make_installer(opts)
   copy_cd
   puts 'done'
 
-  print 'Regenerateing initrd image... '
+  print 'Regenerating initrd image... '
   decompress_initrd(opts)
   update_initrd
   compress_initrd(opts)
