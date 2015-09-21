@@ -19,6 +19,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+#  **********************************************************************/
+#  * Authors:
+#  *   Dylan Baker <dylanx.c.baker@intel.com>
+#  **********************************************************************/
+
 require 'fileutils'
 require 'trollop'
 
