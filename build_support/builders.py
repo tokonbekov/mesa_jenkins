@@ -404,7 +404,7 @@ class PiglitTester(object):
             exclude_tests = exclude_tests + ["variable-indexing.vs-output-array-vec4-index-wr-before-gs"]
 
             # bug: 91298
-            exclude_tests = exclude_tests + ['piglit.spec.arb_shader_atomic_counters.unused-result',
+            exclude_tests = exclude_tests + ['arb_shader_atomic_counters.unused-result',
                                              # bug 91611
                                              "arb_shader_image_load_store.execution.basic-imagestore-from-uniform",
                                              "arb_shader_image_load_store.host-mem-barrier"]
