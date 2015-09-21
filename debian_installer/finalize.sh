@@ -23,6 +23,7 @@
 #  **********************************************************************/
 #  * Authors:
 #  *   Mark Janes <mark.a.janes@intel.com>
+#  *   Dylan Baker <dylanx.c.baker@intel.com>
 #  **********************************************************************/
 
 mkdir -p /etc/salt/minion.d/
