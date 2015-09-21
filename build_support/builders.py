@@ -385,8 +385,9 @@ class PiglitTester(object):
             # exclude_tests = exclude_tests + ["arb_uniform_buffer_object.bufferstorage"]
 
             # bug: 91301
-            exclude_tests = exclude_tests + ["spec.arb_gpu_shader5.arb_gpu_shader5-emitstreamvertex_nodraw"]
-
+            exclude_tests = exclude_tests + ["arb_gpu_shader5.arb_gpu_shader5-emitstreamvertex_nodraw",
+                                             # bug 92070
+                                             "arb_sync.clientwaitsync-timeout"]
         if "g965" in hardware:
             # intermittent GPU hang on g965
             exclude_tests = exclude_tests + ["arb_shader_texture_lod.execution.tex-miplevel-selection",
