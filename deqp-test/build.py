@@ -183,6 +183,9 @@ class DeqpBuilder:
                      # fails intermittently on at least bdw and hsw
                      "functional.flush_finish.flush"
                      ]
+            if "snb" in o.hardware:
+                skips.append("functional.shaders.random.texture.vertex.45")
+
             intermittent = DeqpTrie()
             for skip in skips:
                 intermittent.add_line("dEQP-" + module.upper() + "." + skip)
