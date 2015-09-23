@@ -327,7 +327,7 @@ class PiglitTest:
                                 self.hardware + "_" + self.arch + ".xml"])
         iteration = 0
         while not os.path.exists(test_result):
-            if iteration < 40:
+            if iteration < 140:
                 time.sleep(1)
                 iteration = iteration + 1
                 continue
