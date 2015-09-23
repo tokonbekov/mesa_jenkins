@@ -197,6 +197,7 @@ class CMakeBuilder(object):
         if not os.path.exists(self._build_dir):
             os.makedirs(self._build_dir)
 
+        pkg_config = get_package_config_path()
         savedir = os.getcwd()
         os.chdir(self._build_dir)
 
@@ -208,7 +209,7 @@ class CMakeBuilder(object):
         run_batch_command(["cmake", self._src_dir, 
                            "-DCMAKE_INSTALL_PREFIX:PATH=" + self._build_root] \
                           + self._extra_definitions,
-                          env={"PKG_CONFIG_PATH" : get_package_config_path(),
+                          env={"PKG_CONFIG_PATH" : pkg_config,
                                "CC":"ccache gcc",
                                "CXX":"ccache g++",
                                "CFLAGS":cflag,

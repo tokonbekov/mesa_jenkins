@@ -59,7 +59,16 @@
       <!-- for wflinfo, to check version support -->
       <prerequisite name="waffle" hardware="builder"/>
     </project>
-    
+
+    <project name="cts">
+      <prerequisite name="mesa" hardware="builder"/>
+    </project>
+
+    <project name="cts-test">
+      <prerequisite name="cts" hardware="builder"/>
+      <prerequisite name="piglit" hardware="builder"/>
+    </project>
+
     <project name="piglit">
       <prerequisite name="waffle"/>
     </project>
