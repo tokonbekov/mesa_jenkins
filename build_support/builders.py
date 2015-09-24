@@ -427,12 +427,14 @@ class PiglitTester(object):
                                              # bug 91611
                                              "arb_shader_image_load_store.execution.basic-imagestore-from-uniform",
                                              "arb_shader_image_load_store.host-mem-barrier",
-                                             # TODO: file bugs
+                                             # TODO: file bugs on everything below here
                                              "arb_pixel_buffer_object.texsubimage cube_map_array pbo",
                                              "arb_vertex_buffer_object.vbo-subdata-many drawrangeelements",
                                              "ext_texture_integer.multisample-formats 2 gl_ext_texture_integer",
                                              "glsl-es-3_00.execution.built-in-functions.vs-packhalf2x16",
-                                             "arb_shading_language_packing.execution.built-in-functions.vs-packhalf2x16"]
+                                             # vs/fs both fail
+                                             "arb_shading_language_packing.execution.built-in-functions..s-packhalf2x16",
+                                             "glsl-es-3_00.execution.built-in-functions.fs-packsnorm2x16"]
 
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
