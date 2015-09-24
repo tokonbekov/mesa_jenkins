@@ -250,6 +250,13 @@
       <piglit branch="janesma/working_piglit"/>
     </branch>
 
+    <branch name="bwidawsk_fast" project="test-single-arch">
+      <mesa branch="bwidawsk/fast_jenkins"/>
+      <!-- <piglit branch="bwidawsk/jenkins"/> -->
+      <deqp branch="chadv/chadv" trigger="false"/>
+      <piglit branch="janesma/working_piglit"/>
+    </branch>
+
     <branch name="idr" project="test-single-arch">
       <mesa branch="idr/jenkins"/>
       <deqp branch="chadv/chadv" trigger="false"/>
