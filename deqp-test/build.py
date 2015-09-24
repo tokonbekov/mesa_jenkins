@@ -181,7 +181,7 @@ class DeqpBuilder:
                      "functional.shaders.random.basic_expression.combined",
                      "functional.shaders.random.conditionals.combined",
                      # fails intermittently on at least bdw and hsw
-                     "functional.flush_finish.flush"
+                     "functional.flush_finish.flush",
                      "functional.flush_finish.finish"
                      ]
             if "snb" in o.hardware:
