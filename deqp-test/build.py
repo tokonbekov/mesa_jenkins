@@ -185,8 +185,9 @@ class DeqpBuilder:
                      "functional.flush_finish.finish"
                      ]
             if "snb" in o.hardware:
-                skips.append("functional.shaders.random.texture.vertex.45")
-
+                skips = skips + ["functional.shaders.random.texture.vertex.45",
+                                 "functional.shaders.random.texture.vertex.1"]
+                
             intermittent = DeqpTrie()
             for skip in skips:
                 intermittent.add_line("dEQP-" + module.upper() + "." + skip)
