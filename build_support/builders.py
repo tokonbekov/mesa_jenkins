@@ -434,9 +434,15 @@ class PiglitTester(object):
                                              "arb_vertex_buffer_object.vbo-subdata-many drawrangeelements",
                                              "ext_texture_integer.multisample-formats 2 gl_ext_texture_integer",
                                              "glsl-es-3_00.execution.built-in-functions.vs-packhalf2x16",
-                                             # vs/fs both fail
+                                             # unconfirmed flaky below here
+                                             # vs/fs both fail, so ..
                                              "arb_shading_language_packing.execution.built-in-functions..s-packhalf2x16",
-                                             "glsl-es-3_00.execution.built-in-functions.fs-packsnorm2x16"]
+                                             "arb_shading_language_packing.execution.built-in-functions..s-unpackhalf2x16.",
+                                             "glsl-es-3_00.execution.built-in-functions.fs-packsnorm2x16",
+                                             "spec.glsl-1_30.execution.texelfetch fs sampler2d 71x1-71x281",
+                                             "spec.ext_packed_depth_stencil.depthstencil-render-miplevels.1024.d=z24_s8",
+                                             "spec.arb_depth_buffer_float.depthstencil-render-miplevels.1024.ds=z32f_s8",
+                                             "arb_pixel_buffer_object.texsubimage.array.pbo"]
 
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
@@ -462,6 +468,9 @@ class PiglitTester(object):
             cmd = cmd + ["--include-tests", self._piglit_test]
             
         concurrency_options = ["-c"]
+        if "bsw" in hardware:
+            concurrency_options = ["-1"]
+            
         cmd = cmd + concurrency_options
             
         cmd = cmd + [self.suite,
