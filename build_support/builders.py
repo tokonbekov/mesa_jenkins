@@ -393,7 +393,9 @@ class PiglitTester(object):
             exclude_tests = exclude_tests + ["arb_shader_texture_lod.execution.tex-miplevel-selection",
                                              # fdo Bug 89398
                                              "glsl-1_20.execution.clipping.fixed-clip-enables",
-                                             "glsl-1_10.execution.clipping.clip-plane-transformation pos_clipvert"]
+                                             "glsl-1_10.execution.clipping.clip-plane-transformation pos_clipvert",
+                                             # bug 92108
+                                             "ext_framebuffer_object.fbo-maxsize"]
 
         if "bdw" in hardware:
             # many tests match this string and are intermittent on
