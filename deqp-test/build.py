@@ -182,8 +182,9 @@ class DeqpBuilder:
                      "functional.shaders.random.conditionals.combined",
                      # fails intermittently on at least bdw and hsw
                      "functional.flush_finish.flush",
-                     "functional.flush_finish.finish"
-                     ]
+                     "functional.flush_finish.finish",
+                     "functional.flush_finish.finish_wait"]
+            
             if "snb" in o.hardware:
                 skips = skips + ["functional.shaders.random.texture.vertex.45",
                                  "functional.shaders.random.texture.vertex.1"]
