@@ -411,6 +411,9 @@ class PiglitTester(object):
                                              # bug 91611
                                              "arb_shader_image_load_store.execution.basic-imagestore-from-uniform",
                                              "arb_shader_image_load_store.host-mem-barrier"]
+
+            # Bug 92166
+            exclude_tests = exclude_tests + ['arb_shader_storage_buffer_object.array-ssbo-binding']
         
         if "byt" in hardware:
             # bug 89219, fixed in 10c82c6c5fc415d323a5e9c6acdc6a4c85d6b712
