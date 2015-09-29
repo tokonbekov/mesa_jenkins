@@ -84,7 +84,7 @@ print "Retesting piglit to: " + bisect_dir
 j.build_all(depGraph, print_summary=False)
 
 # make sure there is enough time for the test files to sync to nfs
-time.sleep(20)
+time.sleep(40)
 new_failures = bs.TestLister(bisect_dir + "/test/")
 
 if not new_failures.Tests():
