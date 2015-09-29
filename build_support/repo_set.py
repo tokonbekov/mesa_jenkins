@@ -58,6 +58,7 @@ class BranchSpecification:
         for name in repos.projects():
             pb = _ProjectBranch(name)
             self._project_branches[name] = pb
+            pb.branch = repos.branch(name)
 
         # override the defaults
         for a_project in branch_tag:
@@ -123,6 +124,8 @@ class RepoSet:
         self._repos = {}
         # key is project, value is dictionary of remote name => remote object
         self._remotes = {}
+        # key is project, value is the default branch for the repo (usually master)
+        self._branches = {}
         if type(buildspec) == str or type(buildspec) == unicode:
             buildspec = ET.parse(buildspec)
         repo_dir = ProjectMap().source_root() + "/repos"
@@ -131,6 +134,10 @@ class RepoSet:
         # fetch all the repos into _repo_dir
         for tag in repos:
             url = tag.attrib["repo"]
+            branch = "origin/master"
+            if tag.attrib.has_key("branch"):
+                branch = tag.attrib["branch"]
+            
             project = tag.tag
 
             assert ( not self._repos.has_key(project)) # double entry
@@ -149,6 +156,7 @@ class RepoSet:
             repo = git.Repo(project_repo_dir)
             self._repos[project] = repo
             self._remotes[project] = {}
+            self._branches[project] = branch
 
             for remote in repo.remotes:
                 self._remotes[project][remote.name] = remote
@@ -171,6 +179,9 @@ class RepoSet:
 
     def repo(self, project_name):
         return self._repos[project_name]
+
+    def branch(self, project_name):
+        return self._branches[project_name]
 
     def projects(self):
         return self._repos.keys()
@@ -309,7 +320,7 @@ class RepoStatus:
 
         for branch in branches.findall("branch"):
             try:
-                self._branches.append(BranchSpecification(branch, self._repos))
+                self._branches.append(BranchSpecification(branch, repos=self._repos))
             except:
                 print "WARN: couldn't get status for branch: " + branch.attrib["name"]
                 pass
@@ -340,7 +351,7 @@ class BuildSpecification:
         branches = buildspec.find("branches")
         for abranch in branches.findall("branch"):
             try:
-                branch = BranchSpecification(abranch, self._reposet)
+                branch = BranchSpecification(abranch, repos=self._reposet)
                 self._branch_specs[branch.name] = branch
             except:
                 print "WARN: couldn't get status for branch: " + abranch.attrib["name"]
@@ -349,8 +360,12 @@ class BuildSpecification:
     def branch_specification(self, branch_name):
         return self._branch_specs[branch_name]
 
-    def checkout(self, branch_name):
+    def checkout(self, branch_name, commits=None):
+        if not commits:
+            commits = []
         self._branch_specs[branch_name].checkout()
+        rs = RevisionSpecification(from_cmd_line = commits)
+        rs.checkout()
 
 class ProjectInvoke:
     """this object summarizes the component and all options required to
