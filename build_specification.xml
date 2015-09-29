@@ -192,6 +192,9 @@
       <remote name="chadv" repo="git://github.com/chadversary/deqp.git"/>
     </deqp>
 
+    <cts repo="ssh://majanes@git-amr-2.devtools.intel.com:29418/otc_gen_graphics-khronos-glconform.git"
+         branch="origin/majanes-gles3-rebase-wip"/>
+
   </repos>
 
 
