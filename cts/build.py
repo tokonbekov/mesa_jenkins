@@ -10,7 +10,7 @@ arch = bs.Options().arch
 class CtsBuilder(bs.CMakeBuilder):
     def __init__(self):
         bs.CMakeBuilder.__init__(self,
-                                 extra_definitions=["-DDEQP_TARGET=x11",
+                                 extra_definitions=["-DDEQP_TARGET=intel-gbm",
                                                     "-DCMAKE_INCLUDE_PATH=/tmp/build_root/usr/include",
                                                     "-DCMAKE_LIBRARY_PATH=/tmp/build_root/" + arch + "/lib"])
     def build(self):

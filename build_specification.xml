@@ -202,7 +202,7 @@
     </deqp>
 
     <cts repo="ssh://majanes@git-amr-2.devtools.intel.com:29418/otc_gen_graphics-khronos-glconform.git"
-         branch="origin/majanes-gles3-rebase-wip"/>
+         branch="origin/wip-gbm"/>
 
   </repos>
 

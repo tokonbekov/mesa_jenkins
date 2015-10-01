@@ -27,7 +27,7 @@ class CtsBuilder:
                      # bugs in debian's s2tc library.  Recommended by nroberts
                      "S2TC_DITHER_MODE" : "NONE",
                      # forces deqp to run headless
-                     # "EGL_PLATFORM" : "surfaceless"
+                     "EGL_PLATFORM" : "surfaceless"
         }
 
     def build(self):
@@ -48,10 +48,12 @@ class CtsBuilder:
         o = bs.Options()
         pm = bs.ProjectMap()
         #src_dir = pm.project_source_dir(pm.current_project())
-        #savedir = os.getcwd()
+        savedir = os.getcwd()
+        cts_dir = self.build_root + "/bin"
+        os.chdir(cts_dir)
 
         # invoke piglit
-        self.env["PIGLIT_CTS_BIN"] = self.build_root + "/bin/glcts"
+        self.env["PIGLIT_CTS_BIN"] = cts_dir + "/glcts"
         out_dir = self.build_root + "/test/" + o.hardware
 
         include_tests = []
@@ -64,8 +66,8 @@ class CtsBuilder:
                 include_tests = include_tests + ["--include-tests", test_name]
 
 
-        cmd = ["startx", "compton", "--", ":9"]
-        xserver = subprocess.Popen(cmd)
+        #cmd = ["startx", "compton", "--", ":9"]
+        #xserver = subprocess.Popen(cmd)
         
         cmd = [self.build_root + "/bin/piglit",
                "run",
@@ -76,14 +78,14 @@ class CtsBuilder:
                "--exclude-tests", "es31-cts",
                "--exclude-tests", "esext-cts",
                "--junit_suffix", "." + o.hardware + o.arch] + \
-            include_tests + \
-            ["cts", out_dir ]
+               include_tests + ["cts", out_dir ]
 
-        self.env["DISPLAY"] = ":9"
+        #self.env["DISPLAY"] = ":9"
         bs.run_batch_command(cmd, env=self.env,
                              expected_return_code=None,
                              streamedOutput=True)
-        xserver.kill()
+        os.chdir(savedir)
+        #xserver.kill()
         single_out_dir = self.build_root + "/../test"
         if not os.path.exists(single_out_dir):
             os.makedirs(single_out_dir)
