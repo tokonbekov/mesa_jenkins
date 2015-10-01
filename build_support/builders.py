@@ -447,10 +447,6 @@ class PiglitTester(object):
                                              "spec.arb_depth_buffer_float.depthstencil-render-miplevels.1024.ds=z32f_s8",
                                              "arb_pixel_buffer_object.texsubimage.array.pbo"]
 
-        if "g33" in hardware:
-            # bug 92205
-            exclude_tests = exclude_tests + ["opengl.1_1.clipflat"]
-
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
             fixed_test = fixed_test.replace(' ', '.')
