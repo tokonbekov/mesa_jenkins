@@ -47,9 +47,10 @@ class CtsBuilder:
         
         o = bs.Options()
         pm = bs.ProjectMap()
-        #src_dir = pm.project_source_dir(pm.current_project())
+        conf_file = bs.get_conf_file(o.hardware, o.arch, "cts-test")
+
         savedir = os.getcwd()
-        cts_dir = self.build_root + "/bin"
+        cts_dir = self.build_root + "/bin/cts"
         os.chdir(cts_dir)
 
         # invoke piglit
@@ -66,26 +67,25 @@ class CtsBuilder:
                 include_tests = include_tests + ["--include-tests", test_name]
 
 
-        #cmd = ["startx", "compton", "--", ":9"]
-        #xserver = subprocess.Popen(cmd)
-        
+        extra_excludes = []
+        if "ilk" in o.hardware or "g33" in o.hardware or "g45" in o.hardware:
+            extra_excludes = extra_excludes + ["--exclude-tests", "es3-cts"]
         cmd = [self.build_root + "/bin/piglit",
                "run",
                #"-p", "gbm",
                "-b", "junit",
-               #"--config", conf_file,
+               "--config", conf_file,
                "-c",
                "--exclude-tests", "es31-cts",
                "--exclude-tests", "esext-cts",
                "--junit_suffix", "." + o.hardware + o.arch] + \
-               include_tests + ["cts", out_dir ]
+               extra_excludes + \
+               include_tests + ["cts", out_dir]
 
-        #self.env["DISPLAY"] = ":9"
         bs.run_batch_command(cmd, env=self.env,
                              expected_return_code=None,
                              streamedOutput=True)
         os.chdir(savedir)
-        #xserver.kill()
         single_out_dir = self.build_root + "/../test"
         if not os.path.exists(single_out_dir):
             os.makedirs(single_out_dir)
