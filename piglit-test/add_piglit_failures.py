@@ -74,6 +74,7 @@ bs.run_batch_command(cmd)
 bs.rmtree(bisect_dir + "/test")
 bs.rmtree(bisect_dir + "/piglit-test")
 bs.rmtree(bisect_dir + "/deqp-test")
+bs.rmtree(bisect_dir + "/cts-test")
 
 j=bs.Jenkins(_revspec, bisect_dir)
 o = bs.Options(["bisect_all.py"])
