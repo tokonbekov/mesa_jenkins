@@ -35,6 +35,7 @@ class CtsBuilder(bs.CMakeBuilder):
         bs.run_batch_command(["cmake", "--build", self._build_dir,
                               "--", "-j" + str(bs.cpu_count())])
 
+        bs.run_batch_command(["mkdir", "-p", pm.build_root() + "/bin"])
         bs.run_batch_command(["cp", "-a", self._build_dir + "/cts",
                               pm.build_root() + "/bin"])
 
