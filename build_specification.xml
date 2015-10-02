@@ -121,6 +121,7 @@
                     arch="m64,m32"
                     hardware="ilk,g45,snb,ivb,hsw,bsw,byt,g965,bdw,g33,skl"/>
       <prerequisite name="deqp-test" arch="m64" hardware="hsw,snb,bdw,byt,bsw"/>
+      <prerequisite name="cts-test" arch="m64" hardware="ilk,g45,g33,hsw,snb,bdw,byt,bsw,skl"/>
     </project>
 
     <project name="deqp-full">

@@ -457,7 +457,7 @@ class PiglitTester(object):
             # only test items which previously failed
             include_tests = []
             testlist = TestLister(o.retest_path + "/test/")
-            for atest in testlist.Tests():
+            for atest in testlist.Tests(project="piglit-test"):
                 test_name_good_chars = re.sub('[_ !:=]', ".", atest.test_name)
                 # drop the spec
                 test_name = ".".join(test_name_good_chars.split(".")[1:])

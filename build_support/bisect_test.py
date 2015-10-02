@@ -191,6 +191,9 @@ class PiglitTest:
         self.project = "piglit-test"
         if "piglit.deqp" in full_test_name.lower():
             self.project = "deqp-test"
+        (first, second) = full_test_name.split(".")[0:2]
+        if first == "piglit" and "-cts" in second:
+            self.project = "cts-test"
         if "gt" in hardware:
             hardware = hardware[:3]
 
@@ -323,6 +326,8 @@ class PiglitTest:
         # so deqp-test names files "piglit-deqp.*.xml"
         if self.project == "deqp-test":
             base_name = "piglit-deqp"
+        if self.project == "cts-test":
+            base_name = "piglit-cts"
         test_result = "/".join([result_path, "test", base_name + "_" +
                                 self.hardware + "_" + self.arch + ".xml"])
         iteration = 0
@@ -360,6 +365,7 @@ class TestLister:
         self._tests = {}
         self._tests["piglit-test"] = {}
         self._tests["deqp-test"] = {}
+        self._tests["cts-test"] = {}
         # used to limit the number of tests run to the ones that are
         # under bisection
         self._retest_path = os.path.abspath(bad_dir + "/..")
@@ -367,6 +373,7 @@ class TestLister:
         for a_file in os.listdir(bad_dir):
             if ("piglit-test" not in a_file and
                 "piglit-cpu-test" not in a_file and
+                "piglit-cts" not in a_file and
                 "piglit-deqp" not in a_file) :
                 continue
             test_path = bad_dir + "/" + a_file
@@ -394,9 +401,12 @@ class TestLister:
             for test in project.values():
                 test.Print()
 
-    def Tests(self):
+    def Tests(self, project=None):
         tests = []
-        for project in self._tests.values():
+        projects = self._tests.values()
+        if project:
+            projects = [ self._tests[project] ]
+        for project in projects:
             tests = tests + project.values()
         return tests
 
