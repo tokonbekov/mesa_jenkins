@@ -370,6 +370,14 @@ class TestLister:
         # under bisection
         self._retest_path = os.path.abspath(bad_dir + "/..")
         # self.test_map is keyed by test name, value is PiglitTest
+        count = 0
+        while not os.path.exists(bad_dir):
+            print "sleeping, waiting for " + bad_dir
+            print " ".join(os.listdir(self._retest_path))
+            time.sleep(10)
+            count += 1
+            if count > 10:
+                break
         for a_file in os.listdir(bad_dir):
             if ("piglit-test" not in a_file and
                 "piglit-cpu-test" not in a_file and
