@@ -40,11 +40,6 @@ class CtsBuilder:
         # todo: now that there is more than one component that needs
         # to call mesa_version, it should be moved to a more sharable
         # location
-        mesa_version = bs.PiglitTester().mesa_version()
-        if "10.5" in mesa_version or "10.6" in mesa_version:
-            print "WARNING: deqp not supported on 10.6 and earlier."
-            return
-        
         o = bs.Options()
         pm = bs.ProjectMap()
         conf_file = bs.get_conf_file(o.hardware, o.arch, "cts-test")
