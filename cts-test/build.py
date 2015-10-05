@@ -65,7 +65,8 @@ class CtsBuilder:
                 return
 
         extra_excludes = []
-        if "ilk" in o.hardware or "g33" in o.hardware or "g45" in o.hardware:
+        if ("ilk" in o.hardware or "g33" in o.hardware
+            or "g45" in o.hardware or "g965" in o.hardware):
             extra_excludes = extra_excludes + ["--exclude-tests", "es3-cts"]
         cmd = [self.build_root + "/bin/piglit",
                "run",

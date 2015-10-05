@@ -121,7 +121,7 @@
                     arch="m64,m32"
                     hardware="ilk,g45,snb,ivb,hsw,bsw,byt,g965,bdw,g33,skl"/>
       <prerequisite name="deqp-test" arch="m64" hardware="hsw,snb,bdw,byt,bsw"/>
-      <prerequisite name="cts-test" arch="m64" hardware="ilk,g45,g33,snb,ivb,hsw,bdw,byt,bsw,skl"/>
+      <prerequisite name="cts-test" arch="m64" hardware="ilk,g45,g965,g33,snb,ivb,hsw,bdw,byt,bsw,skl"/>
     </project>
 
     <project name="deqp-full">
@@ -133,7 +133,7 @@
 
     <project name="cts-full">
       <prerequisite name="cts-test" hardware="snb,ivb,hsw,bdw" arch="m64"/>
-      <prerequisite name="cts-test" only_for_type="daily" hardware="g33,ilk,g45,bsw" arch="m64"/>
+      <prerequisite name="cts-test" only_for_type="daily" hardware="g965,g33,ilk,g45,bsw" arch="m64"/>
     </project>
 
     <project name="reboot-slaves">
