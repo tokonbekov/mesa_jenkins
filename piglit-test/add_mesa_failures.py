@@ -106,6 +106,7 @@ old_out_dir = "/".join([results_dir, "bisect", hashstr])
 bs.rmtree(old_out_dir + "/test")
 bs.rmtree(old_out_dir + "/piglit-test")
 bs.rmtree(old_out_dir + "/deqp-test")
+bs.rmtree(old_out_dir + "/cts-test")
 
 j=bs.Jenkins(revspec, old_out_dir)
 o = bs.Options(["bisect_all.py"])
