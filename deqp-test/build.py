@@ -187,7 +187,8 @@ class DeqpBuilder:
             
             if "snb" in o.hardware:
                 skips = skips + ["functional.shaders.random.texture.vertex.45",
-                                 "functional.shaders.random.texture.vertex.1"]
+                                 "functional.shaders.random.texture.vertex.1",
+                                 "functional.shaders.random.texture.vertex.34"]
                 
             intermittent = DeqpTrie()
             for skip in skips:
