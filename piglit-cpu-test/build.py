@@ -21,7 +21,6 @@ bs.build(bs.PiglitTester(_suite="cpu", device_override="ivbgt2"))
 bs.build(bs.PiglitTester(_suite="cpu", device_override="snbgt2"))
 bs.build(bs.PiglitTester(_suite="cpu", device_override="hswgt3"))
 bs.build(bs.PiglitTester(_suite="cpu", device_override="bdwgt2"))
-bs.build(bs.PiglitTester(_suite="cpu", device_override="chv"))
 bs.build(bs.PiglitTester(_suite="cpu", device_override="sklgt3"))
 bs.build(bs.PiglitTester(_suite="cpu", device_override="bsw"))
 
