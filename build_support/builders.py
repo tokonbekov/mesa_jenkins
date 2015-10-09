@@ -120,13 +120,13 @@ class AutoBuilder(object):
         os.chdir(self._build_dir)
         flags = []
         if self._options.arch == "m32":
-            flags = ["CFLAGS=-m32 -D_GLIBCXX_USE_CXX11_ABI=0 " + optflags,
-                     "CXXFLAGS=-m32 -D_GLIBCXX_USE_CXX11_ABI=0 " + optflags, 
+            flags = ["CFLAGS=-m32 " + optflags,
+                     "CXXFLAGS=-m32 " + optflags, 
                      "--enable-32-bit",
                      "--host=i686-pc-linux-gnu"]
         else:
-            flags = ["CFLAGS=-m64 -D_GLIBCXX_USE_CXX11_ABI=0 " + optflags,
-                     "CXXFLAGS=-m64 -D_GLIBCXX_USE_CXX11_ABI=0 " + optflags]
+            flags = ["CFLAGS=-m64 " + optflags,
+                     "CXXFLAGS=-m64 " + optflags]
 
         os.chdir(self._src_dir)
         run_batch_command(["autoreconf", "--verbose", "--install", "-s"])
@@ -201,11 +201,11 @@ class CMakeBuilder(object):
         savedir = os.getcwd()
         os.chdir(self._build_dir)
 
-        cflag = "-m32 -D_GLIBCXX_USE_CXX11_ABI=0"
-        cxxflag = "-m32 -D_GLIBCXX_USE_CXX11_ABI=0"
+        cflag = "-m32"
+        cxxflag = "-m32"
         if self._options.arch == "m64":
-            cflag = "-m64 -D_GLIBCXX_USE_CXX11_ABI=0"
-            cxxflag = "-m64 -D_GLIBCXX_USE_CXX11_ABI=0"
+            cflag = "-m64"
+            cxxflag = "-m64"
         run_batch_command(["cmake", self._src_dir, 
                            "-DCMAKE_INSTALL_PREFIX:PATH=" + self._build_root] \
                           + self._extra_definitions,
