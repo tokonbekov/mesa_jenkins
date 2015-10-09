@@ -404,10 +404,7 @@ class PiglitTester(object):
             exclude_tests = exclude_tests + ["variable-indexing.vs-output-array-vec4-index-wr-before-gs"]
 
             # bug: 91298
-            exclude_tests = exclude_tests + ['arb_shader_atomic_counters.unused-result',
-                                             # bug 91611
-                                             "arb_shader_image_load_store.execution.basic-imagestore-from-uniform",
-                                             "arb_shader_image_load_store.host-mem-barrier"]
+            exclude_tests = exclude_tests + ['arb_shader_atomic_counters.unused-result']
 
             # Bug 92166
             exclude_tests = exclude_tests + ['arb_shader_storage_buffer_object.array-ssbo-binding']
@@ -426,9 +423,6 @@ class PiglitTester(object):
         if "bsw" in hardware:
             # TODO: write bug
             exclude_tests = exclude_tests + ["glsl-3_30.execution.built-in-functions.fs-floatbitstouint",
-                                             # bug 91611
-                                             "arb_shader_image_load_store.execution.basic-imagestore-from-uniform",
-                                             "arb_shader_image_load_store.host-mem-barrier",
                                              # TODO: file bugs on everything below here
                                              "arb_pixel_buffer_object.texsubimage cube_map_array pbo",
                                              "arb_vertex_buffer_object.vbo-subdata-many drawrangeelements",
