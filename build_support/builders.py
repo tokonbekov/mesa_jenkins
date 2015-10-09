@@ -404,6 +404,9 @@ class PiglitTester(object):
 
             # Bug 92166
             exclude_tests = exclude_tests + ['arb_shader_storage_buffer_object.array-ssbo-binding']
+
+            # Bug 92375
+            exclude_tests = exclude_tests + ["arb_shader_storage_buffer_object.layout-std140-write-shader"]
         
         if "byt" in hardware:
             # bug 89219, fixed in 10c82c6c5fc415d323a5e9c6acdc6a4c85d6b712
