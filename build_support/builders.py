@@ -395,11 +395,7 @@ class PiglitTester(object):
                                              "ext_framebuffer_object.fbo-maxsize"]
 
         if "bdw" in hardware:
-            # many tests match this string and are intermittent on
-            # bdw.  This appears to be resolved by the update to linux
-            # kernel 4.0
-            #exclude_tests = exclude_tests + ["arb_texture_multisample.texelFetch.fs.sampler2dms"]
-
+            exclude_tests = exclude_tests + ["arb_shader_image_load_store.execution.basic-imagestore-from-uniform"]
             # TODO: write bug for
             exclude_tests = exclude_tests + ["variable-indexing.vs-output-array-vec4-index-wr-before-gs"]
 
