@@ -427,15 +427,14 @@ class PiglitTester(object):
                                              "arb_vertex_buffer_object.vbo-subdata-many drawrangeelements",
                                              "ext_texture_integer.multisample-formats 2 gl_ext_texture_integer",
                                              "glsl-es-3_00.execution.built-in-functions.vs-packhalf2x16",
-                                             # unconfirmed flaky below here
-                                             # vs/fs both fail, so ..
-                                             "arb_shading_language_packing.execution.built-in-functions..s-packhalf2x16",
-                                             "arb_shading_language_packing.execution.built-in-functions..s-unpackhalf2x16.",
-                                             "glsl-es-3_00.execution.built-in-functions.fs-packsnorm2x16",
-                                             "spec.glsl-1_30.execution.texelfetch fs sampler2d 71x1-71x281",
-                                             "spec.ext_packed_depth_stencil.depthstencil-render-miplevels.1024.d=z24_s8",
-                                             "spec.arb_depth_buffer_float.depthstencil-render-miplevels.1024.ds=z32f_s8",
-                                             "arb_pixel_buffer_object.texsubimage.array.pbo"]
+                                             # Bug 92320 confirmed flaky below here
+                                             "arb_depth_buffer_float.depthstencil-render-miplevels.1024.ds=z32f_s8",
+                                             "arb_texture_float.multisample-formats.2.gl_arb_texture_float",
+                                             "arb_texture_multisample.texelfetch.fs.sampler2dms.4.1x130-501x130",
+                                             "ext_framebuffer_multisample.multisample-blit.4.color",
+                                             "glsl-1_30.execution.texelfetch.fs.sampler2d.281x1-281x281",
+                                             "glsl-es-3_00.execution.built-in-functions.fs-unpackhalf2x16",
+                                             "glsl-es-3_00.execution.built-in-functions.vs-packhalf2x16"]
 
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
@@ -461,8 +460,6 @@ class PiglitTester(object):
             cmd = cmd + ["--include-tests", self._piglit_test]
             
         concurrency_options = ["-c"]
-        if "bsw" in hardware:
-            concurrency_options = ["-1"]
             
         cmd = cmd + concurrency_options
             
