@@ -539,7 +539,8 @@ class PiglitTester(object):
         # produces a failing test if a hang is found, and schedules a
         # reboot if the host is determined to be a jenkins builder
         # (user=jenkins)
-        (out, _) = run_batch_command(["dmesg"], quiet=True,
+        (out, _) = run_batch_command(["dmesg", "--time-format", "iso"],
+                                     quiet=True,
                                      streamedOutput=False)
         hang_text = ""
         for a_line in out.split('\n'):
