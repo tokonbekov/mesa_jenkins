@@ -434,7 +434,8 @@ class PiglitTester(object):
                                              "ext_framebuffer_multisample.multisample-blit.4.color",
                                              "glsl-1_30.execution.texelfetch.fs.sampler2d.281x1-281x281",
                                              "glsl-es-3_00.execution.built-in-functions.fs-unpackhalf2x16",
-                                             "glsl-es-3_00.execution.built-in-functions.vs-packhalf2x16"]
+                                             "glsl-es-3_00.execution.built-in-functions.vs-packhalf2x16",
+                                             "arb_pixel_buffer_object.texsubimage.array.pbo"]
 
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
