@@ -20,7 +20,8 @@ parser.add_argument('--end_rev', type=str, default='',
                     help="The sha ending the sequence to be tested")
 
 parser.add_argument('--project', type=str, default='all-test',
-                    choices=['test-single-arch', 'piglit-build', 'piglit-test'],
+                    choices=['test-single-arch', 'piglit-build', 'piglit-test',
+                             'deqp-full'],
                     help="The jenkins project to build")
 
 parser.add_argument('--series_name', type=str, default='',
@@ -29,6 +30,10 @@ parser.add_argument('--series_name', type=str, default='',
 parser.add_argument('--hardware', type=str, default='builder',
                     help="The hardware to be targeted for test "
                     "('builder', 'snbgt1', 'ivb', 'hsw', 'bdw'). "
+                    "(default: %(default)s)")
+
+parser.add_argument('--build_support_branch', type=str, default='master',
+                    help="The automation branch to use"
                     "(default: %(default)s)")
 
 args = parser.parse_args(sys.argv[1:])
@@ -83,7 +88,8 @@ for commit in commits:
     job_args = { "name" : args.series_name + "_" + commit.hexsha[:8],
                  "revision" : "mesa=" + commit.hexsha,
                  "project" : args.project,
-                 "hardware" : args.hardware }
+                 "hardware" : args.hardware,
+                 "build_support_branch" : args.build_support_branch}
     url = custom_url.format(urllib.urlencode(job_args))
 
     failcount = 0
