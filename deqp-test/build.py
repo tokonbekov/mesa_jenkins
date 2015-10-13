@@ -141,7 +141,7 @@ class DeqpBuilder:
         elif "bdw" in o.hardware:
             expectations_dir = src_dir + "/chromiumos-autotest/graphics_dEQP/expectations/broadwell"
         elif "hsw" in o.hardware:
-            expectations_dir = src_dir + "/chromiumos-autotest/graphics_dEQP/expectations/haswell"
+            expectations_dir = pm.project_build_dir(pm.current_project()) + "/hsw_expectations"
         elif "ivb" in o.hardware:
             expectations_dir = src_dir + "/chromiumos-autotest/graphics_dEQP/expectations/ivybridge"
         elif "snb" in o.hardware:
