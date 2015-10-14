@@ -36,3 +36,4 @@ dEQP-GLES2.functional.texture.specification.basic_texsubimage2d.rgba8888_cube
 dEQP-GLES2.functional.texture.specification.teximage2d_align.cube_rgba4444_51_8
 dEQP-GLES2.functional.uniform_api.value.assigned.by_value.render.basic_struct.int_ivec4_both
 dEQP-GLES2.functional.vertex_arrays.single_attribute.first.byte_first24_offset16_stride2_quads256
+dEQP-GLES2.functional.shaders.random.all_features.fragment.16
