@@ -6,7 +6,10 @@ import build_support as bs
 def collate_tests(result_path, out_test_dir):
     src_test_dir = result_path + "/test"
     print "collecting tests from " + src_test_dir
-    if not os.path.exists(src_test_dir):
+    i = 0
+    while i < 10 and not os.path.exists(src_test_dir):
+        i += 1
+        print "sleeping, waiting fort test directory: " + src_test_dir
         time.sleep(10)
     if not os.path.exists(src_test_dir):
         print "no test directory found: " + src_test_dir
