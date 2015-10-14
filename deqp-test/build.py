@@ -139,7 +139,7 @@ class DeqpBuilder:
         if "byt" in o.hardware:
             expectations_dir = src_dir + "/chromiumos-autotest/graphics_dEQP/expectations/baytrail"
         elif "bdw" in o.hardware:
-            expectations_dir = src_dir + "/chromiumos-autotest/graphics_dEQP/expectations/broadwell"
+            expectations_dir = pm.project_build_dir(pm.current_project()) + "/bdw_expectations"
         elif "hsw" in o.hardware:
             expectations_dir = pm.project_build_dir(pm.current_project()) + "/hsw_expectations"
         elif "ivb" in o.hardware:
