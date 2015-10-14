@@ -400,7 +400,8 @@ class PiglitTester(object):
             exclude_tests = exclude_tests + ["variable-indexing.vs-output-array-vec4-index-wr-before-gs"]
 
             # bug: 91298
-            exclude_tests = exclude_tests + ['arb_shader_atomic_counters.unused-result']
+            exclude_tests = exclude_tests + ['arb_shader_atomic_counters.unused-result',
+                                             "arb_shader_atomic_counters.function-argument"]
 
             # Bug 92166
             exclude_tests = exclude_tests + ['arb_shader_storage_buffer_object.array-ssbo-binding']
