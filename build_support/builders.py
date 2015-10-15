@@ -437,6 +437,8 @@ class PiglitTester(object):
                                              "arb_texture_float.multisample-formats.2.gl_arb_texture_float",
                                              "arb_texture_multisample.texelfetch.fs.sampler2dms.4.1x130-501x130",
                                              "ext_framebuffer_multisample.multisample-blit.4.color",
+                                             "ext_packed_depth_stencil.depthstencil-render-miplevels 1024 d=z24_s8_s=z24_s8",
+                                             "glsl-1_30.execution.texelfetch fs sampler2d 1x71-501x71",
                                              "glsl-1_30.execution.texelfetch.fs.sampler2d.281x1-281x281",
                                              "glsl-3_30.execution.built-in-functions.vs-floatbitstoint-neg_abs",
                                              "glsl-es-3_00.execution.built-in-functions.fs-unpackhalf2x16"]
