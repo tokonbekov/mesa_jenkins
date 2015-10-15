@@ -430,17 +430,22 @@ class PiglitTester(object):
                                              "glsl-es-3_00.execution.built-in-functions.vs-packhalf2x16",
                                              # Bug 92320 confirmed flaky below here
                                              "arb_depth_buffer_float.depthstencil-render-miplevels.1024.ds=z32f_s8",
+                                             "arb_gpu_shader5.execution.built-in-functions.fs-uaddcarry-only-add",
                                              "arb_pixel_buffer_object.texsubimage.array.pbo",
                                              "arb_shading_language_packing.execution.built-in-functions.fs-packhalf2x16",
                                              "arb_shading_language_packing.execution.built-in-functions.fs-packsnorm4x8",
+                                             "arb_shading_language_packing.execution.built-in-functions.fs-unpackhalf2x16",
                                              "arb_shading_language_packing.execution.built-in-functions.vs-packhalf2x16",
                                              "arb_texture_float.multisample-formats.2.gl_arb_texture_float",
-                                             "arb_texture_multisample.texelfetch.fs.sampler2dms.4.1x130-501x130",
+                                             "arb_texture_gather.texturegather.vs-r-one-float-2d",
+                                             "arb_texture_multisample.texelfetch fs sampler2dms 4 1x130-501x130",
                                              "ext_framebuffer_multisample.multisample-blit.4.color",
                                              "ext_packed_depth_stencil.depthstencil-render-miplevels 1024 d=z24_s8_s=z24_s8",
+                                             "glsl-1.10.execution.built-in-functions.fs-clamp-vec3-vec3-vec3",
                                              "glsl-1_30.execution.texelfetch fs sampler2d 1x71-501x71",
                                              "glsl-1_30.execution.texelfetch.fs.sampler2d.281x1-281x281",
                                              "glsl-3_30.execution.built-in-functions.vs-floatbitstoint-neg_abs",
+                                             "glsl-es-3.00.execution.built-in-functions.fs-packhalf2x16",
                                              "glsl-es-3_00.execution.built-in-functions.fs-unpackhalf2x16"]
 
         for test in exclude_tests:
