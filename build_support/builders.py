@@ -436,6 +436,7 @@ class PiglitTester(object):
                                              "arb_shading_language_packing.execution.built-in-functions.fs-packsnorm4x8",
                                              "arb_shading_language_packing.execution.built-in-functions.fs-unpackhalf2x16",
                                              "arb_shading_language_packing.execution.built-in-functions.vs-packhalf2x16",
+                                             "arb_texture_compression_bptc.fbo-generatemipmap-formats unorm",
                                              "arb_texture_float.multisample-formats.2.gl_arb_texture_float",
                                              "arb_texture_gather.texturegather.vs-r-one-float-2d",
                                              "arb_texture_multisample.texelfetch fs sampler2dms 4 1x130-501x130",
@@ -446,6 +447,7 @@ class PiglitTester(object):
                                              "glsl-1_30.execution.texelfetch.fs.sampler2d.281x1-281x281",
                                              "glsl-3_30.execution.built-in-functions.vs-floatbitstoint-neg_abs",
                                              "glsl-es-3.00.execution.built-in-functions.fs-packhalf2x16",
+                                             "glsl-es-3_00.execution.built-in-functions.fs-packsnorm2x16",
                                              "glsl-es-3_00.execution.built-in-functions.fs-unpackhalf2x16"]
 
         for test in exclude_tests:
