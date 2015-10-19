@@ -428,6 +428,7 @@ class PiglitTester(object):
                                              "arb_vertex_buffer_object.vbo-subdata-many drawrangeelements",
                                              "ext_texture_integer.multisample-formats 2 gl_ext_texture_integer",
                                              "glsl-es-3_00.execution.built-in-functions.vs-packhalf2x16",
+
                                              # Bug 92320 confirmed flaky below here
                                              "arb_depth_buffer_float.depthstencil-render-miplevels.1024.ds=z32f_s8",
                                              "arb_gpu_shader5.execution.built-in-functions.fs-uaddcarry-only-add",
@@ -436,6 +437,7 @@ class PiglitTester(object):
                                              "arb_shading_language_packing.execution.built-in-functions.fs-packsnorm4x8",
                                              "arb_shading_language_packing.execution.built-in-functions.fs-unpackhalf2x16",
                                              "arb_shading_language_packing.execution.built-in-functions.vs-packhalf2x16",
+                                             "arb_shading_language_packing.execution.built-in-functions.vs-packsnorm2x16",
                                              "arb_texture_compression_bptc.fbo-generatemipmap-formats unorm",
                                              "arb_texture_float.multisample-formats.2.gl_arb_texture_float",
                                              "arb_texture_gather.texturegather.vs-r-one-float-2d",
