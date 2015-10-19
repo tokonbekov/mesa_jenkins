@@ -490,13 +490,14 @@ class HangReboot(Daemon):
                         "otc-gfxtest-bsw-06.local" : { "switch":1, "outlet":6 },
                         "otc-gfxtest-bsw-07.local" : { "switch":1, "outlet":7 },
                         "otc-gfxtest-sklgt2-01.local" : { "switch":1, "outlet":8},
-                        "otc-gfxtest-byt-01.local" : { "switch":2, "outlet":1 },
-                        "otc-gfxtest-byt-02.local" : { "switch":2, "outlet":2 },
-                        "otc-gfxtest-byt-03.local" : { "switch":2, "outlet":3 },
-                        "otc-gfxtest-byt-04.local" : { "switch":2, "outlet":4 },
-                        "otc-gfxtest-byt-05.local" : { "switch":2, "outlet":5 },
-                        "otc-gfxtest-byt-06.local" : { "switch":2, "outlet":6 },
-                        "otc-gfxtest-byt-07.local" : { "switch":2, "outlet":7 },
+                        # byt does not boot after power loss
+                        # "otc-gfxtest-byt-01.local" : { "switch":2, "outlet":1 },
+                        # "otc-gfxtest-byt-02.local" : { "switch":2, "outlet":2 },
+                        # "otc-gfxtest-byt-03.local" : { "switch":2, "outlet":3 },
+                        # "otc-gfxtest-byt-04.local" : { "switch":2, "outlet":4 },
+                        # "otc-gfxtest-byt-05.local" : { "switch":2, "outlet":5 },
+                        # "otc-gfxtest-byt-06.local" : { "switch":2, "outlet":6 },
+                        # "otc-gfxtest-byt-07.local" : { "switch":2, "outlet":7 },
                         "otc-gfxtest-sklgt2-02.local" : { "switch":2, "outlet":8}}
 
         self.switches = { 1 : PowerSwitch(hostname="192.168.1.2",
