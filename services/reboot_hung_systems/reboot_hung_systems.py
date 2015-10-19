@@ -482,15 +482,31 @@ class HangReboot(Daemon):
     def __init__(self, pidfile, stdin='/dev/null',
                  stdout='/dev/null', stderr='/dev/null'):
         Daemon.__init__(self, pidfile, stdin, stdout, stderr)
-        self.systems = { "otc-gfxtest-byt-06.local" : 0,
-                         "otc-gfxtest-sklgt2-01.local" : 2,
-                         "otc-gfxtest-sklgt2-02.local" : 3,
-                         "otc-gfxtest-sklgt2-02.local" : 7}
+        self.systems = {"otc-gfxtest-bsw-01.local" : { "switch":1, "outlet":1 },
+                        "otc-gfxtest-bsw-02.local" : { "switch":1, "outlet":2 },
+                        "otc-gfxtest-bsw-03.local" : { "switch":1, "outlet":3 },
+                        "otc-gfxtest-bsw-04.local" : { "switch":1, "outlet":4 },
+                        "otc-gfxtest-bsw-05.local" : { "switch":1, "outlet":5 },
+                        "otc-gfxtest-bsw-06.local" : { "switch":1, "outlet":6 },
+                        "otc-gfxtest-bsw-07.local" : { "switch":1, "outlet":7 },
+                        "otc-gfxtest-sklgt2-01.local" : { "switch":1, "outlet":8},
+                        "otc-gfxtest-byt-01.local" : { "switch":2, "outlet":1 },
+                        "otc-gfxtest-byt-02.local" : { "switch":2, "outlet":2 },
+                        "otc-gfxtest-byt-03.local" : { "switch":2, "outlet":3 },
+                        "otc-gfxtest-byt-04.local" : { "switch":2, "outlet":4 },
+                        "otc-gfxtest-byt-05.local" : { "switch":2, "outlet":5 },
+                        "otc-gfxtest-byt-06.local" : { "switch":2, "outlet":6 },
+                        "otc-gfxtest-byt-07.local" : { "switch":2, "outlet":7 },
+                        "otc-gfxtest-sklgt2-02.local" : { "switch":2, "outlet":8}}
+
+        self.switches = { 1 : PowerSwitch(hostname="192.168.1.2",
+                                          userid="admin",
+                                          password="1234"),
+                          2:  PowerSwitch(hostname="192.168.1.3",
+                                          userid="admin",
+                                          password="1234") }
 
         self.hangs = []
-        self.switch = PowerSwitch(hostname="192.168.1.2",
-                                  userid="admin",
-                                  password="1234")
 
     def ping(self, system):
         p = subprocess.Popen(["ping", "-c", "4", system],
@@ -505,9 +521,10 @@ class HangReboot(Daemon):
     def reboot(self, system):
         if not self.systems.has_key(system):
             print ("invalid system: " + system)
-        self.switch[self.systems[system]].state = "OFF"
+        address = self.systems[system]
+        self.switches[address["switch"]][address["outlet"]-1].state = "OFF"
         time.sleep(10)
-        self.switch[self.systems[system]].state = "ON"
+        self.switches[address["switch"]][address["outlet"]-1].state = "ON"
 
     def run(self):
         while True:
