@@ -110,9 +110,14 @@
     </project>
 
     <!-- this is used for ben's percheckin build -->
-    <project name="test-single-arch-skl">
+    <project name="test-single-arch-ben">
       <prerequisite name="test-single-arch"/>
       <prerequisite name="piglit-test" hardware="skl,bsw,byt"/>
+    </project>
+
+    <project name="test-single-arch-skl">
+      <prerequisite name="test-single-arch"/>
+      <prerequisite name="piglit-test" hardware="skl"/>
     </project>
 
     <!-- for bisecting failures -->
@@ -258,7 +263,7 @@
       <mesa branch="krh/jenkins"/>
     </branch>
 
-    <branch name="bwidawsk" project="test-single-arch-skl">
+    <branch name="bwidawsk" project="test-single-arch-ben">
       <mesa branch="bwidawsk/jenkins"/>
       <!-- <piglit branch="bwidawsk/jenkins"/> -->
     </branch>
@@ -326,7 +331,7 @@
       <mesa branch="cwabbott0/jenkins"/>
     </branch>
 
-    <branch name="bpeel" project="test-single-arch">
+    <branch name="bpeel" project="test-single-arch-skl">
       <mesa branch="bpeel/jenkins"/>
     </branch>
     
