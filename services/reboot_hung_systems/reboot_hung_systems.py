@@ -517,11 +517,13 @@ class HangReboot(Daemon):
         if p.returncode:
             print (out)
             print (err)
+            sys.stdout.flush()
         return p.returncode == 0
 
     def reboot(self, system):
         if not self.systems.has_key(system):
             print ("invalid system: " + system)
+            sys.stdout.flush()
         address = self.systems[system]
         self.switches[address["switch"]][address["outlet"]-1].state = "OFF"
         time.sleep(10)
@@ -533,6 +535,7 @@ class HangReboot(Daemon):
                 for system in self.hangs:
                     if not self.ping(system):
                         print("rebooting system: " + system)
+                        sys.stdout.flush()
                         self.reboot(system)
                 self.hangs = []
                 time.sleep(360)
@@ -540,13 +543,16 @@ class HangReboot(Daemon):
             for system in self.systems.keys():
                 if not self.ping(system):
                     print("failed ping: " + system)
+                    sys.stdout.flush()
                     self.hangs.append(system)
 
             time.sleep(120)
 
 if __name__ == "__main__":
     if len(sys.argv) == 2:
-        daemon = HangReboot('/var/run/reboot_hung_systems.pid')
+        daemon = HangReboot('/var/run/reboot_hung_systems.pid',
+                            stdout='/var/log/reboot_hung_systems.out.log',
+                            stderr='/var/log/reboot_hung_systems.out.log')
         if 'start' == sys.argv[1]:
             daemon.start()
         elif 'stop' == sys.argv[1]:
