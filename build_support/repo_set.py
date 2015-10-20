@@ -448,7 +448,12 @@ class ProjectInvoke:
     def _write_info(self, info_dict):
         info_file = self.info_file()
         info_dir = os.path.dirname(info_file)
-        if not os.path.exists(info_dir):
+        tries = 0
+        while not os.path.exists(info_dir) and tries < 20:
+            tries += 1
+            if tries > 1:
+                print "WARN: failed to make info directory: " + info_dir
+                time.sleep(10)
             try:
                 os.makedirs(info_dir)
             except:
