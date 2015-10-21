@@ -432,6 +432,7 @@ class PiglitTester(object):
                                              # Bug 92320 confirmed flaky below here
                                              "arb_depth_buffer_float.depthstencil-render-miplevels.1024.ds=z32f_s8",
                                              "arb_gpu_shader5.execution.built-in-functions.fs-uaddcarry-only-add",
+                                             "arb_pixel_buffer_object.texsubimage pbo",
                                              "arb_pixel_buffer_object.texsubimage.array.pbo",
                                              "arb_shading_language_packing.execution.built-in-functions.fs-packhalf2x16",
                                              "arb_shading_language_packing.execution.built-in-functions.fs-packsnorm4x8",
