@@ -25,9 +25,14 @@
 #  *   Mark Janes <mark.a.janes@intel.com>
 #  **********************************************************************/
 
-import git, os, time, json, hashlib
-import xml.etree.ElementTree as ET
+import git
+import hashlib
+import json
+import os
 import signal
+import sys
+import time
+import xml.etree.ElementTree as ET
 
 from . import ProjectMap
 from . import Options
@@ -453,7 +458,13 @@ class ProjectInvoke:
             tries += 1
             if tries > 1:
                 print "WARN: failed to make info directory: " + info_dir
+                sys.stdout.flush()
                 time.sleep(10)
+                savedir = os.getcwd()
+                os.chdir(info_dir + "/../../../..")
+                os.chdir(savedir)
+                print "WARN: changed to directory: " + info_dir + "/../../../.."
+                sys.stdout.flush()
             try:
                 os.makedirs(info_dir)
             except:
