@@ -459,7 +459,8 @@ class PiglitTester(object):
                                              "glsl-3_30.execution.built-in-functions.vs-floatbitstouint-neg_abs",
                                              "glsl-es-3.00.execution.built-in-functions.fs-packhalf2x16",
                                              "glsl-es-3_00.execution.built-in-functions.fs-packsnorm2x16",
-                                             "glsl-es-3_00.execution.built-in-functions.fs-unpackhalf2x16"]
+                                             "glsl-es-3_00.execution.built-in-functions.fs-unpackhalf2x16",
+                                             "opengl 1_1.clipflat"]
 
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
