@@ -431,6 +431,7 @@ class PiglitTester(object):
 
                                              # Bug 92320 confirmed flaky below here
                                              "arb_depth_buffer_float.depthstencil-render-miplevels.1024.ds=z32f_s8",
+                                             "arb_gpu_shader5.execution.built-in-functions.fs-floatbitstoint-abs",
                                              "arb_gpu_shader5.execution.built-in-functions.fs-uaddcarry-only-add",
                                              "arb_pixel_buffer_object.texsubimage pbo",
                                              "arb_pixel_buffer_object.texsubimage.array.pbo",
@@ -450,6 +451,7 @@ class PiglitTester(object):
                                              "ext_framebuffer_multisample.multisample-blit.4.color",
                                              "ext_packed_depth_stencil.depthstencil-render-miplevels 1024 d=z24_s8_s=z24_s8",
                                              "glsl-1.10.execution.built-in-functions.fs-clamp-vec3-vec3-vec3",
+                                             "glsl-1_10.execution.built-in-functions.fs-equal-bvec3-bvec3",
                                              "glsl-1_10.linker.override-builtin-uniform-02",
                                              "glsl-1_30.execution.texelfetch fs sampler2d 1x71-501x71",
                                              "glsl-1_30.execution.texelfetch fs sampler3d 98x1x9-98x129x9",
