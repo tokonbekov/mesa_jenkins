@@ -463,10 +463,16 @@ class ProjectInvoke:
                 sys.stdout.flush()
                 time.sleep(10)
                 savedir = os.getcwd()
-                os.chdir(info_dir + "/../../../..")
+                try:
+                    mount_dir = "/".join(info_dir.split("/")[:5])
+                    print "WARN: changing to directory: " + mount_dir
+                    sys.stdout.flush()
+                    os.chdir(mount_dir)
+                    print "WARN: success"
+                    sys.stdout.flush()
+                except:
+                    pass
                 os.chdir(savedir)
-                print "WARN: changed to directory: " + info_dir + "/../../../.."
-                sys.stdout.flush()
             try:
                 os.makedirs(info_dir)
             except:
