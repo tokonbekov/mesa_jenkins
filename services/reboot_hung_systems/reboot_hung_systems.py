@@ -497,7 +497,7 @@ class HangReboot(Daemon):
                         # "otc-gfxtest-byt-04.local" : { "switch":2, "outlet":4 },
                         # "otc-gfxtest-byt-05.local" : { "switch":2, "outlet":5 },
                         # "otc-gfxtest-byt-06.local" : { "switch":2, "outlet":6 },
-                        # "otc-gfxtest-byt-07.local" : { "switch":2, "outlet":7 },
+                        "otc-gfxtest-bxt-01.local" : { "switch":2, "outlet":7 },
                         "otc-gfxtest-sklgt2-02.local" : { "switch":2, "outlet":8}}
 
         self.switches = { 1 : PowerSwitch(hostname="192.168.1.2",

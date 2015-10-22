@@ -50,7 +50,10 @@ def get_conf_file(hardware, arch, project="piglit-test"):
     # no examples where a sku has a different config
     if "gt" in hardware:
         hardware = hardware[:3]
-    conf_dir = ProjectMap().source_root() + "/" + project + "/"
+    pm = ProjectMap()
+    conf_dir = pm.source_root() + "/" + project + "/"
+    if "bxt" in hardware:
+        conf_dir = pm.project_source_dir("prerelease") + "/" + project + "/"
     conf_file = conf_dir + "/" + hardware + arch + ".conf"
     if not os.path.exists(conf_file):
         conf_file = conf_dir + "/" + hardware + ".conf"

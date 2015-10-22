@@ -277,6 +277,8 @@ class RevisionSpecification:
         for (project, rev) in self._revisions.iteritems():
             if project == "mesa_jenkins":
                 continue
+            if project == "prerelease":
+                continue
             revs.append(project + "=" + rev)
         return " ".join(revs)
 
