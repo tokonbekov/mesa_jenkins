@@ -138,7 +138,7 @@
 
     <project name="cts-full">
       <prerequisite name="cts-test" hardware="snb,ivb,hsw,bdw" arch="m64"/>
-      <prerequisite name="cts-test" only_for_type="daily" hardware="g965,g33,ilk,g45,bsw" arch="m64"/>
+      <prerequisite name="cts-test" only_for_type="daily" hardware="g965,g33,ilk,g45,bsw,byt" arch="m64"/>
     </project>
 
     <project name="reboot-slaves">
