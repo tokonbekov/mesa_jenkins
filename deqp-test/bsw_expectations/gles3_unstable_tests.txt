@@ -20,8 +20,7 @@ dEQP-GLES3.functional.fbo.api.valid_rbo_attachments
 dEQP-GLES3.functional.fbo.api.valid_tex2d_attachments
 dEQP-GLES3.functional.fbo.api.valid_texcube_attachments
 dEQP-GLES3.functional.fbo.blit.depth_stencil.depth32f_stencil8_stencil_only
-dEQP-GLES3.functional.flush_finish.finish
-dEQP-GLES3.functional.flush_finish.flush_wait
+dEQP-GLES3.functional.flush_finish
 dEQP-GLES3.functional.fragment_ops.blend.default_framebuffer.equation_src_func_dst_func.reverse_subtract_one_minus_constant_color_constant_alpha
 dEQP-GLES3.functional.fragment_ops.blend.default_framebuffer.equation_src_func_dst_func.reverse_subtract_one_minus_src_color_one_minus_constant_color
 dEQP-GLES3.functional.fragment_ops.blend.default_framebuffer.rgb_func_alpha_func.dst.one_minus_constant_color_one_minus_src_alpha

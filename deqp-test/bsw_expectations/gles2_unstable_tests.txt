@@ -18,6 +18,7 @@ dEQP-GLES2.functional.fbo.api.valid_rbo_attachments
 dEQP-GLES2.functional.fbo.api.valid_tex2d_attachments
 dEQP-GLES2.functional.fbo.api.valid_texcube_attachments
 dEQP-GLES2.functional.fbo.render.recreate_colorbuffer.rebind_tex2d_rgb_stencil_index8
+dEQP-GLES2.functional.flush_finish
 dEQP-GLES2.functional.fragment_ops.blend.equation_src_func_dst_func.add_src_alpha_saturate_one
 dEQP-GLES2.functional.fragment_ops.random
 dEQP-GLES2.functional.shaders.conversions.scalar_to_vector.float_to_vec4_vertex

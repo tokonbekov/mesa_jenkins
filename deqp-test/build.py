@@ -145,7 +145,7 @@ class DeqpBuilder:
         elif "ivb" in o.hardware:
             expectations_dir = src_dir + "/chromiumos-autotest/graphics_dEQP/expectations/ivybridge"
         elif "snb" in o.hardware:
-            expectations_dir = src_dir + "/chromiumos-autotest/graphics_dEQP/expectations/sandybridge"
+            expectations_dir = pm.project_build_dir(pm.current_project()) + "/snb_expectations"
         elif "bsw" in o.hardware:
             expectations_dir = pm.project_build_dir(pm.current_project()) + "/bsw_expectations"
 
@@ -179,17 +179,8 @@ class DeqpBuilder:
             # TODO(janesma) : write bug
             skips = ["functional.fragment_ops.interaction.basic_shader",
                      "functional.shaders.random.basic_expression.combined",
-                     "functional.shaders.random.conditionals.combined",
-                     # fails intermittently on at least bdw and hsw
-                     "functional.flush_finish.flush",
-                     "functional.flush_finish.finish",
-                     "functional.flush_finish.finish_wait"]
+                     "functional.shaders.random.conditionals.combined"]
             
-            if "snb" in o.hardware:
-                skips = skips + ["functional.shaders.random.texture.vertex.45",
-                                 "functional.shaders.random.texture.vertex.1",
-                                 "functional.shaders.random.texture.vertex.34"]
-                
             intermittent = DeqpTrie()
             for skip in skips:
                 intermittent.add_line("dEQP-" + module.upper() + "." + skip)
