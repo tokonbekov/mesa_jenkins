@@ -450,6 +450,7 @@ class PiglitTester(object):
                                              "ext_framebuffer_multisample.interpolation 8 centroid-deriv-disabled",
                                              "ext_framebuffer_multisample.multisample-blit.4.color",
                                              "ext_packed_depth_stencil.depthstencil-render-miplevels 1024 d=z24_s8_s=z24_s8",
+                                             "ext_packed_depth_stencil.depthstencil-render-miplevels 1024 s=z24_s8_d=z24",
                                              "ext_texture_array.texsubimage array",
                                              "glsl-1.10.execution.built-in-functions.fs-clamp-vec3-vec3-vec3",
                                              "glsl-1_10.execution.built-in-functions.fs-equal-bvec3-bvec3",
