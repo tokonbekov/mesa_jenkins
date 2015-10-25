@@ -135,7 +135,31 @@ class Jenkins:
     def build(self, project_invoke, branch="", extra_arg=None):
         status = project_invoke.get_info("status", block=False)
         if status == "building":
-            raise BuildInProgress(project_invoke, self._revspec)
+            job_url = project_invoke.get_info("url")
+            live_build = True
+            if not job_url:
+                print "No URL, checking trigger time"
+                trigger_time = project_invoke.get_info("trigger_time")
+                if trigger_time:
+                    trigger_time = float(trigger_time)
+                    if time.time() - trigger_time > 600:
+                        # a build was cancelled in the queue
+                        print "build was triggered but never built: " + str(trigger_time)
+                        live_build = False
+            try:
+                f = urllib2.urlopen(job_url + "/api/python")
+                abuild_page = ast.literal_eval(f.read())
+                if abuild_page["result"]:
+                    # there is a build result, probably cancelled
+                    print "found dead build with status: " + abuild_page["result"]
+                    print "url: " + job_url
+                    print "rebuilding."
+                    live_build = False
+            except:
+                pass
+            if live_build:
+                raise BuildInProgress(project_invoke, self._revspec)
+            # else the build is dead, we should rebuild it.
 
         if status == "failure":
             # raise BuildFailure(project_invoke, self._revision)
