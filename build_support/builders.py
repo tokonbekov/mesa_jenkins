@@ -30,6 +30,7 @@ import re
 import socket
 import subprocess
 import sys
+import time
 import urllib2
 import xml.etree.ElementTree as ET
 from . import Options
@@ -599,6 +600,8 @@ class PiglitTester(object):
                         Options().result_path).reboot_builder(label)
             except(urllib2.URLError):
                 print "ERROR: encountered error triggering reboot"
+            print "sleeping to allow reboot job to be scheduled."
+            time.sleep(120)
 
     def mesa_version(self):
         (out, _) = run_batch_command([self.build_root + "/bin/wflinfo",
