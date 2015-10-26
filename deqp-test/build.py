@@ -148,6 +148,8 @@ class DeqpBuilder:
             expectations_dir = pm.project_build_dir(pm.current_project()) + "/snb_expectations"
         elif "bsw" in o.hardware:
             expectations_dir = pm.project_build_dir(pm.current_project()) + "/bsw_expectations"
+        elif "skl" in o.hardware:
+            expectations_dir = pm.project_build_dir(pm.current_project()) + "/skl_expectations"
 
         conf_file = bs.get_conf_file(o.hardware, o.arch, "deqp-test")
 

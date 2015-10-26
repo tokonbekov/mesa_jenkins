@@ -125,14 +125,14 @@
       <prerequisite name="piglit-test"
                     arch="m64,m32"
                     hardware="ilk,g45,snb,ivb,hsw,bsw,byt,g965,bdw,g33,skl"/>
-      <prerequisite name="deqp-test" arch="m64" hardware="hsw,snb,bdw,byt,bsw,ivb"/>
+      <prerequisite name="deqp-test" arch="m64" hardware="hsw,snb,bdw,byt,bsw,ivb,skl"/>
       <prerequisite name="cts-test" arch="m64" hardware="ilk,g45,g965,g33,snb,ivb,hsw,bdw,byt,bsw,skl"/>
     </project>
 
     <project name="deqp-full">
       <prerequisite name="deqp-test"
                     arch="m64"
-                    hardware="hsw,snb,byt,bsw,ivb"
+                    hardware="hsw,snb,byt,bsw,ivb,skl"
                     shard="5"/>
     </project>
 
