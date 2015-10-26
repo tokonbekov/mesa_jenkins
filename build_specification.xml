@@ -165,7 +165,6 @@
       <remote name="jekstrand" repo="git://people.freedesktop.org/~jekstrand/mesa"/>
       <remote name="kwg" repo="git://people.freedesktop.org/~kwg/mesa"/>
       <remote name="krh" repo="git://people.freedesktop.org/~krh/mesa"/>
-      <remote name="cworth" repo="git://people.freedesktop.org/~cworth/mesa"/>
       <remote name="bwidawsk" repo="git://people.freedesktop.org/~bwidawsk/mesa"/>
       <remote name="idr" repo="git://people.freedesktop.org/~idr/mesa"/>
       <remote name="mattst88" repo="git://people.freedesktop.org/~mattst88/mesa"/>
@@ -178,7 +177,6 @@
       <remote name="tpohjola" repo="git://people.freedesktop.org/~tpohjola/mesa"/>
       <remote name="dcbaker" repo="git://people.freedesktop.org/~dbaker/mesa"/>
       <remote name="nchery" repo="git://people.freedesktop.org/~nchery/mesa"/>
-      <remote name="cwabbott0" repo="git://people.freedesktop.org/~cwabbott0/mesa"/>
       <remote name="bpeel" repo="git://github.com/bpeel/mesa"/>
       <remote name="chadv" repo="git://github.com/chadversary/mesa"/>
       <remote name="ickle" repo="git://people.freedesktop.org/~ickle/mesa"/>
