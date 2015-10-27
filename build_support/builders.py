@@ -292,9 +292,14 @@ class PiglitTester(object):
         o = Options()
 
         mesa_version = self.mesa_version()
-        if o.hardware == "bsw" or "skl" in o.hardware:
+        if o.hardware in ["bsw", "bxt"] or "skl" in o.hardware:
             if "10.5" in mesa_version or "10.6" in mesa_version:
-                print "WARNING: piglit hangs on bsw for stable mesa"
+                print "WARNING: piglit hangs on bsw/skl/bxt for stable mesa"
+                return
+
+        if o.hardware == "bxt":
+            if "11.0" in mesa_version:
+                print "WARNING: bxt not supported by stable mesa"
                 return
 
         dev_ids = { "byt" : "0x0F32",
@@ -469,6 +474,9 @@ class PiglitTester(object):
                                              "glsl-es-3_00.execution.built-in-functions.fs-packsnorm2x16",
                                              "glsl-es-3_00.execution.built-in-functions.fs-unpackhalf2x16",
                                              "opengl 1_1.clipflat"]
+
+        if "bxt" in hardware:
+            exclude_tests = exclude_tests + ["fbo-depth-array"]
 
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
