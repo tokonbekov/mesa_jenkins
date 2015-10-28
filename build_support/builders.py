@@ -403,7 +403,8 @@ class PiglitTester(object):
             # bug: 91298
             exclude_tests = exclude_tests + ['arb_shader_atomic_counters.unused-result',
                                              "arb_shader_atomic_counters.function-argument",
-                                             "arb_shader_atomic_counters.semantics"]
+                                             "arb_shader_atomic_counters.semantics",
+                                             "arb_shader_atomic_counters.fragment-discard"]
 
             # Bug 92166
             exclude_tests = exclude_tests + ['arb_shader_storage_buffer_object.array-ssbo-binding']
