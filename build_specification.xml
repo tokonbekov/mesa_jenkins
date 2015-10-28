@@ -238,7 +238,7 @@
       <drm/>
       <deqp/>
       <cts/>
-      <prerelease/>
+      <prerelease trigger="false"/>
     </branch>
 
     <branch name="mesa_11.0" project="all-test">
