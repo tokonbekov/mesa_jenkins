@@ -23,6 +23,7 @@ dEQP-GLES3.functional.shaders.derivate.dfdy.texture.float_nicest.float_highp
 dEQP-GLES3.functional.shaders.derivate.dfdy.texture.float_nicest.vec2_highp
 dEQP-GLES3.functional.shaders.derivate.dfdy.texture.float_nicest.vec2_lowp
 dEQP-GLES3.functional.shaders.derivate.dfdy.texture.float_nicest.vec3_highp
+dEQP-GLES3.functional.shaders.derivate.dfdy.texture.float_nicest.vec4_highp
 dEQP-GLES3.functional.shaders.derivate.dfdy.texture.float_nicest.vec4_lowp
 dEQP-GLES3.functional.shaders.random.all_features.fragment.16
 dEQP-GLES3.functional.shaders.random.texture.vertex.1
