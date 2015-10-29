@@ -102,7 +102,8 @@ if args.to:
     s.sendmail(msg["From"], to, msg.as_string())
 
     os.chdir(pm.source_root() + "/repos/prerelease")
-    patch_text = git.Repo().git.diff()
+    r = git.Repo()
+    patch_text = r.git.diff()
     if not patch_text:
         sys.exit(0)
     msg = MIMEText(patch_text)
@@ -112,4 +113,4 @@ if args.to:
     s = smtplib.SMTP('or-out.intel.com')
     to = args.to.split(",")
     s.sendmail(msg["From"], to, msg.as_string())
-    
+    r.git.reset("--hard")
