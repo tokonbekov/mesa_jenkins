@@ -380,12 +380,14 @@ class PiglitTest:
             testname = re.sub('[=:]', ".", testname)
             if self.test_name != testname:
                 continue
-            e = testcase.findall("failure")
-            if e:
-                testcase.remove(e)
-            e = testcase.findall("error")
-            if e:
-                testcase.remove(e)
+            etags = testcase.findall("failure")
+            for tag in etags:
+                testcase.remove(tag)
+            etags = testcase.findall("error")
+            for tag in etags:
+                testcase.remove(tag)
+            stderr = testcase.find("system-out")
+            stderr.text = stderr.text + "WARN: stripping flaky test."
             break
         result.write(result_file)
         
@@ -414,15 +416,14 @@ class TestLister:
                 count += 1
                 if count > 10:
                     break
-            test_files = os.listdir(bad_dir)
+            test_files = [bad_dir + "/" + f for f in os.listdir(bad_dir)]
         for a_file in test_files:
             if ("piglit-test" not in a_file and
                 "piglit-cpu-test" not in a_file and
                 "piglit-cts" not in a_file and
                 "piglit-deqp" not in a_file) :
                 continue
-            test_path = bad_dir + "/" + a_file
-            self._add_tests(test_path)
+            self._add_tests(a_file)
 
     def _add_tests(self, test_path):
         t = ET.parse(test_path)

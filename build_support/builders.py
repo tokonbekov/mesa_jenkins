@@ -532,7 +532,7 @@ class PiglitTester(object):
             retests = tl.RetestIncludes("piglit-test")
             if retests:
                 print "WARN: retesting piglit"
-                (out, err) = run_batch_command(cmd + exclude_cmd + include_tests +
+                (out, err) = run_batch_command(cmd + exclude_cmd + include_tests + retests +
                                                concurrency_options + [self.suite, out_dir ],
                                                env=self.env,
                                                expected_return_code=None,
