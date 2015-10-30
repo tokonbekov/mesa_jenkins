@@ -15,7 +15,7 @@ start_time = time.time()
 
 bs.build(bs.PiglitTester(_suite="cpu", device_override="byt"))
 bs.build(bs.PiglitTester(_suite="cpu", device_override="g45"))
-bs.build(bs.PiglitTester(_suite="cpu", device_override="g965"))
+#bs.build(bs.PiglitTester(_suite="cpu", device_override="g965"))
 bs.build(bs.PiglitTester(_suite="cpu", device_override="ilk"))
 bs.build(bs.PiglitTester(_suite="cpu", device_override="ivbgt2"))
 bs.build(bs.PiglitTester(_suite="cpu", device_override="snbgt2"))
