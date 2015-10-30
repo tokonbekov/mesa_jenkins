@@ -483,17 +483,11 @@ class PiglitTester(object):
 
         if o.retest_path:
             # only test items which previously failed
-            include_tests = []
-            testlist = TestLister(o.retest_path + "/test/")
-            for atest in testlist.Tests(project="piglit-test"):
-                test_name_good_chars = re.sub('[_ !:=]', ".", atest.test_name)
-                # drop the spec
-                test_name = ".".join(test_name_good_chars.split(".")[1:])
-                include_tests = include_tests + ["--include-tests", test_name]
-            if not include_tests:
+            testlist = TestLister(o.retest_path + "/test/").RetestIncludes("piglit-test")
+            if not testlist:
                 # we were supposed to retest failures, but there were none
                 return
-            cmd = cmd + include_tests
+            cmd = cmd + testlist
 
         if self._piglit_test:
             # support for running a single test

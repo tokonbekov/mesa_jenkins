@@ -197,6 +197,14 @@ class DeqpBuilder:
 
         os.chdir(savedir)
 
+        include_tests = []
+        if o.retest_path:
+            testlist = bs.TestLister(o.retest_path + "/test/")
+            include_tests = testlist.RetestIncludes("deqp-test")
+            if not include_tests:
+                # we were supposed to retest failures, but there were none
+                return
+
         # invoke piglit
         self.env["PIGLIT_DEQP_GLES2_BIN"] = self.build_root + "/opt/deqp/modules/gles2/deqp-gles2"
         self.env["PIGLIT_DEQP_GLES2_EXTRA_ARGS"] =  ("--deqp-surface-type=fbo "
@@ -214,18 +222,6 @@ class DeqpBuilder:
                                                     self.build_root + "/opt/deqp/modules/gles3/gles3-cases.txt")
         out_dir = self.build_root + "/test/" + o.hardware
 
-        include_tests = []
-        if o.retest_path:
-            testlist = bs.TestLister(o.retest_path + "/test/")
-            for atest in testlist.Tests(project="deqp-test"):
-                test_name_good_chars = re.sub('[_ !:=]', ".", atest.test_name)
-                # drop the spec
-                test_name = ".".join(test_name_good_chars.split(".")[1:])
-                include_tests = include_tests + ["--include-tests", test_name]
-            if not include_tests:
-                # we were supposed to retest failures, but there were none
-                return
-            
         cmd = [self.build_root + "/bin/piglit",
                "run",
                "-p", "gbm",

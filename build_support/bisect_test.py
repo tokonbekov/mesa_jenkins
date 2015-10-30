@@ -207,6 +207,15 @@ class PiglitTest:
         self.status = status
         self.bisected_revision = "unknown"
 
+
+    def FailsPlatform(self, arch, hardware):
+        if arch == self.arch and hardware == self.hardware:
+            return True
+        for (a,h) in self.other_arches:
+            if arch == a and hardware == h:
+                return True
+        return False
+        
     def AddTest(self, test):
         assert(test.test_name == self.test_name)
         if (test.status != self.status):
@@ -436,3 +445,19 @@ class TestLister:
                     out_list.append(test)
                     continue
         return out_list
+
+    def RetestIncludes(self, project):
+        # return a list of --include-tests parameters that allows
+        # failures to be retested
+        o = Options()
+        include_tests = []
+        for atest in self.Tests(project=project):
+            if not atest.FailsPlatform(o.arch, o.hardware):
+                # only retest when the test fails the current platform
+                continue
+            test_name_good_chars = re.sub('[_ !:=]', ".", atest.test_name)
+            # drop the spec
+            test_name = ".".join(test_name_good_chars.split(".")[1:])
+            include_tests = include_tests + ["--include-tests", test_name]
+        return include_tests
+

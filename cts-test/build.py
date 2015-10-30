@@ -55,11 +55,7 @@ class CtsBuilder:
         include_tests = []
         if o.retest_path:
             testlist = bs.TestLister(o.retest_path + "/test/")
-            for atest in testlist.Tests(project="cts-test"):
-                test_name_good_chars = re.sub('[_ !:=]', ".", atest.test_name)
-                # drop the spec
-                test_name = ".".join(test_name_good_chars.split(".")[1:])
-                include_tests = include_tests + ["--include-tests", test_name]
+            include_tests = testlist.RetestIncludes(project="cts-test")
             if not include_tests:
                 # we were supposed to retest failures, but there were none
                 return
