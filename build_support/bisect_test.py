@@ -375,22 +375,28 @@ class TestLister:
     """reads xml files and generates a set of PiglitTest objects"""
     def __init__(self, bad_dir):
         self._tests = {}
+        # each test map is keyed by test name, value is PiglitTest
         self._tests["piglit-test"] = {}
         self._tests["deqp-test"] = {}
         self._tests["cts-test"] = {}
-        # used to limit the number of tests run to the ones that are
-        # under bisection
-        self._retest_path = os.path.abspath(bad_dir + "/..")
-        # self.test_map is keyed by test name, value is PiglitTest
-        count = 0
-        while not os.path.exists(bad_dir):
-            print "sleeping, waiting for " + bad_dir
-            print " ".join(os.listdir(self._retest_path))
-            time.sleep(10)
-            count += 1
-            if count > 10:
-                break
-        for a_file in os.listdir(bad_dir):
+
+        test_files = []
+        if os.path.isfile(bad_dir):
+            test_files = [bad_dir]
+            self._retest_path = os.path.abspath(bad_dir + "/../..")
+        else:
+            self._retest_path = os.path.abspath(bad_dir + "/..")
+            # sometimes the test directory is not available, so wait for it.
+            count = 0
+            while not os.path.exists(bad_dir):
+                print "sleeping, waiting for " + bad_dir
+                print " ".join(os.listdir(self._retest_path))
+                time.sleep(10)
+                count += 1
+                if count > 10:
+                    break
+            test_files = os.listdir(bad_dir)
+        for a_file in test_files:
             if ("piglit-test" not in a_file and
                 "piglit-cpu-test" not in a_file and
                 "piglit-cts" not in a_file and
