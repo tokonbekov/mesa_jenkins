@@ -370,6 +370,25 @@ class PiglitTest:
 
         print "ERROR -- TEST NOT FOUND, treating as success: " + rev + " " + self.test_name
         return True
+
+    def ForcePass(self, result_file):
+        result = ET.parse(result_file)
+        for testcase in result.findall("./testsuite/testcase"):
+            testname = testcase.attrib["classname"] + "." + testcase.attrib["name"]
+            #strip off the arch/platform and drop the special characters
+            testname = ".".join(testname.split(".")[:-1])
+            testname = re.sub('[=:]', ".", testname)
+            if self.test_name != testname:
+                continue
+            e = testcase.findall("failure")
+            if e:
+                testcase.remove(e)
+            e = testcase.findall("error")
+            if e:
+                testcase.remove(e)
+            break
+        result.write(result_file)
+        
     
 class TestLister:
     """reads xml files and generates a set of PiglitTest objects"""
