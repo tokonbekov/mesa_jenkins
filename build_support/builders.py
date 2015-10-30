@@ -476,34 +476,32 @@ class PiglitTester(object):
         if "bxt" in hardware:
             exclude_tests = exclude_tests + ["fbo-depth-array"]
 
+        exclude_cmd = []
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
             fixed_test = fixed_test.replace(' ', '.')
-            cmd = cmd + ["--exclude-tests", fixed_test]
+            exclude_cmd = exclude_cmd + ["--exclude-tests", fixed_test]
 
+        include_tests = []
         if o.retest_path:
             # only test items which previously failed
-            testlist = TestLister(o.retest_path + "/test/").RetestIncludes("piglit-test")
-            if not testlist:
+            include_tests = TestLister(o.retest_path + "/test/").RetestIncludes("piglit-test")
+            if not include_tests:
                 # we were supposed to retest failures, but there were none
                 return
-            cmd = cmd + testlist
 
         if self._piglit_test:
             # support for running a single test
-            cmd = cmd + ["--include-tests", self._piglit_test]
+            include_tests = ["--include-tests", self._piglit_test]
             
         concurrency_options = ["-c"]
             
-        cmd = cmd + concurrency_options
-            
-        cmd = cmd + [self.suite,
-                     out_dir ]
-
         streamedOutput = True
         if o.retest_path:
             streamedOutput = False
-        (out, err) = run_batch_command(cmd, env=self.env,
+        (out, err) = run_batch_command(cmd + exclude_cmd + include_tests +
+                                       concurrency_options + [self.suite, out_dir ],
+                                       env=self.env,
                                        expected_return_code=None,
                                        streamedOutput=streamedOutput)
         if err and "There are no tests scheduled to run" in err:
@@ -513,6 +511,9 @@ class PiglitTester(object):
         if not os.path.exists(single_out_dir):
             os.makedirs(single_out_dir)
 
+        final_file = single_out_dir + "_".join(["/" + pm.current_project(),
+                                                hardware,
+                                                o.arch]) + ".xml"
         if os.path.exists(out_dir + "/results.xml"):
             # obtain the set of revisions on master which are not on
             # the current branches.  This set represents the revisions
@@ -523,10 +524,24 @@ class PiglitTester(object):
             # jenkins
             self.filter_tests(revisions,
                               out_dir + "/results.xml",
-                              single_out_dir + "_".join(["/" + pm.current_project(),
-                                                         hardware,
-                                                         o.arch]) + ".xml")
+                              final_file)
 
+        if "bsw" == hardware:
+            # run piglit again, to eliminate intermittent failures
+            tl = TestLister(final_file)
+            retests = tl.RetestIncludes("piglit-test")
+            if retests:
+                print "WARN: retesting piglit"
+                (out, err) = run_batch_command(cmd + exclude_cmd + include_tests +
+                                               concurrency_options + [self.suite, out_dir ],
+                                               env=self.env,
+                                               expected_return_code=None,
+                                               streamedOutput=streamedOutput)
+                second_results = TestLister(out_dir + "/results.xml")
+                for a_test in tl.TestsNotIn(second_results):
+                    print "stripping flaky test: " + a_test.test_name
+                    a_test.ForcePass(final_file)
+                
         # create a copy of the test xml in the source root, where
         # jenkins can access it.
         cmd = ["cp", "-a", "-n",
