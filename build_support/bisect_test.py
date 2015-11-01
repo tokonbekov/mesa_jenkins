@@ -478,9 +478,6 @@ class TestLister:
         o = Options()
         include_tests = []
         for atest in self.Tests(project=project):
-            if not atest.FailsPlatform(o.arch, o.hardware):
-                # only retest when the test fails the current platform
-                continue
             test_name_good_chars = re.sub('[_ !:=]', ".", atest.test_name)
             # drop the spec
             test_name = ".".join(test_name_good_chars.split(".")[1:])
