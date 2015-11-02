@@ -222,17 +222,17 @@ class DeqpBuilder:
                                                     self.build_root + "/opt/deqp/modules/gles3/gles3-cases.txt")
         out_dir = self.build_root + "/test/" + o.hardware
 
+        suites_and_outdir = ["deqp_gles2", "deqp_gles3", out_dir ]
         cmd = [self.build_root + "/bin/piglit",
                "run",
                "-p", "gbm",
                "-b", "junit",
                "--config", conf_file,
                "-c",
-               "--junit_suffix", "." + o.hardware + o.arch] + \
-            include_tests + \
-            ["deqp_gles2", "deqp_gles3", out_dir ]
+               "--junit_suffix", "." + o.hardware + o.arch]
         
-        bs.run_batch_command(cmd, env=self.env,
+        bs.run_batch_command(cmd + include_tests + suites_and_outdir,
+                             env=self.env,
                              expected_return_code=None,
                              streamedOutput=True)
 
@@ -240,22 +240,41 @@ class DeqpBuilder:
         if not os.path.exists(single_out_dir):
             os.makedirs(single_out_dir)
 
-        if os.path.exists(out_dir + "/results.xml"):
-            # Uniquely name all test files in one directory, for
-            # jenkins
-            filename_components = ["/piglit-deqp",
-                                   o.hardware,
-                                   o.arch]
-            if o.shard != "0":
-                # only put the shard suffix on for non-zero shards.
-                # Having _0 suffix interferes with bisection.
-                filename_components.append(o.shard)
+        filename_components = ["/piglit-deqp",
+                               o.hardware,
+                               o.arch]
+        # Uniquely name all test files in one directory, for
+        # jenkins
+        if o.shard != "0":
+            # only put the shard suffix on for non-zero shards.
+            # Having _0 suffix interferes with bisection.
+            filename_components.append(o.shard)
+        final_file = single_out_dir + "_".join(filename_components) + ".xml"
 
+        if not os.path.exists(out_dir + "/results.xml"):
+            print "ERROR: no results at " + out_dir + "/results.xml"
+        else:
             revisions = bs.RepoSet().branch_missing_revisions()
             print "INFO: filtering tests from " + out_dir + "/results.xml"
             self.filter_tests(revisions,
                               out_dir + "/results.xml",
-                              single_out_dir + "_".join(filename_components) + ".xml")
+                              final_file)
+
+            if "bsw" == o.hardware:
+                # run piglit again, to eliminate intermittent failures
+                tl = bs.TestLister(final_file)
+                retests = tl.RetestIncludes("deqp-test")
+                if retests:
+                    print "WARN: retesting deqp"
+                    bs.run_batch_command(cmd + include_tests +
+                                         retests + suites_and_outdir,
+                                         env=self.env,
+                                         expected_return_code=None,
+                                         streamedOutput=True)
+                    second_results = bs.TestLister(out_dir + "/results.xml")
+                    for a_test in tl.TestsNotIn(second_results):
+                        print "stripping flaky test: " + a_test.test_name
+                        a_test.ForcePass(final_file)
 
             # create a copy of the test xml in the source root, where
             # jenkins can access it.
@@ -263,8 +282,6 @@ class DeqpBuilder:
                    self.build_root + "/../test", pm.source_root()]
             bs.run_batch_command(cmd)
             bs.Export().export_tests()
-        else:
-            print "ERROR: no results at " + out_dir + "/results.xml"
 
         bs.PiglitTester().check_gpu_hang()
 
