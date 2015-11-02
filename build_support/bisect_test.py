@@ -403,20 +403,21 @@ class TestLister:
 
         test_files = []
         if os.path.isfile(bad_dir):
-            test_files = [bad_dir]
             self._retest_path = os.path.abspath(bad_dir + "/../..")
-        else:
-            self._retest_path = os.path.abspath(bad_dir + "/..")
-            # sometimes the test directory is not available, so wait for it.
-            count = 0
-            while not os.path.exists(bad_dir):
-                print "sleeping, waiting for " + bad_dir
-                print " ".join(os.listdir(self._retest_path))
-                time.sleep(10)
-                count += 1
-                if count > 10:
-                    break
-            test_files = [bad_dir + "/" + f for f in os.listdir(bad_dir)]
+            self._add_tests(bad_dir)
+            return
+
+        self._retest_path = os.path.abspath(bad_dir + "/..")
+        # sometimes the test directory is not available, so wait for it.
+        count = 0
+        while not os.path.exists(bad_dir):
+            print "sleeping, waiting for " + bad_dir
+            print " ".join(os.listdir(self._retest_path))
+            time.sleep(10)
+            count += 1
+            if count > 10:
+                break
+        test_files = [bad_dir + "/" + f for f in os.listdir(bad_dir)]
         for a_file in test_files:
             if ("piglit-test" not in a_file and
                 "piglit-cpu-test" not in a_file and
