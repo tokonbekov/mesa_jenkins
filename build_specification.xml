@@ -119,10 +119,6 @@
       <prerequisite name="cts-full"/>
     </project>
 
-    <project name="test-single-arch-skl">
-      <prerequisite name="test-single-arch"/>
-    </project>
-
     <!-- for bisecting failures -->
     <project name="piglit-gpu-all">
       <prerequisite name="piglit-test"
