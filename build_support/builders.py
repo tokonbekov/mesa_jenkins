@@ -416,6 +416,10 @@ class PiglitTester(object):
 
             # Bug 92375
             exclude_tests = exclude_tests + ["arb_shader_storage_buffer_object.layout-std140-write-shader"]
+
+            # bug 92822
+            exclude_tests = exclude_tests + ["arb_arrays_of_arrays.execution.image_store.basic-imagestore-non-const-uniform-index",
+                                             "arb_arrays_of_arrays.execution.image_store.basic-imagestore-const-uniform-index"]
         
         if "byt" in hardware:
             # bug 89219, fixed in 10c82c6c5fc415d323a5e9c6acdc6a4c85d6b712
