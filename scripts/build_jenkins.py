@@ -1,7 +1,25 @@
-import os, time, sys, shutil, hashlib, argparse, shutil
+import argparse
+import os
+import sys
+import tarfile
+import time
+import xml.etree.ElementTree as ET
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
 import build_support as bs
 
+def strip_passes(root):
+    for a_suite in root.findall("testsuite"):
+        for a_test in a_suite.findall("testcase"):
+            # strip suffix
+            a_test.attrib["name"] = ".".join(a_test.attrib["name"].split(".")[:-1])
+            fails = a_test.findall("failure") + a_test.findall("error")
+            if not fails:
+                # strip status if no fail tag
+                a_test.attrib["status"] = "pass"
+                # strip output for passes
+                a_test.find("system-out").text = " "
+                a_test.find("system-err").text = " "
+    
 
 def collate_tests(result_path, out_test_dir):
     src_test_dir = result_path + "/test"
@@ -20,8 +38,45 @@ def collate_tests(result_path, out_test_dir):
            out_test_dir]
     bs.run_batch_command(cmd)
 
-def main():
+    # generate a results.tgz that can be used with piglit summary
+    save_dir = os.getcwd()
+    os.chdir("/tmp/")
+    tar = tarfile.open(out_test_dir + "/test/results.tgz", "w:gz")
+    shards = {}
+    for a_file in os.listdir(out_test_dir + "/test"):
+        if "piglit" not in a_file:
+            continue
+        if ":" in a_file:
+            shard_base_name = "_".join(a_file.split("_")[:-1])
+            if not shards.has_key(shard_base_name):
+                shards[shard_base_name] = []
+            shards[shard_base_name].append(a_file)
+            continue
+        t = ET.parse(out_test_dir + "/test/" + a_file)
+        r = t.getroot()
+        strip_passes(r)
+        t.write(a_file)
+        tar.add(a_file)
+        os.unlink(a_file)
+    for (shard, files) in shards.items():
+        t = ET.parse(out_test_dir + "/test/" + files[0])
+        r = t.getroot()
+        strip_passes(r)
+        suite = r.find("testsuite")
+        for shards in files[1:]:
+            st = ET.parse(out_test_dir + "/test/" + shards)
+            sr = st.getroot()
+            strip_passes(sr)
+            for a_suite in sr.findall("testsuite"):
+                for a_test in a_suite.findall("testcase"):
+                    suite.append(a_test)
+        t.write(shard + ".xml")
+        tar.add(shard + ".xml")
+        os.unlink(shard + ".xml")
+    tar.close()
+    os.chdir(save_dir)
 
+def main():
     # reuse the options from the gasket
     o = bs.Options([sys.argv[0]])
     description="builds a component on jenkins"
@@ -68,6 +123,7 @@ def main():
 
     pm = bs.ProjectMap()
     bs.rmtree(pm.source_root() + "/test_summary.txt")
+    bs.rmtree(pm.source_root() + "results/test/results.tgz")
 
     # start with the specified branch, then layer any revision spec on
     # top of it
@@ -103,7 +159,6 @@ def main():
     jen = bs.Jenkins(result_path=result_path,
                      revspec=revspec)
 
-
     depGraph = bs.DependencyGraph(projects, o)
 
     out_test_dir = pm.output_dir()
@@ -123,12 +178,13 @@ def main():
         jen.build_all(depGraph, branch=branch)
     finally:
         collate_tests(result_path, out_test_dir)
-        bs.rmtree("test_summary.txt")
-        fh = open("test_summary.txt", "w")
         tl = bs.TestLister(out_test_dir + "/test")
-        for atest in tl.Tests():
-            atest.PrettyPrint(fh)
-        fh.close()
+        tests = tl.Tests()
+        if tests:
+            fh = open("test_summary.txt", "w")
+            for atest in tests:
+                atest.PrettyPrint(fh)
+            fh.close()
 
 if __name__=="__main__":
     try:
