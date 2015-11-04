@@ -179,6 +179,7 @@
       <remote name="bpeel" repo="git://github.com/bpeel/mesa"/>
       <remote name="chadv" repo="git://github.com/chadversary/mesa"/>
       <remote name="ickle" repo="git://people.freedesktop.org/~ickle/mesa"/>
+      <remote name="tarceri" repo="git://github.com/tarceri/Mesa_arrays_of_arrays"/>
     </mesa>
 
     <drm repo="git://anongit.freedesktop.org/mesa/drm">
@@ -338,6 +339,10 @@
     
     <branch name="ickle" project="test-single-arch">
       <mesa branch="ickle/jenkins"/>
+    </branch>
+
+    <branch name="tarceri" project="test-single-arch">
+      <mesa branch="tarceri/intel_ci"/>
     </branch>
 
   </branches>
