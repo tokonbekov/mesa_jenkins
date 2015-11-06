@@ -117,7 +117,7 @@ def main():
     del vdict["revision"]
     del vdict["rebuild"]
     o.__dict__.update(vdict)
-    sys.argv = ["bogus"] + o.to_string().split()
+    sys.argv = ["bogus"] + o.to_list()
 
     bspec = bs.BuildSpecification()
 

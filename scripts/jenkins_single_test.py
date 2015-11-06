@@ -66,7 +66,7 @@ def main():
         test = test + "." + vdict["hardware"] + vdict["arch"]
         
     o.__dict__.update(vdict)
-    sys.argv = ["bogus"] + o.to_string().split()
+    sys.argv = ["bogus"] + o.to_list()
 
     # check out the branch, refined by any manually-specfied revisions
     bspec = bs.BuildSpecification()

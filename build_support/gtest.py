@@ -55,6 +55,9 @@ class GTest:
         
         options = Options()
 
+        env = {}
+        options.update_env(env)
+            
         pm = ProjectMap()
         br = pm.build_root()
         for test in self._executables:
@@ -77,7 +80,7 @@ class GTest:
                    "--gtest_output=xml:" + outpath,
                    "--gtest_catch_exceptions"]
             try:
-                run_batch_command(cmd)
+                run_batch_command(cmd, env=env)
             except(subprocess.CalledProcessError):
                 Export().create_failing_test("failing-gtest-" + test,
                                              "WARN: gtest returned non-zero status: " + test_path)

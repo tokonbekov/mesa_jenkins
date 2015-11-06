@@ -26,14 +26,17 @@ class CtsBuilder(bs.CMakeBuilder):
         if self._options.arch == "m64":
             cflag = "-m64"
             cxxflag = "-m64"
+        env = {"CC":"ccache gcc",
+               "CXX":"ccache g++",
+               "CFLAGS":cflag,
+               "CXXFLAGS":cxxflag}
+        self._options.update_env(env)
+        
         bs.run_batch_command(["cmake", self._src_dir] + self._extra_definitions,
-                             env={"CC":"ccache gcc",
-                                  "CXX":"ccache g++",
-                                  "CFLAGS":cflag,
-                                  "CXXFLAGS":cxxflag})
+                             env=env)
 
         bs.run_batch_command(["cmake", "--build", self._build_dir,
-                              "--", "-j" + str(bs.cpu_count())])
+                              "--", "-j" + str(bs.cpu_count())], env=env)
 
         bs.run_batch_command(["mkdir", "-p", pm.build_root() + "/bin"])
         bs.run_batch_command(["cp", "-a", self._build_dir + "/cts",

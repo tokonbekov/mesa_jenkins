@@ -26,8 +26,10 @@ class SconsBuilder(object):
         # the clean targets.
         bs.run_batch_command(["git", "clean", "-dfx"])
 
+        env = {}
+        bs.Options().update_env(env)
         bs.run_batch_command(["scons", "-j",
-                              str(bs.cpu_count())])
+                              str(bs.cpu_count())], env=env)
 
         bs.run_batch_command(["git", "clean", "-dfx"])
         os.chdir(save_dir)

@@ -106,6 +106,7 @@ class DeqpBuilder:
                      # forces deqp to run headless
                      "EGL_PLATFORM" : "surfaceless"
         }
+        o.update_env(self.env)
 
     def build(self):
         pass

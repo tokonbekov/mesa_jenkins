@@ -53,6 +53,9 @@ def main():
     parser.add_argument('--branch', type=str, default="none",
                         help="Branch specification to build.  "\
                         "See build_specification.xml/branches")
+    parser.add_argument('--env', type=str, default="",
+                        help="If specified, overrides environment variable settings"
+                        "EG: 'LIBGL_DEBUG=1 INTEL_DEBUG=perf'")
 
     args = parser.parse_args()
     project = args.project
@@ -73,7 +76,7 @@ def main():
     if "fetch" in vdict["action"]:
         vdict["action"].remove("fetch")
     o.__dict__.update(vdict)
-    sys.argv = ["bogus"] + o.to_string().split()
+    sys.argv = ["bogus"] + o.to_list()
 
     if "clean" in args.action:
         bs.rmtree(bs.ProjectMap().build_root())
@@ -94,7 +97,7 @@ def main():
             if os.path.exists(script):
                 bs.run_batch_command([sys.executable, 
                                       script] +  
-                                     o.to_string().split(" "))
+                                     o.to_list())
         ready = graph.ready_builds()
 
 main()

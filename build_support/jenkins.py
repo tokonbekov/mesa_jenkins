@@ -230,6 +230,8 @@ class Jenkins:
         p.append("shard=" + o.shard)
         if o.retest_path:
             p.append("extra_arg=--retest_path=" + o.retest_path)
+        if o.env:
+            p.append("env=" + urllib2.quote(o.env))
 
         label = o.hardware
         p.append("label=" + label)

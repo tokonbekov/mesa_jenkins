@@ -106,6 +106,9 @@ class AutoBuilder(object):
         self._build_root = self._project_map.build_root()
         self._build_dir = "/tmp/" + project + "/build_" + self._options.arch
 
+        self._env = {}
+        self._options.update_env(self._env)
+
     def build(self):
         if not os.path.exists(self._build_root):
             os.makedirs(self._build_root)
@@ -130,17 +133,17 @@ class AutoBuilder(object):
                      "CXXFLAGS=-m64 " + optflags]
 
         os.chdir(self._src_dir)
-        run_batch_command(["autoreconf", "--verbose", "--install", "-s"])
+        run_batch_command(["autoreconf", "--verbose", "--install", "-s"], env=self._env)
         os.chdir(self._build_dir)
         run_batch_command([self._src_dir + "/configure", 
                            "PKG_CONFIG_PATH=" + pkg_config, 
                            "CC=ccache gcc -" + self._options.arch, 
                            "CXX=ccache g++ -" + self._options.arch, 
                            "--prefix=" + self._build_root] + \
-                          flags + self._configure_options)
+                          flags + self._configure_options, env=self._env)
 
         run_batch_command(["make",  "-j", 
-                           str(cpu_count())])
+                           str(cpu_count())], env=self._env)
         run_batch_command(["make",  "install"])
 
         os.chdir(savedir)
@@ -158,7 +161,7 @@ class AutoBuilder(object):
         try:
             run_batch_command(["make",  "-k", "-j", 
                                str(cpu_count()),
-                               "check"])
+                               "check"], env=self._env)
         except(subprocess.CalledProcessError):
             print "WARN: make check failed"
             os.chdir(savedir)
@@ -207,17 +210,18 @@ class CMakeBuilder(object):
         if self._options.arch == "m64":
             cflag = "-m64"
             cxxflag = "-m64"
+        env={"PKG_CONFIG_PATH" : pkg_config,
+             "CC":"ccache gcc",
+             "CXX":"ccache g++",
+             "CFLAGS":cflag,
+             "CXXFLAGS":cxxflag}
+        self._options.update_env(env)
         run_batch_command(["cmake", self._src_dir, 
                            "-DCMAKE_INSTALL_PREFIX:PATH=" + self._build_root] \
-                          + self._extra_definitions,
-                          env={"PKG_CONFIG_PATH" : pkg_config,
-                               "CC":"ccache gcc",
-                               "CXX":"ccache g++",
-                               "CFLAGS":cflag,
-                               "CXXFLAGS":cxxflag})
+                          + self._extra_definitions, env=env)
 
         run_batch_command(["cmake", "--build", self._build_dir,
-                           "--", "-j" + str(cpu_count())])
+                           "--", "-j" + str(cpu_count())], env=env)
         run_batch_command(["make", "install"])
 
         os.chdir(savedir)
@@ -233,9 +237,12 @@ class CMakeBuilder(object):
         savedir = os.getcwd()
         os.chdir(self._build_dir)
 
+        env = {}
+        self._options.update_env(env)
+
         # get test names
         command = ["ctest", "-V", "-N"]
-        (out, _) = run_batch_command(command, streamedOutput=False, quiet=True)
+        (out, _) = run_batch_command(command, streamedOutput=False, quiet=True, env=env)
 
         os.chdir(savedir)
 
@@ -320,6 +327,8 @@ class PiglitTester(object):
         }
         if self.device_override:
             self.env["INTEL_DEVID_OVERRIDE"] = dev_ids[self.device_override]
+
+        o.update_env(self.env)
 
         out_dir = self.build_root + "/test/" + o.hardware
 
