@@ -90,6 +90,9 @@ class Options(object):
                                   help="If specified, a fraction of tests will be executed.  "
                                   "EG: --shard=3:5 will divide the tests into 5 equal groups and "
                                   "execute the tess in the third group.")
+        self._parser.add_argument('--env', type=str, default="",
+                                  help="If specified, overrides environment variable settings"
+                                  "EG: 'LIBGL_DEBUG=1 INTEL_DEBUG=perf'")
 
         if None != from_xml:
             self.from_xml(from_xml)
@@ -109,10 +112,14 @@ class Options(object):
         self.result_path = ""
         self.retest_path = ""
         self.shard = ""
+        self.env = ""
         # Parse the args and explode it into the Options class
         self.__dict__.update(vars(self._parser.parse_args(args)))
 
     def to_string(self):
+        return " ".join(self.to_list())
+
+    def to_list(self):
         arglist = []
         arglist += ["--action", ','.join(self.action)]
         arglist += ["--arch", self.arch]
@@ -125,8 +132,9 @@ class Options(object):
             arglist += ["--retest_path", self.retest_path]
         if self.shard != "0":
             arglist += ["--shard", self.shard]
-
-        return " ".join(arglist)
+        if self.env:
+            arglist += ["--env", self.env]
+        return arglist
 
     def to_elementtree(self):
         tag = ET.Element("Options")
@@ -138,6 +146,7 @@ class Options(object):
         tag.set("retest_path", self.retest_path)
         tag.set("type", self.type)
         tag.set("shard", self.shard)
+        tag.set("env", self.env)
         return tag
 
     def from_xml(self, xml):
@@ -152,11 +161,22 @@ class Options(object):
         self.retest_path = xml.attrib["retest_path"]
         self.type = xml.attrib["type"]
         self.shard = xml.attrib["shard"]
+        self.env = xml.attrib["env"]
 
     def update_arg0(self, arg0=None):
         # We should really do better for this:
         self.prog = arg0
         self.component_dir = os.path.dirname(os.path.abspath(arg0))
+
+    def update_env(self, env):
+        if not self.env:
+            return
+        for avar in self.env.split(" "):
+            (varname, varval) = avar.split("=", 1)
+            if varname in env:
+                print "ERROR: overriding existing environmment variable: " + varname
+                assert(False)
+            env[varname] = varval
 
 class CustomOptions(object):
     def __init__(self, description="no description"):
@@ -185,6 +205,6 @@ class CustomOptions(object):
         self._options.__dict__.update(fixed_dict)
 
         # update argv with the standard options.
-        sys.argv = [sys.argv[0]] + self._options.to_string().split()
+        sys.argv = [sys.argv[0]] + self._options.to_list()
         
     
