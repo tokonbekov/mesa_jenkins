@@ -415,7 +415,8 @@ class PiglitTester(object):
             exclude_tests = exclude_tests + ['arb_shader_storage_buffer_object.array-ssbo-binding']
 
             # Bug 92375
-            exclude_tests = exclude_tests + ["arb_shader_storage_buffer_object.layout-std140-write-shader"]
+            exclude_tests = exclude_tests + ["arb_shader_storage_buffer_object.layout-std140-write-shader",
+                                             "arb_shader_storage_buffer_object.layout-std430-write-shader"]
 
             # bug 92822
             exclude_tests = exclude_tests + ["arb_arrays_of_arrays.execution.image_store.basic-imagestore-non-const-uniform-index",
