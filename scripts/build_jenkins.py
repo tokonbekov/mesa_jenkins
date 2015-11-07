@@ -1,4 +1,5 @@
 import argparse
+import datetime
 import os
 import sys
 import tarfile
@@ -146,7 +147,8 @@ def main():
 
     if rebuild == "true" and os.path.exists(result_path):
         print "Removing existing results."
-        bs.rmtree(result_path)
+        mvdir = os.path.normpath(result_path + "/../" + datetime.datetime.now().isoformat())
+        os.rename(result_path, mvdir)
 
     if not projects:
         branchspec = bspec.branch_specification(branch)
