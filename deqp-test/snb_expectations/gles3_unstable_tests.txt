@@ -40,3 +40,4 @@ dEQP-GLES3.stress.long_running_shaders.long_dynamic_while_vertex
 dEQP-GLES3.stress.long_running_shaders.long_static_do_while_fragment
 dEQP-GLES3.stress.long_running_shaders.long_uniform_do_while_fragment
 dEQP-GLES3.stress.long_running_shaders.long_uniform_for_vertex
+dEQP-GLES3.functional.primitive_restart.begin_restart_duplicate_restarts.line_strip
