@@ -111,6 +111,7 @@ class BranchSpecification:
         set """
         for (name, branch) in self._project_branches.iteritems():
             repo = self._repos.repo(name)
+            repo.git.reset("--hard")
             repo.git.checkout(branch.branch)
 
 
