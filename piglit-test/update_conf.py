@@ -93,6 +93,7 @@ for a_fail in reproduced_failures.Tests():
 
 if args.to:
     patch_text = git.Repo().git.diff()
+    print patch_text
     msg = MIMEText(patch_text)
     msg["Subject"] = "[PATCH] mesa jenkins updates due to " + args.blame_revision
     msg["From"] = "Do Not Reply <mesa_jenkins@intel.com>"
@@ -106,6 +107,7 @@ if args.to:
     patch_text = r.git.diff()
     if not patch_text:
         sys.exit(0)
+    print patch_text
     msg = MIMEText(patch_text)
     msg["Subject"] = "[PATCH] prerelease config updates due to " + args.blame_revision
     msg["From"] = "Do Not Reply <mesa_jenkins@intel.com>"
