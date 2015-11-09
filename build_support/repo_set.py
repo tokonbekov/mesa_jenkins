@@ -111,8 +111,17 @@ class BranchSpecification:
         set """
         for (name, branch) in self._project_branches.iteritems():
             repo = self._repos.repo(name)
-            repo.git.reset("--hard")
-            repo.git.checkout(branch.branch)
+            success = False
+            attempt = 0
+            while not success and attempt < 10:
+                try:
+                    attempt += 1
+                    repo.git.reset("--hard")
+                    repo.git.checkout(branch.branch)
+                    success = True
+                except:
+                    print "Encountered error checking out"
+                    time.sleep(10)
 
 
 class TimeoutException(Exception):
