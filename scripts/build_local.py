@@ -56,6 +56,10 @@ def main():
     parser.add_argument('--env', type=str, default="",
                         help="If specified, overrides environment variable settings"
                         "EG: 'LIBGL_DEBUG=1 INTEL_DEBUG=perf'")
+    parser.add_argument('--hardware', type=str, default='builder',
+                        help="The hardware to be targeted for test "
+                        "('builder', 'snbgt1', 'ivb', 'hsw', 'bdw'). "
+                        "(default: %(default)s)")
 
     args = parser.parse_args()
     project = args.project
