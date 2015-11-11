@@ -25,3 +25,4 @@ dEQP-GLES2.functional.shaders.random.all_features.fragment.16
 dEQP-GLES2.functional.shaders.random.texture.vertex.1
 dEQP-GLES2.functional.shaders.random.texture.vertex.34
 dEQP-GLES2.functional.shaders.random.texture.vertex.45
+dEQP-GLES2.functional.shaders.constant_expressions.operators.math_float_fragment

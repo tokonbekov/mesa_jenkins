@@ -41,3 +41,6 @@ dEQP-GLES3.stress.long_running_shaders.long_static_do_while_fragment
 dEQP-GLES3.stress.long_running_shaders.long_uniform_do_while_fragment
 dEQP-GLES3.stress.long_running_shaders.long_uniform_for_vertex
 dEQP-GLES3.functional.primitive_restart.begin_restart_duplicate_restarts.line_strip
+dEQP-GLES3.functional.ubo.instance_array_basic_type.packed.vec2_vertex
+dEQP-GLES3.functional.buffer.map.read_write.usage_hints.element_array_static_copy
+dEQP-GLES3.functional.shaders.constant_expressions.operators.math_float_fragment
