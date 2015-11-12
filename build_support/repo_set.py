@@ -221,6 +221,8 @@ class RepoSet:
                     signal.alarm(0)
                 except TimeoutException as e:
                     print str(e)
+                except Exception as e:
+                    print str(e)
         # the fetch has left our repo objects in an inconsistent
         # state.  We need to recreate them.
         self.__init__()
