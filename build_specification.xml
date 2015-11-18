@@ -345,6 +345,8 @@
       <mesa branch="tarceri/intel_ci"/>
     </branch>
 
+    <branch name="nir_test_clone" project="test-single-arch"/>
+
   </branches>
 
 </build_specification>
