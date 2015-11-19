@@ -397,8 +397,9 @@ class PiglitTester(object):
             exclude_tests = exclude_tests + ["triangle_strip_adjacency"]
             
         if "hsw" in hardware:
-            # intermittent on haswell bug 89219 fixed in 10c82c6c5fc415d323a5e9c6acdc6a4c85d6b712
-            exclude_tests = exclude_tests + ["arb_uniform_buffer_object.bufferstorage"]
+            # intermittent on haswell bug 89219 NOT fixed in 10c82c6c5fc415d323a5e9c6acdc6a4c85d6b712
+            exclude_tests = exclude_tests + ["arb_uniform_buffer_object.bufferstorage",
+                                             "arb_buffer_storage.bufferstorage-persistent.read.client-storage"]
 
             # bug: 91301
             exclude_tests = exclude_tests + ["arb_gpu_shader5.arb_gpu_shader5-emitstreamvertex_nodraw",
