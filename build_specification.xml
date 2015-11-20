@@ -180,6 +180,7 @@
       <remote name="chadv" repo="git://github.com/chadversary/mesa"/>
       <remote name="ickle" repo="git://people.freedesktop.org/~ickle/mesa"/>
       <remote name="tarceri" repo="git://github.com/tarceri/Mesa_arrays_of_arrays"/>
+      <remote name="evelikov" repo="git://github.com/evelikov/mesa"/>
     </mesa>
 
     <drm repo="git://anongit.freedesktop.org/mesa/drm">
@@ -343,6 +344,10 @@
 
     <branch name="tarceri" project="test-single-arch">
       <mesa branch="tarceri/intel_ci"/>
+    </branch>
+
+    <branch name="evelikov" project="test-single-arch">
+      <mesa branch="evelikov/intel-ci"/>
     </branch>
 
     <branch name="nir_test_clone" project="test-single-arch"/>
