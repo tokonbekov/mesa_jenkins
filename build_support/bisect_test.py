@@ -164,7 +164,7 @@ class PiglitTest:
     tested, and a list of other arches that are expected to be caused by
     the same revision"""
     preferred_arches = ["m64", "m32"]
-    preferred_hardware = ["bdw", "bdwgt2", "bdwgt3e", "hsw", "ivb", "hswgt3e", "hswgt2", "hswgt1", "ivbgt2",
+    preferred_hardware = ["bdw", "bdwgt2", "bdwgt3e", "hsw", "ivb", "hswgt3e", "hswgt2", "hswgt1", "skl", "ivbgt2",
                           "ivbgt1"] # ...
 
     def __init__(self, full_test_name, status, test_tag=None, retest_path=""):
