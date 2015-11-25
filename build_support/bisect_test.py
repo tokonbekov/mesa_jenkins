@@ -488,7 +488,8 @@ class TestLister:
                 if comp == "api_":
                     test_name_components.append("api")
                 else:
-                    test_name_components.append(comp)
+                    fixed_comp = re.sub('[()]', ".", comp)
+                    test_name_components.append(fixed_comp)
             test_name = ".".join(test_name_components)
             include_tests = include_tests + ["--include-tests", test_name]
         return include_tests
