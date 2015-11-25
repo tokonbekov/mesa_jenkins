@@ -1,15 +1,13 @@
 #!/usr/bin/python
 
-import ConfigParser as CP
 import argparse
+import datetime
 from email.mime.text import MIMEText
 import git
-import glob
 import os
 import smtplib
 import sys
 import time
-import xml.etree.ElementTree as ET
 
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
 import build_support as bs
@@ -64,6 +62,11 @@ spec_xml = pm.build_spec()
 results_dir = spec_xml.find("build_master").attrib["results_dir"]
 hashstr = _revspec.to_cmd_line_param().replace(" ", "_")
 bisect_dir = results_dir + "/update/" + hashstr
+if os.path.exists(bisect_dir):
+    print "Removing existing retest."
+    mvdir = os.path.normpath(bisect_dir + "/../" + datetime.datetime.now().isoformat())
+    os.rename(bisect_dir, mvdir)
+    
 cmd = ["rsync", "-rlptD", "/".join(dirnames[:-1]) +"/", bisect_dir]
 bs.run_batch_command(cmd)
 bs.rmtree(bisect_dir + "/test")
