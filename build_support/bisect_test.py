@@ -476,21 +476,19 @@ class TestLister:
     def RetestIncludes(self, project):
         # return a list of --include-tests parameters that allows
         # failures to be retested
-        o = Options()
         include_tests = []
         for atest in self.Tests(project=project):
-            test_name_good_chars = re.sub('[_ !:=]', ".", atest.test_name)
             test_name_components = []
             # drop the spec
-            for comp in test_name_good_chars.split(".")[1:]:
+            for comp in atest.test_name.split(".")[1:]:
                 # reverse the "api" -> "api_" substitution that
                 # allows tests to be shown in jenkins.
                 if comp == "api_":
                     test_name_components.append("api")
                 else:
-                    fixed_comp = re.sub('[()]', ".", comp)
-                    test_name_components.append(fixed_comp)
+                    test_name_components.append(comp)
             test_name = ".".join(test_name_components)
-            include_tests = include_tests + ["--include-tests", test_name]
+            test_name_good_chars = re.sub('[_ !:=()]', ".", test_name)
+            include_tests = include_tests + ["--include-tests", test_name_good_chars]
         return include_tests
 
