@@ -30,7 +30,8 @@ dirnames = os.path.abspath(test_dir).split("/")
 hash_dir = dirnames[5]
 revs = hash_dir.split("_")
 
-spec_xml = bs.ProjectMap().build_spec()
+pm = bs.ProjectMap()
+spec_xml = pm.build_spec()
 results_dir = spec_xml.find("build_master").attrib["results_dir"]
 
 repos = bs.RepoSet()
@@ -140,3 +141,18 @@ if args.to:
     s = smtplib.SMTP('or-out.intel.com')
     to = args.to.split(",")
     s.sendmail(msg["From"], to, msg.as_string())
+
+    os.chdir(pm.source_root() + "/repos/prerelease")
+    r = git.Repo()
+    patch_text = r.git.diff()
+    if not patch_text:
+        sys.exit(0)
+    print patch_text
+    msg = MIMEText(patch_text)
+    msg["Subject"] = "[PATCH] prerelease config updates due to " + args.blame_revision
+    msg["From"] = "Do Not Reply <mesa_jenkins@intel.com>"
+    msg["To"] = args.to
+    s = smtplib.SMTP('or-out.intel.com')
+    to = args.to.split(",")
+    s.sendmail(msg["From"], to, msg.as_string())
+    r.git.reset("--hard")
