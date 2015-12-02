@@ -289,7 +289,6 @@
 
     <branch name="dcbaker" project="test-single-arch">
       <piglit branch="dcbaker/jenkins"/>
-      <mesa branch="dcbaker/jenkins"/>
     </branch>
 
     <branch name="chadv" project="test-single-arch">
