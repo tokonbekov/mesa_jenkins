@@ -178,13 +178,15 @@ class AutoBuilder(object):
 
     def clean(self):
         git_clean(self._src_dir)
-        rmtree(self._build_dir)
-        assert(not os.path.exists(self._build_dir))
+        if self._build_dir != self._src_dir:
+            rmtree(self._build_dir)
+            assert(not os.path.exists(self._build_dir))
 
 class CMakeBuilder(object):
-    def __init__(self, extra_definitions=None):
+    def __init__(self, extra_definitions=None, compiler="gcc"):
         self._options = Options()
         self._project_map = ProjectMap()
+        self._compiler = compiler
 
         if not extra_definitions:
             extra_definitions = []
@@ -215,6 +217,12 @@ class CMakeBuilder(object):
              "CXX":"ccache g++",
              "CFLAGS":cflag,
              "CXXFLAGS":cxxflag}
+        if self._compiler == "clang":
+            env={"PKG_CONFIG_PATH" : pkg_config,
+                 "CC":"clang",
+                 "CXX":"clang++",
+                 "CFLAGS":cflag,
+                 "CXXFLAGS":cxxflag}
         self._options.update_env(env)
         run_batch_command(["cmake", self._src_dir, 
                            "-DCMAKE_INSTALL_PREFIX:PATH=" + self._build_root] \

@@ -82,6 +82,17 @@
       <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
     </project>
+
+    <project name="shaderc"/>
+
+    <project name="crucible">
+      <prerequisite name="shaderc"/>
+      <prerequisite name="mesa"/>
+    </project>
+
+    <project name="crucible-test">
+      <prerequisite name="crucible" hardware="builder"/>
+    </project>
     
     <!-- all-test has no build.py, and exists only to provide
          dependency relationships. -->
@@ -180,6 +191,7 @@
       <remote name="ickle" repo="git://people.freedesktop.org/~ickle/mesa"/>
       <remote name="tarceri" repo="git://github.com/tarceri/Mesa_arrays_of_arrays"/>
       <remote name="evelikov" repo="git://github.com/evelikov/mesa"/>
+      <remote name="vulkan" repo="ssh://git@gitlab.khronos.org/vulkan/mesa"/>
     </mesa>
 
     <drm repo="git://anongit.freedesktop.org/mesa/drm">
@@ -219,6 +231,15 @@
 
     <prerelease repo="ssh://majanes@git-amr-3.devtools.intel.com:29418/otc_gen_graphics-mesa_ci_prerelease.git"/>
 
+    <shaderc repo="git://github.com/jekstrand/shaderc"
+             branch="otc"/>
+    <gmock repo="git://github.com/google/googlemock"
+           branch="release-1.7.0"/>
+    <glslang repo="ssh://git@gitlab.khronos.org:jekstrand/glslang.git"
+             branch="otc"/>
+    <gtest repo="git://github.com/google/googletest"
+           branch="release-1.7.0"/>
+    <crucible repo="ssh://majanes@git-amr-3.devtools.intel.com:29418/otc_gen_graphics-crucible"/>
   </repos>
 
 
@@ -251,6 +272,13 @@
     <branch name="mesa_11.1" project="all-test">
       <mesa branch="origin/11.1"/>
       <piglit branch="janesma/11_1_jenkins" trigger="false"/>
+    </branch>
+
+    <branch name="vulkan" project="crucible">
+      <mesa branch="vulkan/vulkan"/>
+      <crucible/>
+      <shaderc/>
+      <glslang/>
     </branch>
 
     <branch name="jekstrand" project="test-single-arch-skl">

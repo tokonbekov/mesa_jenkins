@@ -43,6 +43,10 @@ def main():
     # without them.
     builder = bs.AutoBuilder(configure_options=options, opt_flags="-O2")
 
+    # first post!
+    # https://gitlab.khronos.org/vulkan/mesa/issues/1
+    builder._build_dir = builder._src_dir
+
     gtests = ["src/glsl/tests/general-ir-test",
               "src/glsl/tests/sampler-types-test",
               "src/glsl/tests/uniform-initializer-test",
