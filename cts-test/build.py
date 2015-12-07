@@ -27,8 +27,8 @@ class CtsBuilder:
                      # bugs in debian's s2tc library.  Recommended by nroberts
                      "S2TC_DITHER_MODE" : "NONE",
                      # forces deqp to run headless
-                     "EGL_PLATFORM" : "surfaceless"
-        }
+                     "EGL_PLATFORM" : "surfaceless"}
+        o.update_env(self.env)
 
     def build(self):
         pass
