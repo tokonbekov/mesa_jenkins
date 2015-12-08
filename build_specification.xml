@@ -191,7 +191,7 @@
       <remote name="ickle" repo="git://people.freedesktop.org/~ickle/mesa"/>
       <remote name="tarceri" repo="git://github.com/tarceri/Mesa_arrays_of_arrays"/>
       <remote name="evelikov" repo="git://github.com/evelikov/mesa"/>
-      <!-- <remote name="vulkan" repo="ssh://git@gitlab.khronos.org/vulkan/mesa"/> -->
+      <remote name="vulkan" repo="ssh://git@gitlab.khronos.org/vulkan/mesa"/>
     </mesa>
 
     <drm repo="git://anongit.freedesktop.org/mesa/drm">
@@ -274,12 +274,12 @@
       <piglit branch="janesma/11_1_jenkins" trigger="false"/>
     </branch>
 
-    <!-- <branch name="vulkan" project="crucible"> -->
-    <!--   <mesa branch="vulkan/vulkan"/> -->
-    <!--   <crucible/> -->
-    <!--   <shaderc/> -->
-    <!--   <glslang/> -->
-    <!-- </branch> -->
+    <branch name="vulkan" project="crucible">
+      <mesa branch="vulkan/vulkan"/>
+      <crucible/>
+      <shaderc/>
+      <glslang/>
+    </branch>
 
     <branch name="jekstrand" project="test-single-arch-skl">
       <mesa branch="jekstrand/jenkins"/>
