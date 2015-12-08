@@ -36,6 +36,7 @@ import xml.etree.ElementTree as ET
 
 from . import ProjectMap
 from . import Options
+from . import run_batch_command
 
 class _ProjectBranch:
     def __init__(self, projectName):
