@@ -29,11 +29,11 @@ class ShadercBuilder(object):
         btype = "Release"
         if self._options.type == "debug":
             btype = "RelDeb"
-        cmd = ["cmake", "-GNinja", "-DCMAKE_BUILD_TYPE=" + btype,
+        cmd = ["cmake", "-DCMAKE_BUILD_TYPE=" + btype,
                "-DCMAKE_C_COMPILER=clang", "-DCMAKE_CXX_COMPILER=clang++",
                "-DCMAKE_INSTALL_PREFIX:PATH=" + self._build_root, ".."]
         bs.run_batch_command(cmd)
-        bs.run_batch_command(["ninja"])
+        bs.run_batch_command(["make"])
         bin_dir = self._build_root + "/bin/"
         if not os.path.exists(bin_dir):
             os.makedirs(bin_dir)
@@ -41,7 +41,7 @@ class ShadercBuilder(object):
         bs.run_batch_command(["cp", "-a", "-n",
                               self._build_dir + "/glslc/glslc",
                               bin_dir])
-
+        bs.Export().export()
 
     def clean(self):
         bs.git_clean(self._src_dir)
