@@ -274,7 +274,7 @@
       <piglit branch="janesma/11_1_jenkins" trigger="false"/>
     </branch>
 
-    <branch name="vulkan" project="crucible">
+    <branch name="vulkan" project="crucible-test">
       <mesa branch="vulkan/vulkan"/>
       <crucible/>
       <shaderc/>
