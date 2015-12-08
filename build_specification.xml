@@ -191,7 +191,7 @@
       <remote name="ickle" repo="git://people.freedesktop.org/~ickle/mesa"/>
       <remote name="tarceri" repo="git://github.com/tarceri/Mesa_arrays_of_arrays"/>
       <remote name="evelikov" repo="git://github.com/evelikov/mesa"/>
-      <remote name="vulkan" repo="ssh://git@gitlab.khronos.org/vulkan/mesa"/>
+      <!-- <remote name="vulkan" repo="ssh://git@gitlab.khronos.org/vulkan/mesa"/> -->
     </mesa>
 
     <drm repo="git://anongit.freedesktop.org/mesa/drm">
