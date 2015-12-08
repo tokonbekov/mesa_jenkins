@@ -25,6 +25,7 @@ class CrucibleBuilder(bs.AutoBuilder):
         bs.run_batch_command(["cp", "-a", "-n",
                               self._build_dir + "/data/",
                               self._build_root])
+        bs.Export.export()
 
 bs.build(CrucibleBuilder())
 
