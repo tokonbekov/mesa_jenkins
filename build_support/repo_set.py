@@ -122,6 +122,7 @@ class BranchSpecification:
                 except:
                     print "Encountered error checking out"
                     time.sleep(10)
+                    run_batch_command(["rm", "-f", repo.working_tree_dir + "/index.lock"])
 
 
 class TimeoutException(Exception):
