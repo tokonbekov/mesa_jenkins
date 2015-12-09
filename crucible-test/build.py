@@ -29,7 +29,7 @@ class CrucibleTester(object):
                               "run",
                                "--junit-xml=" + out_xml],
                              env=env,
-                             expected_return_code=None
+                             expected_return_code=None)
         bs.Export().export_tests())
 
 bs.build(CrucibleTester())
