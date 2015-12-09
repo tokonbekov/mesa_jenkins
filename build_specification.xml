@@ -93,6 +93,10 @@
     <project name="crucible-test">
       <prerequisite name="crucible" hardware="builder"/>
     </project>
+
+    <project name="crucible-all">
+      <prerequisite name="crucible-test" hardware="bdw,hsw,skl,byt,ivb,bsw"/>
+    </project>
     
     <!-- all-test has no build.py, and exists only to provide
          dependency relationships. -->
@@ -274,7 +278,7 @@
       <piglit branch="janesma/11_1_jenkins" trigger="false"/>
     </branch>
 
-    <branch name="vulkan" project="crucible-test">
+    <branch name="vulkan" project="crucible-all">
       <mesa branch="vulkan/vulkan"/>
       <crucible/>
       <shaderc/>

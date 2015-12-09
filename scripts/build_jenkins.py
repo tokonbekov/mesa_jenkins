@@ -17,9 +17,14 @@ def strip_passes(root):
             if not fails:
                 # strip status if no fail tag
                 a_test.attrib["status"] = "pass"
-                # strip output for passes
-                a_test.find("system-out").text = " "
-                a_test.find("system-err").text = " "
+                # strip output for passes.  crucible junit does not
+                # presently have system out/err
+                sout = a_test.find("system-out")
+                if sout:
+                    sout.text = " "
+                serr = a_test.find("system-err")
+                if serr:
+                    serr.text = " "
     
 
 def collate_tests(result_path, out_test_dir):
