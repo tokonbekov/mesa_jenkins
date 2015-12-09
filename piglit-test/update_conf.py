@@ -73,6 +73,7 @@ bs.rmtree(bisect_dir + "/test")
 bs.rmtree(bisect_dir + "/piglit-test")
 bs.rmtree(bisect_dir + "/deqp-test")
 bs.rmtree(bisect_dir + "/cts-test")
+bs.rmtree(bisect_dir + "/crucible-test")
 
 j=bs.Jenkins(_revspec, bisect_dir)
 o = bs.Options(["bisect_all.py"])
@@ -81,7 +82,10 @@ o.retest_path = args.result_path
 depGraph = bs.DependencyGraph(["piglit-gpu-all"], o)
 
 print "Retesting mesa to: " + bisect_dir
-j.build_all(depGraph, print_summary=False)
+try:
+    j.build_all(depGraph, print_summary=False)
+except bs.BuildFailure:
+    print "ERROR: some builds failed"
 
 # make sure there is enough time for the test files to sync to nfs
 time.sleep(20)

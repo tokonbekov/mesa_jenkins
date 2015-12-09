@@ -101,7 +101,7 @@
 
     <project name="crucible-all">
       <prerequisite name="crucible-test" hardware="bdw,hsw,skl,byt,ivb,bsw"/>
-      <prerequisite name="crucible-test" only_for_type="daily" hardware="bxt"/>
+      <prerequisite only_for_type="daily" name="crucible-test" hardware="bxt"/>
     </project>
     
     <!-- all-test has no build.py, and exists only to provide
@@ -141,11 +141,7 @@
 
     <!-- for bisecting failures -->
     <project name="piglit-gpu-all">
-      <prerequisite name="piglit-test"
-                    arch="m64,m32"
-                    hardware="ilk,g45,snb,ivb,hsw,bsw,byt,g965,bdw,g33,skl,bxt"/>
-      <prerequisite name="deqp-test" arch="m64" hardware="hsw,snb,bdw,byt,bsw,ivb,skl"/>
-      <prerequisite name="cts-test" arch="m64" hardware="ilk,g45,g965,g33,snb,ivb,hsw,bdw,byt,bsw,skl,bxt"/>
+      <prerequisite name="crucible-test" arch="m64" hardware="ivb,hsw,bdw,byt,bsw,skl,bxt"/>
     </project>
 
     <project name="deqp-full">

@@ -127,6 +127,14 @@ class DeqpBuilder:
         pm = bs.ProjectMap()
         src_dir = pm.project_source_dir(pm.current_project())
         savedir = os.getcwd()
+        
+        include_tests = []
+        if o.retest_path:
+            testlist = bs.TestLister(o.retest_path + "/test/")
+            include_tests = testlist.RetestIncludes("deqp-test")
+            if not include_tests:
+                # we were supposed to retest failures, but there were none
+                return
 
         deqp_options = ["./deqp-gles2",
                         "--deqp-surface-type=fbo",
@@ -197,14 +205,6 @@ class DeqpBuilder:
             self.shard_caselist(caselist_fn, o.shard)
 
         os.chdir(savedir)
-
-        include_tests = []
-        if o.retest_path:
-            testlist = bs.TestLister(o.retest_path + "/test/")
-            include_tests = testlist.RetestIncludes("deqp-test")
-            if not include_tests:
-                # we were supposed to retest failures, but there were none
-                return
 
         # invoke piglit
         self.env["PIGLIT_DEQP_GLES2_BIN"] = self.build_root + "/opt/deqp/modules/gles2/deqp-gles2"

@@ -82,6 +82,41 @@ def git_clean(src_dir):
     run_batch_command(["git", "reset", "--hard", "HEAD"])
     os.chdir(savedir)
                     
+def check_gpu_hang():
+    # some systems have a gpu hang watchdog which reboots
+    # machines, and others do not.   This method checks dmesg,
+    # produces a failing test if a hang is found, and schedules a
+    # reboot if the host is determined to be a jenkins builder
+    # (user=jenkins)
+    (out, _) = run_batch_command(["dmesg", "--time-format", "iso"],
+                                 quiet=True,
+                                 streamedOutput=False)
+    hang_text = ""
+    for a_line in out.split('\n'):
+        if "gpu hang" in a_line.lower():
+            hang_text = a_line
+            break
+    if not hang_text:
+        return
+
+    hostname = socket.gethostname()
+    Export().create_failing_test("gpu-hang-" + hostname,
+                                 hang_text)
+    # trigger reboot
+    if ('otc-gfxtest-' in hostname):
+        label = hostname[len('otc-gfxtest-'):]
+        o = Options()
+        o.hardware = label
+        reboot_invoke = ProjectInvoke(options=o, project="reboot-slave")
+        reboot_invoke.set_info("status", "rebuild")
+        try:
+            Jenkins(RevisionSpecification(),
+                    Options().result_path).reboot_builder(label)
+        except(urllib2.URLError):
+            print "ERROR: encountered error triggering reboot"
+        print "sleeping to allow reboot job to be scheduled."
+        time.sleep(120)
+
 class AutoBuilder(object):
 
     def __init__(self, o=None, configure_options=None, export=True,
@@ -124,8 +159,8 @@ class AutoBuilder(object):
         os.chdir(self._build_dir)
         flags = []
         if self._options.arch == "m32":
-            flags = ["CFLAGS=-m32 " + optflags,
-                     "CXXFLAGS=-m32 " + optflags, 
+            flags = ["CFLAGS=-m32 -msse -msse2 " + optflags,
+                     "CXXFLAGS=-m32 -msse -msse2 " + optflags, 
                      "--enable-32-bit",
                      "--host=i686-pc-linux-gnu"]
         else:
@@ -536,7 +571,7 @@ class PiglitTester(object):
         run_batch_command(cmd)
 
         Export().export_tests()
-        self.check_gpu_hang()
+        check_gpu_hang()
 
     def filter_tests(self, revisions, infile, outfile):
         """this functionality has been duplicated in deqp-test/build.py.  If

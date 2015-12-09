@@ -4,9 +4,82 @@ import sys
 import os
 import os.path as path
 import xml.etree.ElementTree as ET
+import ConfigParser
 sys.path.append(path.join(path.dirname(path.abspath(sys.argv[0])), ".."))
 import build_support as bs
 
+
+def post_process_results(xml):
+    t = ET.parse(xml)
+    o = bs.Options()
+    conf = None
+    try:
+        conf = bs.get_conf_file(o.hardware, o.arch, project="crucible-test")
+    except bs.NoConfigFile:
+        pass
+    if conf:
+        # key=name, value=status
+        expected_status = {}
+        c = ConfigParser.SafeConfigParser(allow_no_value=True)
+        c.read(conf)
+        for section in c.sections():
+            for (test, _) in c.items(section):
+                if test in expected_status:
+                    raise Exception("test has multiple entries: " + test)
+                expected_status[test] = section
+        for atest in t.findall(".//testcase"):
+            if atest.attrib["name"] not in expected_status:
+                continue
+            if atest.attrib["status"] == "lost":
+                atest.attrib["status"] = "crash"
+
+            expected = expected_status[atest.attrib["name"]]
+            if expected == "expected-failures":
+                # change fail to pass
+                if atest.attrib["status"] == "fail":
+                    for ftag in atest.findall("failure"):
+                        atest.remove(ftag)
+                    so = ET.Element("system-out")
+                    so.text = "Passing test as an expected failure"
+                    atest.append(so)
+                elif atest.attrib["status"] == "crash":
+                    atest.append(ET.Element("failure"))
+                    so = ET.Element("system-out")
+                    so.text = "ERROR: this test crashed when it expected failure"
+                    atest.append(so)
+                elif atest.attrib["status"] == "pass":
+                    atest.append(ET.Element("failure"))
+                    so = ET.Element("system-out")
+                    so.text = "ERROR: this test passed when it expected failure"
+                    atest.append(so)
+                else:
+                    raise Exception("test has unknown status: " + atest.attrib["name"]
+                                    + " " + atest.attrib["status"])
+            elif expected == "expected-crashes":
+                # change error to pass
+                if atest.attrib["status"] == "crash":
+                    for ftag in atest.findall("error"):
+                        atest.remove(ftag)
+                    so = ET.Element("system-out")
+                    so.text = "Passing test as an expected crash"
+                    atest.append(so)
+                elif atest.attrib["status"] == "fail":
+                    atest.append(ET.Element("failure"))
+                    so = ET.Element("system-out")
+                    so.text = "ERROR: this test failed when it expected crash"
+                    atest.append(so)
+                elif atest.attrib["status"] == "pass":
+                    atest.append(ET.Element("failure"))
+                    so = ET.Element("system-out")
+                    so.text = "ERROR: this test passed when it expected crash"
+                    atest.append(so)
+                else:
+                    raise Exception("test has unknown status: " + atest.attrib["name"]
+                                    + " " + atest.attrib["status"])
+
+    for atest in t.findall(".//testcase"):
+        atest.attrib["name"] = atest.attrib["name"] + "." + o.hardware + o.arch
+    t.write(xml)
 
 class CrucibleTester(object):
     def __init__(self):
@@ -16,12 +89,6 @@ class CrucibleTester(object):
     def clean(self):
         pass
 
-    def post_process_results(self, xml):
-        t = ET.parse(xml)
-        o = bs.Options()
-        for atest in t.findall(".//testcase"):
-            atest.attrib["name"] = atest.attrib["name"] + "." + o.hardware + o.arch
-        t.write(xml)
 
     def test(self):
         pm = bs.ProjectMap()
@@ -39,10 +106,11 @@ class CrucibleTester(object):
                                "--junit-xml=" + out_xml],
                              env=env,
                              expected_return_code=None)
-        self.post_process_results(out_xml)
+        post_process_results(out_xml)
         bs.run_batch_command(["cp", "-a", "-n",
                               out_dir, pm.source_root()])
 
+        bs.check_gpu_hang()
         bs.Export().export_tests()
 
 bs.build(CrucibleTester())

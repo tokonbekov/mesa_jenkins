@@ -390,8 +390,123 @@ class PiglitTest:
             stdout.text = stdout.text + "WARN: stripping flaky test."
             break
         result.write(result_file)
+
+
+class CrucibleTest:
+    """Represents a single test.  Has the primary arch that will be
+    tested, and a list of other arches that are expected to be caused by
+    the same revision"""
+
+    def __init__(self, full_test_name, status, test_tag=None, retest_path=""):
+        self.project = "crucible-test"
+        self.test_tag = test_tag
+        if test_tag is not None:
+            full_test_name = test_tag.attrib["name"]
+            status = test_tag.attrib["status"]
+            if status == "lost":
+                status = "crash"
+
+        # drop the hw/arch from the test name
+        self.test_name = ".".join(full_test_name.split(".")[:-1])
+        self.status = status
+        self.retest_path = retest_path
+
+        hwarch = full_test_name.split(".")[-1]
+        self.hw = hwarch[:-3]
+        self.arch = hwarch[-3:]
+
+        self.other_arches = []
+
+        self.bisected_revision = "unknown"
+
+    def FailsPlatform(self, arch, hardware):
+        if arch == self.arch and hardware == self.hw:
+            return self.status != "pass"
+        if (arch, hardware) in self.other_arches:
+            return self.status != "pass"
+        return False
         
-    
+    def AddTest(self, test):
+        assert(test.test_name == self.test_name)
+        if test.status != self.status:
+            print "WARN: skipping mismatched status for test: " + test.test_name
+        self.other_arches.append((test.arch, test.hw))
+
+    def Print(self):
+        print " ".join(["crucible-test", self.test_name, self.arch, self.hw,
+                        self.status, str(self.other_arches)])
+
+    def PrettyPrint(self, fh):
+        pass
+
+    def Bisect(self, bisect_project, commits):
+        pass
+
+    def GetConf(self, hardware=None, arch=None):
+        if not hardware:
+            hardware = self.hw
+        if not arch:
+            arch = self.arch
+        return get_conf_file(hardware, arch, project="crucible-test")
+        
+    def UpdateConf(self):
+        full_list = [(self.arch, self.hw)] + self.other_arches
+        for arch, hardware in full_list:
+            try:
+                conf_file = self.GetConf(hardware=hardware, arch=arch)
+            except NoConfigFile:
+                continue
+            c = CaseConfig(allow_no_value=True)
+            c.optionxform = str
+            c.read(conf_file)
+            if not c.has_section("expected-failures"):
+                c.add_section("expected-failures")
+            if not c.has_section("expected-crashes"):
+                c.add_section("expected-crashes")
+            if not c.has_section("fixed-tests"):
+                c.add_section("fixed-tests")
+
+            # remove test from whatever section it might be in, and
+            # add it back to the right place
+            c.remove_option("expected-failures", self.test_name)
+            c.remove_option("expected-crashes", self.test_name)
+            c.remove_option("fixed-tests", self.test_name)
+            if self.status == "fail":
+                c.set("expected-failures", self.test_name, self.bisected_revision)
+            elif self.status == "crash":
+                c.set("expected-crashes", self.test_name, self.bisected_revision)
+            elif self.status == "pass":
+                c.set("fixed-tests", self.test_name, self.bisected_revision)
+            else:
+                assert(False)
+
+            c.write(open(conf_file, "w"))
+
+    def GetConfRevision(self):
+        try:
+            conf_file = self.GetConf()
+        except NoConfigFile:
+            return ''
+
+        c = CaseConfig(allow_no_value=True)
+        c.optionxform = str
+        c.read(conf_file)
+        for section in ["expected-failures", "expected-crashes", "fixed-tests"]:
+            try:
+                rev = c.get(section, self.test_name)
+                if not rev:
+                    rev = ""
+                return rev
+            except(ConfigParser.NoSectionError, ConfigParser.NoOptionError):
+                pass
+        return ""
+
+    def Passed(self, result_path, rev):
+        pass
+
+    def ForcePass(self, result_file):
+        pass
+
 class TestLister:
     """reads xml files and generates a set of PiglitTest objects"""
     def __init__(self, bad_dir):
@@ -400,6 +515,7 @@ class TestLister:
         self._tests["piglit-test"] = {}
         self._tests["deqp-test"] = {}
         self._tests["cts-test"] = {}
+        self._tests["crucible-test"] = {}
 
         test_files = []
         if os.path.isfile(bad_dir):
@@ -422,6 +538,7 @@ class TestLister:
             if ("piglit-test" not in a_file and
                 "piglit-cpu-test" not in a_file and
                 "piglit-cts" not in a_file and
+                "piglit-crucible" not in a_file and
                 "piglit-deqp" not in a_file) :
                 continue
             self._add_tests(a_file)
@@ -430,18 +547,22 @@ class TestLister:
         t = ET.parse(test_path)
         r = t.getroot()
 
-        for afail in r.findall(".//failure/..") + r.findall(".//error/.."):
-            piglit_test = PiglitTest(full_test_name="unknown", 
-                                     status="unknown",
-                                     test_tag=afail,
-                                     retest_path=self._retest_path)
+        testclass = PiglitTest
+        if "crucible" in test_path:
+            testclass = CrucibleTest
 
-            project = piglit_test.project
-            name = piglit_test.test_name
+        for afail in r.findall(".//failure/..") + r.findall(".//error/.."):
+            test = testclass(full_test_name="unknown", 
+                             status="unknown",
+                             test_tag=afail,
+                             retest_path=self._retest_path)
+
+            project = test.project
+            name = test.test_name
             if name not in self._tests[project]:
-                self._tests[project][name] = piglit_test
+                self._tests[project][name] = test
                 continue
-            self._tests[project][name].AddTest(piglit_test)
+            self._tests[project][name].AddTest(test)
 
     def Print(self):
         for project in self._tests.values():
