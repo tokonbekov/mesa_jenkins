@@ -85,6 +85,8 @@ class Bisector:
         repo_project = self.project
         if "piglit" in repo_project:
             repo_project = "piglit"
+        if "crucible" in repo_project:
+            repo_project = "crucible"
         rev = repo_project + "=" + self.commits[current_build].hexsha
         print "Range: " + self.commits[0].hexsha + " - " + self.commits[-1].hexsha + " (" + str(len(self.commits)) + ")"
         print "Building revision: " + rev
@@ -392,6 +394,20 @@ class PiglitTest:
         result.write(result_file)
 
 
+    def RetestInclude(self):
+        test_name_components = []
+        # drop the spec
+        for comp in self.test_name.split(".")[1:]:
+            # reverse the "api" -> "api_" substitution that
+            # allows tests to be shown in jenkins.
+            if comp == "api_":
+                test_name_components.append("api")
+            else:
+                test_name_components.append(comp)
+        test_name = ".".join(test_name_components)
+        test_name_good_chars = re.sub('[_ !:=()]', ".", test_name)
+        return ["--include-tests", test_name_good_chars]
+
 class CrucibleTest:
     """Represents a single test.  Has the primary arch that will be
     tested, and a list of other arches that are expected to be caused by
@@ -440,7 +456,14 @@ class CrucibleTest:
         pass
 
     def Bisect(self, bisect_project, commits):
-        pass
+        print "Bisecting for " + self.test_name
+        b = Bisector(bisect_project, self, 
+                     commits, self._retest_path)
+        self.bisected_revision = b.Bisect()
+        if not self.bisected_revision:
+            print "No bisection found for " + self.test_name
+            return
+        self.bisected_revision = self.bisected_revision.replace("=", " ")
 
     def GetConf(self, hardware=None, arch=None):
         if not hardware:
@@ -502,10 +525,42 @@ class CrucibleTest:
         return ""
 
     def Passed(self, result_path, rev):
-        pass
+        # returns true if the crucible test passed at the specified result_path
+        test_result = "/".join([result_path, "test", "piglit_crucible_" +
+                                self.hw + "_" + self.arch + ".xml"])
+        iteration = 0
+        while not os.path.exists(test_result):
+            if iteration < 140:
+                time.sleep(1)
+                iteration = iteration + 1
+                continue
+            print "BUILD FAILED - no test results: " + test_result
+            return False
+
+        result = ET.parse(test_result)
+        for testcase in result.findall("./testsuite/testcase"):
+            testname = testcase.attrib["name"]
+            #strip off the arch/platform
+            testname = ".".join(testname.split(".")[:-1])
+            if self.test_name != testname:
+                continue
+            if testcase.findall("failure") or testcase.findall("error"):
+                print "TEST FAILED: " + rev
+                return False
+
+            if testcase.findall("skipped"):
+                print "INFO: the target test was skipped"
+            print "TEST PASSED: " + rev
+            return True
+
+        print "ERROR -- TEST NOT FOUND, treating as success: " + rev + " " + self.test_name
+        return True
 
     def ForcePass(self, result_file):
         pass
+
+    def RetestInclude(self):
+        return [self.test_name]
 
 class TestLister:
     """reads xml files and generates a set of PiglitTest objects"""
@@ -599,18 +654,7 @@ class TestLister:
         # failures to be retested
         include_tests = []
         for atest in self.Tests(project=project):
-            test_name_components = []
-            # drop the spec
-            for comp in atest.test_name.split(".")[1:]:
-                # reverse the "api" -> "api_" substitution that
-                # allows tests to be shown in jenkins.
-                if comp == "api_":
-                    test_name_components.append("api")
-                else:
-                    test_name_components.append(comp)
-            test_name = ".".join(test_name_components)
-            test_name_good_chars = re.sub('[_ !:=()]', ".", test_name)
-            include_tests = include_tests + ["--include-tests", test_name_good_chars]
+            include_tests = include_tests + atest.RetestInclude()
         return include_tests
 
 

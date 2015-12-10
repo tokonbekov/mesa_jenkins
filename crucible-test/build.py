@@ -101,9 +101,13 @@ class CrucibleTester(object):
         if not path.exists(out_dir):
             os.makedirs(out_dir)
         out_xml = out_dir + "/piglit-crucible_" + o.hardware + "_"  + o.arch + ".xml"
+        include_tests = []
+        if o.retest_path:
+            include_tests = bs.TestLister(o.retest_path + "/test/").RetestIncludes("crucible-test")
+
         bs.run_batch_command([ br + "/bin/crucible",
                               "run",
-                               "--junit-xml=" + out_xml],
+                               "--junit-xml=" + out_xml] + include_tests,
                              env=env,
                              expected_return_code=None)
         post_process_results(out_xml)
