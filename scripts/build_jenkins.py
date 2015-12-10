@@ -20,10 +20,10 @@ def strip_passes(root):
                 # strip output for passes.  crucible junit does not
                 # presently have system out/err
                 sout = a_test.find("system-out")
-                if sout:
+                if sout is not None:
                     sout.text = " "
                 serr = a_test.find("system-err")
-                if serr:
+                if serr is not None:
                     serr.text = " "
     
 
