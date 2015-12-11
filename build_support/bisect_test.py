@@ -46,10 +46,6 @@ class NoConfigFile(Exception):
 
 
 def get_conf_file(hardware, arch, project="piglit-test"):
-    # strip the gtX strings off of the hardware, because there are
-    # no examples where a sku has a different config
-    if "gt" in hardware:
-        hardware = hardware[:3]
     pm = ProjectMap()
     conf_dir = pm.source_root() + "/" + project + "/"
     if "bxt" in hardware:
@@ -58,9 +54,15 @@ def get_conf_file(hardware, arch, project="piglit-test"):
     if not os.path.exists(conf_file):
         conf_file = conf_dir + "/" + hardware + ".conf"
 
-    if not os.path.exists(conf_file):
-        raise NoConfigFile
-    return conf_file
+    if os.path.exists(conf_file):
+        return conf_file
+
+    if "gt" in hardware:
+        # we haven't found a sku-specific conf, so strip the gtX
+        # strings off of thef hardware and try again.
+        return get_conf_file(hardware[:3], arch, project)
+
+    raise NoConfigFile
 
 class Bisector:
     def __init__(self, bisect_project, test,
@@ -280,8 +282,6 @@ class PiglitTest:
             return
         full_list = [(self.arch, self.hardware)] + self.other_arches
         for arch, hardware in full_list:
-            if "gt" in hardware:
-                hardware = hardware[:3]
             try:
                 conf_file = self.GetConf(hardware=hardware, arch=arch)
             except NoConfigFile:
@@ -308,9 +308,6 @@ class PiglitTest:
             c.write(open(conf_file, "w"))
 
     def GetConfRevision(self):
-        hardware = self.hardware
-        if "gt" in hardware:
-            hardware = hardware[:3]
         try:
             conf_file = self.GetConf()
         except NoConfigFile:
