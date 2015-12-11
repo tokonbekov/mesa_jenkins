@@ -391,7 +391,9 @@ class PiglitTester(object):
 
         # Bug 90407
         exclude_tests = exclude_tests + ["shaders.glsl-fs-vec4-indexing-temp-dst",
-                                         "shaders.glsl-fs-vec4-indexing-temp-src-in-nested-loop-outer"]
+                                         "shaders.glsl-fs-vec4-indexing-temp-src-in-nested-loop-outer",
+                                         # https://bugs.freedesktop.org/show_bug.cgi?id=93356
+                                         "arb_compute_shader.execution.simple-barrier"]
 
         # TODO: bisect these intermittent failures and write bugs
         exclude_tests = exclude_tests + ["arb_separate_shader_objects.validateprogrampipeline",
