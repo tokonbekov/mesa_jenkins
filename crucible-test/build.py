@@ -105,9 +105,46 @@ class CrucibleTester(object):
         if o.retest_path:
             include_tests = bs.TestLister(o.retest_path + "/test/").RetestIncludes("crucible-test")
 
+        # issue 7
+        excludes = ["!func.desc.dynamic.storage-buffer"]  # intermittent crash/fail
+
+        if "hsw" in o.hardware:
+            # issue 4
+            excludes += ["!func.copy.copy-buffer.large",
+                         "!func.interleaved-cmd-buffers.end1*",
+                         "!func.miptree.d32-sfloat.aspect-depth.view*",
+                         "!func.miptree.r8g8b8a8-unorm.aspect-color.view*",
+                         "!func.miptree.s8-uint.aspect-stencil*",
+                         "!func.renderpass.clear.color08",
+                         "!func.ssbo.interleve"]
+        if "ivb" in o.hardware:
+            # issue 5
+            excludes += ["!func.depthstencil*",
+                         "!func.miptree.r8g8b8a8-unorm.aspect-color.view*",
+                         "!func.miptree.s8-uint.aspect-stencil*",
+                         "!func.miptree.d32-sfloat.aspect-depth.view*",
+                         "!stress.lots-of-surface-state.fs.static"]
+            
+        if "byt" in o.hardware:
+            # issue 6
+            excludes += ["!func.miptree.d32-sfloat.aspect-depth.view-3d.levels0*",
+                         "!func.depthstencil*",
+                         "!func.miptree.s8-uint.aspect-stencil*",
+                         "!stress.lots-of-surface-state.fs.static"]
+
+        if "skl" in o.hardware or "bsw" in o.hardware or "bdw" in o.hardware or "bxt" in o.hardware:
+            # issue 3
+            excludes += ["!func.compute*",   # gpu hang
+                         "!func.push-constants.basic", # gpu hang
+                         "!stress.lots-of-surface-state.fs.dynamic"]  # gpu hang
+
+        if "bxt" in o.hardware:
+            excludes += ["!func.miptree.s8-uint.aspect-stencil*",
+                         "!stress.lots-of-surface-state.fs.static"]
+
         bs.run_batch_command([ br + "/bin/crucible",
                               "run",
-                               "--junit-xml=" + out_xml] + include_tests,
+                               "--junit-xml=" + out_xml] + include_tests + excludes,
                              env=env,
                              expected_return_code=None)
         post_process_results(out_xml)
