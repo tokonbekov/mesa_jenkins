@@ -458,6 +458,10 @@ class PiglitTester(object):
         if "bxt" in hardware:
             exclude_tests = exclude_tests + ["fbo-depth-array"]
 
+        if "hsw" in hardware or "ivb" in hardware:
+            # bug 93337, 92205
+            exclude_tests = exclude_tests + ["arb_compute_shader.indirect-compute"]
+
         exclude_cmd = []
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
