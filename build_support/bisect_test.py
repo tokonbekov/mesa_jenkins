@@ -383,8 +383,11 @@ class PiglitTest:
             etags = testcase.findall("error")
             for tag in etags:
                 testcase.remove(tag)
-            stderr = testcase.find("system-out")
-            stderr.text = stderr.text + "WARN: stripping flaky test."
+            stdout = testcase.find("system-out")
+            if stdout is None:
+                stdout = ET.Element("system-out")
+                testcase.append(stdout)
+            stdout.text = stdout.text + "WARN: stripping flaky test."
             break
         result.write(result_file)
         
