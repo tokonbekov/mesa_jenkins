@@ -100,8 +100,7 @@
     </project>
 
     <project name="crucible-all">
-      <prerequisite name="crucible-test" hardware="bdw,hsw,skl,byt,ivb,bsw"/>
-      <prerequisite only_for_type="daily" name="crucible-test" hardware="bxt"/>
+      <prerequisite name="crucible-test" hardware="bdw,hsw,skl,byt,ivb,bsw,bxt"/>
     </project>
     
     <!-- all-test has no build.py, and exists only to provide
