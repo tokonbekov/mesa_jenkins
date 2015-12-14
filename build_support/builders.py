@@ -456,7 +456,8 @@ class PiglitTester(object):
             exclude_tests = exclude_tests + ["fbo-depth-array",
                                              # https://bugs.freedesktop.org/show_bug.cgi?id=93355
                                              "ext_framebuffer_multisample.accuracy",
-                                             "execution.tex-miplevel-selection"]
+                                             "execution.tex-miplevel-selection",
+                                             "arb_pixel_buffer_object.texsubimage cube_map_array pbo"]
 
         if "hsw" in hardware or "ivb" in hardware:
             # bug 93337, 92205
