@@ -492,3 +492,41 @@ class TestLister:
             include_tests = include_tests + ["--include-tests", test_name_good_chars]
         return include_tests
 
+
+def retest_failures(old_build_path, new_build_path):
+    # generate a list of the projects that have to be tested
+    test_projects = []
+    tl = TestLister(old_build_path + "/test")
+    for atest in tl.Tests():
+        if atest.project not in test_projects:
+            test_projects.append(atest.project)
+
+    # generate a list of build invokes for the retests
+    spec_xml = ProjectMap().build_spec()
+    spec_projects = spec_xml.find("projects")
+    project_tags = {}
+    for aproject_tag in spec_projects.findall("project"):
+        project_tags[aproject_tag.attrib["name"]] = aproject_tag
+
+    dg = DependencyGraph([], Options(args=["ignore"]))
+    for atest in test_projects:
+        project_tag = project_tags[atest]
+
+        arches = ["m64"]
+        if "bisect_arch" in project_tag.attrib:
+            arches = project_tag.attrib["bisect_arch"].split(",")
+
+        platforms = project_tag.attrib["bisect_hardware"].split(",")
+        for arch in arches:
+            for hardware in platforms:
+                o = Options(args=["ignore"])
+                o.type = "developer"
+                o.config = "debug"
+                o.arch = arch
+                o.hardware = hardware
+                o.action = ["build", "test"]
+                o.result_path = new_build_path
+                o.retest_path = old_build_path
+                dg.add_to_graph(ProjectInvoke(project = atest, options = o))
+
+    Jenkins(RevisionSpecification(), new_build_path).build_all(dg, print_summary=False)

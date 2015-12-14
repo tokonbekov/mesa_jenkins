@@ -49,7 +49,8 @@
       <prerequisite name="mesa" hardware="builder"/>
     </project>
 
-    <project name="deqp-test" src_dir="deqp">
+    <project name="deqp-test" src_dir="deqp"
+             bisect_hardware="bdw,skl,hsw,ivb,snb,byt,bsw">
       <prerequisite name="deqp" hardware="builder"/>
       <prerequisite name="piglit" hardware="builder"/>
     </project>
@@ -64,7 +65,8 @@
       <prerequisite name="mesa" hardware="builder"/>
     </project>
 
-    <project name="cts-test">
+    <project name="cts-test"
+             bisect_hardware="bdw,skl,hsw,ivb,snb,ilk,g965,bsw,byt,g33,g45,bxt">
       <prerequisite name="cts" hardware="builder"/>
       <prerequisite name="piglit" hardware="builder"/>
     </project>
@@ -73,7 +75,9 @@
       <prerequisite name="waffle"/>
     </project>
 
-    <project name="piglit-test">
+    <project name="piglit-test"
+             bisect_hardware="bdw,skl,hsw,ivb,snb,bsw,byt,g965,ilk,g33,g45,bxt"
+             bisect_arch="m64,m32">
       <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
     </project>
@@ -90,12 +94,14 @@
       <prerequisite name="mesa"/>
     </project>
 
-    <project name="crucible-test">
+    <project name="crucible-test"
+             bisect_hardware="bdw,skl,hsw,ivb,bsw,byt,bxt">
       <prerequisite name="crucible" hardware="builder"/>
     </project>
 
     <project name="crucible-all">
       <prerequisite name="crucible-test" hardware="bdw,hsw,skl,byt,ivb,bsw"/>
+      <prerequisite name="crucible-test" only_for_type="daily" hardware="bxt"/>
     </project>
     
     <!-- all-test has no build.py, and exists only to provide

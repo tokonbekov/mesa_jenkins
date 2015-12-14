@@ -57,21 +57,7 @@ class DependencyGraph:
         for a_component in components:
             bi = ProjectInvoke(project=a_component, 
                                options=options)
-            self._add_to_graph(bi)
-
-        if not self._dependency_graph.items():
-            print "ERROR: no builds in dependency graph"
-            sys.exit(-1)
-
-        # build up the completion_graph
-        for (component, prereqs) in self._dependency_graph.items():
-            if not self._completion_graph.has_key(component):
-                self._completion_graph[component] = []
-            for a_prereq in prereqs:
-                if not self._completion_graph.has_key(a_prereq):
-                    self._completion_graph[a_prereq] = []
-                if component not in self._completion_graph[a_prereq]:
-                    self._completion_graph[a_prereq].append(component)
+            self.add_to_graph(bi)
 
     def ready_builds(self):
         """provide a list of builds which have all prerequisites
@@ -86,6 +72,17 @@ class DependencyGraph:
     def build_complete(self, build):
         """notifies the DependencyGraph that a build has completed.
         Makes other builds available via ready_builds"""
+        if not self._completion_graph:
+            # build up the completion_graph on the first call.
+            for (component, prereqs) in self._dependency_graph.items():
+                if not self._completion_graph.has_key(component):
+                    self._completion_graph[component] = []
+                for a_prereq in prereqs:
+                    if not self._completion_graph.has_key(a_prereq):
+                        self._completion_graph[a_prereq] = []
+                    if component not in self._completion_graph[a_prereq]:
+                        self._completion_graph[a_prereq].append(component)
+
         build = str(build)
         del self._dependency_graph[build]
         for an_unblocked_component in self._completion_graph[build]:
@@ -160,7 +157,7 @@ class DependencyGraph:
         return results
 
 
-    def _add_to_graph(self, project_invoke):
+    def add_to_graph(self, project_invoke):
         """adds the build_invoke and all prerequisites to the
         _dependency_graph"""
         shard = project_invoke.options.shard
@@ -169,7 +166,7 @@ class DependencyGraph:
                 # make a deep copy of the project invoke
                 p = ProjectInvoke(from_string=str(project_invoke))
                 p.shard = str(i + 1) + ":" + str(shard)
-                self._add_to_graph(p)
+                self.add_to_graph(p)
         
         graph = self._dependency_graph
         if graph.has_key(str(project_invoke)):
@@ -186,4 +183,4 @@ class DependencyGraph:
             graph[str(project_invoke)].append(str(pre_invoke))
 
             # recursively add dependencies
-            self._add_to_graph(pre_invoke)
+            self.add_to_graph(pre_invoke)
