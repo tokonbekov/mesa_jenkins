@@ -21,7 +21,7 @@ parser.add_argument('--end_rev', type=str, default='',
 
 parser.add_argument('--project', type=str, default='all-test',
                     choices=['test-single-arch', 'piglit-build', 'piglit-test',
-                             'deqp-full'],
+                             'deqp-full', 'crucible-all', 'crucible-test'],
                     help="The jenkins project to build")
 
 parser.add_argument('--series_name', type=str, default='',
@@ -47,7 +47,7 @@ repos.fetch()
 
 found = False
 
-for project in ["mesa", "piglit-build", "waffle", "drm"]:
+for project in ["mesa", "piglit-build", "waffle", "drm", "crucible"]:
     try:
         revspec = bs.RevisionSpecification(from_cmd_line=[project + "=" + args.start_rev])
         revspec.checkout()
