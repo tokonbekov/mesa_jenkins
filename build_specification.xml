@@ -290,6 +290,10 @@
       <mesa branch="jekstrand/jenkins"/>
     </branch>
 
+    <branch name="jekstrand_vulkan" project="crucible-all">
+      <mesa branch="vulkan/wip/jekstrand-ci"/>
+    </branch>
+
     <branch name="kwg" project="test-single-arch">
       <mesa branch="kwg/jenkins"/>
     </branch>
