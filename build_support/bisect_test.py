@@ -603,7 +603,7 @@ class TestLister:
         r = t.getroot()
 
         testclass = PiglitTest
-        if "crucible" in test_path:
+        if "crucible" in os.path.basename(test_path):
             testclass = CrucibleTest
 
         for afail in r.findall(".//failure/..") + r.findall(".//error/.."):
