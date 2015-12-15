@@ -50,17 +50,15 @@
             <a class="string-array">
               <string>test-single-arch</string>
               <string>all-test</string>
-              <string>crucible</string>
-              <string>crucible-test</string>
               <string>piglit-test</string>
-              <string>piglit-cpu-test</string>
               <string>mesa</string>
               <string>piglit</string>
-              <string>piglit-nir-test</string>
-              <string>scons-buildtest</string>
-              <string>mesa-buildtest</string>
               <string>clean-all-workspaces</string>
               <string>deqp-full</string>
+              <string>cts-test</string>
+              <string>cts-full</string>
+              <string>crucible-test</string>
+              <string>crucible-all</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
@@ -87,6 +85,8 @@
               <string>builder</string>
               <string>sklgt2</string>
               <string>bdwgt3e</string>
+              <string>ivb</string>
+              <string>bxt</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
@@ -115,6 +115,11 @@
           <description>e-mail address to notify on completion</description>
           <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>env</name>
+          <description>environment variables to pass to the build</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.24">
@@ -122,7 +127,7 @@
     </com.sonyericsson.rebuild.RebuildSettings>
     <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.4">
       <maxConcurrentPerNode>0</maxConcurrentPerNode>
-      <maxConcurrentTotal>3</maxConcurrentTotal>
+      <maxConcurrentTotal>5</maxConcurrentTotal>
       <throttleEnabled>true</throttleEnabled>
       <throttleOption>project</throttleOption>
     </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
@@ -158,7 +163,8 @@
   <builders>
     <hudson.tasks.Shell>
       <command>python -u scripts/checkout_revision_spec.py
-python -u scripts/build_jenkins.py --type=${type} --config=${config} --rebuild=${rebuild} --revision=&quot;$revision&quot; --hardware=${hardware} --project=${project} --arch=${arch}</command>
+python -u scripts/build_jenkins.py --type=${type} --config=${config} --rebuild=${rebuild} --revision=&quot;$revision&quot; --hardware=${hardware} --project=${project} --arch=${arch} --env=&quot;${env}&quot;
+</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>

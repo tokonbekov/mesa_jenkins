@@ -118,24 +118,26 @@
         <string>bpeel</string>
         <string>build_series</string>
         <string>bwidawsk</string>
+        <string>bwidawsk_fast</string>
         <string>chadv</string>
         <string>curro</string>
-        <string>cwabbott0</string>
         <string>dcbaker</string>
+        <string>evelikov</string>
         <string>ickle</string>
         <string>idr</string>
         <string>jekstrand</string>
+        <string>jekstrand_vulkan</string>
         <string>jljusten</string>
         <string>krh</string>
         <string>kwg</string>
         <string>ldeks</string>
         <string>majanes</string>
         <string>mattst88</string>
-        <string>mesa_bisect</string>
         <string>mesa_custom</string>
         <string>mperes</string>
         <string>nchery</string>
         <string>single_test</string>
+        <string>tarceri</string>
         <string>tpalli</string>
         <string>tpohjola</string>
       </jobNames>
@@ -154,18 +156,21 @@
     <listView>
       <owner class="hudson" reference="../../.."/>
       <name>mesa</name>
+      <description></description>
       <filterExecutors>false</filterExecutors>
       <filterQueue>false</filterQueue>
       <properties class="hudson.model.View$PropertyList"/>
       <jobNames>
         <comparator class="hudson.util.CaseInsensitiveComparator" reference="../../../listView/jobNames/comparator"/>
-        <string>mesa_10.6</string>
-        <string>mesa_10.6_daily</string>
         <string>mesa_11.0</string>
         <string>mesa_11.0_daily</string>
+        <string>mesa_11.1</string>
+        <string>mesa_11.1_daily</string>
         <string>mesa_custom</string>
         <string>mesa_master</string>
         <string>mesa_master_daily</string>
+        <string>nir_clone_daily</string>
+        <string>vulkan</string>
       </jobNames>
       <jobFilters/>
       <columns>

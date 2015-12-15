@@ -2,6 +2,12 @@
 <project>
   <actions/>
   <description></description>
+  <logRotator class="hudson.tasks.LogRotator">
+    <daysToKeep>-1</daysToKeep>
+    <numToKeep>20</numToKeep>
+    <artifactDaysToKeep>-1</artifactDaysToKeep>
+    <artifactNumToKeep>-1</artifactNumToKeep>
+  </logRotator>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.model.ParametersDefinitionProperty>
@@ -28,9 +34,12 @@
             <a class="string-array">
               <string>builder</string>
               <string>hsw</string>
+              <string>hswgt3e</string>
+              <string>hswgt2</string>
               <string>bwd</string>
               <string>ivb</string>
               <string>snb</string>
+              <string>bsw</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
@@ -44,31 +53,42 @@ choose piglit-test to test a single hardware platform</description>
               <string>test-single-arch</string>
               <string>piglit-build</string>
               <string>piglit-test</string>
+              <string>deqp-full</string>
+              <string>crucible-all</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>build_support_branch</name>
+          <description>automation branch to use</description>
+          <defaultValue>master</defaultValue>
+        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
-    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.22">
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.24">
       <autoRebuild>false</autoRebuild>
     </com.sonyericsson.rebuild.RebuildSettings>
-    <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.3">
+    <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.4">
       <maxConcurrentPerNode>0</maxConcurrentPerNode>
       <maxConcurrentTotal>2</maxConcurrentTotal>
       <throttleEnabled>true</throttleEnabled>
       <throttleOption>project</throttleOption>
     </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
+    <jenkins.advancedqueue.jobinclusion.strategy.JobInclusionJobProperty plugin="PrioritySorter@3.2">
+      <useJobGroup>false</useJobGroup>
+      <jobGroupName>Leeroy</jobGroupName>
+    </jenkins.advancedqueue.jobinclusion.strategy.JobInclusionJobProperty>
   </properties>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.2.12">
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.3.5">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>git://otc-mesa-ci.local/git/mesa_jenkins/origin</url>
+        <url>git://github.com/janesma/mesa_jenkins.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
       <hudson.plugins.git.BranchSpec>
-        <name>origin/master</name>
+        <name>${build_support_branch}</name>
       </hudson.plugins.git.BranchSpec>
     </branches>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
@@ -85,7 +105,7 @@ choose piglit-test to test a single hardware platform</description>
   <concurrentBuild>true</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>python -u scripts/build_series.py --start_rev=${start_rev} --end_rev=${end_rev} --project=${project} --series_name=&quot;$series_name&quot; --hardware=${hardware}</command>
+      <command>python -u scripts/build_series.py --start_rev=${start_rev} --end_rev=${end_rev} --project=${project} --series_name=&quot;$series_name&quot; --hardware=${hardware} --build_support_branch=${build_support_branch}</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

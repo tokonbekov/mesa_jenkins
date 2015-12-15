@@ -2,6 +2,12 @@
 <project>
   <actions/>
   <description></description>
+  <logRotator class="hudson.tasks.LogRotator">
+    <daysToKeep>-1</daysToKeep>
+    <numToKeep>20</numToKeep>
+    <artifactDaysToKeep>-1</artifactDaysToKeep>
+    <artifactNumToKeep>-1</artifactNumToKeep>
+  </logRotator>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.model.ParametersDefinitionProperty>
@@ -11,7 +17,7 @@
           <description>choose the project to build</description>
           <choices class="java.util.Arrays$ArrayList">
             <a class="string-array">
-              <string>test-single-arch-skl</string>
+              <string>test-single-arch-ben</string>
               <string>all-test</string>
               <string>test-single-arch</string>
               <string>piglit-test</string>
@@ -107,7 +113,7 @@ python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=${type} --config=
   </builders>
   <publishers>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>summary.xml</artifacts>
+      <artifacts>summary.xml,results/test/results.tgz</artifacts>
       <allowEmptyArchive>false</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>

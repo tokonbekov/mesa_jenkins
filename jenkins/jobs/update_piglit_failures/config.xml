@@ -65,7 +65,7 @@
     <extensions/>
   </scm>
   <scmCheckoutRetryCount>5</scmCheckoutRetryCount>
-  <assignedNode>builder</assignedNode>
+  <assignedNode>master</assignedNode>
   <canRoam>false</canRoam>
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>

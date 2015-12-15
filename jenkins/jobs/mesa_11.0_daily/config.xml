@@ -62,7 +62,7 @@
   <authToken>xyzzy</authToken>
   <triggers>
     <hudson.triggers.TimerTrigger>
-      <spec>H 2 * * *</spec>
+      <spec>H 1 * * *</spec>
     </hudson.triggers.TimerTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>

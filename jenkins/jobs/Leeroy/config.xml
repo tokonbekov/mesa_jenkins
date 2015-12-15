@@ -4,7 +4,7 @@
   <description>builds arbitrary projects for a mesa build scheduler.</description>
   <logRotator class="hudson.tasks.LogRotator">
     <daysToKeep>15</daysToKeep>
-    <numToKeep>-1</numToKeep>
+    <numToKeep>10000</numToKeep>
     <artifactDaysToKeep>-1</artifactDaysToKeep>
     <artifactNumToKeep>-1</artifactNumToKeep>
   </logRotator>
@@ -84,6 +84,11 @@
           <description>splits tests into groups, for parallel execution.  valid values are &quot;n:m&quot; indicating shard n out of m, with integers n and m</description>
           <defaultValue>0</defaultValue>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>env</name>
+          <description>environment variables to pass to the build</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.24">
@@ -132,7 +137,7 @@ python -u scripts/checkout_revision_spec.py ${revision}
 unshare -m -r /bin/bash -c &quot;
 mount -o bind /tmp/jenkins/${BUILD_NUMBER} /tmp
 unset revision
-python ${project}/build.py --arch ${arch} --result_path ${result_path} --config ${config} --type ${type} --hardware ${hardware} --action clean,build,test --shard ${shard} ${extra_arg}
+python -u ${project}/build.py --arch ${arch} --result_path ${result_path} --config ${config} --type ${type} --hardware ${hardware} --action clean,build,test --shard ${shard} --env \&quot;${env}\&quot; ${extra_arg}
 &quot;
 
 </command>
