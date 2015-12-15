@@ -666,6 +666,10 @@ def retest_failures(old_build_path, new_build_path):
         if atest.project not in test_projects:
             test_projects.append(atest.project)
 
+    if not test_projects:
+        print "ERROR: no failures to retest"
+        return False
+
     # generate a list of build invokes for the retests
     spec_xml = ProjectMap().build_spec()
     spec_projects = spec_xml.find("projects")
@@ -695,3 +699,4 @@ def retest_failures(old_build_path, new_build_path):
                 dg.add_to_graph(ProjectInvoke(project = atest, options = o))
 
     Jenkins(RevisionSpecification(), new_build_path).build_all(dg, print_summary=False)
+    return True

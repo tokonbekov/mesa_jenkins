@@ -61,7 +61,8 @@ retest_dir = results_dir + "/bisect/" + datetime.datetime.now().isoformat()
 cmd = ["rsync", "-rlptD", "--exclude", "/*test/", "/".join(dirnames[:-1]) +"/", retest_dir]
 bs.run_batch_command(cmd)
 
-bs.retest_failures(args.result_path, retest_dir)
+if not bs.retest_failures(args.result_path, retest_dir):
+    print "ERROR: retest failed"
 
 # make sure there is enough time for the test files to sync to nfs
 time.sleep(20)

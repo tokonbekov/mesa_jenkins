@@ -66,7 +66,9 @@ _revspec = bs.RevisionSpecification(from_cmd_line=[k + "=" + v for k,v in rev_ha
 _revspec.checkout()
 _revspec = bs.RevisionSpecification()
 
-bs.retest_failures(args.result_path, retest_dir)
+if not bs.retest_failures(args.result_path, retest_dir):
+    print "ERROR: retest failed"
+    sys.exit(-1)
         
 # make sure there is enough time for the test files to sync to nfs
 time.sleep(20)
