@@ -614,15 +614,13 @@ def write_summary(out_dir, completed_builds, ljen, failure=False):
     <field name="Git revisions"/>
     <table>
         <tr>
-            <td value="project" bgcolor="#C6E2FF" fontcolor="black" fontattribute="bold" align="center"  width="200"/>
             <td value="commit" bgcolor="#C6E2FF" fontcolor="black" fontattribute="bold" align="center"  width="200"/>
             <td value="description" bgcolor="#C6E2FF" fontcolor="black" fontattribute="bold" align="center"  width="200"/>
         </tr>""")
     for (project, rev) in ljen._revspec._revisions.items():
         outf.write("""\
         <tr>
-            <td value="{project}" bgcolor="#66FF33" fontcolor="black" fontattribute="normal" align="center" width="200"/>
-            <td value="{revision}" bgcolor="#66FF33" fontcolor="black" fontattribute="normal" align="center"  width="200"/>
+            <td value="{project}={revision}" bgcolor="#66FF33" fontcolor="black" fontattribute="normal" align="center"  width="200"/>
             <td value={log} bgcolor="#66FF33" fontcolor="black" fontattribute="normal" align="center"  width="200"/>
         </tr>""".format(project=project, revision=rev, log=git_log[project].encode('utf-8')))
     outf.write("""\
@@ -684,21 +682,14 @@ def write_summary(out_dir, completed_builds, ljen, failure=False):
     titlecolor="black" 
     value="generate patch" 
     detailcolor="" 
-    href="http://otc-mesa-ci.jf.intel.com/job/update_piglit_failures/parambuild/?result_path={result_path}" />
+    href="http://otc-mesa-ci.jf.intel.com/job/update_failures/parambuild/?result_path={result_path}" />
 <br/>
 <br/>
-    <field name="Build link to bisect failures in mesa" 
+    <field name="Build link to bisect failures"
     titlecolor="black" 
     value="generate patch" 
     detailcolor="" 
-    href="http://otc-mesa-ci.jf.intel.com/job/bisect_mesa_failures/parambuild/?result_path={result_path}" />
-<br/>
-<br/>
-    <field name="Build link to bisect failures in piglit" 
-    titlecolor="black" 
-    value="generate patch" 
-    detailcolor="" 
-    href="http://otc-mesa-ci.jf.intel.com/job/bisect_piglit_failures/parambuild/?result_path={result_path}" />
+    href="http://otc-mesa-ci.jf.intel.com/job/bisect_failures/parambuild/?result_path={result_path}" />
 <br/>
     <field name="Test Results" titlecolor="black" value="" detailcolor="" href="" />
 </section>""".format(result_path=ljen._result_path))
