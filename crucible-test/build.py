@@ -105,8 +105,7 @@ class CrucibleTester(object):
         if o.retest_path:
             include_tests = bs.TestLister(o.retest_path + "/test/").RetestIncludes("crucible-test")
 
-        # issue 7
-        excludes = ["!func.desc.dynamic.storage-buffer"]  # intermittent crash/fail
+        excludes = []
 
         if "hsw" in o.hardware:
             # issue 4
