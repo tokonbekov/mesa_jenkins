@@ -106,6 +106,7 @@ class CrucibleTester(object):
             include_tests = bs.TestLister(o.retest_path + "/test/").RetestIncludes("crucible-test")
 
         excludes = []
+        parallelism = []
 
         if "hsw" in o.hardware:
             # issue 4
@@ -123,6 +124,7 @@ class CrucibleTester(object):
                          "!func.miptree.s8-uint.aspect-stencil*",
                          "!func.miptree.d32-sfloat.aspect-depth.view*",
                          "!stress.lots-of-surface-state.fs.static"]
+            parallelism = ['-j', '1']
             
         if "byt" in o.hardware:
             # issue 6
@@ -142,8 +144,8 @@ class CrucibleTester(object):
                          "!stress.lots-of-surface-state.fs.static"]
 
         bs.run_batch_command([ br + "/bin/crucible",
-                              "run",
-                               "--junit-xml=" + out_xml] + include_tests + excludes,
+                               "run",
+                               "--junit-xml=" + out_xml] + parallelism + include_tests + excludes,
                              env=env,
                              expected_return_code=None)
         post_process_results(out_xml)
