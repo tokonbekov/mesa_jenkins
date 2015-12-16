@@ -102,6 +102,13 @@
     <project name="crucible-all">
       <prerequisite name="crucible-test" hardware="bdw,hsw,skl,bsw,bxt"/>
     </project>
+
+    <project name="vulkancts-test">
+      <prerequisite name="vulkancts" hardware="builder"/>
+      <prerequisite name="piglit" hardware="builder"/>
+    </project>
+
+    <project name="vulkancts"/>
     
     <!-- all-test has no build.py, and exists only to provide
          dependency relationships. -->
@@ -210,6 +217,7 @@
       <remote name="chadv" repo="git://github.com/chadversary/piglit"/>
       <remote name="idr" repo="git://people.freedesktop.org/~idr/piglit"/>
       <remote name="bpeel" repo="git://github.com/bpeel/piglit"/>
+      <remote name="piglitvulkan" repo="ssh://git@gitlab.khronos.org/jekstrand/piglit.git"/>
     </piglit>
 
     <waffle repo="git://github.com/waffle-gl/waffle">
@@ -240,6 +248,8 @@
     <gtest repo="git://github.com/google/googletest"
            branch="release-1.7.0"/>
     <crucible repo="ssh://majanes@git-amr-3.devtools.intel.com:29418/otc_gen_graphics-crucible"/>
+    <vulkancts repo="ssh://git@gitlab.khronos.org/jekstrand/vulkancts.git"/>
+    <spirvtools repo="ssh://git@gitlab.khronos.org/spirv/spirv-tools.git"/>
   </repos>
 
 
@@ -279,6 +289,12 @@
       <crucible/>
       <shaderc/>
       <glslang/>
+    </branch>
+
+    <branch name="vulkancts" project="vulkancts">
+      <mesa branch="vulkan/vulkan"/>
+      <vulkancts branch="origin/jenkins"/>
+      <piglit branch="piglitvulkan/vulkan"/>
     </branch>
 
     <branch name="jekstrand" project="test-single-arch-skl">
