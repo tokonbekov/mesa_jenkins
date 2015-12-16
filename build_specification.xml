@@ -100,7 +100,7 @@
     </project>
 
     <project name="crucible-all">
-      <prerequisite name="crucible-test" hardware="bdw,hsw,skl,byt,ivb,bsw,bxt"/>
+      <prerequisite name="crucible-test" hardware="bdw,hsw,skl,bsw,bxt"/>
     </project>
     
     <!-- all-test has no build.py, and exists only to provide
@@ -136,11 +136,6 @@
       <prerequisite name="mesa-buildtest" hardware="builder"/>
       <prerequisite name="deqp-test" hardware="hsw,bdwgt3e,skl" arch="m64" shard="2"/>
       <prerequisite name="cts-full"/>
-    </project>
-
-    <!-- for bisecting failures -->
-    <project name="piglit-gpu-all">
-      <prerequisite name="crucible-test" arch="m64" hardware="ivb,hsw,bdw,byt,bsw,skl,bxt"/>
     </project>
 
     <project name="deqp-full">
