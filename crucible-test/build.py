@@ -132,6 +132,7 @@ class CrucibleTester(object):
                          "!func.depthstencil*",
                          "!func.miptree.s8-uint.aspect-stencil*",
                          "!stress.lots-of-surface-state.fs.static"]
+            parallelism = ['-j', '1']
 
         if "skl" in o.hardware or "bsw" in o.hardware or "bdw" in o.hardware or "bxt" in o.hardware:
             # issue 3
