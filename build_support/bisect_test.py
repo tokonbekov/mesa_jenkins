@@ -199,6 +199,8 @@ class PiglitTest:
         if "piglit.deqp" in full_test_name.lower():
             self.project = "deqp-test"
         (first, second) = full_test_name.split(".")[0:2]
+        if first == "piglit" and "-vk" in second:
+            self.project = "vulkancts-test"
         if first == "piglit" and "-cts" in second:
             self.project = "cts-test"
         if "gt" in hardware and hardware != "ivbgt1":
