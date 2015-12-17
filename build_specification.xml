@@ -106,6 +106,13 @@
       <prerequisite name="mesa" hardware="builder"/>
     </project>
 
+    <project name="vulkancts-full">
+      <prerequisite name="vulkancts-test"
+                    arch="m64"
+                    hardware="bdw"
+                    shard="7"/>
+    </project>
+
     <project name="vulkancts"/>
     
     <!-- all-test has no build.py, and exists only to provide
