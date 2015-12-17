@@ -1,0 +1,9 @@
+dEQP-VK.renderpass.attachment_allocation
+dEQP-VK.renderpass.attachment
+dEQP-VK.pipeline.stencil.format
+dEQP-VK.pipeline.sampler.view_type
+dEQP-VK.pipeline.blend.format
+dEQP-VK.pipeline.image_view.view_type
+dEQP-VK.binding_model.shader_access
+dEQP-VK.pipeline.image.view_type
+dEQP-VK.pipeline.depth
