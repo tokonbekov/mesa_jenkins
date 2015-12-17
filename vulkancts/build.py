@@ -1,6 +1,9 @@
 #!/usr/bin/python
 
 import sys, os
+import git
+import importlib
+
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
 import build_support as bs
 
@@ -14,11 +17,30 @@ class VulkanCtsBuilder(object):
 
     def build(self):
         spirvtools = self._src_dir + "/external/spirv-tools/src"
+        if not os.path.islink(spirvtools):
+            bs.rmtree(spirvtools)
         if not os.path.exists(spirvtools):
             os.symlink("../../../spirvtools", spirvtools)
         glslang = self._src_dir + "/external/glslang/src"
+        if not os.path.islink(glslang):
+            bs.rmtree(glslang)
         if not os.path.exists(glslang):
             os.symlink("../../../glslang", glslang)
+
+        # change spirv-tools and glslang to use the commits specified
+        # in the vulkancts sources
+        sys.path = [os.path.abspath(os.path.normpath(s)) for s in sys.path]
+        sys.path = [gooddir for gooddir in sys.path if "vulkancts" not in gooddir]
+        sys.path.append(self._src_dir + "/external/")
+        fetch_sources = importlib.import_module("fetch_sources", ".")
+        for package in fetch_sources.PACKAGES:
+            if not isinstance(package, fetch_sources.GitRepo):
+                continue
+            repo_path = self._src_dir + "/external/" + package.baseDir + "/src/"
+            print "Checking out: " + repo_path + " : " + package.revision
+            repo = git.Repo(repo_path)
+            repo.git.checkout(package.revision)
+        
         btype = "Release"
         if self._options.type == "debug":
             btype = "RelDeb"
@@ -45,4 +67,5 @@ class VulkanCtsBuilder(object):
     def test(self):
         pass
 
-bs.build(VulkanCtsBuilder())
+if __name__ == "__main__":
+    bs.build(VulkanCtsBuilder())
