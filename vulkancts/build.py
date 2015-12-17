@@ -52,7 +52,7 @@ class VulkanCtsBuilder(object):
         os.chdir(self._build_dir)
         bs.run_batch_command(cmd)
         bs.run_batch_command(["ninja"])
-        bin_dir = self._build_root + "/opt/vulkancts/"
+        bin_dir = self._build_root + "/opt/deqp/"
         if not os.path.exists(bin_dir):
             os.makedirs(bin_dir)
 

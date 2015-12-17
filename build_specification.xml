@@ -100,7 +100,7 @@
       <prerequisite name="crucible-test" hardware="bdw,hsw,skl,bsw,bxt"/>
     </project>
 
-    <project name="vulkancts-test">
+    <project name="vulkancts-test" src_dir="vulkancts">
       <prerequisite name="vulkancts" hardware="builder"/>
       <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>

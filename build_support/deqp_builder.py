@@ -1,13 +1,5 @@
 #!/usr/bin/python
-
-import bz2
-import os
-import re
-import sys
-import xml.etree.ElementTree  as ET
-
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
-import build_support as bs
+from . import *
 
 class DeqpTrie:
     def __init__(self):
@@ -45,6 +37,9 @@ class DeqpTrie:
         elif "dEQP-GLES3-cases" in xml_file:
             current_trie = DeqpTrie()
             self._trie["dEQP-GLES3"] = current_trie
+        elif "dEQP-VK-cases" in xml_file:
+            current_trie = DeqpTrie()
+            self._trie["dEQP-VK"] = current_trie
         else:
             return
         root = ET.parse(xml_file).getroot()
@@ -88,9 +83,11 @@ class DeqpTrie:
             trie.write_caselist(outfh, group)
             
 class DeqpBuilder:
-    def __init__(self):
-        o = bs.Options()
-        pm = bs.ProjectMap()
+    def __init__(self, modules):
+        # eg: ["gles2", "gles3"]
+        self._modules = modules
+        o = Options()
+        pm = ProjectMap()
         self.build_root = pm.build_root()
         libdir = "x86_64-linux-gnu"
         if o.arch == "m32":
@@ -115,14 +112,22 @@ class DeqpBuilder:
         pass
 
     def test(self):
-        o = bs.Options()
-        pm = bs.ProjectMap()
+        # todo: now that there is more than one component that needs
+        # to call mesa_version, it should be moved to a more sharable
+        # location
+        mesa_version = PiglitTester().mesa_version()
+        if "10.5" in mesa_version or "10.6" in mesa_version:
+            print "WARNING: deqp not supported on 10.6 and earlier."
+            return
+        
+        o = Options()
+        pm = ProjectMap()
         src_dir = pm.project_source_dir(pm.current_project())
         savedir = os.getcwd()
         
         include_tests = []
         if o.retest_path:
-            testlist = bs.TestLister(o.retest_path + "/test/")
+            testlist = TestLister(o.retest_path + "/test/")
             include_tests = testlist.RetestIncludes("deqp-test")
             if not include_tests:
                 # we were supposed to retest failures, but there were none
@@ -137,6 +142,7 @@ class DeqpBuilder:
         expectations_dir = None
         # identify platform
         if "byt" in o.hardware:
+            # TODO: make a byt blacklist
             expectations_dir = src_dir + "/chromiumos-autotest/graphics_dEQP/expectations/baytrail"
         elif "bdw" in o.hardware:
             expectations_dir = pm.project_build_dir(pm.current_project()) + "/bdw_expectations"
@@ -151,9 +157,9 @@ class DeqpBuilder:
         elif "skl" in o.hardware:
             expectations_dir = pm.project_build_dir(pm.current_project()) + "/skl_expectations"
 
-        conf_file = bs.get_conf_file(o.hardware, o.arch, "deqp-test")
+        conf_file = get_conf_file(o.hardware, o.arch, pm.current_project())
 
-        for module in ["gles2", "gles3"]:
+        for module in self._modules:
             skip = DeqpTrie()
             # for each skip list, parse into skip trie
             if expectations_dir and os.path.exists(expectations_dir):
@@ -165,9 +171,12 @@ class DeqpBuilder:
                 skip._trie["empty"] = None
 
             # create test trie
-            os.chdir(self.build_root + "/opt/deqp/modules/" + module)
+            module_dir = module
+            if module == "vk":
+                module_dir = "vulkan"
+            os.chdir(self.build_root + "/opt/deqp/modules/" + module_dir)
             # generate list of tests
-            bs.run_batch_command(["./deqp-" + module] + deqp_options + ["--deqp-runmode=xml-caselist"],
+            run_batch_command(["./deqp-" + module] + deqp_options + ["--deqp-runmode=xml-caselist"],
                                  env=self.env)
             outfile = "dEQP-" + module.upper() + "-cases.xml"
             assert(os.path.exists(outfile))
@@ -198,23 +207,21 @@ class DeqpBuilder:
         os.chdir(savedir)
 
         # invoke piglit
+        base_options = ("--deqp-surface-type=fbo "
+                        "--deqp-log-images=disable "
+                        '--deqp-surface-width=256 '
+                        '--deqp-surface-height=256 '
+                        "--deqp-caselist-file=")
         self.env["PIGLIT_DEQP_GLES2_BIN"] = self.build_root + "/opt/deqp/modules/gles2/deqp-gles2"
-        self.env["PIGLIT_DEQP_GLES2_EXTRA_ARGS"] =  ("--deqp-surface-type=fbo "
-                                                     "--deqp-log-images=disable "
-                                                     '--deqp-surface-width=256 '
-                                                     '--deqp-surface-height=256 '
-                                                     "--deqp-caselist-file=" +
-                                                     self.build_root + "/opt/deqp/modules/gles2/gles2-cases.txt")
+        self.env["PIGLIT_DEQP_GLES2_EXTRA_ARGS"] =  base_options + self.build_root + "/opt/deqp/modules/gles2/gles2-cases.txt"
         self.env["PIGLIT_DEQP_GLES3_EXE"] = self.build_root + "/opt/deqp/modules/gles3/deqp-gles3"
-        self.env["PIGLIT_DEQP_GLES3_EXTRA_ARGS"] = ("--deqp-surface-type=fbo "
-                                                    "--deqp-log-images=disable "
-                                                    '--deqp-surface-width=256 '
-                                                    '--deqp-surface-height=256 '
-                                                    "--deqp-caselist-file=" +
-                                                    self.build_root + "/opt/deqp/modules/gles3/gles3-cases.txt")
+        self.env["PIGLIT_DEQP_GLES3_EXTRA_ARGS"] = base_options + self.build_root + "/opt/deqp/modules/gles3/gles3-cases.txt"
+        self.env["PIGLIT_DEQP_VK_EXE"] = self.build_root + "/opt/deqp/modules/vulkan/deqp-vk"
+        self.env["PIGLIT_DEQP_VK_EXTRA_ARGS"] = base_options + self.build_root + "/opt/deqp/modules/vulkan/vk-cases.txt"
+        
         out_dir = self.build_root + "/test/" + o.hardware
 
-        suites_and_outdir = ["deqp_gles2", "deqp_gles3", out_dir ]
+        suites = ["deqp_" + m for m in self._modules]
         cmd = [self.build_root + "/bin/piglit",
                "run",
                "-p", "gbm",
@@ -223,7 +230,7 @@ class DeqpBuilder:
                "-c",
                "--junit_suffix", "." + o.hardware + o.arch]
         
-        bs.run_batch_command(cmd + include_tests + suites_and_outdir,
+        run_batch_command(cmd + include_tests + suites + [out_dir],
                              env=self.env,
                              expected_return_code=None,
                              streamedOutput=True)
@@ -246,7 +253,7 @@ class DeqpBuilder:
         if not os.path.exists(out_dir + "/results.xml"):
             print "ERROR: no results at " + out_dir + "/results.xml"
         else:
-            revisions = bs.RepoSet().branch_missing_revisions()
+            revisions = RepoSet().branch_missing_revisions()
             print "INFO: filtering tests from " + out_dir + "/results.xml"
             self.filter_tests(revisions,
                               out_dir + "/results.xml",
@@ -254,16 +261,16 @@ class DeqpBuilder:
 
             if "bsw" == o.hardware:
                 # run piglit again, to eliminate intermittent failures
-                tl = bs.TestLister(final_file)
+                tl = TestLister(final_file)
                 retests = tl.RetestIncludes("deqp-test")
                 if retests:
                     print "WARN: retesting deqp"
-                    bs.run_batch_command(cmd + include_tests +
-                                         retests + suites_and_outdir,
+                    run_batch_command(cmd + include_tests +
+                                         retests + suites + [out_dir],
                                          env=self.env,
                                          expected_return_code=None,
                                          streamedOutput=True)
-                    second_results = bs.TestLister(out_dir + "/results.xml")
+                    second_results = TestLister(out_dir + "/results.xml")
                     for a_test in tl.TestsNotIn(second_results):
                         print "stripping flaky test: " + a_test.test_name
                         a_test.ForcePass(final_file)
@@ -272,10 +279,10 @@ class DeqpBuilder:
             # jenkins can access it.
             cmd = ["cp", "-a", "-n",
                    self.build_root + "/../test", pm.source_root()]
-            bs.run_batch_command(cmd)
-            bs.Export().export_tests()
+            run_batch_command(cmd)
+            Export().export_tests()
 
-        bs.PiglitTester().check_gpu_hang()
+        PiglitTester().check_gpu_hang()
 
     def shard_caselist(self, caselist_fn, shard):
         if shard == "0":
@@ -295,7 +302,7 @@ class DeqpBuilder:
                 shard_tests.append(a_test)
             test_no = test_no + 1
 
-        bs.rmtree(caselist_fn)
+        rmtree(caselist_fn)
         caselist_fh = open(caselist_fn, "w")
         for a_test in shard_tests:
             caselist_fh.write(a_test)
@@ -314,7 +321,7 @@ class DeqpBuilder:
             # for each failure, see if there is an entry in the config
             # file with a revision that was missed by a branch
             for afail in a_suite.findall("testcase/failure/..") + a_suite.findall("testcase/error/.."):
-                piglit_test = bs.PiglitTest("foo", "foo", afail)
+                piglit_test = PiglitTest("foo", "foo", afail)
                 regression_revision = piglit_test.GetConfRevision()
                 abbreviated_revisions = [a_rev[:6] for a_rev in revisions]
                 for abbrev_rev in abbreviated_revisions:
@@ -326,13 +333,3 @@ class DeqpBuilder:
                         break
                 
         t.write(outfile)
-
-class SlowTimeout:
-    def __init__(self):
-        self.hardware = bs.Options().hardware
-
-    def GetDuration(self):
-        return 500
-
-bs.build(DeqpBuilder(), time_limit=SlowTimeout())
-        
