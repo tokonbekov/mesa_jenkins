@@ -37,9 +37,6 @@ class CtsBuilder:
         pass
 
     def test(self):
-        # todo: now that there is more than one component that needs
-        # to call mesa_version, it should be moved to a more sharable
-        # location
         o = bs.Options()
         pm = bs.ProjectMap()
         conf_file = bs.get_conf_file(o.hardware, o.arch, "cts-test")

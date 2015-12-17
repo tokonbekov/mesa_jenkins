@@ -45,30 +45,26 @@
       <prerequisite name="drm"/>
     </project>
 
-    <project name="waffle">
-      <prerequisite name="mesa" hardware="builder"/>
-    </project>
+    <project name="waffle"/>
 
     <project name="deqp-test" src_dir="deqp"
              bisect_hardware="bdw,skl,hsw,ivb,snb,byt,bsw">
       <prerequisite name="deqp" hardware="builder"/>
       <prerequisite name="piglit" hardware="builder"/>
+      <prerequisite name="mesa" hardware="builder"/>
     </project>
 
     <project name="deqp">
-      <prerequisite name="mesa" hardware="builder"/>
-      <!-- for wflinfo, to check version support -->
-      <prerequisite name="waffle" hardware="builder"/>
+      <prerequisite name="mesa"/>
     </project>
 
-    <project name="cts">
-      <prerequisite name="mesa" hardware="builder"/>
-    </project>
+    <project name="cts"/>
 
     <project name="cts-test"
              bisect_hardware="bdw,skl,hsw,ivb,snb,ilk,g965,bsw,byt,g33,g45,bxt">
       <prerequisite name="cts" hardware="builder"/>
       <prerequisite name="piglit" hardware="builder"/>
+      <prerequisite name="mesa" hardware="builder"/>
     </project>
 
     <project name="piglit">
@@ -91,12 +87,12 @@
 
     <project name="crucible">
       <prerequisite name="shaderc"/>
-      <prerequisite name="mesa"/>
     </project>
 
     <project name="crucible-test"
              bisect_hardware="bdw,skl,hsw,ivb,bsw,byt,bxt">
       <prerequisite name="crucible" hardware="builder"/>
+      <prerequisite name="mesa" hardware="builder"/>
     </project>
 
     <project name="crucible-all">
@@ -106,6 +102,7 @@
     <project name="vulkancts-test">
       <prerequisite name="vulkancts" hardware="builder"/>
       <prerequisite name="piglit" hardware="builder"/>
+      <prerequisite name="mesa" hardware="builder"/>
     </project>
 
     <project name="vulkancts"/>
