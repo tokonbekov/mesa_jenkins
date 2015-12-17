@@ -201,7 +201,7 @@ class PiglitTest:
         (first, second) = full_test_name.split(".")[0:2]
         if first == "piglit" and "-cts" in second:
             self.project = "cts-test"
-        if "gt" in hardware:
+        if "gt" in hardware and hardware != "ivbgt1":
             hardware = hardware[:3]
 
         self.test_name = ".".join(full_test_name.split(".")[:-1])
