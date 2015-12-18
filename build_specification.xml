@@ -300,7 +300,7 @@
       <glslang/>
     </branch>
 
-    <branch name="vulkancts" project="vulkancts">
+    <branch name="vulkancts" project="vulkancts-full">
       <mesa branch="vulkan/vulkan"/>
       <vulkancts branch="origin/jenkins"/>
       <piglit branch="piglitvulkan/vulkan"/>
