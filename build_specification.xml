@@ -300,11 +300,12 @@
       <glslang/>
     </branch>
 
-    <branch name="vulkancts" project="vulkancts-full">
-      <mesa branch="vulkan/vulkan"/>
-      <vulkancts branch="origin/jenkins"/>
-      <piglit branch="piglitvulkan/vulkan"/>
-    </branch>
+    <!-- this test suite can hard-hang machines.  Disabling for now -->
+    <!-- <branch name="vulkancts" project="vulkancts-full"> -->
+    <!--   <mesa branch="vulkan/vulkan"/> -->
+    <!--   <vulkancts branch="origin/jenkins"/> -->
+    <!--   <piglit branch="piglitvulkan/vulkan"/> -->
+    <!-- </branch> -->
 
     <branch name="jekstrand" project="test-single-arch-skl">
       <mesa branch="jekstrand/jenkins"/>
