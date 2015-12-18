@@ -137,7 +137,7 @@ class DeqpBuilder:
         expectations_dir = None
         # identify platform
         if "byt" in o.hardware:
-            expectations_dir = src_dir + "/chromiumos-autotest/graphics_dEQP/expectations/baytrail"
+            expectations_dir = pm.project_build_dir(pm.current_project()) + "/byt_expectations"
         elif "bdw" in o.hardware:
             expectations_dir = pm.project_build_dir(pm.current_project()) + "/bdw_expectations"
         elif "hsw" in o.hardware:
