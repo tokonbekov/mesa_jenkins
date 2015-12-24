@@ -464,7 +464,10 @@ class PiglitTester(object):
                                              "arb_shader_atomic_counters.function-argument",
                                              "arb_shader_atomic_counters.semantics",
                                              "arb_shader_atomic_counters.fragment-discard",
-                                             "arb_fragment_layer_viewport.layer-gs-writes-in-range"]
+                                             "arb_fragment_layer_viewport.layer-gs-writes-in-range",
+                                             "arb_tessellation_shader.execution.invocation-counting-odd",
+                                             "arb_tessellation_shader.execution.tes-primitiveid",
+                                             "arb_tessellation_shader.execution.tcs-primitiveid"]
 
             # Bug 92166
             exclude_tests = exclude_tests + ['arb_shader_storage_buffer_object.array-ssbo-binding']
