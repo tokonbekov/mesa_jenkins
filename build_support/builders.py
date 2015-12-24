@@ -484,6 +484,8 @@ class PiglitTester(object):
         if "skl" in hardware:
             # hard hangs skl
             exclude_tests = exclude_tests + ["ext_framebuffer_multisample.no-color"]
+            # intermittent, TODO bug
+            exclude_tests = exclude_tests + ["arb_tessellation_shader.execution.vs-tes-vertex"]
 
         if "bxt" in hardware:
             exclude_tests = exclude_tests + ["fbo-depth-array",
