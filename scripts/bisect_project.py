@@ -120,7 +120,7 @@ if args.to:
         sys.exit(0)
     print patch_text
     msg = MIMEText(patch_text)
-    msg["Subject"] = "[PATCH] prerelease config updates due to " + args.blame_revision
+    msg["Subject"] = "[PATCH] prerelease config updates due to bisect of " + proj
     msg["From"] = "Do Not Reply <mesa_jenkins@intel.com>"
     msg["To"] = args.to
     s = smtplib.SMTP('or-out.intel.com')
