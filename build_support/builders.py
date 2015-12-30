@@ -459,7 +459,9 @@ class PiglitTester(object):
             # TODO: write bug for
             exclude_tests = exclude_tests + ["variable-indexing.vs-output-array-vec4-index-wr-before-gs"]
 
-            # bug: 91298
+            # bug: 91298 (only for the first entry)
+            # These are all likely related to the flakiness of atomic counters
+            # on BDW
             exclude_tests = exclude_tests + ['arb_shader_atomic_counters.unused-result',
                                              "arb_shader_atomic_counters.function-argument",
                                              "arb_shader_atomic_counters.semantics",
@@ -467,7 +469,8 @@ class PiglitTester(object):
                                              "arb_fragment_layer_viewport.layer-gs-writes-in-range",
                                              "arb_tessellation_shader.execution.invocation-counting-odd",
                                              "arb_tessellation_shader.execution.tes-primitiveid",
-                                             "arb_tessellation_shader.execution.tcs-primitiveid"]
+                                             "arb_tessellation_shader.execution.tcs-primitiveid",
+                                             "arb_tessellation_shader.execution.invocation-counting-even"]
 
             # Bug 92166
             exclude_tests = exclude_tests + ['arb_shader_storage_buffer_object.array-ssbo-binding']
