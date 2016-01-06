@@ -298,6 +298,7 @@ class PiglitTest:
             # add it back to the right place
             c.remove_option("expected-failures", self.test_name)
             c.remove_option("expected-crashes", self.test_name)
+            c.remove_option("fixed-tests", self.test_name)
             if self.status == "fail":
                 c.set("expected-failures", self.test_name, self.bisected_revision)
             elif self.status == "crash":
