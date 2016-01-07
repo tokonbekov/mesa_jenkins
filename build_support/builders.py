@@ -496,7 +496,7 @@ class PiglitTester(object):
                                              "ext_framebuffer_multisample.accuracy",
                                              "execution.tex-miplevel-selection",
                                              "arb_pixel_buffer_object.texsubimage cube_map_array pbo",
-                                             # TODO BUG
+                                             # bug 93618
                                              "spec..opengl.1_1.read-front"]
 
         if "hsw" in hardware or "ivb" in hardware:
