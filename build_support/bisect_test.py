@@ -121,18 +121,8 @@ class Bisector:
                           revspec=revspec)
 
             depGraph = DependencyGraph(self.test.project, o)
-            # remove test build from graph, because we always want to build
-            # it.
-            bi = ProjectInvoke(project=self.test.project, 
-                               options=o)
-            bi.set_info("status", "bisect-rebuild")
-
-            depGraph.build_complete(bi)
             try:
                 jen.build_all(depGraph, "bisect", print_summary=False)
-                print "Starting: " + bi.to_short_string()
-                jen.build(bi, branch="mesa_master")
-                jen.wait_for_build()
             except BuildFailure:
                 print "BUILD FAILED - exception: " + rev
                 if current_build + 1 == len(self.commits):
