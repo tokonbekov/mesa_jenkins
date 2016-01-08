@@ -474,7 +474,8 @@ class PiglitTester(object):
             # exclude_tests = exclude_tests + ["arb_uniform_buffer_object.bufferstorage"]
             pass
 
-        if "skl" in hardware:
+        # kbl is same as skl, as a starting point
+        if "skl" in hardware or "kbl" in hardware:
             # hard hangs skl
             exclude_tests = exclude_tests + ["ext_framebuffer_multisample.no-color"]
             # intermittent, TODO bug
