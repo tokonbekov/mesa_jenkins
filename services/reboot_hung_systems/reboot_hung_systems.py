@@ -495,8 +495,8 @@ class HangReboot(Daemon):
                         # "otc-gfxtest-byt-02.local" : { "switch":2, "outlet":2 },
                         # "otc-gfxtest-byt-03.local" : { "switch":2, "outlet":3 },
                         # "otc-gfxtest-byt-04.local" : { "switch":2, "outlet":4 },
-                        # "otc-gfxtest-byt-05.local" : { "switch":2, "outlet":5 },
-                        # "otc-gfxtest-byt-06.local" : { "switch":2, "outlet":6 },
+                        "otc-gfxtest-kbl-01.local" : { "switch":2, "outlet":5 },
+                        "otc-gfxtest-bxt-02.local" : { "switch":2, "outlet":6 },
                         "otc-gfxtest-bxt-01.local" : { "switch":2, "outlet":7 },
                         "otc-gfxtest-sklgt2-02.local" : { "switch":2, "outlet":8}}
 
