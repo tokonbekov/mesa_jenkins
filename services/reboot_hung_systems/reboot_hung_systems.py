@@ -488,7 +488,7 @@ class HangReboot(Daemon):
                         "otc-gfxtest-bsw-04.local" : { "switch":1, "outlet":4 },
                         "otc-gfxtest-bsw-05.local" : { "switch":1, "outlet":5 },
                         "otc-gfxtest-bsw-06.local" : { "switch":1, "outlet":6 },
-                        "otc-gfxtest-bsw-07.local" : { "switch":1, "outlet":7 },
+                        # "otc-gfxtest-bsw-07.local" : { "switch":1, "outlet":7 },
                         "otc-gfxtest-sklgt2-01.local" : { "switch":1, "outlet":8},
                         # byt does not boot after power loss
                         # "otc-gfxtest-byt-01.local" : { "switch":2, "outlet":1 },
