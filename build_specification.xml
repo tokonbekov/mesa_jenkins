@@ -410,6 +410,10 @@
 
     <branch name="nir_test_clone" project="test-single-arch"/>
 
+    <branch name="sarah" project="test-single-arch">
+      <mesa branch="sarah/jenkins"/>
+    </branch>
+
   </branches>
 
 </build_specification>
