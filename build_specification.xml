@@ -61,7 +61,7 @@
     <project name="cts"/>
 
     <project name="cts-test"
-             bisect_hardware="bdw,skl,hsw,ivb,snb,ilk,g965,bsw,byt,g33,g45,bxt">
+             bisect_hardware="bdw,skl,hsw,ivb,snb,ilk,g965,bsw,byt,g33,g45,bxt,kbl">
       <prerequisite name="cts" hardware="builder"/>
       <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
@@ -72,7 +72,7 @@
     </project>
 
     <project name="piglit-test"
-             bisect_hardware="bdw,skl,hsw,ivb,ivbgt1,snb,bsw,byt,g965,ilk,g33,g45,bxt"
+             bisect_hardware="bdw,skl,hsw,ivb,ivbgt1,snb,bsw,byt,g965,ilk,g33,g45,bxt,kbl"
              bisect_arch="m64,m32">
       <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
@@ -123,7 +123,7 @@
       <prerequisite name="piglit-test"
                     hardware="ilk,snbgt1,snbgt2,ivbgt2,ivbgt1,hswgt2,bdwgt2,hswgt3e,hswgt1,skl"
                     arch="m64,m32"/>
-      <prerequisite only_for_type="daily" name="piglit-test" hardware="bsw,byt,g33,g45,g965,bxt" arch="m64,m32"/>
+      <prerequisite only_for_type="daily" name="piglit-test" hardware="bsw,byt,g33,g45,g965,bxt,kbl" arch="m64,m32"/>
       <prerequisite only_for_type="daily" name="deqp-full"/>
       <prerequisite name="piglit-cpu-test" hardware="fastgpu" arch="m64,m32"/>
       <prerequisite name="mesa-buildtest" hardware="builder" arch="m64"/>
@@ -143,7 +143,7 @@
 
     <!-- this is used for ben's percheckin build -->
     <project name="test-single-arch-ben">
-      <prerequisite name="piglit-test" hardware="ilk,g45,g965,snb,ivb,hsw,bdw,skl,bsw,byt,bxt"/>
+      <prerequisite name="piglit-test" hardware="ilk,g45,g965,snb,ivb,hsw,bdw,skl,bsw,byt,bxt,kbl"/>
       <prerequisite name="piglit-cpu-test" hardware="fastgpu"/>
       <prerequisite name="scons-buildtest" hardware="builder" arch="m64"/>
       <prerequisite name="mesa-buildtest" hardware="builder"/>
@@ -160,7 +160,7 @@
 
     <project name="cts-full">
       <prerequisite name="cts-test" hardware="snb,ivb,hsw,bdw" arch="m64"/>
-      <prerequisite name="cts-test" only_for_type="daily" hardware="g965,g33,ilk,g45,bsw,byt,skl,bxt" arch="m64"/>
+      <prerequisite name="cts-test" only_for_type="daily" hardware="g965,g33,ilk,g45,bsw,byt,skl,bxt,kbl" arch="m64"/>
     </project>
 
     <project name="reboot-slaves">
