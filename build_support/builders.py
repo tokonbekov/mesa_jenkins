@@ -345,7 +345,7 @@ class PiglitTester(object):
         o = Options()
 
         mesa_version = self.mesa_version()
-        if o.hardware == "bxt":
+        if o.hardware == "bxt" or o.hardware == "kbl":
             if "11.0" in mesa_version:
                 print "WARNING: bxt not supported by stable mesa"
                 return
