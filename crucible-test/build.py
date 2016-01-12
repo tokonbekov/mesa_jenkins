@@ -145,6 +145,10 @@ class CrucibleTester(object):
                          "!func.push-constants.basic", # gpu hang
                          "!stress.lots-of-surface-state.fs.dynamic"]  # gpu hang
 
+        if "bsw in o.hardware":
+            excludes += ["!func.event.cmd_buffer"] # intermittent fail/crash
+
+
         if "bxt" in o.hardware:
             excludes += ["!func.miptree.s8-uint.aspect-stencil*",
                          "!stress.lots-of-surface-state.fs.static"]
