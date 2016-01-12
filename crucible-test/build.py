@@ -108,11 +108,6 @@ class CrucibleTester(object):
         excludes = []
         parallelism = []
 
-        # issue 10
-        excludes += ["!func.cmd-buffer.large-secondary-no-simultaneous",
-                     "!func.cmd-buffer.large-secondary",
-                     "!func.cmd-buffer.small-secondaries"]
-
         if "hsw" in o.hardware:
             # issue 4
             excludes += ["!func.copy.copy-buffer.large",
