@@ -57,16 +57,16 @@ assert(found)
 
 # retest build, in case expected failures has been updated
 # copy build root to bisect directory
-retest_dir = results_dir + "/bisect/" + datetime.datetime.now().isoformat()
-cmd = ["rsync", "-rlptD", "--exclude", "/*test/", "/".join(dirnames[:-1]) +"/", retest_dir]
+bisect_dir = results_dir + "/bisect/" + datetime.datetime.now().isoformat()
+cmd = ["rsync", "-rlptD", "--exclude", "/*test/", "/".join(dirnames[:-1]) +"/", bisect_dir]
 bs.run_batch_command(cmd)
 
-if not bs.retest_failures(args.result_path, retest_dir):
+if not bs.retest_failures(args.result_path, bisect_dir):
     print "ERROR: retest failed"
 
 # make sure there is enough time for the test files to sync to nfs
 time.sleep(20)
-new_failures = bs.TestLister(retest_dir + "/test/")
+new_failures = bs.TestLister(bisect_dir + "/test/")
 
 if not new_failures.Tests():
     print "All tests fixed"
@@ -79,16 +79,10 @@ revspec = bs.RevisionSpecification(from_cmd_line=[proj + "=" + commits[-1].hexsh
 revspec.checkout()
 revspec = bs.RevisionSpecification()
 hashstr = revspec.to_cmd_line_param().replace(" ", "_")
-old_out_dir = "/".join([results_dir, "bisect", hashstr])
-
-bs.rmtree(old_out_dir + "/test")
-bs.rmtree(old_out_dir + "/piglit-test")
-bs.rmtree(old_out_dir + "/deqp-test")
-bs.rmtree(old_out_dir + "/cts-test")
-bs.rmtree(old_out_dir + "/crucible-test")
+old_out_dir = "/".join([bisect_dir, hashstr])
 
 print "Building old mesa to: " + old_out_dir
-bs.retest_failures(retest_dir, old_out_dir)
+bs.retest_failures(bisect_dir, old_out_dir)
 
 time.sleep(20)
 tl = bs.TestLister(old_out_dir + "/test/")
@@ -100,7 +94,7 @@ for a_test in proj_failures:
     a_test.Print()
 
 for a_test in proj_failures:
-    a_test.Bisect(proj, commits)
+    a_test.Bisect(proj, commits, bisect_dir)
     a_test.UpdateConf()
 
 if args.to:

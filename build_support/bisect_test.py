@@ -66,7 +66,7 @@ def get_conf_file(hardware, arch, project="piglit-test"):
 
 class Bisector:
     def __init__(self, bisect_project, test,
-                 commits, retest_path):
+                 commits, retest_path, bisect_dir):
         self.project = bisect_project
         self.test = test
         # remove inadvertent whitespace, which is easy to add when
@@ -77,6 +77,7 @@ class Bisector:
         self.commits = commits
         self.last_failure = None
         self._retest_path=retest_path
+        self._bisect_dir = bisect_dir
 
     def Bisect(self):
         if not self.commits:
@@ -87,6 +88,8 @@ class Bisector:
             repo_project = "piglit"
         if "crucible" in repo_project:
             repo_project = "crucible"
+        if "vulkancts" in repo_project:
+            repo_project = "vulkancts"
         rev = repo_project + "=" + self.commits[current_build].hexsha
         print "Range: " + self.commits[0].hexsha + " - " + self.commits[-1].hexsha + " (" + str(len(self.commits)) + ")"
         print "Building revision: " + rev
@@ -104,9 +107,7 @@ class Bisector:
         revspec = RevisionSpecification()
         hashstr = revspec.to_cmd_line_param().replace(" ", "_")
         spec_xml = ProjectMap().build_spec()
-        results_dir = spec_xml.find("build_master").attrib["results_dir"]
-        result_path = "/".join([results_dir, "bisect", hashstr])
-        o.result_path = result_path
+        o.result_path = "/".join([self._bisect_dir, hashstr])
         o.retest_path = self._retest_path
 
         # if retest_path == result_path, then we don't have to build.
@@ -114,10 +115,8 @@ class Bisector:
         # revision.  The newest revision was already
         # built/tested. before beginning the bisect.
         if (o.result_path != o.retest_path):
-            rmtree(result_path + "/test")
-
             global jen
-            jen = Jenkins(result_path=result_path,
+            jen = Jenkins(result_path=o.result_path,
                           revspec=revspec)
 
             depGraph = DependencyGraph(self.test.project, o)
@@ -132,7 +131,7 @@ class Bisector:
                 self.commits = self.commits[current_build+1:]
                 return self.Bisect()
 
-        if self.test.Passed(result_path, rev):
+        if self.test.Passed(o.result_path, rev):
             if current_build == 0:
                 print "LAST DETECTED SUCCESS: " + rev
                 return self.last_failure
@@ -254,10 +253,10 @@ class PiglitTest:
             fh.write(", " + hw + "/" + arch)
         fh.write("\nCommand line: " + self.command_line + "\n\n")
 
-    def Bisect(self, bisect_project, commits):
+    def Bisect(self, bisect_project, commits, bisect_dir):
         print "Bisecting for " + self.test_name
         b = Bisector(bisect_project, self, 
-                     commits, self._retest_path)
+                     commits, self._retest_path, bisect_dir)
         self.bisected_revision = b.Bisect()
         if not self.bisected_revision:
             print "No bisection found for " + self.test_name
@@ -332,6 +331,8 @@ class PiglitTest:
             base_name = "piglit-deqp"
         if self.project == "cts-test":
             base_name = "piglit-cts"
+        if self.project == "vulkancts-test":
+            base_name = "piglit-deqp-vk"
         test_result = "/".join([result_path, "test", base_name + "_" +
                                 self.hardware + "_" + self.arch + ".xml"])
         iteration = 0
@@ -448,10 +449,10 @@ class CrucibleTest:
     def PrettyPrint(self, fh):
         pass
 
-    def Bisect(self, bisect_project, commits):
+    def Bisect(self, bisect_project, commits, bisect_dir):
         print "Bisecting for " + self.test_name
         b = Bisector(bisect_project, self, 
-                     commits, self._retest_path)
+                     commits, self._retest_path, bisect_dir)
         self.bisected_revision = b.Bisect()
         if not self.bisected_revision:
             print "No bisection found for " + self.test_name
@@ -564,6 +565,7 @@ class TestLister:
         self._tests["deqp-test"] = {}
         self._tests["cts-test"] = {}
         self._tests["crucible-test"] = {}
+        self._tests["vulkancts-test"] = {}
 
         test_files = []
         if os.path.isfile(bad_dir):
