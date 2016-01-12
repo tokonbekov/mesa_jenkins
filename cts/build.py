@@ -32,11 +32,10 @@ class CtsBuilder(bs.CMakeBuilder):
                "CXXFLAGS":cxxflag}
         self._options.update_env(env)
         
-        bs.run_batch_command(["cmake", self._src_dir] + self._extra_definitions,
+        bs.run_batch_command(["cmake", "-GNinja", self._src_dir] + self._extra_definitions,
                              env=env)
 
-        bs.run_batch_command(["cmake", "--build", self._build_dir,
-                              "--", "-j" + str(bs.cpu_count())], env=env)
+        bs.run_batch_command(["ninja","-j" + str(bs.cpu_count())], env=env)
 
         bs.run_batch_command(["mkdir", "-p", pm.build_root() + "/bin"])
         bs.run_batch_command(["cp", "-a", self._build_dir + "/cts",
