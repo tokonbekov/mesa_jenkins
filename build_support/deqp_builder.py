@@ -128,7 +128,7 @@ class DeqpBuilder:
         include_tests = []
         if o.retest_path:
             testlist = TestLister(o.retest_path + "/test/")
-            include_tests = testlist.RetestIncludes("deqp-test")
+            include_tests = testlist.RetestIncludes(pm.current_project())
             if not include_tests:
                 # we were supposed to retest failures, but there were none
                 return
@@ -239,7 +239,10 @@ class DeqpBuilder:
         if not os.path.exists(single_out_dir):
             os.makedirs(single_out_dir)
 
-        filename_components = ["/piglit-deqp",
+        basename = "/piglit-deqp"
+        if "vulkancts" in pm.current_project():
+            basename = "/piglit-deqp-vk"
+        filename_components = [basename,
                                o.hardware,
                                o.arch]
         # Uniquely name all test files in one directory, for
