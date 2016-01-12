@@ -54,4 +54,3 @@ done
 
 # Enable and disable some services
 systemctl enable avahi-daemon salt-minion
-systemctl disable saned hdparm
