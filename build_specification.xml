@@ -101,7 +101,7 @@
     </project>
 
     <project name="vulkancts-test" src_dir="vulkancts"
-             bisect_hardware="bdw">
+             bisect_hardware="bdw,skl">
       <prerequisite name="vulkancts" hardware="builder"/>
       <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
@@ -112,6 +112,10 @@
                     arch="m64"
                     hardware="bdw"
                     shard="7"/>
+      <prerequisite name="vulkancts-test"
+                    arch="m64"
+                    hardware="skl"
+                    shard="4"/>
     </project>
 
     <project name="vulkancts"/>
@@ -302,12 +306,11 @@
       <glslang/>
     </branch>
 
-    <!-- this test suite can hard-hang machines.  Disabling for now -->
-    <!-- <branch name="vulkancts" project="vulkancts-full"> -->
-    <!--   <mesa branch="vulkan/vulkan"/> -->
-    <!--   <vulkancts branch="origin/jenkins"/> -->
-    <!--   <piglit branch="piglitvulkan/vulkan"/> -->
-    <!-- </branch> -->
+    <branch name="vulkancts" project="vulkancts-full">
+      <mesa branch="vulkan/vulkan"/>
+      <vulkancts branch="origin/jenkins"/>
+      <piglit branch="piglitvulkan/vulkan"/>
+    </branch>
 
     <branch name="jekstrand" project="test-single-arch-skl">
       <mesa branch="jekstrand/jenkins"/>
