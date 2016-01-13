@@ -141,7 +141,7 @@
       <prerequisite name="piglit-cpu-test" hardware="fastgpu"/>
       <prerequisite name="scons-buildtest" hardware="builder" arch="m64"/>
       <prerequisite name="mesa-buildtest" hardware="builder"/>
-      <prerequisite name="deqp-test" hardware="hsw,bdwgt3e" arch="m64" shard="2"/>
+      <prerequisite name="deqp-test" hardware="hsw,bdwgt3e,skl" arch="m64" shard="2"/>
       <prerequisite name="cts-full"/>
     </project>
 
