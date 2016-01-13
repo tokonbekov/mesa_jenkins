@@ -52,5 +52,12 @@ for _ in `seq 3`; do
         --force-yes -fuy dist-upgrade
 done
 
+# Debian testing has a bug that causes systemd to be uinstalled, but we want
+# it.
+DEBIAN_FRONTEND=noninteractive \
+APT_LISTCHANGES_FRONTEND=mail \
+    apt-get -o Dpkg::Options::="--force-confdef" \
+    --force-yes -fuy install systemd systemd-sysv
+
 # Enable and disable some services
 systemctl enable avahi-daemon salt-minion
