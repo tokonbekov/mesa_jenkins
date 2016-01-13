@@ -108,11 +108,6 @@ class CrucibleTester(object):
         excludes = []
         parallelism = []
 
-        # issue 10
-        excludes += ["!func.cmd-buffer.large-secondary-no-simultaneous",
-                     "!func.cmd-buffer.large-secondary",
-                     "!func.cmd-buffer.small-secondaries"]
-
         if "hsw" in o.hardware:
             # issue 4
             excludes += ["!func.copy.copy-buffer.large",
@@ -154,7 +149,7 @@ class CrucibleTester(object):
                          "!stress.lots-of-surface-state.fs.static"]
 
         bs.run_batch_command([ br + "/bin/crucible",
-                               "run",
+                               "run", "--fork",
                                "--junit-xml=" + out_xml] + parallelism + include_tests + excludes,
                              env=env,
                              expected_return_code=None)
