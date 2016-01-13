@@ -1,8 +1,6 @@
 #!/usr/bin/python
 
 import os
-import re
-import subprocess
 import sys
 import xml.etree.ElementTree  as ET
 
@@ -39,6 +37,13 @@ class CtsBuilder:
     def test(self):
         o = bs.Options()
         pm = bs.ProjectMap()
+
+        mesa_version = bs.PiglitTester().mesa_version()
+        if o.hardware == "bxt" or o.hardware == "kbl":
+            if "11.0" in mesa_version:
+                print "WARNING: bxt/kbl not supported by stable mesa"
+                return
+
         conf_file = bs.get_conf_file(o.hardware, o.arch, "cts-test")
 
         savedir = os.getcwd()
