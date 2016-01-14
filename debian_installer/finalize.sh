@@ -57,7 +57,7 @@ done
 DEBIAN_FRONTEND=noninteractive \
 APT_LISTCHANGES_FRONTEND=mail \
     apt-get -o Dpkg::Options::="--force-confdef" \
-    --force-yes -fuy install systemd systemd-sysv
+    --force-yes -fuy install linux-image-amd64 systemd systemd-sysv
 
 mkdir -p /etc/systemd/network
 cat > /etc/systemd/network/eth0.network << EOF
