@@ -59,5 +59,17 @@ APT_LISTCHANGES_FRONTEND=mail \
     apt-get -o Dpkg::Options::="--force-confdef" \
     --force-yes -fuy install systemd systemd-sysv
 
+mkdir -p /etc/systemd/network
+cat > /etc/systemd/network/eth0.network << EOF
+[Match]
+Name=eth0
+
+[Network]
+DHCP=yes
+EOF
+
+rm /etc/resolv.conf
+ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf
+
 # Enable and disable some services
-systemctl enable avahi-daemon salt-minion
+systemctl enable systemd-networkd systemd-resolved avahi-daemon salt-minion
