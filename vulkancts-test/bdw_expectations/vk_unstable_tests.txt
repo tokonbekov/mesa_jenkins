@@ -7,3 +7,4 @@ dEQP-VK.pipeline.timestamp.advanced_graphics_tests.draw_indirect_stage_in_render
 dEQP-VK.pipeline.timestamp.basic_graphics_tests
 dEQP-VK.spirv_assembly.instruction.compute
 dEQP-VK.glsl.opaque_type_indexing.sampler.dynamically_uniform.compute
+dEQP-VK.glsl.opaque_type_indexing.sampler.uniform.compute
