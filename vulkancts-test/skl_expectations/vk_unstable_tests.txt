@@ -6,3 +6,4 @@ dEQP-VK.pipeline.timestamp.basic_graphics_tests
 dEQP-VK.spirv_assembly.instruction.compute
 dEQP-VK.ssbo
 dEQP-VK.ubo.random.all_per_block_buffers.47
+dEQP-VK.glsl.opaque_type_indexing.sampler.dynamically_uniform.compute

@@ -6,3 +6,4 @@ dEQP-VK.pipeline.depth.format.d32_sfloat_s8_uint.compare_ops.not_equal_less_or_e
 dEQP-VK.pipeline.timestamp.advanced_graphics_tests.draw_indirect_stage_in_render_pass
 dEQP-VK.pipeline.timestamp.basic_graphics_tests
 dEQP-VK.spirv_assembly.instruction.compute
+dEQP-VK.glsl.opaque_type_indexing.sampler.dynamically_uniform.compute
