@@ -8,4 +8,4 @@ dEQP-VK.ssbo
 dEQP-VK.ubo.random.all_per_block_buffers.47
 dEQP-VK.glsl.opaque_type_indexing.sampler.dynamically_uniform.compute
 dEQP-VK.glsl.opaque_type_indexing.sampler.uniform.compute
-
+dEQP-VK.renderpass.attachment_allocation.grow_shrink
