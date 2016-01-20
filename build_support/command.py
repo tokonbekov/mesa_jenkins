@@ -111,6 +111,9 @@ def run_batch_command(commands, streamedOutput=True, noop=False, env = None,
     
     if (expected_return_code != None):
         if p.returncode != expected_return_code:
+            print "ERROR: command failed"
+            print "STDOUT: " + out
+            print "STDERR: " + err
             raise subprocess.CalledProcessError(p.returncode,commands) 
     
     del all_processes[p]
