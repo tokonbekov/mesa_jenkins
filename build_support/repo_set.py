@@ -211,20 +211,30 @@ class RepoSet:
             signal.signal(signal.SIGALRM, signal_handler)
             for remote in repo.remotes:
                 print "fetching " + remote.url
-                try:
-                    signal.alarm(300)   # 5 minutes
-                    remote.fetch()
-                    signal.alarm(0)
-                except git.GitCommandError as e:
-                    print "error fetching, ignoring: " + str(e)
-                    signal.alarm(0)
-                except AssertionError as e:
-                    print "assertion while fetching: " + str(e)
-                    signal.alarm(0)
-                except TimeoutException as e:
-                    print str(e)
-                except Exception as e:
-                    print str(e)
+                # 4 attempts
+                success = False
+                for _ in range(1,4):
+                    try:
+                        signal.alarm(300)   # 5 minutes
+                        remote.fetch()
+                        signal.alarm(0)
+                        success = True
+                        break
+                    except git.GitCommandError as e:
+                        print "error fetching: " + str(e)
+                        signal.alarm(0)
+                        time.sleep(15)
+                    except AssertionError as e:
+                        print "assertion while fetching: " + str(e)
+                        signal.alarm(0)
+                        time.sleep(15)
+                    except TimeoutException as e:
+                        print str(e)
+                    except Exception as e:
+                        print str(e)
+                        time.sleep(15)
+                if not success:
+                    print "Failed to fetch remote, ignoring: " + remote.url
         # the fetch has left our repo objects in an inconsistent
         # state.  We need to recreate them.
         self.__init__()
