@@ -248,8 +248,8 @@
 
     <prerelease repo="ssh://majanes@git-amr-3.devtools.intel.com:29418/otc_gen_graphics-mesa_ci_prerelease.git"/>
 
-    <shaderc repo="git://github.com/jekstrand/shaderc"
-             branch="origin/otc"/>
+    <shaderc repo="git://github.com/jekstrand/shaderc"/>
+    
     <gmock repo="git://github.com/google/googlemock"
            branch="release-1.7.0"/>
     <glslang repo="ssh://git@gitlab.khronos.org/jekstrand/glslang.git"
