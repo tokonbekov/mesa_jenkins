@@ -251,14 +251,14 @@
     <shaderc repo="git://github.com/jekstrand/shaderc"
              branch="origin/otc"/>
     <gmock repo="git://github.com/google/googlemock"
-           branch="origin/release-1.7.0"/>
+           branch="release-1.7.0"/>
     <glslang repo="ssh://git@gitlab.khronos.org/jekstrand/glslang.git"
              branch="origin/otc">
       <remote name="glsl" repo="git@gitlab.khronos.org:GLSL/glslang.git"/>
     </glslang>
 
     <gtest repo="git://github.com/google/googletest"
-           branch="origin/release-1.7.0"/>
+           branch="release-1.7.0"/>
     <crucible repo="ssh://majanes@git-amr-3.devtools.intel.com:29418/otc_gen_graphics-crucible"/>
     <vulkancts repo="ssh://git@gitlab.khronos.org/jekstrand/vulkancts.git"
                branch="origin/jenkins"/>
