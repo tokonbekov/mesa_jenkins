@@ -260,7 +260,8 @@
     <gtest repo="git://github.com/google/googletest"
            branch="release-1.7.0"/>
     <crucible repo="ssh://majanes@git-amr-3.devtools.intel.com:29418/otc_gen_graphics-crucible"/>
-    <vulkancts repo="ssh://git@gitlab.khronos.org/jekstrand/vulkancts.git"/>
+    <vulkancts repo="ssh://git@gitlab.khronos.org/jekstrand/vulkancts.git"
+               branch="jenkins"/>
     <spirvtools repo="ssh://git@gitlab.khronos.org/spirv/spirv-tools.git"/>
   </repos>
 
@@ -298,7 +299,7 @@
 
     <branch name="vulkancts" project="vulkancts-full">
       <mesa branch="vulkan/vulkan"/>
-      <vulkancts branch="origin/jenkins"/>
+      <vulkancts/>
       <piglit branch="piglitvulkan/vulkan"/>
       <crucible/>
       <shaderc/>
@@ -311,10 +312,12 @@
 
     <branch name="jekstrand_vulkan" project="vulkancts-full">
       <mesa branch="vulkan/wip/jekstrand-ci"/>
+      <piglit branch="piglitvulkan/vulkan" trigger="false"/>
     </branch>
 
     <branch name="jljusten_vulkan" project="vulkancts-full">
       <mesa branch="vulkan/jenkins/jljusten"/>
+      <piglit branch="piglitvulkan/vulkan" trigger="false"/>
     </branch>
 
     <branch name="kwg" project="test-single-arch">
