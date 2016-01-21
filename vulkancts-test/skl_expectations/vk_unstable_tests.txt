@@ -9,6 +9,8 @@ dEQP-VK.pipeline.timestamp.basic_graphics_tests
 dEQP-VK.renderpass.attachment.1.27
 dEQP-VK.renderpass.attachment.1.50
 dEQP-VK.renderpass.attachment.1.9
+dEQP-VK.renderpass.attachment.1.98
+dEQP-VK.renderpass.attachment.8.727
 dEQP-VK.renderpass.attachment_allocation
 dEQP-VK.spirv_assembly.instruction.compute
 dEQP-VK.ssbo
