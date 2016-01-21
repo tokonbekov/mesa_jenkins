@@ -6,6 +6,7 @@ dEQP-VK.memory.pipeline_barrier.transfer_dst_index_buffer.1048576
 dEQP-VK.pipeline.push_constant.graphics_pipeline.count_3shader_vgf
 dEQP-VK.pipeline.timestamp.advanced_graphics_tests.draw_indirect_stage_in_render_pass
 dEQP-VK.pipeline.timestamp.advanced_graphics_tests.draw_indirect_stage_out_of_render_pass
+dEQP-VK.pipeline.timestamp.advanced_graphics_tests.geometry_shader_stage_in_render_pass
 dEQP-VK.pipeline.timestamp.advanced_graphics_tests.geometry_shader_stage_out_of_render_pass
 dEQP-VK.pipeline.timestamp.basic_graphics_tests
 dEQP-VK.renderpass.attachment.1
