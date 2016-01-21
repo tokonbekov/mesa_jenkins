@@ -96,10 +96,6 @@
       <prerequisite name="mesa" hardware="builder"/>
     </project>
 
-    <project name="crucible-all">
-      <prerequisite name="crucible-test" hardware="bdw,hsw,skl,bsw,bxt"/>
-    </project>
-
     <project name="vulkancts-test" src_dir="vulkancts"
              bisect_hardware="bdw,skl">
       <prerequisite name="vulkancts" hardware="builder"/>
@@ -116,6 +112,7 @@
                     arch="m64"
                     hardware="skl"
                     shard="4"/>
+      <prerequisite name="crucible-test" hardware="bdw,hsw,skl,bsw,bxt"/>
     </project>
 
     <project name="vulkancts"/>
@@ -299,25 +296,25 @@
       <piglit branch="janesma/11_1_jenkins" trigger="false"/>
     </branch>
 
-    <branch name="vulkan" project="crucible-all">
-      <mesa branch="vulkan/vulkan"/>
-      <crucible/>
-      <shaderc/>
-      <glslang/>
-    </branch>
-
     <branch name="vulkancts" project="vulkancts-full">
       <mesa branch="vulkan/vulkan"/>
       <vulkancts branch="origin/jenkins"/>
       <piglit branch="piglitvulkan/vulkan"/>
+      <crucible/>
+      <shaderc/>
+      <glslang/>
     </branch>
 
     <branch name="jekstrand" project="test-single-arch-skl">
       <mesa branch="jekstrand/jenkins"/>
     </branch>
 
-    <branch name="jekstrand_vulkan" project="crucible-all">
+    <branch name="jekstrand_vulkan" project="vulkancts-full">
       <mesa branch="vulkan/wip/jekstrand-ci"/>
+    </branch>
+
+    <branch name="jljusten_vulkan" project="vulkancts-full">
+      <mesa branch="vulkan/jenkins/jljusten"/>
     </branch>
 
     <branch name="kwg" project="test-single-arch">
