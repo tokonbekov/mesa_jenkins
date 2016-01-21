@@ -495,6 +495,10 @@ class PiglitTester(object):
             # bug 93337, 92205
             exclude_tests = exclude_tests + ["arb_compute_shader.indirect-compute"]
 
+        if "ivb" in hardware:
+            # Bug 91718
+            exclude_tests += ["arb_shader_image_load_store.invalid"]
+
         exclude_cmd = []
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
