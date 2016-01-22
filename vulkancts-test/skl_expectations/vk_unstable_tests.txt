@@ -1,4 +1,5 @@
 dEQP-VK.api.object_management.max_concurrent.compute_pipeline
+dEQP-VK.compute.basic.image_atomic_op_local_size_1
 dEQP-VK.memory.mapping.random.50
 dEQP-VK.memory.pipeline_barrier.transfer_dst_index_buffer.1048576
 dEQP-VK.pipeline.push_constant.graphics_pipeline.count_3shader_vgf
