@@ -59,6 +59,13 @@ class VulkanCtsBuilder(object):
         bs.run_batch_command(["cp", "-a", "-n",
                               self._build_dir + "/external/vulkancts/modules",
                               bin_dir])
+
+        # newest CTS requires this
+        lib_dir = self._build_root + "/lib/"
+        if not os.path.exists(lib_dir):
+            os.makedirs(lib_dir)
+        os.symlink("libvulkan.so", lib_dir + "libvulkan-1.so")
+
         bs.Export().export()
 
     def clean(self):
