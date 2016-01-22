@@ -1,4 +1,6 @@
 dEQP-VK.api.object_management.max_concurrent.compute_pipeline
+dEQP-VK.compute.basic.image_atomic_op_local_size_1
+dEQP-VK.compute.basic.image_atomic_op_local_size_8
 dEQP-VK.glsl.opaque_type_indexing.sampler.dynamically_uniform.compute
 dEQP-VK.glsl.opaque_type_indexing.sampler.uniform.compute
 dEQP-VK.memory.mapping.random.32
