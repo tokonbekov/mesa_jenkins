@@ -440,7 +440,7 @@ class CrucibleTest:
         assert(test.test_name == self.test_name)
         if test.status != self.status:
             print "WARN: skipping mismatched status for test: " + test.test_name
-        self.other_arches.append((test.arch, test.hw))
+        self.other_arches.append((test.arch, test.hardware))
 
     def Print(self):
         print " ".join(["crucible-test", self.test_name, self.arch, self.hardware,
