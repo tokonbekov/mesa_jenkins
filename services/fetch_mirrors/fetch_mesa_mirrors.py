@@ -60,7 +60,8 @@ class RepoSyncer(Daemon):
                 time.sleep(10)
                 
     def file_checksum(self, fname):
-        return hashlib.md5(open(fname, 'rb').read()).digest()
+        with open(fname, 'rb') as f:
+            return hashlib.md5(f.read()).digest()
 
     def run(self):
         signal.signal(signal.SIGALRM, signal_handler)
