@@ -254,7 +254,7 @@
     <gmock repo="git://github.com/google/googlemock"
            branch="release-1.7.0"/>
     <glslang repo="ssh://git@gitlab.khronos.org/jekstrand/glslang.git"
-             branch="origin/otc">
+             branch="38616fa321e6beea9816ee2fe9817f6d79cd1766">
       <remote name="glsl" repo="git@gitlab.khronos.org:GLSL/glslang.git"/>
     </glslang>
 
