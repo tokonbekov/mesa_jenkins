@@ -422,7 +422,7 @@ class CrucibleTest:
         self.retest_path = retest_path
 
         hwarch = full_test_name.split(".")[-1]
-        self.hw = hwarch[:-3]
+        self.hardware = hwarch[:-3]
         self.arch = hwarch[-3:]
 
         self.other_arches = []
@@ -430,7 +430,7 @@ class CrucibleTest:
         self.bisected_revision = "unknown"
 
     def FailsPlatform(self, arch, hardware):
-        if arch == self.arch and hardware == self.hw:
+        if arch == self.arch and hardware == self.hardware:
             return self.status != "pass"
         if (arch, hardware) in self.other_arches:
             return self.status != "pass"
@@ -443,7 +443,7 @@ class CrucibleTest:
         self.other_arches.append((test.arch, test.hw))
 
     def Print(self):
-        print " ".join(["crucible-test", self.test_name, self.arch, self.hw,
+        print " ".join(["crucible-test", self.test_name, self.arch, self.hardware,
                         self.status, str(self.other_arches)])
 
     def PrettyPrint(self, fh):
@@ -461,13 +461,13 @@ class CrucibleTest:
 
     def GetConf(self, hardware=None, arch=None):
         if not hardware:
-            hardware = self.hw
+            hardware = self.hardware
         if not arch:
             arch = self.arch
         return get_conf_file(hardware, arch, project="crucible-test")
         
     def UpdateConf(self):
-        full_list = [(self.arch, self.hw)] + self.other_arches
+        full_list = [(self.arch, self.hardware)] + self.other_arches
         for arch, hardware in full_list:
             try:
                 conf_file = self.GetConf(hardware=hardware, arch=arch)
@@ -521,7 +521,7 @@ class CrucibleTest:
     def Passed(self, result_path, rev):
         # returns true if the crucible test passed at the specified result_path
         test_result = "/".join([result_path, "test", "piglit_crucible_" +
-                                self.hw + "_" + self.arch + ".xml"])
+                                self.hardware + "_" + self.arch + ".xml"])
         iteration = 0
         while not os.path.exists(test_result):
             if iteration < 140:
