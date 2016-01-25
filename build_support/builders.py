@@ -482,13 +482,9 @@ class PiglitTester(object):
             # intermittent, TODO bug
             exclude_tests = exclude_tests + ["arb_tessellation_shader.execution.vs-tes-vertex"]
 
+
         if "bxt" in hardware:
-            exclude_tests = exclude_tests + ["fbo-depth-array",
-                                             # https://bugs.freedesktop.org/show_bug.cgi?id=93355
-                                             "ext_framebuffer_multisample.accuracy",
-                                             "execution.tex-miplevel-selection",
-                                             "arb_pixel_buffer_object.texsubimage cube_map_array pbo",
-                                             # bug 93618
+            exclude_tests = exclude_tests + [# bug 93618
                                              "tessellation"]
 
         if "hsw" in hardware or "ivb" in hardware:
