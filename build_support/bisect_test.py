@@ -419,7 +419,7 @@ class CrucibleTest:
         # drop the hw/arch from the test name
         self.test_name = ".".join(full_test_name.split(".")[:-1])
         self.status = status
-        self.retest_path = retest_path
+        self._retest_path = retest_path
 
         hwarch = full_test_name.split(".")[-1]
         self.hardware = hwarch[:-3]
