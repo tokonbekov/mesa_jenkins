@@ -112,7 +112,7 @@
                     arch="m64"
                     hardware="skl"
                     shard="4"/>
-      <prerequisite name="crucible-test" hardware="bdw,hsw,skl,bsw"/>
+      <prerequisite name="crucible-test" hardware="bdw,hsw,skl,bsw,byt"/>
       <prerequisite name="crucible-test" only_for_type="daily" hardware="bxt"/>
     </project>
 
