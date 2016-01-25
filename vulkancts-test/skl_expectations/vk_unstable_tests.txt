@@ -13,3 +13,4 @@ dEQP-VK.renderpass.attachment.1
 dEQP-VK.renderpass.attachment.8.727
 dEQP-VK.spirv_assembly.instruction.compute
 dEQP-VK.ubo.random.all_per_block_buffers.47
+dEQP-VK.ssbo.layout
