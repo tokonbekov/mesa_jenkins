@@ -152,13 +152,35 @@ class CaseConfig(ConfigParser.SafeConfigParser):
     def optionxform(self, optionstr):
         return optionstr
 
+preferred_hardware = {"skl": 1,
+                      "sklgt2": 2,
+                      "bdw" : 3 ,
+                      "bdwgt3e" : 4,
+                      "bdwgt2" : 5,
+                      "hsw" : 6,
+                      "hswgt3e" : 7,
+                      "hswgt2" : 8,
+                      "hswgt1" : 9,
+                      "ivb" : 10,
+                      "ivbgt2" : 11,
+                      "ivbgt1" : 12,
+                      "snb" : 13,
+                      "snbgt2" : 14,
+                      "snbgt1" : 15,
+                      "byt" : 16,
+                      "bsw" : 17,
+                      "bxt" : 18,
+                      "kbl" : 19,
+                      "g65" : 20,
+                      "ilk" : 21,
+                      "g33" : 22,
+                      "g45" : 23 }
+
 class PiglitTest:
     """Represents a single test.  Has the primary arch that will be
     tested, and a list of other arches that are expected to be caused by
     the same revision"""
     preferred_arches = ["m64", "m32"]
-    preferred_hardware = ["bdw", "bdwgt2", "bdwgt3e", "hsw", "ivb", "hswgt3e", "hswgt2", "hswgt1", "skl", "ivbgt2",
-                          "ivbgt1"] # ...
 
     def __init__(self, full_test_name, status, test_tag=None, retest_path=""):
         """full_test_name includes arch/platform.  status must be one
@@ -228,8 +250,9 @@ class PiglitTest:
             primary_hw = test.hardware
             secondary_arch = self.arch
             secondary_hw = self.hardware
-        elif (self.hardware not in PiglitTest.preferred_hardware and 
-              test.hardware in PiglitTest.preferred_hardware):
+        elif ((self.hardware not in preferred_hardware and test.hardware in preferred_hardware) or
+              # or if other test has more preferred hardware
+              (preferred_hardware[self.hardware] > preferred_hardware[test.hardware])):
             # else prefer faster platform
             primary_arch = test.arch
             primary_hw = test.hardware
@@ -440,7 +463,29 @@ class CrucibleTest:
         assert(test.test_name == self.test_name)
         if test.status != self.status:
             print "WARN: skipping mismatched status for test: " + test.test_name
-        self.other_arches.append((test.arch, test.hardware))
+
+        primary_arch = self.arch
+        primary_hw = self.hardware
+        secondary_arch = test.arch
+        secondary_hw = test.hardware
+        if self.arch == "m32" and test.arch == "m64":
+            # m64 is preferred
+            primary_arch = test.arch
+            primary_hw = test.hardware
+            secondary_arch = self.arch
+            secondary_hw = self.hardware
+        elif ((self.hardware not in preferred_hardware and test.hardware in preferred_hardware) or
+              # or if other test has more preferred hardware
+              (preferred_hardware[self.hardware] > preferred_hardware[test.hardware])):
+            # else prefer faster platform
+            primary_arch = test.arch
+            primary_hw = test.hardware
+            secondary_arch = self.arch
+            secondary_hw = self.hardware
+
+        self.other_arches.append((secondary_arch, secondary_hw))
+        self.arch = primary_arch
+        self.hardware = primary_hw
 
     def Print(self):
         print " ".join(["crucible-test", self.test_name, self.arch, self.hardware,
@@ -520,7 +565,7 @@ class CrucibleTest:
 
     def Passed(self, result_path, rev):
         # returns true if the crucible test passed at the specified result_path
-        test_result = "/".join([result_path, "test", "piglit_crucible_" +
+        test_result = "/".join([result_path, "test", "piglit-crucible_" +
                                 self.hardware + "_" + self.arch + ".xml"])
         iteration = 0
         while not os.path.exists(test_result):
