@@ -58,7 +58,7 @@ class MesaBuilder(bs.AutoBuilder):
     def test(self):
         # override the test method, because we can't know exactly
         # where the tests will be as of 11.2
-        if path.exists(self._src_dir + "/src/glsl/tests/general-ir-test"):
+        if path.exists(self._src_dir + "/src/glsl/tests/general-ir-test.cpp"):
             self.AddGtests(["src/glsl/tests/general-ir-test",
                             "src/glsl/tests/sampler-types-test",
                             "src/glsl/tests/uniform-initializer-test"])
