@@ -1,4 +1,4 @@
 dEQP-VK.ssbo.layout
 dEQP-VK.compute.basic.image_atomic_op_local_size_1
 dEQP-VK.compute.basic.image_atomic_op_local_size_8
-dEQP-VK.api_.object_management.max_concurrent.compute_pipeline
+dEQP-VK.api.object_management.max_concurrent.compute_pipeline
