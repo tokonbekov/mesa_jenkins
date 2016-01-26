@@ -134,12 +134,6 @@ class CrucibleTester(object):
                          "!stress.lots-of-surface-state.fs.static"]
             parallelism = ['-j', '1']
 
-        if "bsw" in o.hardware or "bxt" in o.hardware:
-            # issue 3
-            excludes += ["!func.compute*",   # gpu hang
-                         "!func.push-constants.basic", # gpu hang
-                         "!stress.lots-of-surface-state.fs.dynamic"]  # gpu hang
-
         if "bsw in o.hardware":
             excludes += ["!func.event.cmd_buffer"] # intermittent fail/crash
 
