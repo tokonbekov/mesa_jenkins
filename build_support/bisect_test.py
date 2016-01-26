@@ -203,7 +203,7 @@ class PiglitTest:
                 self.command_line = system_out_node.text.splitlines()[0]
 
             system_err_node = test_tag.find("./system-err")
-            if system_err_node is not None:
+            if system_err_node is not None and system_err_node.text is not None:
                 for a_line in system_err_node.text.splitlines():
                     m = re.match("pid: ([0-9]+)", a_line)
                     if m is not None:
