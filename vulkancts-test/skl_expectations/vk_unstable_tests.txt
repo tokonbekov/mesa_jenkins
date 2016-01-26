@@ -1,1 +1,3 @@
 dEQP-VK.ssbo.layout
+dEQP-VK.compute.basic.image_atomic_op_local_size_1
+dEQP-VK.compute.basic.image_atomic_op_local_size_8
