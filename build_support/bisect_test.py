@@ -34,7 +34,6 @@ import ConfigParser
 from . import RevisionSpecification
 from . import Options
 from . import ProjectMap
-from . import rmtree
 from . import Jenkins
 from . import DependencyGraph
 from . import ProjectInvoke
@@ -186,6 +185,7 @@ class PiglitTest:
         """full_test_name includes arch/platform.  status must be one
         of "pass", "fail", "crash" """
         self.command_line = ""
+        self.pid = None
         if test_tag is not None:
             full_test_name = test_tag.attrib["name"]
             full_test_name = test_tag.attrib["classname"] + "." + full_test_name
@@ -197,11 +197,17 @@ class PiglitTest:
                 status = failnode.attrib.get("type", "crash")
             else:
                 status = "crash"
-            system_out_node = test_tag.find("./system-out")
 
+            system_out_node = test_tag.find("./system-out")
             if system_out_node is not None:
                 self.command_line = system_out_node.text.splitlines()[0]
-                
+
+            system_err_node = test_tag.find("./system-err")
+            if system_err_node is not None:
+                for a_line in system_err_node.text.splitlines():
+                    m = re.match("pid: ([0-9]+)", a_line)
+                    if m is not None:
+                        self.pid = m.group(1)
         self._retest_path = retest_path
         arch_hardware = full_test_name.split(".")[-1]
         arch = arch_hardware[-3:]
@@ -432,6 +438,7 @@ class CrucibleTest:
 
     def __init__(self, full_test_name, status, test_tag=None, retest_path=""):
         self.project = "crucible-test"
+        self.pid = None
         self.test_tag = test_tag
         if test_tag is not None:
             full_test_name = test_tag.attrib["name"]
@@ -603,7 +610,8 @@ class CrucibleTest:
 
 class TestLister:
     """reads xml files and generates a set of PiglitTest objects"""
-    def __init__(self, bad_dir):
+    def __init__(self, bad_dir, include_passes=False):
+        self._include_passes = include_passes
         self._tests = {}
         # each test map is keyed by test name, value is PiglitTest
         self._tests["piglit-test"] = {}
@@ -646,7 +654,10 @@ class TestLister:
         if "crucible" in os.path.basename(test_path):
             testclass = CrucibleTest
 
-        for afail in r.findall(".//failure/..") + r.findall(".//error/.."):
+        tags = r.findall(".//failure/..") + r.findall(".//error/..")
+        if self._include_passes:
+            tags = r.findall(".//testcase")
+        for afail in tags:
             test = testclass(full_test_name="unknown", 
                              status="unknown",
                              test_tag=afail,
@@ -697,6 +708,11 @@ class TestLister:
             include_tests = include_tests + atest.RetestInclude()
         return include_tests
 
+    def TestForPid(self, pid):
+        for atest in self.Tests():
+            if atest.pid == pid:
+                return atest.test_name
+            
 
 def retest_failures(old_build_path, new_build_path):
     # generate a list of the projects that have to be tested

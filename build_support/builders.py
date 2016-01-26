@@ -81,7 +81,7 @@ def git_clean(src_dir):
     run_batch_command(["git", "clean", "-xfd"])
     run_batch_command(["git", "reset", "--hard", "HEAD"])
     os.chdir(savedir)
-                    
+
 def check_gpu_hang():
     # some systems have a gpu hang watchdog which reboots
     # machines, and others do not.   This method checks dmesg,
@@ -99,6 +99,15 @@ def check_gpu_hang():
     if not hang_text:
         return
 
+    # obtain the pid from the hang_text
+    m = re.search(r"\[([0-9]+)\]", hang_text)
+    if m is not None:
+        pid = m.group(1)
+        test_path = os.path.abspath(ProjectMap().build_root() + "/../test")
+        test = TestLister(test_path, include_passes=True).TestForPid(pid)
+        if test is not None:
+            hang_text += "\nHanging Test:\n" + test
+        
     hostname = socket.gethostname()
     Export().create_failing_test("gpu-hang-" + hostname,
                                  hang_text)
