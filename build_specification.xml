@@ -97,7 +97,7 @@
     </project>
 
     <project name="vulkancts-test" src_dir="vulkancts"
-             bisect_hardware="bdw,skl">
+             bisect_hardware="bdw,skl,bsw">
       <prerequisite name="vulkancts" hardware="builder"/>
       <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
@@ -112,6 +112,12 @@
                     arch="m64"
                     hardware="skl"
                     shard="4"/>
+      <prerequisite name="vulkancts-test"
+                    only_for_type="daily"
+                    arch="m64"
+                    hardware="bsw"
+                    shard="6"/>
+
       <prerequisite name="crucible-test" hardware="bdw,skl,bsw"/>
       <prerequisite name="crucible-test" only_for_type="daily" hardware="bxt"/>
     </project>
