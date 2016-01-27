@@ -307,6 +307,11 @@
       <glslang/>
     </branch>
 
+    <branch name="bwidawsk_vulkan" project="vulkancts-full">
+      <mesa branch="vulkan/bwidawsk"/>
+      <piglit branch="piglitvulkan/vulkan" trigger="false"/>
+    </branch>
+
     <branch name="jekstrand" project="test-single-arch-skl">
       <mesa branch="jekstrand/jenkins"/>
     </branch>
