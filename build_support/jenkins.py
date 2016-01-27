@@ -42,13 +42,13 @@ from . import ProjectInvoke, DependencyGraph
 from . import ProjectMap
 from . import RepoSet
 
-triggered_builds_str = []
+triggered_builds = []
 
 def abort_builds(ignore, _):
     jen = Jenkins(None, None)
     print "Aborting builds"
-    for an_invoke_str in triggered_builds_str:
-        jen.abort(ProjectInvoke(from_string=an_invoke_str))
+    for an_invoke in triggered_builds:
+        jen.abort(an_invoke)
     raise BuildAborted()
 
 class AlreadyBuilt(Exception):
@@ -69,11 +69,10 @@ class BuildInProgress(Exception):
             "rebuild: " + self.invoke.info_file()
 
 class BuildFailure(Exception):
-    def __init__(self, invoke, url, triggered_builds):
+    def __init__(self, invoke, url):
         Exception.__init__(self)
         self.invoke = invoke
         self.url = url
-        self.triggered_builds = triggered_builds
 
     def __str__(self):
         return "Error: build failure: " + str(self.invoke) + "\nError: " + \
@@ -315,7 +314,7 @@ class Jenkins:
                                        abuild_page["url"], 
                                        abuild_page["result"].lower())
                 self._jobs.pop(i)
-                raise BuildFailure(a_job, abuild_page["url"], triggered_builds_str)
+                raise BuildFailure(a_job, abuild_page["url"])
 
     def get_matching_build(self, project_invoke):
         f = None
@@ -426,12 +425,9 @@ class Jenkins:
 
                 try:
                     print "Starting: " + an_invoke.to_short_string()
-                    if (an_invoke.project == "piglit-test"):
-                        self.build(an_invoke, branch=branch)
-                    else:
-                        self.build(an_invoke, branch=branch)
+                    self.build(an_invoke, branch=branch)
                     an_invoke.set_info("trigger_time", time.time())
-                    triggered_builds_str.append(str(an_invoke))
+                    triggered_builds.append(an_invoke)
                 except(BuildInProgress) as e:
                     print e
                     success = False
@@ -440,6 +436,10 @@ class Jenkins:
             if not success:
                 break
 
+            if builds_in_round:
+                ready_for_build = depGraph.ready_builds(triggered_builds)
+                continue
+
             finished = None
             try:
                 finished = self.wait_for_build()
@@ -447,30 +447,6 @@ class Jenkins:
                     builds_in_round += 1
             except(BuildFailure) as failure:
                 failure.invoke.set_info("status", "failure")
-
-                # ben widawski felt like for mesa's CI, developers
-                # typically want as much information as possible in a
-                # failure case.  Allowing completion is not too
-                # expensive, so we will let unblocked builds complete.
-
-                # abort the builds, but let daily/release builds continue
-                # as far as possible
-                # if build_type == "percheckin" or build_type == "developer":
-                #     time.sleep(6)  # quiet period
-                #     for an_invoke_str in triggered_builds_str:
-                #         print "Aborting: " + an_invoke_str
-                #         pi = ProjectInvoke(from_string=an_invoke_str)
-                #         self.abort(pi)
-                #         failure_builds.append(pi)
-                #     #CleanServer(o).clean()
-                #     write_summary(pm.source_root(), 
-                #                      failure_builds + completed_builds, 
-                #                      self, 
-                #                      failure=True)
-                #     raise
-
-                # else for release/daily builds, continue waiting for the
-                # rest of the builds.
                 print "Build failure: " + failure.url
                 print "Build failure: " + str(failure.invoke)
                 failure_builds.append(failure.invoke)
@@ -494,17 +470,13 @@ class Jenkins:
                                   failure_builds + completed_builds, 
                                   self)
                 if failure_builds:
-                    raise BuildFailure(failure_builds[0], "", triggered_builds_str)
+                    raise BuildFailure(failure_builds[0], "")
 
-                return triggered_builds_str
+                return triggered_builds
 
-            ready_for_build = depGraph.ready_builds()
+            ready_for_build = depGraph.ready_builds(triggered_builds)
 
-            # filter out builds that have already been triggered
-            ready_for_build = [j for j in ready_for_build 
-                               if str(j) not in triggered_builds_str]
-
-        return triggered_builds_str
+        return triggered_builds
         
 def generate_color_key(ljen):
     out_key = r'<field name="Key" titlecolor="black" value="" ' \

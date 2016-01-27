@@ -59,13 +59,18 @@ class DependencyGraph:
                                options=options)
             self.add_to_graph(bi)
 
-    def ready_builds(self):
+    def ready_builds(self, filter_builds=None):
         """provide a list of builds which have all prerequisites
         satisfied."""
         ret_list = []
+        if not filter_builds:
+            filter_builds = []
         for (component, prereqs) in self._dependency_graph.iteritems():
             if not prereqs:
                 ret_list.append(ProjectInvoke(from_string=component))
+        filter_builds_str = [str(b) for b in filter_builds]
+        ret_list = [j for j in ret_list 
+                    if str(j) not in filter_builds_str]
 
         return ret_list
 
