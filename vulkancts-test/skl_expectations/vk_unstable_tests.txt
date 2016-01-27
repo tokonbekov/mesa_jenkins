@@ -1,2 +1,1 @@
-dEQP-VK.ssbo.layout
-dEQP-VK.api.object_management.max_concurrent.compute_pipeline
+none
