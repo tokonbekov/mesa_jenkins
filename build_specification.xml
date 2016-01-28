@@ -334,6 +334,11 @@
       <piglit branch="piglitvulkan/vulkan" trigger="false"/>
     </branch>
 
+    <branch name="chadv_vulkan" project="vulkancts-full">
+      <mesa branch="vulkan/chadv-jenkins"/>
+      <piglit branch="piglitvulkan/vulkan" trigger="false"/>
+    </branch>
+
     <branch name="kwg" project="test-single-arch">
       <mesa branch="kwg/jenkins"/>
     </branch>
