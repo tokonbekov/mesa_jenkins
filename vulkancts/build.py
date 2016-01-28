@@ -16,6 +16,11 @@ class VulkanCtsBuilder(object):
         self._build_root = self._pm.build_root()
 
     def build(self):
+        save_dir = os.getcwd()
+        os.chdir(self._src_dir)
+        bs.run_batch_command(["patch", "-p1", "CMakeLists.txt",
+                              self._pm.project_build_dir("vulkancts") + "/0001-Fix-PNG.patch"])
+        os.chdir(save_dir)
         spirvtools = self._src_dir + "/external/spirv-tools/src"
         if not os.path.islink(spirvtools):
             bs.rmtree(spirvtools)
