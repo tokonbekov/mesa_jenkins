@@ -268,7 +268,9 @@
            branch="release-1.7.0"/>
     <crucible repo="ssh://majanes@git-amr-3.devtools.intel.com:29418/otc_gen_graphics-crucible"/>
     <vulkancts repo="ssh://git@gitlab.khronos.org/jekstrand/vulkancts.git"
-               branch="origin/jenkins"/>
+               branch="vulkan-cts-1.0.0-internal">
+      <remote name="khronos" repo="git@gitlab.khronos.org:vulkan/vulkancts.git"/>
+    </vulkancts>
     <spirvtools repo="ssh://git@gitlab.khronos.org/spirv/spirv-tools.git"/>
   </repos>
 
