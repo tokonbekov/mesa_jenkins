@@ -42,7 +42,7 @@ deb-src http://linux-ftp.jf.intel.com/pub/mirrors/debian/ testing main
 EOF
 
 # Add our nfs mount to fstab
-echo '192.168.1.1:/srv/jenkins       /mnt/jenkins    nfs     _netdev,auto,async        0       0' >> /etc/fstab
+echo 'otc-mesa-ci.local:/srv/jenkins       /mnt/jenkins    nfs     _netdev,auto,async,comment=systemd.automount        0       0' >> /etc/fstab
 
 apt-get update -y
 for _ in `seq 3`; do
