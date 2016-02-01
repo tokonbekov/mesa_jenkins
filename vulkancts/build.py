@@ -49,7 +49,11 @@ class VulkanCtsBuilder(object):
         btype = "Release"
         if self._options.type == "debug":
             btype = "RelDeb"
+        flags = "-m64"
+        if self._options.arch == "m32":
+            flags = "-m32"
         cmd = ["cmake", "-GNinja", "-DCMAKE_BUILD_TYPE=" + btype,
+               "-DCMAKE_C_FLAGS=" + flags, "-DCMAKE_CXX_FLAGS=" + flags,
                "-DCMAKE_C_COMPILER=clang-3.7", "-DCMAKE_CXX_COMPILER=clang++-3.7",
                "-DCMAKE_INSTALL_PREFIX:PATH=" + self._build_root, ".."]
         if not os.path.exists(self._build_dir):

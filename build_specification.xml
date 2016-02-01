@@ -105,16 +105,13 @@
 
     <project name="vulkancts-full">
       <prerequisite name="vulkancts-test"
-                    arch="m64"
                     hardware="bdw"
                     shard="7"/>
       <prerequisite name="vulkancts-test"
-                    arch="m64"
                     hardware="skl"
                     shard="4"/>
       <prerequisite name="vulkancts-test"
                     only_for_type="daily"
-                    arch="m64"
                     hardware="bsw"
                     shard="9"/>
 
