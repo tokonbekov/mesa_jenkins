@@ -423,6 +423,10 @@
       <mesa branch="tarceri/intel_ci"/>
     </branch>
 
+    <branch name="tarceri_slow" project="test-single-arch-ben">
+      <mesa branch="tarceri/intel_ci_old"/>
+    </branch>
+
     <branch name="evelikov" project="test-single-arch">
       <mesa branch="evelikov/intel-ci"/>
     </branch>
