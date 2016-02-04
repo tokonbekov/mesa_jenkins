@@ -167,6 +167,7 @@ class AutoBuilder(object):
         pkg_config = get_package_config_path()
         os.chdir(self._build_dir)
         flags = []
+        gcc_version = ""
         if self._options.arch == "m32":
             flags = ["CFLAGS=-m32 -msse -msse2 " + optflags,
                      "CXXFLAGS=-m32 -msse -msse2 " + optflags, 
@@ -175,14 +176,15 @@ class AutoBuilder(object):
         else:
             flags = ["CFLAGS=-m64 " + optflags,
                      "CXXFLAGS=-m64 " + optflags]
+            gcc_version = "-4.9"
 
         os.chdir(self._src_dir)
         run_batch_command(["autoreconf", "--verbose", "--install", "-s"], env=self._env)
         os.chdir(self._build_dir)
         run_batch_command([self._src_dir + "/configure", 
                            "PKG_CONFIG_PATH=" + pkg_config, 
-                           "CC=ccache gcc-4.9 -" + self._options.arch, 
-                           "CXX=ccache g++-4.9 -" + self._options.arch, 
+                           "CC=ccache gcc" + gcc_version + " -" + self._options.arch, 
+                           "CXX=ccache g++" + gcc_version + " -" + self._options.arch, 
                            "--prefix=" + self._build_root] + \
                           flags + self._configure_options, env=self._env)
 
@@ -253,12 +255,14 @@ class CMakeBuilder(object):
 
         cflag = "-m32"
         cxxflag = "-m32"
+        gcc_version = "" 
         if self._options.arch == "m64":
             cflag = "-m64"
             cxxflag = "-m64"
+            gcc_version = "-4.9"
         env={"PKG_CONFIG_PATH" : pkg_config,
-             "CC":"ccache gcc-4.9",
-             "CXX":"ccache g++-4.9",
+             "CC":"ccache gcc" + gcc_version,
+             "CXX":"ccache g++" + gcc_version,
              "CFLAGS":cflag,
              "CXXFLAGS":cxxflag}
         if self._compiler == "clang":
