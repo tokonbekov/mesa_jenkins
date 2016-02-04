@@ -27,6 +27,9 @@ parser.add_argument('--project', type=str, default='all-test',
 parser.add_argument('--series_name', type=str, default='',
                     help="The name to apply to each custom build")
 
+parser.add_argument('--arch', type=str, default='m64',
+                    help="The arch for the build")
+
 parser.add_argument('--hardware', type=str, default='builder',
                     help="The hardware to be targeted for test "
                     "('builder', 'snbgt1', 'ivb', 'hsw', 'bdw'). "
@@ -89,6 +92,8 @@ for commit in commits:
                  "revision" : "mesa=" + commit.hexsha,
                  "project" : args.project,
                  "hardware" : args.hardware,
+                 "rebuild" : "true",
+                 "arch" : args.arch,
                  "build_support_branch" : args.build_support_branch}
     url = custom_url.format(urllib.urlencode(job_args))
 
