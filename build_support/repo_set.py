@@ -104,7 +104,7 @@ class BranchSpecification:
             repo = self._repos.repo(branch.name)
             hexsha = repo.commit(branch.branch).hexsha
             if  branch.sha != hexsha:
-                return branch.name + "-" + repo.git.rev_parse(hexsha, short=True)
+                return branch.name + "=" + repo.git.rev_parse(hexsha, short=True)
         return False
 
     def checkout(self):
