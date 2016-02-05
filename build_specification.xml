@@ -429,6 +429,7 @@
 
     <branch name="evelikov" project="test-single-arch">
       <mesa branch="evelikov/intel-ci"/>
+      <piglit branch="janesma/11_1_jenkins" trigger="false"/>
     </branch>
 
     <branch name="nir_test_clone" project="test-single-arch"/>
