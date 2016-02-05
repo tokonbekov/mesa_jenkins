@@ -250,15 +250,21 @@ class PiglitTest:
         secondary_arch = test.arch
         secondary_hw = test.hardware
 
+        swap_primary = False
         if self.arch == "m32" and test.arch == "m64":
             # m64 is preferred
-            primary_arch = test.arch
-            primary_hw = test.hardware
-            secondary_arch = self.arch
-            secondary_hw = self.hardware
-        elif ((self.hardware not in preferred_hardware and test.hardware in preferred_hardware) or
-              # or if other test has more preferred hardware
-              (preferred_hardware[self.hardware] > preferred_hardware[test.hardware])):
+            swap_primary = True
+
+        if self.hardware not in preferred_hardware and test.hardware in preferred_hardware:
+            # unknown platforms are not preferred
+            swap_primary = True
+
+        if ((self.hardware in preferred_hardware and test.hardware in preferred_hardware) and 
+            preferred_hardware[self.hardware] > preferred_hardware[test.hardware]):
+            # other platform has a higher precedence
+            swap_primary = True
+
+        if swap_primary:
             # else prefer faster platform
             primary_arch = test.arch
             primary_hw = test.hardware
