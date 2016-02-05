@@ -11,7 +11,8 @@ class NoTest(bs.AutoBuilder):
     def __init__(self, configure_options):
         bs.AutoBuilder.__init__(self,
                                 configure_options=configure_options,
-                                export=False)
+                                export=False,
+                                gcc_version="")
 
     def test(self):
         # llvmpipe fails make test, and who cares?
