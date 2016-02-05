@@ -391,6 +391,7 @@ class Jenkins:
         signal.signal(signal.SIGABRT, abort_builds)
         signal.signal(signal.SIGTERM, abort_builds)
 
+        triggered_builds = []
         ready_for_build = depGraph.ready_builds()
         assert(ready_for_build)
         build_type = ready_for_build[0].options.type
