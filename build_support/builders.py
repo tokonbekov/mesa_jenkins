@@ -129,12 +129,11 @@ def check_gpu_hang():
 class AutoBuilder(object):
 
     def __init__(self, o=None, configure_options=None, export=True,
-                 opt_flags="", gcc_version="-4.9"):
+                 opt_flags=""):
         self._options = o
         self._tests = None
         self._export = export
         self._opt_flags = opt_flags
-        self._gcc_version = gcc_version
 
         self._configure_options = configure_options
         if not configure_options:
@@ -182,8 +181,8 @@ class AutoBuilder(object):
         os.chdir(self._build_dir)
         run_batch_command([self._src_dir + "/configure", 
                            "PKG_CONFIG_PATH=" + pkg_config, 
-                           "CC=ccache gcc" + self._gcc_version + " -" + self._options.arch, 
-                           "CXX=ccache g++" + self._gcc_version + " -" + self._options.arch, 
+                           "CC=ccache gcc -" + self._options.arch, 
+                           "CXX=ccache g++ -" + self._options.arch, 
                            "--prefix=" + self._build_root] + \
                           flags + self._configure_options, env=self._env)
 
@@ -258,8 +257,8 @@ class CMakeBuilder(object):
             cflag = "-m64"
             cxxflag = "-m64"
         env={"PKG_CONFIG_PATH" : pkg_config,
-             "CC":"ccache gcc-4.9",
-             "CXX":"ccache g++-4.9",
+             "CC":"ccache gcc",
+             "CXX":"ccache g++",
              "CFLAGS":cflag,
              "CXXFLAGS":cxxflag}
         if self._compiler == "clang":
