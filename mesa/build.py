@@ -48,25 +48,24 @@ class MesaBuilder(bs.AutoBuilder):
         # https://gitlab.khronos.org/vulkan/mesa/issues/1
         self._build_dir = self._src_dir
 
+
+    def test(self):
         gtests = ["src/glx/tests/glx-test",
                   "src/mesa/main/tests/main-test",
                   "src/mesa/drivers/dri/i965/test_vec4_copy_propagation",
                   "src/mesa/drivers/dri/i965/test_vec4_register_coalesce",
                   "./src/mapi/shared-glapi-test"]
-        self.AddGtests(gtests)
-
-    def test(self):
         # override the test method, because we can't know exactly
         # where the tests will be as of 11.2
         if path.exists(self._src_dir + "/src/glsl/tests/general_ir_test.cpp"):
-            self.AddGtests(["src/glsl/tests/general-ir-test",
-                            "src/glsl/tests/sampler-types-test",
-                            "src/glsl/tests/uniform-initializer-test"])
+            gtests += ["src/glsl/tests/general-ir-test",
+                       "src/glsl/tests/sampler-types-test",
+                       "src/glsl/tests/uniform-initializer-test"]
         else:
-            self.AddGtests(["src/compiler/glsl/tests/general-ir-test",
-                            "src/compiler/glsl/tests/sampler-types-test",
-                            "src/compiler/glsl/tests/uniform-initializer-test"])
-
+            gtests += ["src/compiler/glsl/tests/general-ir-test",
+                       "src/compiler/glsl/tests/sampler-types-test",
+                       "src/compiler/glsl/tests/uniform-initializer-test"]
+        self.SetGtests(gtests)
         bs.AutoBuilder.test(self)
        
 bs.build(MesaBuilder())

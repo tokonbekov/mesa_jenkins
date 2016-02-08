@@ -195,7 +195,7 @@ class AutoBuilder(object):
         if self._export:
             Export().export()
 
-    def AddGtests(self, tests):
+    def SetGtests(self, tests):
         self._tests = GTest(binary_dir = self._build_dir, executables=tests)
 
     def test(self):
