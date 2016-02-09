@@ -322,7 +322,7 @@
     </branch>
 
     <branch name="jekstrand_vulkan" project="vulkancts-full">
-      <mesa branch="vulkan/wip/jekstrand-ci"/>
+      <mesa branch="vulkan/jekstrand/jenkins"/>
       <piglit branch="piglitvulkan/vulkan" trigger="false"/>
     </branch>
 
