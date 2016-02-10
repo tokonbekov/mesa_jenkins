@@ -18,8 +18,11 @@ class VulkanCtsBuilder(object):
     def build(self):
         save_dir = os.getcwd()
         os.chdir(self._src_dir)
-        bs.run_batch_command(["patch", "-p1", "CMakeLists.txt",
-                              self._pm.project_build_dir("vulkancts") + "/0001-Fix-PNG.patch"])
+        try:
+            bs.run_batch_command(["patch", "-p1", "CMakeLists.txt",
+                                  self._pm.project_build_dir("vulkancts") + "/0001-Fix-PNG.patch"])
+        except:
+            print "WARN: failed to apply patch"
         os.chdir(save_dir)
         spirvtools = self._src_dir + "/external/spirv-tools/src"
         if not os.path.islink(spirvtools):
@@ -53,6 +56,8 @@ class VulkanCtsBuilder(object):
         if self._options.arch == "m32":
             flags = "-m32"
         cmd = ["cmake", "-GNinja", "-DCMAKE_BUILD_TYPE=" + btype,
+               "-DCMAKE_C_COMPILER_LAUNCHER=ccache",
+               "-DCMAKE_CXX_COMPILER_LAUNCHER=ccache",
                "-DCMAKE_C_FLAGS=" + flags, "-DCMAKE_CXX_FLAGS=" + flags,
                "-DCMAKE_C_COMPILER=clang-3.7", "-DCMAKE_CXX_COMPILER=clang++-3.7",
                "-DCMAKE_INSTALL_PREFIX:PATH=" + self._build_root, ".."]
@@ -65,7 +70,7 @@ class VulkanCtsBuilder(object):
         if not os.path.exists(bin_dir):
             os.makedirs(bin_dir)
 
-        bs.run_batch_command(["cp", "-a", "-n",
+        bs.run_batch_command(["rsync", "-rlptD",
                               self._build_dir + "/external/vulkancts/modules",
                               bin_dir])
 
@@ -73,7 +78,8 @@ class VulkanCtsBuilder(object):
         lib_dir = self._build_root + "/lib/"
         if not os.path.exists(lib_dir):
             os.makedirs(lib_dir)
-        os.symlink("libvulkan.so", lib_dir + "libvulkan-1.so")
+        if not os.path.islink(lib_dir + "libvulkan-1.so"):
+            os.symlink("libvulkan.so", lib_dir + "libvulkan-1.so")
 
         bs.Export().export()
 
