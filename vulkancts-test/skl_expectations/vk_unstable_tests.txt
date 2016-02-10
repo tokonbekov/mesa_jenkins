@@ -1,3 +1,4 @@
 dEQP-VK.ssbo
 dEQP-VK.spirv_assembly.instruction.graphics.decoration_group.same_decoration_group_on_multiple_types_frag
 dEQP-VK.spirv_assembly.instruction.graphics.decoration_group.same_decoration_group_on_multiple_types_geom
+dEQP-VK.spirv_assembly.instruction.graphics.decoration_group.same_decoration_group_on_multiple_types_vert
