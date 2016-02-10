@@ -211,6 +211,7 @@
       <remote name="evelikov" repo="git://github.com/evelikov/mesa"/>
       <remote name="vulkan" repo="ssh://git@gitlab.khronos.org/vulkan/mesa"/>
       <remote name="sarah" repo="git://people.freedesktop.org/~sarah/mesa"/>
+      <remote name="krh_vulkan" repo="ssh://git@gitlab.khronos.org/hoegsberg/mesa"/>
     </mesa>
 
     <drm repo="git://anongit.freedesktop.org/mesa/drm">
@@ -333,6 +334,11 @@
 
     <branch name="chadv_vulkan" project="vulkancts-full">
       <mesa branch="vulkan/chadv-jenkins"/>
+      <piglit branch="piglitvulkan/vulkan" trigger="false"/>
+    </branch>
+
+    <branch name="krh_vulkan" project="vulkancts-full">
+      <mesa branch="krh_vulkan/jenkins"/>
       <piglit branch="piglitvulkan/vulkan" trigger="false"/>
     </branch>
 
