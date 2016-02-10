@@ -115,8 +115,8 @@
                     arch="m64,m32"
                     shard="9"/>
 
-      <prerequisite name="crucible-test" hardware="bdw,skl,bsw"/>
-      <prerequisite name="crucible-test" only_for_type="daily" hardware="bxt"/>
+      <prerequisite name="crucible-test" arch="m32" hardware="bdw,skl,bsw"/>
+      <prerequisite name="crucible-test" only_for_type="daily" arch="m32" hardware="bxt"/>
     </project>
 
     <project name="vulkancts"/>
