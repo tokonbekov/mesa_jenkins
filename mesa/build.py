@@ -44,6 +44,11 @@ class MesaBuilder(bs.AutoBuilder):
         # without them.
         bs.AutoBuilder.__init__(self, configure_options=options, opt_flags="-O2")
         
+        # first post!
+        # https://gitlab.khronos.org/vulkan/mesa/issues/1
+        self._build_dir = self._src_dir
+
+
     def test(self):
         gtests = ["src/glx/tests/glx-test",
                   "src/mesa/main/tests/main-test",
