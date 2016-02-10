@@ -62,6 +62,8 @@ def collate_tests(result_path, out_test_dir):
         r = t.getroot()
         strip_passes(r)
         t.write(a_file)
+        # occasionally, t.write() finishes, but the file is not available
+        t = None
         tar.add(a_file)
         os.unlink(a_file)
     for (shard, files) in shards.items():
@@ -77,6 +79,8 @@ def collate_tests(result_path, out_test_dir):
                 for a_test in a_suite.findall("testcase"):
                     suite.append(a_test)
         t.write(shard + ".xml")
+        # occasionally, t.write() finishes, but the file is not available
+        t = None
         tar.add(shard + ".xml")
         os.unlink(shard + ".xml")
     tar.close()
