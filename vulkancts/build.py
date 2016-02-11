@@ -50,7 +50,7 @@ class VulkanCtsBuilder(object):
             repo.git.checkout(package.revision)
         
         btype = "Release"
-        if self._options.type == "debug":
+        if self._options.config == "debug":
             btype = "RelDeb"
         flags = "-m64"
         if self._options.arch == "m32":
