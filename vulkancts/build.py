@@ -50,8 +50,11 @@ class VulkanCtsBuilder(object):
             repo.git.checkout(package.revision)
         
         btype = "Release"
-        if self._options.config == "debug":
-            btype = "RelDeb"
+        # Vulkan cts is twice as slow for RelDeb builds, which impacts
+        # the CI throughput.  For this reason, we unconditionally
+        # optimize the build.
+        # if self._options.config == "debug":
+        #    btype = "RelDeb"
         flags = "-m64"
         if self._options.arch == "m32":
             flags = "-m32"
