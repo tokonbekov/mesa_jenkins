@@ -143,7 +143,7 @@ class CrucibleTester(object):
                          "!stress.lots-of-surface-state.fs.static"]
 
         bs.run_batch_command([ br + "/bin/crucible",
-                               "run", "--fork",
+                               "run", "--fork", "--log-pids",
                                "--junit-xml=" + out_xml] + parallelism + include_tests + excludes,
                              env=env,
                              expected_return_code=None)
