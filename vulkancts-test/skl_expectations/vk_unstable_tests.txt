@@ -1,2 +1,1 @@
 dEQP-VK.ssbo
-dEQP-VK.api.copy_and_blit.buffer_to_image
