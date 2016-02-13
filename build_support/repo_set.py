@@ -457,7 +457,7 @@ class ProjectInvoke:
         if not os.path.exists(info_file):
             # sometimes network/mount hiccups make it seem like the
             # file is not there
-            time.sleep(1)
+            time.sleep(0.2)
             if not os.path.exists(info_file):
                 return {}
             print "WARN: network hiccup detected"
