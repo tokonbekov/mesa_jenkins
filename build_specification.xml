@@ -91,7 +91,8 @@
     </project>
 
     <project name="crucible-test"
-             bisect_hardware="bdw,skl,ivb,bsw,byt,bxt">
+             bisect_hardware="bdw,skl,ivb,bsw,byt,bxt"
+             bisect_arch="m32,m64">
       <prerequisite name="crucible" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
     </project>
