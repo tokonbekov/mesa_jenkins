@@ -496,10 +496,6 @@ class PiglitTester(object):
             exclude_tests = exclude_tests + [# bug 93618
                                              "tessellation"]
 
-        if "hsw" in hardware or "ivb" in hardware:
-            # bug 93337, 92205
-            exclude_tests = exclude_tests + ["arb_compute_shader.indirect-compute"]
-
         if "ivb" in hardware:
             # Bug 91718
             exclude_tests += ["arb_shader_image_load_store.invalid"]
