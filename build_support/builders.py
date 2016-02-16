@@ -502,7 +502,7 @@ class PiglitTester(object):
 
         if "ivb" in hardware or "hsw" in hardware:
             # jljusten gpu hanger
-            exclude_tests += ["arb_compute_shader-zero-dispatch-size"]
+            exclude_tests += ["arb_compute_shader.zero-dispatch-size"]
 
         exclude_cmd = []
         for test in exclude_tests:
