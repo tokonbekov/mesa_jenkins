@@ -418,7 +418,10 @@ class PiglitTest:
             if stdout is None:
                 stdout = ET.Element("system-out")
                 testcase.append(stdout)
-            stdout.text = stdout.text + "WARN: stripping flaky test."
+            if stdout.text:
+                stdout.text = stdout.text + "WARN: stripping flaky test."
+            else:
+                print "WARN: no output tag for stripped flaky test: " + testname
             break
         result.write(result_file)
 
