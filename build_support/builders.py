@@ -500,6 +500,10 @@ class PiglitTester(object):
             # Bug 91718
             exclude_tests += ["arb_shader_image_load_store.invalid"]
 
+        if "ivb" in hardware or "hsw" in hardware:
+            # jljusten gpu hanger
+            exclude_tests += ["arb_compute_shader-zero-dispatch-size"]
+
         exclude_cmd = []
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
