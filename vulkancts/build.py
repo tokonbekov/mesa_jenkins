@@ -82,7 +82,7 @@ class VulkanCtsBuilder(object):
         if not os.path.exists(lib_dir):
             os.makedirs(lib_dir)
         if not os.path.islink(lib_dir + "libvulkan-1.so"):
-            os.symlink("libvulkan.so", lib_dir + "libvulkan-1.so")
+            os.symlink("libvulkan_intel.so", lib_dir + "libvulkan-1.so")
 
         bs.Export().export()
 
