@@ -60,13 +60,13 @@ def main():
         spec = pm.build_spec()
         server = spec.find("build_master").attrib["host"]
         if new_spec_hash is not None:
-            print("Build Specification updated")
+            print("Build Specification updated", file=sys.stderr)
         new_spec_hash = file_checksum(spec_file)
         status = bs.RepoStatus()
         while new_spec_hash == orig_spec_hash:
             branches = status.poll()
             for (branch, commit) in branches.iteritems():
-                print("Building " + branch)
+                print("Building " + branch, file=sys.stderr)
                 job_url = "http://" + server + "/job/" + branch + \
                           "/buildWithParameters?token=xyzzy&name=" + commit + "&type=percheckin"
                 retry_count = 0
@@ -81,9 +81,10 @@ def main():
                         f.read()
                         break
                     except urllib2.HTTPError as e:
-                        print(e)
+                        print(e, file=sys.stderr)
                         retry_count = retry_count + 1
-                        print("ERROR: failed to reach jenkins, retrying: " + job_url)
+                        print("ERROR: failed to reach jenkins, retrying: " + job_url,
+                              file=sys.stderr)
                         time.sleep(10)
                 os.environ["http_proxy"] = "http://proxy.jf.intel.com:911/"
 
