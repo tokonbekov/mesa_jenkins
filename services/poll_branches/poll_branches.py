@@ -1,6 +1,5 @@
 #!/usr/bin/python
 
-import git
 import hashlib
 import os
 import sys
