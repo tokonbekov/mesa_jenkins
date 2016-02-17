@@ -15,6 +15,13 @@ class CrucibleBuilder(bs.AutoBuilder):
         self._build_dir = self._src_dir
 
     def build(self):
+        # libvulkan has been renamed libvulkan_intel.so
+        lib_dir = self._build_root + "/lib/"
+        if not os.path.exists(lib_dir):
+            os.makedirs(lib_dir)
+        if not os.path.islink(lib_dir + "libvulkan.so"):
+            os.symlink("libvulkan_intel.so", lib_dir + "libvulkan.so")
+
         bs.AutoBuilder.build(self)
         bin_dir = self._build_root + "/bin/"
         if not os.path.exists(bin_dir):
@@ -25,12 +32,6 @@ class CrucibleBuilder(bs.AutoBuilder):
         bs.run_batch_command(["cp", "-a", "-n",
                               self._build_dir + "/data/",
                               self._build_root])
-        # libvulkan has been renamed libvulkan_intel.so
-        lib_dir = self._build_root + "/lib/"
-        if not os.path.exists(lib_dir):
-            os.makedirs(lib_dir)
-        if not os.path.islink(lib_dir + "libvulkan.so"):
-            os.symlink("libvulkan_intel.so", lib_dir + "libvulkan.so")
         bs.Export().export()
 
 bs.build(CrucibleBuilder())
