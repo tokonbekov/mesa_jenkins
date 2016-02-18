@@ -38,7 +38,7 @@ os.environ["https_proxy"] = "http://proxy.jf.intel.com:911/"
 def write_pid(pidfile):
     """Write the PID file."""
     with open(pidfile, 'w') as f:
-        f.write(os.getpid())
+        f.write(str(os.getpid()))
 
 
 def file_checksum(fname):
@@ -61,12 +61,16 @@ def main():
         server = spec.find("build_master").attrib["host"]
         if new_spec_hash is not None:
             print("Build Specification updated", file=sys.stderr)
+            sys.stderr.flush()
         new_spec_hash = file_checksum(spec_file)
         status = bs.RepoStatus()
         while new_spec_hash == orig_spec_hash:
             branches = status.poll()
+            sys.stderr.flush()
+            sys.stdout.flush()
             for (branch, commit) in branches.iteritems():
                 print("Building " + branch, file=sys.stderr)
+                sys.stderr.flush()
                 job_url = "http://" + server + "/job/" + branch + \
                           "/buildWithParameters?token=xyzzy&name=" + commit + "&type=percheckin"
                 retry_count = 0
@@ -85,6 +89,7 @@ def main():
                         retry_count = retry_count + 1
                         print("ERROR: failed to reach jenkins, retrying: " + job_url,
                               file=sys.stderr)
+                        sys.stderr.flush()
                         time.sleep(10)
                 os.environ["http_proxy"] = "http://proxy.jf.intel.com:911/"
 
