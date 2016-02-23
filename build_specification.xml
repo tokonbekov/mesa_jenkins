@@ -115,6 +115,14 @@
                     hardware="bsw"
                     arch="m64,m32"
                     shard="9"/>
+      <!-- kbl and bxt have limited test machines and are not stable.
+           Limit testing to m64 to use fewer resources, and shard the
+           test in the event that one of the test runs crashes. -->
+      <prerequisite name="vulkancts-test"
+                    only_for_type="daily"
+                    hardware="bxt,kbl"
+                    arch="m64"
+                    shard="6"/>
 
       <prerequisite name="crucible-test" arch="m32" hardware="bdw,skl,bsw"/>
       <prerequisite name="crucible-test" only_for_type="daily" arch="m32" hardware="bxt"/>

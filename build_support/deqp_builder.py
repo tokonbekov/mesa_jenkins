@@ -149,6 +149,10 @@ class DeqpBuilder:
             expectations_dir = pm.project_build_dir(pm.current_project()) + "/bsw_expectations"
         elif "skl" in o.hardware:
             expectations_dir = pm.project_build_dir(pm.current_project()) + "/skl_expectations"
+        elif "bxt" in o.hardware:
+            expectations_dir = pm.project_build_dir(pm.current_project()) + "/bxt_expectations"
+        elif "kbl" in o.hardware:
+            expectations_dir = pm.project_build_dir(pm.current_project()) + "/kbl_expectations"
 
         conf_file = get_conf_file(o.hardware, o.arch, pm.current_project())
 
