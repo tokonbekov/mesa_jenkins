@@ -454,7 +454,7 @@ class PiglitTester(object):
                                              # bug 92070
                                              "arb_sync.clientwaitsync-timeout",
                                              # Bug 94255
-                                             "piglit.spec.arb_compute_shader.execution.shared-atomics"]
+                                             "arb_compute_shader.execution.shared-atomics"]
 
         if "g965" in hardware:
             # intermittent GPU hang on g965
