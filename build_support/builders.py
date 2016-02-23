@@ -452,7 +452,10 @@ class PiglitTester(object):
             # bug: 91301
             exclude_tests = exclude_tests + ["arb_gpu_shader5.arb_gpu_shader5-emitstreamvertex_nodraw",
                                              # bug 92070
-                                             "arb_sync.clientwaitsync-timeout"]
+                                             "arb_sync.clientwaitsync-timeout",
+                                             # Bug 94255
+                                             "piglit.spec.arb_compute_shader.execution.shared-atomics"]
+
         if "g965" in hardware:
             # intermittent GPU hang on g965
             exclude_tests = exclude_tests + ["arb_shader_texture_lod.execution.tex-miplevel-selection",
