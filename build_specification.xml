@@ -211,7 +211,6 @@
       <remote name="tarceri" repo="git://github.com/tarceri/Mesa_arrays_of_arrays"/>
       <remote name="evelikov" repo="git://github.com/evelikov/mesa"/>
       <remote name="sarah" repo="git://people.freedesktop.org/~sarah/mesa"/>
-      <remote name="krh_vulkan" repo="ssh://git@gitlab.khronos.org/hoegsberg/mesa"/>
       <remote name="vulkan" repo="ssh://git@gitlab.khronos.org:vulkan/mesa.git"/>
     </mesa>
 
@@ -340,7 +339,7 @@
     </branch>
 
     <branch name="krh_vulkan" project="vulkancts-full">
-      <mesa branch="krh_vulkan/jenkins"/>
+      <mesa branch="krh/jenkins_vulkan"/>
       <piglit branch="piglitvulkan/vulkan" trigger="false"/>
     </branch>
 
