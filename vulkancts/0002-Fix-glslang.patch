@@ -1,0 +1,13 @@
+diff --git a/external/fetch_sources.py b/external/fetch_sources.py
+index bcf75c4..5f6a211 100644
+--- a/external/fetch_sources.py
++++ b/external/fetch_sources.py
+@@ -174,7 +174,7 @@ PACKAGES = [
+ 		"spirv-tools"),
+ 	GitRepo(
+ 		"https://github.com/KhronosGroup/glslang.git",
+-		"6c292d3ba78533fed7b5ec46bb93b53419cf6535",
++		"38616fa321e6beea9816ee2fe9817f6d79cd1766",
+ 		"glslang"),
+ ]
+ 
