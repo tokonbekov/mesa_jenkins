@@ -421,6 +421,12 @@
       <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
+    <branch name="nchery_vulkan" project="vulkancts-full">
+      <mesa branch="nchery/jenkins_vulkan"/>
+      <piglit branch="piglitvulkan/vulkan" trigger="false"/>
+      <vulkancts branch="khronos/308-fix-ssbo-array-descriptors" trigger="false"/>
+    </branch>
+
     <branch name="nchery" project="test-single-arch">
       <mesa branch="nchery/jenkins"/>
     </branch>
