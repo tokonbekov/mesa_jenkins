@@ -347,6 +347,11 @@
       <mesa branch="kwg/jenkins"/>
     </branch>
 
+    <branch name="kwg_vulkan" project="vulkancts-full">
+      <mesa branch="kwg/vkjenkins"/>
+      <piglit branch="piglitvulkan/vulkan" trigger="false"/>
+    </branch>
+
     <branch name="krh" project="test-single-arch">
       <mesa branch="krh/jenkins"/>
     </branch>
