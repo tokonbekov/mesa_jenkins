@@ -336,7 +336,7 @@
     </branch>
 
     <branch name="jljusten_vulkan" project="vulkancts-full">
-      <mesa branch="vulkan/jenkins/jljusten"/>
+      <mesa branch="jljusten/vulkan"/>
       <piglit branch="piglitvulkan/vulkan" trigger="false"/>
       <vulkancts branch="khronos/308-fix-ssbo-array-descriptors" trigger="false"/>
     </branch>
