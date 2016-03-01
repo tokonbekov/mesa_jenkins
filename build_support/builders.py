@@ -427,9 +427,6 @@ class PiglitTester(object):
         # intermittent on at least snbgt1
         exclude_tests = ["glsl-1_10.execution.vs-vec2-main-return"]
 
-        # Bug 90407
-        exclude_tests = exclude_tests + ["shaders.glsl-fs-vec4-indexing-temp-dst",
-                                         "shaders.glsl-fs-vec4-indexing-temp-src-in-nested-loop-outer"]
 
         # TODO: bisect these intermittent failures and write bugs
         exclude_tests = exclude_tests + ["arb_separate_shader_objects.validateprogrampipeline",
@@ -443,47 +440,22 @@ class PiglitTester(object):
             exclude_tests = exclude_tests + ["triangle_strip_adjacency"]
             
         if "hsw" in hardware:
-            # intermittent on haswell bug 89219 NOT fixed in 10c82c6c5fc415d323a5e9c6acdc6a4c85d6b712
-            exclude_tests = exclude_tests + ["arb_uniform_buffer_object.bufferstorage",
-                                             "arb_buffer_storage.bufferstorage-persistent.read.client-storage"]
-
-            # bug: 91301
-            exclude_tests = exclude_tests + ["arb_gpu_shader5.arb_gpu_shader5-emitstreamvertex_nodraw",
-                                             # bug 92070
-                                             "arb_sync.clientwaitsync-timeout",
-                                             # Bug 94255
-                                             "arb_compute_shader.execution.shared-atomics"]
+            # Bug 94255
+            exclude_tests += ["arb_compute_shader.execution.shared-atomics"]
 
         if "g965" in hardware:
             # intermittent GPU hang on g965
             exclude_tests = exclude_tests + ["arb_shader_texture_lod.execution.tex-miplevel-selection",
-                                             # fdo Bug 89398
-                                             "glsl-1_20.execution.clipping.fixed-clip-enables",
-                                             "glsl-1_10.execution.clipping.clip-plane-transformation pos_clipvert",
                                              # bug 92108
                                              "ext_framebuffer_object.fbo-maxsize",
-                                             # bug 93814
-                                             "ext_framebuffer_multisample.accuracy"]
+                                             # fdo Bug 89398
+                                             "glsl-1_20.execution.clipping.fixed-clip-enables",
+                                             "glsl-1_10.execution.clipping.clip-plane-transformation pos_clipvert"]
 
         if "bdw" in hardware:
             exclude_tests = exclude_tests + ["arb_shader_image_load_store.execution.basic-imagestore-from-uniform"]
             # TODO: write bug for
             exclude_tests = exclude_tests + ["variable-indexing.vs-output-array-vec4-index-wr-before-gs"]
-
-            # bug 93635
-            exclude_tests = exclude_tests + ["arb_shader_image_load_store.qualifiers"]
-
-            # Bug 92166
-            exclude_tests = exclude_tests + ['arb_shader_storage_buffer_object.array-ssbo-binding']
-
-            # Bug 92375
-            exclude_tests = exclude_tests + ["arb_shader_storage_buffer_object.layout-std140-write-shader",
-                                             "arb_shader_storage_buffer_object.layout-std430-write-shader"]
-
-        if "byt" in hardware:
-            # bug 89219, fixed in 10c82c6c5fc415d323a5e9c6acdc6a4c85d6b712
-            # exclude_tests = exclude_tests + ["arb_uniform_buffer_object.bufferstorage"]
-            pass
 
         # kbl is same as skl, as a starting point
         if "skl" in hardware or "kbl" in hardware:
@@ -496,10 +468,6 @@ class PiglitTester(object):
         if "bxt" in hardware:
             exclude_tests = exclude_tests + [# bug 93618
                                              "tessellation"]
-
-        if "ivb" in hardware:
-            # Bug 91718
-            exclude_tests += ["arb_shader_image_load_store.invalid"]
 
         if "ivb" in hardware or "hsw" in hardware:
             # jljusten gpu hanger
