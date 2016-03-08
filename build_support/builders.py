@@ -528,17 +528,19 @@ class PiglitTester(object):
             tl = TestLister(final_file)
             retests = tl.RetestIncludes("piglit-test")
             if retests:
-                print "WARN: retesting piglit"
+                second_out_dir = out_dir + "/retest"
+                print "WARN: retesting piglit to " + second_out_dir
                 (out, err) = run_batch_command(cmd + exclude_cmd + include_tests + retests +
-                                               concurrency_options + [self.suite, out_dir ],
+                                               concurrency_options + [self.suite, second_out_dir ],
                                                env=self.env,
                                                expected_return_code=None,
                                                streamedOutput=streamedOutput)
-                second_results = TestLister(out_dir + "/results.xml")
+                second_results = TestLister(second_out_dir + "/results.xml")
                 for a_test in tl.TestsNotIn(second_results):
                     print "stripping flaky test: " + a_test.test_name
                     a_test.ForcePass(final_file)
-                
+                rmtree(second_out_dir)
+
         # create a copy of the test xml in the source root, where
         # jenkins can access it.
         cmd = ["cp", "-a", "-n",
