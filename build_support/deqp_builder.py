@@ -1,4 +1,8 @@
 #!/usr/bin/python
+import bz2
+import os
+import xml.etree.ElementTree as ET
+
 from . import *
 
 class DeqpTrie:
