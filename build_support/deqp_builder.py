@@ -130,12 +130,6 @@ class DeqpBuilder:
                 # we were supposed to retest failures, but there were none
                 return
 
-        deqp_options = ["--deqp-surface-type=fbo",
-                        "--deqp-log-images=disable",
-                        "--deqp-surface-width=256",
-                        "--deqp-surface-height=256"]
-
-
         expectations_dir = None
         # identify platform
         if "byt" in o.hardware:
@@ -177,7 +171,9 @@ class DeqpBuilder:
                 module_dir = "vulkan"
             os.chdir(self.build_root + "/opt/deqp/modules/" + module_dir)
             # generate list of tests
-            run_batch_command(["./deqp-" + module] + deqp_options + ["--deqp-runmode=xml-caselist"],
+            run_batch_command(["./deqp-" + module,
+                               "--deqp-surface-type=fbo", 
+                               "--deqp-runmode=xml-caselist"],
                                  env=self.env)
             outfile = "dEQP-" + module.upper() + "-cases.xml"
             assert(os.path.exists(outfile))
@@ -212,6 +208,7 @@ class DeqpBuilder:
                         "--deqp-log-images=disable "
                         '--deqp-surface-width=256 '
                         '--deqp-surface-height=256 '
+                        '--deqp-gl-config-name=rgba8888d24s8 '
                         "--deqp-caselist-file=")
         self.env["PIGLIT_DEQP_GLES2_BIN"] = self.build_root + "/opt/deqp/modules/gles2/deqp-gles2"
         self.env["PIGLIT_DEQP_GLES2_EXTRA_ARGS"] =  base_options + self.build_root + "/opt/deqp/modules/gles2/gles2-cases.txt"

@@ -17,5 +17,5 @@ class SlowTimeout:
     def GetDuration(self):
         return 500
 
-bs.build(bs.DeqpBuilder(), time_limit=SlowTimeout())
+bs.build(bs.DeqpBuilder(["gles2", "gles3"]), time_limit=SlowTimeout())
         
