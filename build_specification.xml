@@ -120,7 +120,7 @@
            test in the event that one of the test runs crashes. -->
       <prerequisite name="vulkancts-test"
                     only_for_type="daily"
-                    hardware="bxt,kbl"
+                    hardware="kbl"
                     arch="m64"
                     shard="6"/>
 
