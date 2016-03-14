@@ -214,13 +214,10 @@
       <remote name="tpohjola" repo="git://people.freedesktop.org/~tpohjola/mesa"/>
       <remote name="dcbaker" repo="git://people.freedesktop.org/~dbaker/mesa"/>
       <remote name="nchery" repo="git://people.freedesktop.org/~nchery/mesa"/>
-      <remote name="bpeel" repo="git://github.com/bpeel/mesa"/>
       <remote name="chadv" repo="git://github.com/chadversary/mesa"/>
-      <remote name="ickle" repo="git://people.freedesktop.org/~ickle/mesa"/>
       <remote name="tarceri" repo="git://github.com/tarceri/Mesa_arrays_of_arrays"/>
       <remote name="evelikov" repo="git://github.com/evelikov/mesa"/>
       <remote name="sarah" repo="git://people.freedesktop.org/~sarah/mesa"/>
-      <remote name="vulkan" repo="ssh://git@gitlab.khronos.org:vulkan/mesa.git"/>
     </mesa>
 
     <drm repo="git://anongit.freedesktop.org/mesa/drm">
@@ -351,7 +348,7 @@
     </branch>
 
     <branch name="chadv_vulkan" project="vulkancts-full">
-      <mesa branch="vulkan/chadv-jenkins"/>
+      <mesa branch="chadv/jenkins_vulkan"/>
       <piglit branch="piglitvulkan/vulkan" trigger="false"/>
       <vulkancts branch="khronos/vulkan-cts-1.0" trigger="false"/>
     </branch>
