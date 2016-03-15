@@ -214,7 +214,7 @@ class DeqpBuilder:
         self.env["PIGLIT_DEQP_GLES2_EXTRA_ARGS"] =  base_options + self.build_root + "/opt/deqp/modules/gles2/gles2-cases.txt"
         self.env["PIGLIT_DEQP_GLES3_EXE"] = self.build_root + "/opt/deqp/modules/gles3/deqp-gles3"
         self.env["PIGLIT_DEQP_GLES3_EXTRA_ARGS"] = base_options + self.build_root + "/opt/deqp/modules/gles3/gles3-cases.txt"
-        self.env["PIGLIT_DEQP_VK_EXE"] = self.build_root + "/opt/deqp/modules/vulkan/deqp-vk"
+        self.env["PIGLIT_DEQP_VK_BIN"] = self.build_root + "/opt/deqp/modules/vulkan/deqp-vk"
         self.env["PIGLIT_DEQP_VK_EXTRA_ARGS"] = base_options + self.build_root + "/opt/deqp/modules/vulkan/vk-cases.txt"
         
         out_dir = self.build_root + "/test/" + o.hardware
