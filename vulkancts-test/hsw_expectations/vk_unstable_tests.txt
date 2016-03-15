@@ -13,6 +13,7 @@ dEQP-VK.glsl.functions.datatypes.mat4x2_vertex
 dEQP-VK.glsl.linkage.varying.struct.float_uvec2_vec3
 dEQP-VK.glsl.matrix.add.dynamic
 dEQP-VK.glsl.matrix.mul.dynamic
+dEQP-VK.glsl.matrix.pre_increment
 dEQP-VK.glsl.matrix.sub.dynamic
 dEQP-VK.glsl.matrix.sub_assign.highp_mat3x2_float_fragment
 dEQP-VK.glsl.opaque_type_indexing.atomic_counter
