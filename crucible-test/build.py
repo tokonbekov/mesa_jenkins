@@ -105,7 +105,8 @@ class CrucibleTester(object):
         if o.retest_path:
             include_tests = bs.TestLister(o.retest_path + "/test/").RetestIncludes("crucible-test")
 
-        excludes = []
+        # flaky
+        excludes = ["!func.query.timestamp"]
         parallelism = []
 
         if "hsw" in o.hardware:
