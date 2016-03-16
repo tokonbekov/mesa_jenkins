@@ -197,7 +197,7 @@
 
   <!-- the following servers and remotes correspond to projects -->
   <repos>
-    <mesa repo="git://anongit.freedesktop.org/mesa/mesa">
+    <mesa repo="http://anongit.freedesktop.org/git/mesa/mesa.git">
       <!-- todo: add support for remotes.  -->
       <remote name="jekstrand" repo="git://people.freedesktop.org/~jekstrand/mesa"/>
       <remote name="kwg" repo="git://people.freedesktop.org/~kwg/mesa"/>
@@ -220,13 +220,13 @@
       <remote name="sarah" repo="git://people.freedesktop.org/~sarah/mesa"/>
     </mesa>
 
-    <drm repo="git://anongit.freedesktop.org/mesa/drm">
+    <drm repo="http://anongit.freedesktop.org/git/mesa/drm.git">
       <remote name="aphogat" repo="git://github.com/aphogat/drm"/>
       <remote name="janesma" repo="git://github.com/janesma/drm"/>
       <remote name="sarah" repo="git://people.freedesktop.org/~sarah/drm"/>
     </drm>
 
-    <piglit repo="git://anongit.freedesktop.org/piglit">
+    <piglit repo="http://anongit.freedesktop.org/git/piglit.git">
       <remote name="jekstrand" repo="git://people.freedesktop.org/~jekstrand/piglit"/>
       <!-- Dylan's repository is more stable than the origin, and will
            not trigger builds unnecessarily -->
