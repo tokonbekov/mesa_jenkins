@@ -1,3 +1,5 @@
+dEQP-VK.api_.object_management.multithreaded_per_thread_resources.shader_module
+dEQP-VK.api_.object_management.multithreaded_shared_resources.shader_module
 dEQP-VK.compute.indirect_dispatch.gen_in_compute
 dEQP-VK.compute.indirect_dispatch.upload_buffer
 dEQP-VK.glsl.builtin.function.common.fma
@@ -12,6 +14,7 @@ dEQP-VK.glsl.conversions.vector_combine
 dEQP-VK.glsl.functions.datatypes.mat4x2_vertex
 dEQP-VK.glsl.linkage.varying.struct.float_uvec2_vec3
 dEQP-VK.glsl.matrix.add.dynamic
+dEQP-VK.glsl.matrix.div.dynamic
 dEQP-VK.glsl.matrix.mul.dynamic
 dEQP-VK.glsl.matrix.pre_increment
 dEQP-VK.glsl.matrix.sub.dynamic
@@ -20,8 +23,8 @@ dEQP-VK.glsl.opaque_type_indexing.atomic_counter
 dEQP-VK.glsl.opaque_type_indexing.sampler
 dEQP-VK.glsl.opaque_type_indexing.ubo
 dEQP-VK.glsl.operator.binary_operator
-dEQP-VK.glsl.operator.common_functions.clamp.mediump_ivec3_fragment
-dEQP-VK.glsl.operator.common_functions.smoothstep.mediump_vec2_fragment
+dEQP-VK.glsl.operator.common_functions.clamp
+dEQP-VK.glsl.operator.common_functions.smoothstep
 dEQP-VK.glsl.operator.geometric.dot.mediump_float_fragment
 dEQP-VK.glsl.operator.geometric.reflect.highp_float_fragment
 dEQP-VK.glsl.operator.sequence.side_effects.highp_vec4_fragment
