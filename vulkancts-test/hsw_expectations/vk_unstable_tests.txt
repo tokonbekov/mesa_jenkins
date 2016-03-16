@@ -18,7 +18,8 @@ dEQP-VK.glsl.matrix.div.dynamic
 dEQP-VK.glsl.matrix.mul.dynamic
 dEQP-VK.glsl.matrix.pre_increment
 dEQP-VK.glsl.matrix.sub.dynamic
-dEQP-VK.glsl.matrix.sub_assign.highp_mat3x2_float_fragment
+dEQP-VK.glsl.matrix.sub_assign
+dEQP-VK.glsl.matrix.unary_addition
 dEQP-VK.glsl.opaque_type_indexing.atomic_counter
 dEQP-VK.glsl.opaque_type_indexing.sampler
 dEQP-VK.glsl.opaque_type_indexing.ubo
