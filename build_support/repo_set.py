@@ -208,6 +208,7 @@ class RepoSet:
             raise TimeoutException("Fetch timed out.")
 
         for repo in self._repos.values():
+            repo.git.prune()
             signal.signal(signal.SIGALRM, signal_handler)
             for remote in repo.remotes:
                 print "fetching " + remote.url
