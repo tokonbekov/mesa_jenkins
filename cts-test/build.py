@@ -65,15 +65,18 @@ class CtsBuilder:
         extra_excludes = []
         if ("ilk" in o.hardware or "g33" in o.hardware
             or "g45" in o.hardware or "g965" in o.hardware):
-            extra_excludes = extra_excludes + ["--exclude-tests", "es3-cts",
-                                               "--exclude-tests", "es31-cts"]
+            extra_excludes += ["--exclude-tests", "es3-cts",
+                               "--exclude-tests", "es31-cts"]
 
         if ("snb" in o.hardware or
             "ivb" in o.hardware or
             "byt" in o.hardware or
             "hsw" in o.hardware):
             extra_excludes += ["--exclude-tests", "es31-cts"]
-            
+
+        if "11.1" in mesa_version or "11.0" in mesa_version:
+            extra_excludes += ["--exclude-tests", "es31-cts"]
+
         cmd = [self.build_root + "/bin/piglit",
                "run",
                #"-p", "gbm",
