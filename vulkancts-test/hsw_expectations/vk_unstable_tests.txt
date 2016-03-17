@@ -13,6 +13,7 @@ dEQP-VK.glsl.conversions.matrix_to_matrix
 dEQP-VK.glsl.conversions.scalar_to_matrix
 dEQP-VK.glsl.conversions.vector_combine
 dEQP-VK.glsl.functions.datatypes
+dEQP-VK.glsl.linkage.varying.basic_types
 dEQP-VK.glsl.linkage.varying.struct
 dEQP-VK.glsl.matrix.add.dynamic
 dEQP-VK.glsl.matrix.div.dynamic
@@ -25,15 +26,19 @@ dEQP-VK.glsl.matrix.unary_addition
 dEQP-VK.glsl.opaque_type_indexing.atomic_counter
 dEQP-VK.glsl.opaque_type_indexing.sampler
 dEQP-VK.glsl.opaque_type_indexing.ubo
+dEQP-VK.glsl.operator.angle_and_trigonometry
 dEQP-VK.glsl.operator.binary_operator
 dEQP-VK.glsl.operator.common_functions.clamp
 dEQP-VK.glsl.operator.common_functions.max
 dEQP-VK.glsl.operator.common_functions.smoothstep
+dEQP-VK.glsl.operator.common_functions.step
 dEQP-VK.glsl.operator.geometric.cross
 dEQP-VK.glsl.operator.geometric.dot
 dEQP-VK.glsl.operator.geometric.reflect
 dEQP-VK.glsl.operator.geometric.refract
+dEQP-VK.glsl.operator.int_compare.greaterthan
 dEQP-VK.glsl.operator.int_compare.lessthan
+dEQP-VK.glsl.operator.selection
 dEQP-VK.glsl.operator.sequence.side_effects
 dEQP-VK.pipeline.sampler.view_type.1d
 dEQP-VK.pipeline.sampler.view_type.1d_array
