@@ -81,7 +81,7 @@ def system():
     return platform.system().lower()
 
 def run_batch_command(commands, streamedOutput=True, noop=False, env = None, 
-                      expected_return_code=0, quiet=False):
+                      expected_return_code=0, quiet=False, stdinput=None):
     if not env:
         env = {}
 
@@ -98,12 +98,14 @@ def run_batch_command(commands, streamedOutput=True, noop=False, env = None,
 
     if streamedOutput is True:
         p = subprocess.Popen(commands, env=procEnv, 
-                    preexec_fn=os.setsid)
+                             preexec_fn=os.setsid,
+                             stdin=stdinput)
     else:
         p = subprocess.Popen(commands, env=procEnv, 
                              preexec_fn=os.setsid, 
                              stdout=subprocess.PIPE, 
-                             stderr=subprocess.PIPE)
+                             stderr=subprocess.PIPE,
+                             stdin=stdinput)
 
     global all_processes
     all_processes[p] = True

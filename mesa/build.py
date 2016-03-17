@@ -1,5 +1,6 @@
  #!/usr/bin/python
 
+import os
 import sys
 import os.path as path
 sys.path.append(path.join(path.dirname(path.abspath(sys.argv[0])), ".."))
@@ -43,6 +44,17 @@ class MesaBuilder(bs.AutoBuilder):
         # always enable optimizations in mesa because tests are too slow
         # without them.
         bs.AutoBuilder.__init__(self, configure_options=options, opt_flags="-O2")
+
+    def build(self):
+        savedir = os.getcwd()
+        pm = bs.ProjectMap()
+        os.chdir(pm.project_source_dir())
+        f = open(pm.project_build_dir("mesa") + "/deqp_hack.patch", "r")
+        try:
+            bs.run_batch_command(["patch", "-p1"], stdinput=f)
+        except:
+            print "WARN: failed to apply deqp patch"
+        bs.AutoBuilder.build(self)
         
     def test(self):
         gtests = ["src/glx/tests/glx-test",

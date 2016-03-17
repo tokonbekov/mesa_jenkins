@@ -1,10 +1,8 @@
 #!/usr/bin/python
 
-import bz2
 import os
-import re
 import sys
-import xml.etree.ElementTree  as ET
+import subprocess
 
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
 import build_support as bs
@@ -17,5 +15,9 @@ class SlowTimeout:
     def GetDuration(self):
         return 500
 
-bs.build(bs.DeqpBuilder(["gles2", "gles3"]), time_limit=SlowTimeout())
+env = {}
+if (os.path.exists("/usr/local/bin/chmodtty9.sh")):
+    env["DISPLAY"] = ":9"
+
+bs.build(bs.DeqpBuilder(["gles2", "gles3"], env=env), time_limit=SlowTimeout())
         

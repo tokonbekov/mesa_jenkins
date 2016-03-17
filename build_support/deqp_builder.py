@@ -87,7 +87,7 @@ class DeqpTrie:
             trie.write_caselist(outfh, group)
             
 class DeqpBuilder:
-    def __init__(self, modules):
+    def __init__(self, modules, env=None):
         # eg: ["gles2", "gles3"]
         self._modules = modules
         o = Options()
@@ -105,9 +105,11 @@ class DeqpBuilder:
                      # bugs in debian's s2tc library.  Recommended by nroberts
                      "S2TC_DITHER_MODE" : "NONE",
                      # forces deqp to run headless
-                     "EGL_PLATFORM" : "surfaceless",
                      "PIGLIT_NO_TIMEOUT" : "1"
         }
+        if env:
+            for (k,v) in env.items():
+                self.env[k] = v
         o.update_env(self.env)
 
     def build(self):
@@ -133,8 +135,7 @@ class DeqpBuilder:
         expectations_dir = None
         # identify platform
         if "byt" in o.hardware:
-            # TODO: make a byt blacklist
-            expectations_dir = src_dir + "/chromiumos-autotest/graphics_dEQP/expectations/baytrail"
+            expectations_dir = pm.project_build_dir(pm.current_project()) + "/byt_expectations"
         elif "bdw" in o.hardware:
             expectations_dir = pm.project_build_dir(pm.current_project()) + "/bdw_expectations"
         elif "hsw" in o.hardware:
@@ -169,6 +170,8 @@ class DeqpBuilder:
             module_dir = module
             if module == "vk":
                 module_dir = "vulkan"
+                self.env["EGL_PLATFORM"] = "surfaceless"
+
             os.chdir(self.build_root + "/opt/deqp/modules/" + module_dir)
             # generate list of tests
             run_batch_command(["./deqp-" + module,
@@ -204,18 +207,18 @@ class DeqpBuilder:
         os.chdir(savedir)
 
         # invoke piglit
-        base_options = ("--deqp-surface-type=fbo "
-                        "--deqp-log-images=disable "
-                        '--deqp-surface-width=256 '
-                        '--deqp-surface-height=256 '
+        base_options = ("--deqp-log-images=disable "
                         '--deqp-gl-config-name=rgba8888d24s8 '
+                        '--deqp-surface-width=400 '
+                        '--deqp-surface-height=300 '
+                        '--deqp-visibility=hidden '
                         "--deqp-caselist-file=")
         self.env["PIGLIT_DEQP_GLES2_BIN"] = self.build_root + "/opt/deqp/modules/gles2/deqp-gles2"
         self.env["PIGLIT_DEQP_GLES2_EXTRA_ARGS"] =  base_options + self.build_root + "/opt/deqp/modules/gles2/gles2-cases.txt"
         self.env["PIGLIT_DEQP_GLES3_EXE"] = self.build_root + "/opt/deqp/modules/gles3/deqp-gles3"
         self.env["PIGLIT_DEQP_GLES3_EXTRA_ARGS"] = base_options + self.build_root + "/opt/deqp/modules/gles3/gles3-cases.txt"
         self.env["PIGLIT_DEQP_VK_BIN"] = self.build_root + "/opt/deqp/modules/vulkan/deqp-vk"
-        self.env["PIGLIT_DEQP_VK_EXTRA_ARGS"] = base_options + self.build_root + "/opt/deqp/modules/vulkan/vk-cases.txt"
+        self.env["PIGLIT_DEQP_VK_EXTRA_ARGS"] = base_options + self.build_root + "/opt/deqp/modules/vulkan/vk-cases.txt" + " --deqp-surface-type=fbo "
         
         out_dir = self.build_root + "/test/" + o.hardware
 

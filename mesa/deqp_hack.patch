@@ -1,0 +1,44 @@
+diff --git a/src/mesa/main/hash.c b/src/mesa/main/hash.c
+index ab1b9e9..d4d0752 100644
+--- a/src/mesa/main/hash.c
++++ b/src/mesa/main/hash.c
+@@ -140,6 +140,14 @@ _mesa_NewHashTable(void)
+ }
+ 
+ 
++struct _mesa_HashTable *
++_mesa_NewHashTableWithStartingKey(GLuint key)
++{
++   struct _mesa_HashTable *table = _mesa_NewHashTable();
++   table->MaxKey = key;
++   return table;
++}
++
+ 
+ /**
+  * Delete a hash table.
+diff --git a/src/mesa/main/hash.h b/src/mesa/main/hash.h
+index da3b997..a51eb5a 100644
+--- a/src/mesa/main/hash.h
++++ b/src/mesa/main/hash.h
+@@ -36,6 +36,7 @@
+ 
+ 
+ extern struct _mesa_HashTable *_mesa_NewHashTable(void);
++extern struct _mesa_HashTable *_mesa_NewHashTableWithStartingKey(GLuint key);
+ 
+ extern void _mesa_DeleteHashTable(struct _mesa_HashTable *table);
+ 
+diff --git a/src/mesa/main/shared.c b/src/mesa/main/shared.c
+index 49e5f02..691d6a1 100644
+--- a/src/mesa/main/shared.c
++++ b/src/mesa/main/shared.c
+@@ -122,7 +122,7 @@ _mesa_alloc_shared_state(struct gl_context *ctx)
+    mtx_init(&shared->TexMutex, mtx_recursive);
+    shared->TextureStateStamp = 0;
+ 
+-   shared->FrameBuffers = _mesa_NewHashTable();
++   shared->FrameBuffers = _mesa_NewHashTableWithStartingKey(100);
+    shared->RenderBuffers = _mesa_NewHashTable();
+ 
+    shared->SyncObjects = _mesa_set_create(NULL, _mesa_hash_pointer,
