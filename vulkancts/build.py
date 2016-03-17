@@ -53,7 +53,7 @@ class VulkanCtsBuilder(object):
             os.chdir(savedir)
             print "Checking out: " + repo_path + " : " + package.revision
             repo = git.Repo(repo_path)
-            repo.git.checkout(package.revision)
+            repo.git.checkout(package.revision, force=True)
         
         btype = "Release"
         # Vulkan cts is twice as slow for RelDeb builds, which impacts
