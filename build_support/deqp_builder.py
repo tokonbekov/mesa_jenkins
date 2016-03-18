@@ -73,6 +73,14 @@ class DeqpTrie:
             if len(self._trie[group]._trie) == 0:
                 del(self._trie[group])
 
+    def filter_whitelist(self, whitelist, prefix=""):
+        for group in self._trie.keys():
+            if group not in whitelist._trie:
+                # print "DEBUG: filtering " + prefix + group + " not in whitelist"
+                del (self._trie[group])
+                continue
+            self._trie[group].filter_whitelist(whitelist._trie[group], prefix=prefix + group + ".")
+
     def write_caselist(self, outfh, prefix=""):
         items = self._trie.items()
         # ensure stable order, so sharding will work correctly
@@ -185,6 +193,17 @@ class DeqpBuilder:
 
             # filter skip trie from testlist trie
             testlist.filter(skip)
+
+            whitelist_txt = None
+            if module == "gles2":
+                whitelist_txt = pm.project_source_dir("deqp") + "/android/cts/master/gles2-master.txt"
+            if module == "gles3":
+                whitelist_txt = pm.project_source_dir("deqp") + "/android/cts/master/gles3-master.txt"
+            if whitelist_txt:
+                whitelist_trie = DeqpTrie()
+                whitelist_trie.add_txt(whitelist_txt)
+                # filter using the deqp whitelist
+                testlist.filter_whitelist(whitelist_trie)
 
             # filter intermittent tests
             # TODO(janesma) : write bug
