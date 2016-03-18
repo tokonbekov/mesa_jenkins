@@ -141,7 +141,7 @@
       <prerequisite only_for_type="daily" name="deqp-full"/>
       <prerequisite name="piglit-cpu-test" hardware="fastgpu" arch="m64,m32"/>
       <!-- <prerequisite name="mesa-buildtest" hardware="builder" arch="m64"/> -->
-      <prerequisite name="deqp-test" hardware="hsw,bdwgt3e,skl" arch="m64" shard="2"/>
+      <prerequisite name="deqp-test" hardware="hsw,bdw,skl" arch="m64" shard="2"/>
       <prerequisite name="cts-full"/>
     </project>
 
@@ -151,7 +151,7 @@
       <prerequisite name="piglit-cpu-test" hardware="fastgpu"/>
       <prerequisite name="scons-buildtest" hardware="builder" arch="m64"/>
       <!-- <prerequisite name="mesa-buildtest" hardware="builder"/> -->
-      <prerequisite name="deqp-test" hardware="hsw,bdwgt3e,skl" arch="m64" shard="3"/>
+      <prerequisite name="deqp-test" hardware="hsw,bdw,skl" arch="m64" shard="3"/>
       <prerequisite name="cts-full"/>
     </project>
 
@@ -161,14 +161,14 @@
       <prerequisite name="piglit-cpu-test" hardware="fastgpu"/>
       <prerequisite name="scons-buildtest" hardware="builder" arch="m64"/>
       <!-- <prerequisite name="mesa-buildtest" hardware="builder"/> -->
-      <prerequisite name="deqp-test" hardware="hsw,bdwgt3e,skl" arch="m64" shard="2"/>
+      <prerequisite name="deqp-test" hardware="hsw,bdw,skl" arch="m64" shard="2"/>
       <prerequisite name="cts-full"/>
     </project>
 
     <project name="deqp-full">
       <prerequisite name="deqp-test"
                     arch="m64"
-                    hardware="hsw,snb,byt,bsw,ivb,skl"
+                    hardware="hsw,snb,byt,bsw,ivb,skl,bdw"
                     shard="5"/>
     </project>
 
