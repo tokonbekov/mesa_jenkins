@@ -15,7 +15,7 @@
         <hudson.model.StringParameterDefinition>
           <name>to</name>
           <description>resulting patch will be sent to this address</description>
-          <defaultValue>mark.a.janes@intel.com</defaultValue>
+          <defaultValue>mark.a.janes@intel.com dylanx.c.baker@intel.com</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>good_revision</name>
