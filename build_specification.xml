@@ -318,7 +318,6 @@
     <branch name="vulkancts" project="vulkancts-full">
       <mesa branch="origin/vulkan"/>
       <vulkancts branch="khronos/vulkan-cts-1.0"/>
-      <piglit/>
       <crucible/>
       <shaderc/>
       <glslang/>
