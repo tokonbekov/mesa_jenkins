@@ -19,7 +19,7 @@
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>good_revision</name>
-          <description>sha of the mesa build which did not have the failures.  Just pass the sha, do not include the &quot;mesa=&quot;</description>
+          <description>sha of the mesa build which did not have the failures. </description>
           <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>

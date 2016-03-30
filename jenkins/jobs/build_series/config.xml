@@ -40,6 +40,7 @@
               <string>ivb</string>
               <string>snb</string>
               <string>bsw</string>
+              <string>bxt</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
@@ -51,10 +52,13 @@ choose piglit-test to test a single hardware platform</description>
           <choices class="java.util.Arrays$ArrayList">
             <a class="string-array">
               <string>test-single-arch</string>
-              <string>piglit-build</string>
+              <string>piglit</string>
               <string>piglit-test</string>
               <string>deqp-full</string>
               <string>crucible-all</string>
+              <string>cts-test</string>
+              <string>mesa</string>
+              <string>vulkancts-test</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>

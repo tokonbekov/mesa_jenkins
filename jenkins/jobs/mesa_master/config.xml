@@ -3,7 +3,7 @@
   <actions/>
   <description></description>
   <logRotator class="hudson.tasks.LogRotator">
-    <daysToKeep>30</daysToKeep>
+    <daysToKeep>20</daysToKeep>
     <numToKeep>100</numToKeep>
     <artifactDaysToKeep>-1</artifactDaysToKeep>
     <artifactNumToKeep>-1</artifactNumToKeep>
@@ -64,7 +64,8 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>python -u scripts/checkout_revision_spec.py
+      <command>rm -rf results/test
+python -u scripts/checkout_revision_spec.py
 python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=${type} --config=debug</command>
     </hudson.tasks.Shell>
   </builders>

@@ -132,14 +132,26 @@
   <builders>
     <hudson.tasks.Shell>
       <command>echo project:${project} arch:${arch} result_path:${result_path} config:${config} type:${type} revision:${revision} hardware:${hardware} hash:${hash}
-mkdir -p /tmp/jenkins/${BUILD_NUMBER}
 python -u scripts/checkout_revision_spec.py ${revision}
+ls /mnt/jenkins/results &gt; /dev/null
+mkdir -p /tmp/jenkins/${BUILD_NUMBER}
+if [ &quot;${project}&quot; = &quot;deqp-test&quot; ]
+then
+   killall Xorg || true
+   sudo /usr/local/bin/chmodtty9.sh
+   Xorg :9 vt9 -retro -sharevts -logfile /tmp/xorg.log&amp;
+   rm -rf /tmp/build_root
+   sleep 5  # Xorg doesn&apos;t always settle before starting piglit and that causes problems
+   python -u ${project}/build.py --arch ${arch} --result_path ${result_path} --config ${config} --type ${type} --hardware ${hardware} --action clean,build,test --shard ${shard} --env &quot;${env}&quot; ${extra_arg}
+   killall Xorg
+   rm -rf /tmp/build_root
+   exit 0
+fi
 unshare -m -r /bin/bash -c &quot;
 mount -o bind /tmp/jenkins/${BUILD_NUMBER} /tmp
 unset revision
 python -u ${project}/build.py --arch ${arch} --result_path ${result_path} --config ${config} --type ${type} --hardware ${hardware} --action clean,build,test --shard ${shard} --env \&quot;${env}\&quot; ${extra_arg}
 &quot;
-
 </command>
     </hudson.tasks.Shell>
   </builders>

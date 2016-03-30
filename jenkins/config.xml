@@ -119,7 +119,9 @@
         <string>build_series</string>
         <string>bwidawsk</string>
         <string>bwidawsk_fast</string>
+        <string>bwidawsk_vulkan</string>
         <string>chadv</string>
+        <string>chadv_vulkan</string>
         <string>curro</string>
         <string>dcbaker</string>
         <string>evelikov</string>
@@ -128,16 +130,22 @@
         <string>jekstrand</string>
         <string>jekstrand_vulkan</string>
         <string>jljusten</string>
+        <string>jljusten_vulkan</string>
         <string>krh</string>
+        <string>krh_vulkan</string>
         <string>kwg</string>
+        <string>kwg_vulkan</string>
         <string>ldeks</string>
         <string>majanes</string>
         <string>mattst88</string>
         <string>mesa_custom</string>
         <string>mperes</string>
         <string>nchery</string>
+        <string>nchery_vulkan</string>
+        <string>sarah</string>
         <string>single_test</string>
         <string>tarceri</string>
+        <string>tarceri_slow</string>
         <string>tpalli</string>
         <string>tpohjola</string>
       </jobNames>
@@ -156,7 +164,6 @@
     <listView>
       <owner class="hudson" reference="../../.."/>
       <name>mesa</name>
-      <description></description>
       <filterExecutors>false</filterExecutors>
       <filterQueue>false</filterQueue>
       <properties class="hudson.model.View$PropertyList"/>
@@ -166,11 +173,13 @@
         <string>mesa_11.0_daily</string>
         <string>mesa_11.1</string>
         <string>mesa_11.1_daily</string>
+        <string>mesa_11.2</string>
         <string>mesa_custom</string>
         <string>mesa_master</string>
         <string>mesa_master_daily</string>
         <string>nir_clone_daily</string>
-        <string>vulkan</string>
+        <string>vulkancts</string>
+        <string>vulkancts-daily</string>
       </jobNames>
       <jobFilters/>
       <columns>
