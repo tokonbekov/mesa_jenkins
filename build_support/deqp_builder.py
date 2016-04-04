@@ -227,6 +227,10 @@ class DeqpBuilder:
         self.env["PIGLIT_DEQP_GLES3_EXTRA_ARGS"] = base_options + self.build_root + "/opt/deqp/modules/gles3/gles3-cases.txt"
         self.env["PIGLIT_DEQP_VK_BIN"] = self.build_root + "/opt/deqp/modules/vulkan/deqp-vk"
         self.env["PIGLIT_DEQP_VK_EXTRA_ARGS"] = base_options + self.build_root + "/opt/deqp/modules/vulkan/vk-cases.txt" + " --deqp-surface-type=fbo "
+        # makes trigonometric functions more accurate with significant
+        # performance penalty.  This setting is required to pass
+        # several dEQP and vulkan tests.
+        self.env["INTEL_PRECISE_TRIG"] = "1"
         
         out_dir = self.build_root + "/test/" + o.hardware
 
