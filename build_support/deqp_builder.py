@@ -238,6 +238,7 @@ class DeqpBuilder:
         cmd = [self.build_root + "/bin/piglit",
                "run",
                "-p", "gbm",
+               "-o",
                "-b", "junit",
                "--config", conf_file,
                "-c",
