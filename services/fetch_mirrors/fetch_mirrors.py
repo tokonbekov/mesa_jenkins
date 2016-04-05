@@ -68,7 +68,7 @@ def file_checksum(fname):
 def main():
     # Write the PID file
     with open('/var/run/fetch_mesa_mirrors.pid', 'w') as f:
-        f.write(os.getpid())
+        f.write(str(os.getpid()))
 
     signal.signal(signal.SIGALRM, signal_handler)
     signal.signal(signal.SIGINT, signal_handler_quit)
