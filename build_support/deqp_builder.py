@@ -41,6 +41,9 @@ class DeqpTrie:
         elif "dEQP-GLES3-cases" in xml_file:
             current_trie = DeqpTrie()
             self._trie["dEQP-GLES3"] = current_trie
+        elif "dEQP-GLES31-cases" in xml_file:
+            current_trie = DeqpTrie()
+            self._trie["dEQP-GLES31"] = current_trie
         elif "dEQP-VK-cases" in xml_file:
             current_trie = DeqpTrie()
             self._trie["dEQP-VK"] = current_trie
@@ -199,6 +202,8 @@ class DeqpBuilder:
                 whitelist_txt = pm.project_source_dir("deqp") + "/android/cts/master/gles2-master.txt"
             if module == "gles3":
                 whitelist_txt = pm.project_source_dir("deqp") + "/android/cts/master/gles3-master.txt"
+            if module == "gles31":
+                whitelist_txt = pm.project_source_dir("deqp") + "/android/cts/master/gles31-master.txt"
             if whitelist_txt:
                 whitelist_trie = DeqpTrie()
                 whitelist_trie.add_txt(whitelist_txt)
@@ -225,6 +230,8 @@ class DeqpBuilder:
         self.env["PIGLIT_DEQP_GLES2_EXTRA_ARGS"] =  base_options + self.build_root + "/opt/deqp/modules/gles2/gles2-cases.txt"
         self.env["PIGLIT_DEQP_GLES3_EXE"] = self.build_root + "/opt/deqp/modules/gles3/deqp-gles3"
         self.env["PIGLIT_DEQP_GLES3_EXTRA_ARGS"] = base_options + self.build_root + "/opt/deqp/modules/gles3/gles3-cases.txt"
+        self.env["PIGLIT_DEQP_GLES31_BIN"] = self.build_root + "/opt/deqp/modules/gles31/deqp-gles31"
+        self.env["PIGLIT_DEQP_GLES31_EXTRA_ARGS"] = base_options + self.build_root + "/opt/deqp/modules/gles31/gles31-cases.txt"
         self.env["PIGLIT_DEQP_VK_BIN"] = self.build_root + "/opt/deqp/modules/vulkan/deqp-vk"
         self.env["PIGLIT_DEQP_VK_EXTRA_ARGS"] = base_options + self.build_root + "/opt/deqp/modules/vulkan/vk-cases.txt" + " --deqp-surface-type=fbo "
         # makes trigonometric functions more accurate with significant

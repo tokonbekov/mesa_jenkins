@@ -19,5 +19,9 @@ env = {}
 if (os.path.exists("/usr/local/bin/chmodtty9.sh")):
     env["DISPLAY"] = ":9"
 
-bs.build(bs.DeqpBuilder(["gles2", "gles3"], env=env), time_limit=SlowTimeout())
+o = bs.Options()
+modules = ["gles2", "gles3"]
+if "skl" in o.hardware or "bdw" in o.hardware or "bsw" in o.hardware:
+    modules += ["gles31"]
+bs.build(bs.DeqpBuilder(modules, env=env), time_limit=SlowTimeout())
         
