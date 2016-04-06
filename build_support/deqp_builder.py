@@ -361,5 +361,17 @@ class DeqpBuilder:
                         # a test may match more than one revision
                         # encoded in a comment
                         break
+
+            # strip any "Suspicious performance behavior failures from
+            # dEQP.  We run tests in parallel, and do not expect to
+            # have stable performance.
+            for afail in a_suite.findall("testcase/failure/.."):
+                stdout = afail.find("system-out")
+                if stdout is None:
+                    continue
+                if stdout.text and "Suspicious performance behavior" in stdout.text:
+                    stdout.text = stdout.text + "WARN: Intel CI ignores performance failure"
+                    for tag in afail.findall("failure"):
+                        afail.remove(tag)
                 
         t.write(outfile)
