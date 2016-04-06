@@ -21,7 +21,10 @@ if (os.path.exists("/usr/local/bin/chmodtty9.sh")):
 
 o = bs.Options()
 modules = ["gles2", "gles3"]
-if "skl" in o.hardware or "bdw" in o.hardware or "bsw" in o.hardware:
-    modules += ["gles31"]
+
+version = bs.PiglitTester().mesa_version()
+if "11.0" not in version and "11.1" not in version and "11.2" not in version:
+    if "skl" in o.hardware or "bdw" in o.hardware or "bsw" in o.hardware:
+        modules += ["gles31"]
 bs.build(bs.DeqpBuilder(modules, env=env), time_limit=SlowTimeout())
         
