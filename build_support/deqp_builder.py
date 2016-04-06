@@ -166,6 +166,10 @@ class DeqpBuilder:
 
         conf_file = get_conf_file(o.hardware, o.arch, pm.current_project())
 
+        version = mesa_version()
+        if "11.0" in version or "11.1" in version or "11.2" in version:
+            if "gles31" in self._modules:
+                self._modules.remove("gles31")
         for module in self._modules:
             skip = DeqpTrie()
             # for each skip list, parse into skip trie

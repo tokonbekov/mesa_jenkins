@@ -38,7 +38,7 @@ class CtsBuilder:
         o = bs.Options()
         pm = bs.ProjectMap()
 
-        mesa_version = bs.PiglitTester().mesa_version()
+        mesa_version = bs.mesa_version()
         if o.hardware == "bxt" or o.hardware == "kbl":
             if "11.0" in mesa_version:
                 print "WARNING: bxt/kbl not supported by stable mesa"

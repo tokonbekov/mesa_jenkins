@@ -48,6 +48,31 @@ from . import get_conf_file
 from . import TestLister
 from . import NoConfigFile
 
+
+def mesa_version():
+    br = ProjectMap().build_root()
+    libdir = "x86_64-linux-gnu"
+    if Options().arch == "m32":
+        libdir = "i386-linux-gnu"
+    wflinfo =  br + "/bin/wflinfo"
+    env = { "LD_LIBRARY_PATH" : br + "/lib:" + br + "/lib/" + libdir + ":" + br + "/lib/dri:" + br + "/lib/piglit/lib",
+
+                "LIBGL_DRIVERS_PATH" : br + "/lib/dri",
+            "GBM_DRIVERS_PATH" : br + "/lib/dri"
+    }
+    (out, _) = run_batch_command([wflinfo,
+                                 "--platform=gbm", "-a", "gl"],
+                                 streamedOutput=False, env=env)
+    for a_line in out.splitlines():
+        if "OpenGL version string" not in a_line:
+            continue
+        tokens = a_line.split(":")
+        assert len(tokens) == 2
+        version_string = tokens[1].strip()
+        version_tokens = version_string.split()
+        assert len(version_tokens) >= 3
+        return version_tokens[2]
+
 def cpu_count():
     cpus = multiprocessing.cpu_count() + 1
     if cpus > 18:
@@ -353,9 +378,9 @@ class PiglitTester(object):
         pm = ProjectMap()
         o = Options()
 
-        mesa_version = self.mesa_version()
+        mv = mesa_version()
         if o.hardware == "bxt" or o.hardware == "kbl":
-            if "11.0" in mesa_version:
+            if "11.0" in mv:
                 print "WARNING: bxt not supported by stable mesa"
                 return
 
@@ -614,21 +639,6 @@ class PiglitTester(object):
                 print "ERROR: encountered error triggering reboot"
             print "sleeping to allow reboot job to be scheduled."
             time.sleep(120)
-
-    def mesa_version(self):
-        (out, _) = run_batch_command([self.build_root + "/bin/wflinfo",
-                                      "--platform=gbm", "-a", "gl"],
-                                     streamedOutput=False,
-                                     env=self.env)
-        for a_line in out.splitlines():
-            if "OpenGL version string" not in a_line:
-                continue
-            tokens = a_line.split(":")
-            assert len(tokens) == 2
-            version_string = tokens[1].strip()
-            version_tokens = version_string.split()
-            assert len(version_tokens) >= 3
-            return version_tokens[2]
 
     def build(self):
         pass
