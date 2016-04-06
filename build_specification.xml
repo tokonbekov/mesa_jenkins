@@ -394,7 +394,6 @@
     <branch name="chadv" project="test-single-arch">
       <mesa branch="origin/10.3"/>
       <waffle branch="chadv/jenkins"/>
-      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
     <branch name="jljusten" project="test-single-arch">
@@ -411,17 +410,14 @@
 
     <branch name="curro" project="test-single-arch">
       <mesa branch="curro/jenkins"/>
-      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
     <branch name="aphogat" project="test-single-arch">
       <mesa branch="aphogat/jenkins"/>
-      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
     <branch name="tpohjola" project="test-single-arch">
       <mesa branch="tpohjola/jenkins"/>
-      <deqp branch="chadv/chadv" trigger="false"/>
     </branch>
 
     <branch name="nchery_vulkan" project="vulkancts-full">
