@@ -8,4 +8,4 @@ ExecStart=/var/lib/git/mesa_jenkins/services/poll_branches/poll_branches.py
 Restart=on-failure
 
 [Install]
-WantedBy=jenkins.service
+WantedBy=multi-user.target

@@ -10,4 +10,4 @@ ExecStart=/var/lib/git/mesa_jenkins/services/fetch_mirrors/fetch_mirrors.py
 Restart=on-failure
 
 [Install]
-WantedBy=jenkins.service
+WantedBy=multi-user.target
