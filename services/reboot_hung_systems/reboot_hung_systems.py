@@ -509,9 +509,9 @@ def main():
             print ("invalid system: " + system, file=sys.stderr)
             sys.stderr.flush()
         address = systems[system]
-        switches[address["switch"]][address["outlet"]-1].state = "OFF"
+        switches[str(address["switch"])][address["outlet"]-1].state = "OFF"
         time.sleep(10)
-        switches[address["switch"]][address["outlet"]-1].state = "ON"
+        switches[str(address["switch"])][address["outlet"]-1].state = "ON"
 
     while True:
         if hangs:
