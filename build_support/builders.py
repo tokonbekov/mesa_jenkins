@@ -421,6 +421,7 @@ class PiglitTester(object):
             hardware = self.device_override
         cmd = [self.build_root + "/bin/piglit",
                "run",
+               "-o",
                "-p", "gbm",
                "-b", "junit",
                "--junit_suffix", "." + suffix + o.arch,
