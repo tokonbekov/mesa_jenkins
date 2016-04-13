@@ -172,6 +172,8 @@ class Options(object):
         if not self.env:
             return
         for avar in self.env.split(" "):
+            if not avar:
+                continue
             (varname, varval) = avar.split("=", 1)
             if varname in env:
                 print "ERROR: overriding existing environmment variable: " + varname
