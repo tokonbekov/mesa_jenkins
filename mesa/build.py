@@ -37,6 +37,8 @@ class MesaBuilder(bs.AutoBuilder):
 
                              # gallium tested with mesa-buildtest
                              "--without-gallium-drivers"]
+        if os.path.exists(bs.ProjectMap().project_source_dir() + "/src/intel/vulkan"):
+            options.append("--with-vulkan-drivers=intel")
 
         if global_opts.config == 'debug':
             options.append('--enable-debug')
