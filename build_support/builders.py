@@ -452,6 +452,9 @@ class PiglitTester(object):
         # intermittent on at least snbgt1
         exclude_tests = ["glsl-1_10.execution.vs-vec2-main-return"]
 
+        # bogus test
+        exclude_tests += ["arb_shader_image_load_store.execution.coherency-extra"]
+
 
         # TODO: bisect these intermittent failures and write bugs
         exclude_tests = exclude_tests + ["arb_separate_shader_objects.validateprogrampipeline",
