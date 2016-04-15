@@ -166,7 +166,7 @@
 
     <project name="deqp-full">
       <prerequisite name="deqp-test" hardware="hsw,skl" shard="2"/>
-      <prerequisite name="deqp-test" hardware="bdw" shard="3"/>
+      <prerequisite name="deqp-test" hardware="bdw" shard="5"/>
       <prerequisite name="deqp-test"
                     only_for_type="daily"
                     hardware="snb,byt,bsw,ivb"
