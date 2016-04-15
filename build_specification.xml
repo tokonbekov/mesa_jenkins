@@ -68,7 +68,7 @@
     </project>
 
     <project name="piglit">
-      <prerequisite name="waffle" hardware="builder-01"/>
+      <prerequisite name="waffle" hardware="builder"/>
     </project>
 
     <project name="piglit-test"
