@@ -317,7 +317,7 @@
     </branch>
 
     <branch name="vulkancts" project="vulkancts-full">
-      <mesa branch="origin/vulkan"/>
+      <mesa/>
       <vulkancts branch="khronos/vulkan-cts-1.0"/>
       <crucible/>
       <shaderc/>
