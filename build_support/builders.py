@@ -455,9 +455,6 @@ class PiglitTester(object):
 
         # bogus test
         exclude_tests += ["arb_shader_image_load_store.execution.coherency-extra"]
-        # bug 94944
-        exclude_tests += ["arb_shader_image_load_store"]
-
 
         # TODO: bisect these intermittent failures and write bugs
         exclude_tests = exclude_tests + ["arb_separate_shader_objects.validateprogrampipeline",
