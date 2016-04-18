@@ -463,6 +463,9 @@ class PiglitTester(object):
                                          "glsl-1_50.execution.redeclare-pervertex-subset-vs-to-gs",
                                          "glsl-1_50.transform-feedback-type-and-size"]
 
+        # Bug 95008
+        exclude_tests += ["arb_sync.clientwaitsync-timeout"]
+        
         # Bug 95006
         if "ivbgt1" in hardware or "hswgt3e" in hardware:
             exclude_tests += ["arb_buffer_storage.bufferstorage-persistent read"]
