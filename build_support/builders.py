@@ -506,8 +506,10 @@ class PiglitTester(object):
 
 
         if "bxt" in hardware:
-            exclude_tests = exclude_tests + [# bug 93618
-                                             "tessellation"]
+            # bug 93618, and B0 bugs
+            exclude_tests = exclude_tests + ["tessellation",
+                                             "ext_framebuffer_multisample.accuracy",
+                                             "glsl-max-varyings"]
 
         if "ivb" in hardware or "hsw" in hardware:
             # jljusten gpu hanger
