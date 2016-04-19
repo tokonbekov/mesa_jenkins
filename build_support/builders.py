@@ -472,7 +472,7 @@ class PiglitTester(object):
                               "glsl-1_50.execution.built-in-functions.gs-op"]
         
         # Bug 94490
-        if "ivbgt1" in hardware or "hswgt3e" in hardware:
+        if "ivbgt1" in hardware or "hsw" in hardware:
             exclude_tests += ["arb_buffer_storage.bufferstorage-persistent read"]
         
         if "snb" in hardware:
