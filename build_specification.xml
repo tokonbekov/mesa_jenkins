@@ -48,7 +48,8 @@
     <project name="waffle"/>
 
     <project name="deqp-test" src_dir="deqp"
-             bisect_hardware="bdw,skl,hsw,ivb,snb,byt,bsw">
+             bisect_hardware="bdw,skl,hsw,ivb,snb,byt,bsw"
+             bisect_arch="m32,m64">
       <prerequisite name="deqp" hardware="builder"/>
       <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
@@ -58,10 +59,13 @@
       <prerequisite name="mesa"/>
     </project>
 
-    <project name="cts"/>
+    <project name="cts">
+      <prerequisite name="mesa"/>
+    </project>
 
     <project name="cts-test"
-             bisect_hardware="bdw,skl,hsw,ivb,snb,ilk,g965,bsw,byt,g33,g45,bxt,kbl">
+             bisect_hardware="bdw,skl,hsw,ivb,snb,ilk,g965,bsw,byt,g33,g45,bxt,kbl"
+             bisect_arch="m64">
       <prerequisite name="cts" hardware="builder"/>
       <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
@@ -106,10 +110,10 @@
     </project>
 
     <project name="vulkancts-full">
-      <prerequisite name="vulkancts-test" hardware="bdw" arch="m32" shard="8"/>
-      <prerequisite name="vulkancts-test" only_for_type="daily" hardware="bdw" arch="m64" shard="8"/>
-      <prerequisite name="vulkancts-test" hardware="skl,hsw" arch="m32" shard="7"/>
-      <prerequisite name="vulkancts-test" only_for_type="daily" hardware="skl,hsw" arch="m64" shard="7"/>
+      <prerequisite name="vulkancts-test" hardware="bdw" arch="m64" shard="8"/>
+      <prerequisite name="vulkancts-test" only_for_type="daily" hardware="bdw" arch="m32" shard="8"/>
+      <prerequisite name="vulkancts-test" hardware="skl,hsw" arch="m64" shard="7"/>
+      <prerequisite name="vulkancts-test" only_for_type="daily" hardware="skl,hsw" arch="m32" shard="7"/>
       <prerequisite name="vulkancts-test"
                     only_for_type="daily"
                     hardware="bsw"
@@ -124,8 +128,8 @@
                     arch="m64"
                     shard="6"/>
 
-      <prerequisite name="crucible-test" arch="m32" hardware="bdw,skl,bsw"/>
-      <!-- <prerequisite name="crucible-test" only_for_type="daily" arch="m32" hardware="bxt"/> -->
+      <prerequisite name="crucible-test" arch="m64" hardware="bdw,skl,bsw"/>
+      <prerequisite name="crucible-test" only_for_type="daily" arch="m32" hardware="bdw,skl,bsw"/>
     </project>
 
     <project name="vulkancts"/>
@@ -136,10 +140,15 @@
       <prerequisite name="scons-buildtest" hardware="builder"/>
       <prerequisite name="piglit-test"
                     hardware="ilk,snbgt1,snbgt2,ivbgt2,ivbgt1,hswgt2,bdwgt2,hswgt3e,hswgt1,skl"
-                    arch="m64,m32"/>
+                    arch="m64"/>
+      <prerequisite name="piglit-test"
+                    only_for_type="daily"
+                    hardware="ilk,snbgt1,snbgt2,ivbgt2,ivbgt1,hswgt2,bdwgt2,hswgt3e,hswgt1,skl"
+                    arch="m32"/>
       <prerequisite only_for_type="daily" name="piglit-test" hardware="bsw,byt,g33,g45,g965,bxt,kbl" arch="m64,m32"/>
       <prerequisite name="deqp-full"/>
-      <prerequisite name="piglit-cpu-test" hardware="fastgpu" arch="m64,m32"/>
+      <prerequisite name="piglit-cpu-test" hardware="fastgpu" arch="m64"/>
+      <prerequisite name="piglit-cpu-test" only_for_type="daily" hardware="fastgpu" arch="m32"/>
       <prerequisite name="mesa-buildtest" hardware="builder" arch="m64"/>
       <prerequisite name="cts-full"/>
     </project>
@@ -170,6 +179,11 @@
       <prerequisite name="deqp-test"
                     only_for_type="daily"
                     hardware="snb,byt,bsw,ivb"
+                    shard="5"/>
+      <prerequisite name="deqp-test"
+                    only_for_type="daily"
+                    arch="m32"
+                    hardware="snb,ivb,hsw,bdw,skl"
                     shard="5"/>
     </project>
 
