@@ -506,7 +506,7 @@ class PiglitTester(object):
 
 
         if "bxt" in hardware:
-            # bug 93618, and B0 bugs
+            # bug 93618, and B0 bugs: 95014
             exclude_tests = exclude_tests + ["tessellation",
                                              "ext_framebuffer_multisample.accuracy",
                                              "glsl-max-varyings"]
