@@ -296,7 +296,7 @@ class DeqpBuilder:
             if retest:
                 # run piglit again, to eliminate intermittent failures
                 tl = TestLister(final_file)
-                retests = tl.RetestIncludes("deqp-test")
+                retests = tl.RetestIncludes(pm.current_project())
                 if retests:
                     second_out_dir = out_dir + "/retest"
                     print "WARN: retesting deqp to " + second_out_dir
