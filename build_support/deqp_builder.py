@@ -287,7 +287,13 @@ class DeqpBuilder:
                               out_dir + "/results.xml",
                               final_file)
 
-            if "bsw" == o.hardware:
+            retest = False
+            if "bsw" in o.hardware:
+                retest = True
+            if "hsw" in o.hardware and "vulkancts" in pm.current_project():
+                # Bug 95041
+                retest = True
+            if retest:
                 # run piglit again, to eliminate intermittent failures
                 tl = TestLister(final_file)
                 retests = tl.RetestIncludes("deqp-test")
