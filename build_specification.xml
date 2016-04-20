@@ -122,11 +122,11 @@
       <!-- kbl and bxt have limited test machines and are not stable.
            Limit testing to m64 to use fewer resources, and shard the
            test in the event that one of the test runs crashes. -->
-      <prerequisite name="vulkancts-test"
-                    only_for_type="daily"
-                    hardware="kbl"
-                    arch="m64"
-                    shard="6"/>
+      <!-- <prerequisite name="vulkancts-test" -->
+      <!--               only_for_type="daily" -->
+      <!--               hardware="kbl" -->
+      <!--               arch="m64" -->
+      <!--               shard="6"/> -->
 
       <prerequisite name="crucible-test" arch="m64" hardware="bdw,skl,bsw"/>
       <prerequisite name="crucible-test" only_for_type="daily" arch="m32" hardware="bdw,skl,bsw"/>
@@ -147,9 +147,7 @@
                     arch="m32"/>
       <prerequisite only_for_type="daily" name="piglit-test" hardware="bsw,byt,g33,g45,g965" arch="m64,m32"/>
       <!-- do not test 32 bit for limited platforms -->
-      <prerequisite only_for_type="daily" name="piglit-test" hardware="bxt" arch="m64"/>
-      <!-- disable kbl, until kbl-01 is back -->
-      <!-- <prerequisite only_for_type="daily" name="piglit-test" hardware="bxt,kbl" arch="m64"/> -->
+      <prerequisite only_for_type="daily" name="piglit-test" hardware="bxt,kbl" arch="m64"/>
       <prerequisite name="deqp-full"/>
       <prerequisite name="piglit-cpu-test" hardware="fastgpu" arch="m64"/>
       <prerequisite name="piglit-cpu-test" only_for_type="daily" hardware="fastgpu" arch="m32"/>
