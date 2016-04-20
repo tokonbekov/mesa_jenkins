@@ -490,7 +490,9 @@ class PiglitTester(object):
                                              "ext_framebuffer_object.fbo-maxsize",
                                              # fdo Bug 89398
                                              "glsl-1_20.execution.clipping.fixed-clip-enables",
-                                             "glsl-1_10.execution.clipping.clip-plane-transformation pos_clipvert"]
+                                             "glsl-1_10.execution.clipping.clip-plane-transformation pos_clipvert",
+                                             # no bug yet (no bisection)
+                                             "ext_framebuffer_multisample.enable-flag"]
 
         if "bdw" in hardware:
             exclude_tests = exclude_tests + ["arb_shader_image_load_store.execution.basic-imagestore-from-uniform"]
