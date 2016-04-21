@@ -23,6 +23,7 @@ dEQP-VK.glsl.matrix.post_decrement
 dEQP-VK.glsl.matrix.pre_increment
 dEQP-VK.glsl.matrix.sub.dynamic
 dEQP-VK.glsl.matrix.sub_assign
+dEQP-VK.glsl.matrix.transpose.dynamic
 dEQP-VK.glsl.matrix.unary_addition
 dEQP-VK.glsl.opaque_type_indexing.atomic_counter
 dEQP-VK.glsl.opaque_type_indexing.sampler
