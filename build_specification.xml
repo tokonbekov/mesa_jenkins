@@ -355,7 +355,7 @@
     </branch>
 
     <branch name="jekstrand_gl" project="test-single-arch">
-      <mesa branch="jekstrand/jenkins_vulkan"/>
+      <mesa branch="jekstrand/jenkins_gl"/>
     </branch>
 
     <branch name="jekstrand_vulkan" project="vulkancts-full">
