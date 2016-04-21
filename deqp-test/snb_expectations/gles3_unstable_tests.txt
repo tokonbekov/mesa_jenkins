@@ -1,1 +1,1 @@
-piglit.deqp-gles3.functional.shaders.derivate.dfdy.texture.float_nicest
+dEQP-GLES3.functional.shaders.derivate.dfdy.texture.float_nicest
