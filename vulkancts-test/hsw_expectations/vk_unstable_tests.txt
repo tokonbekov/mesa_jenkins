@@ -36,6 +36,7 @@ dEQP-VK.glsl.operator.common_functions.max
 dEQP-VK.glsl.operator.common_functions.min
 dEQP-VK.glsl.operator.common_functions.smoothstep
 dEQP-VK.glsl.operator.common_functions.step
+dEQP-VK.glsl.operator.float_compare
 dEQP-VK.glsl.operator.geometric.cross
 dEQP-VK.glsl.operator.geometric.dot
 dEQP-VK.glsl.operator.geometric.reflect
