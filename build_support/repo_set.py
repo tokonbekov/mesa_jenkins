@@ -208,6 +208,9 @@ class RepoSet:
             raise TimeoutException("Fetch timed out.")
 
         for repo in self._repos.values():
+            garbage_collection_fail = repo.working_tree_dir + "/.git/gc.log"
+            if os.path.exists(garbage_collection_fail):
+                run_batch_command(["rm", "-f", garbage_collection_fail])
             repo.git.prune()
             signal.signal(signal.SIGALRM, signal_handler)
             for remote in repo.remotes:
