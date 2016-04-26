@@ -318,7 +318,15 @@ class DeqpBuilder:
             run_batch_command(cmd)
             Export().export_tests()
 
-        PiglitTester().check_gpu_hang()
+        # run a single piglit test (selected at random) after
+        # vulkancts.  This has the side-effect of restoring the
+        # default L3 configuration.  The 11.1 stable branch does not
+        # restore L3 configuration and fails tests after vulkancts.
+        t = PiglitTester(piglit_test="spec.ext.framebuffer.object.getteximage-formats.init-by-clear-and-render.arch")
+        if "vulkancts" in pm.current_project():
+            t.test()
+        t.check_gpu_hang()
+        
 
     def shard_caselist(self, caselist_fn, shard):
         if shard == "0":
