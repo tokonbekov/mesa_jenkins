@@ -99,6 +99,7 @@
              bisect_arch="m32,m64">
       <prerequisite name="crucible" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
+      <prerequisite name="piglit" hardware="builder"/>
     </project>
 
     <project name="vulkancts-test" src_dir="vulkancts"
