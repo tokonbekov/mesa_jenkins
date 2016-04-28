@@ -220,7 +220,8 @@ class PiglitTest:
             self.project = "vulkancts-test"
         if first == "piglit" and "-cts" in second:
             self.project = "cts-test"
-        if "gt" in hardware and hardware != "ivbgt1":
+        # only two sku's have sku-specific failures
+        if "gt" in hardware and hardware != "ivbgt1" and hardware != "bdwgt3e":
             hardware = hardware[:3]
 
         self.test_name = ".".join(full_test_name.split(".")[:-1])
