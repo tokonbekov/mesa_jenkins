@@ -418,6 +418,10 @@
       <piglit branch="dcbaker/jenkins"/>
     </branch>
 
+    <branch name="dcbaker_mesa" project="test-single-arch">
+      <mesa branch="dcbaker/jenkins_gl"/>
+    </branch>
+
     <branch name="chadv" project="test-single-arch">
       <mesa branch="origin/10.3"/>
       <waffle branch="chadv/jenkins"/>
