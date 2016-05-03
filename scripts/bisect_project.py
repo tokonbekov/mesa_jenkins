@@ -19,6 +19,8 @@ parser.add_argument("--good_rev", type=str,
                     help="project and rev, eg: mesa=hexsha")
 parser.add_argument('--to', metavar='to', type=str, default="",
                     help='send resulting patch to this email')
+parser.add_argument('--dir', metavar='dir', type=str, default="",
+                    help='directory to bisect in')
 args = parser.parse_args(sys.argv[1:])
 
 # get revisions from out directory
@@ -57,7 +59,10 @@ assert(found)
 
 # retest build, in case expected failures has been updated
 # copy build root to bisect directory
-bisect_dir = results_dir + "/bisect/" + datetime.datetime.now().isoformat()
+bisect_dir = args.dir
+if bisect_dir == "":
+    bisect_dir = results_dir + "/bisect/" + datetime.datetime.now().isoformat()
+
 cmd = ["rsync", "-rlptD", "--exclude", "/*test/", "/".join(dirnames[:-1]) +"/", bisect_dir]
 bs.run_batch_command(cmd)
 
