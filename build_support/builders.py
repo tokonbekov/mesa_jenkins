@@ -474,7 +474,11 @@ class PiglitTester(object):
         # Bug 94490
         if "ivbgt1" in hardware or "hsw" in hardware:
             exclude_tests += ["arb_buffer_storage.bufferstorage-persistent read"]
-        
+
+        # Bug 95343
+        if "ivbgt2" in hardware:
+            exclude_tests += ["piglit.spec.arb_shader_image_load_store.indexing"]
+            
         if "snb" in hardware:
             # hangs snb
             exclude_tests = exclude_tests + ["triangle_strip_adjacency"]
