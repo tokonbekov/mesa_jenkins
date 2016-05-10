@@ -477,7 +477,7 @@ class PiglitTester(object):
 
         # Bug 95343
         if "ivbgt2" in hardware:
-            exclude_tests += ["piglit.spec.arb_shader_image_load_store.indexing"]
+            exclude_tests += ["arb_shader_image_load_store.indexing"]
             
         if "snb" in hardware:
             # hangs snb
