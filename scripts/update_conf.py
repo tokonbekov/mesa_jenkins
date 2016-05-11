@@ -20,6 +20,8 @@ parser.add_argument('--result_path', metavar='result_path', type=str, default=""
                     help='path to build results')
 parser.add_argument('--to', metavar='to', type=str, default="",
                     help='send resulting patch to this email')
+parser.add_argument('--dir', metavar='dir', type=str, default="",
+                    help='directory to bisect in')
 args = parser.parse_args(sys.argv[1:])
 
 # get revisions from out directory
@@ -51,7 +53,9 @@ if not rev_hash.has_key(blame[0]):
 pm = bs.ProjectMap()
 spec_xml = pm.build_spec()
 results_dir = spec_xml.find("build_master").attrib["results_dir"]
-retest_dir = results_dir + "/update/" + datetime.datetime.now().isoformat()
+retest_dir = args.dir
+if retest_dir == "":
+    retest_dir = results_dir + "/update/" + datetime.datetime.now().isoformat()
 
 if rev_hash[blame[0]] == blame[1]:
     # rsync to save build if the blame is the same as the build
