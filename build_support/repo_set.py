@@ -211,7 +211,12 @@ class RepoSet:
             garbage_collection_fail = repo.working_tree_dir + "/.git/gc.log"
             if os.path.exists(garbage_collection_fail):
                 run_batch_command(["rm", "-f", garbage_collection_fail])
-            repo.git.prune()
+            try:
+                repo.git.prune()
+            except Exception as e:
+                print "ERROR: git repo is corrupt, removing: " + repo.working_tree_dir
+                run_batch_command(["rm", "-f", repo.working_tree_dir])
+                raise;
             signal.signal(signal.SIGALRM, signal_handler)
             for remote in repo.remotes:
                 print "fetching " + remote.url
