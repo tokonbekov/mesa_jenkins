@@ -215,7 +215,7 @@ class RepoSet:
                 repo.git.prune()
             except Exception as e:
                 print "ERROR: git repo is corrupt, removing: " + repo.working_tree_dir
-                run_batch_command(["rm", "-f", repo.working_tree_dir])
+                run_batch_command(["rm", "-rf", repo.working_tree_dir])
                 raise;
             signal.signal(signal.SIGALRM, signal_handler)
             for remote in repo.remotes:
