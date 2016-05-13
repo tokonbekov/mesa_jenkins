@@ -1,3 +1,1 @@
-dEQP-VK.api.object_management.multithreaded_per_thread_device
-dEQP-VK.api.object_management.multithreaded_per_thread_resources
-dEQP-VK.api.object_management.multithreaded_shared_resources
+none
