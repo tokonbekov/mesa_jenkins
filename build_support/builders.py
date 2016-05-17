@@ -517,6 +517,10 @@ class PiglitTester(object):
             # jljusten gpu hanger
             exclude_tests += ["arb_compute_shader.zero-dispatch-size"]
 
+        if "bxt" in hardware or "bsw" in hardware:
+            # Bug 95462
+            exclude_tests += ["arb_gpu_shader_fp64"]
+
         exclude_cmd = []
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
