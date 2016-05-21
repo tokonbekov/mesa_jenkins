@@ -21,7 +21,12 @@ if (os.path.exists("/usr/local/bin/chmodtty9.sh")):
 
 o = bs.Options()
 modules = ["gles2", "gles3"]
+excludes = []
 if "skl" in o.hardware or "bdw" in o.hardware or "bsw" in o.hardware:
     modules += ["gles31"]
-bs.build(bs.DeqpBuilder(modules, env=env), time_limit=SlowTimeout())
+    if "daily" != o.type and not o.retest_path:
+        # these tests triple the run-time
+        excludes.append("deqp-gles31.functional.copy_image")
+
+bs.build(bs.DeqpBuilder(modules, excludes=excludes, env=env), time_limit=SlowTimeout())
         

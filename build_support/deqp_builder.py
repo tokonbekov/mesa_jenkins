@@ -98,9 +98,14 @@ class DeqpTrie:
             trie.write_caselist(outfh, group)
             
 class DeqpBuilder:
-    def __init__(self, modules, env=None):
+    def __init__(self, modules, excludes=None, env=None):
         # eg: ["gles2", "gles3"]
         self._modules = modules
+
+        self.excludes = excludes
+        if not excludes:
+            self.excludes = []
+
         o = Options()
         pm = ProjectMap()
         self.build_root = pm.build_root()
@@ -132,7 +137,6 @@ class DeqpBuilder:
     def test(self):
         o = Options()
         pm = ProjectMap()
-        src_dir = pm.project_source_dir(pm.current_project())
         savedir = os.getcwd()
         
         include_tests = []
@@ -254,6 +258,9 @@ class DeqpBuilder:
                "--config", conf_file,
                "-c",
                "--junit_suffix", "." + o.hardware + o.arch]
+
+        for test in self.excludes:
+            cmd += ["--exclude-tests", test]
         
         run_batch_command(cmd + include_tests + suites + [out_dir],
                              env=self.env,
