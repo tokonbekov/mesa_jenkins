@@ -280,7 +280,10 @@
 
     <prerelease repo="ssh://majanes@git-amr-3.devtools.intel.com:29418/otc_gen_graphics-mesa_ci_prerelease.git"/>
 
-    <shaderc repo="git://github.com/jekstrand/shaderc"/>
+    <shaderc repo="git://github.com/jekstrand/shaderc"
+             branch="shaderc/master">
+      <remote name="shaderc" repo="git://github.com/google/shaderc"/>
+    </shaderc>
     
     <gmock repo="git://github.com/google/googlemock"
            branch="release-1.7.0"/>
