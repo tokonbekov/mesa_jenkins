@@ -118,7 +118,7 @@ class BranchSpecification:
                 try:
                     attempt += 1
                     repo.git.reset("--hard")
-                    repo.git.checkout("-f " + branch.branch)
+                    repo.git.checkout(["-f", branch.branch])
                     success = True
                 except:
                     print "Encountered error checking out"
