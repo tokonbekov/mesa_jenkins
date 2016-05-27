@@ -505,6 +505,9 @@ class PiglitTester(object):
             exclude_tests = exclude_tests + ["ext_framebuffer_multisample.no-color"]
             # intermittent, TODO bug
             exclude_tests = exclude_tests + ["arb_tessellation_shader.execution.vs-tes-vertex"]
+            # intermittent, https://bugs.freedesktop.org/show_bug.cgi?id=96248
+            exclude_tests += ["arb_texture_multisample.texelfetch.fs.sampler2dmsarray",
+                              "khr_texture_compression_astc.array-gl"]
 
 
         if "bxt" in hardware:
