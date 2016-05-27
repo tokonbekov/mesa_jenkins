@@ -216,11 +216,15 @@
              
 
     <project name="mesa-perf"/>
-    <project name="perf-run">
+    <project name="xonotic">
+      <prerequisite name="mesa-perf"/>
+    </project>
+    <project name="egypt">
       <prerequisite name="mesa-perf"/>
     </project>
     <project name="perf-all">
-      <prerequisite name="perf-run" hardware="bdw-xonotic,skl-xonotic"/>
+      <prerequisite name="xonotic" hardware="bdwgt3e-01,sklgt2-01"/>
+      <prerequisite name="egypt" hardware="bdwgt3e-02,sklgt2-02"/>
     </project>
     
   </projects>
@@ -310,6 +314,8 @@
       <remote name="khronos" repo="git@gitlab.khronos.org:vulkan/vulkancts.git"/>
     </vulkancts>
     <spirvtools repo="ssh://git@gitlab.khronos.org/spirv/spirv-tools.git"/>
+    <sixonix repo="git://github.com/janesma/sixonix"
+             branch="mesa_ci"/>
   </repos>
 
 

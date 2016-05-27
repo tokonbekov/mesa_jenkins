@@ -338,6 +338,9 @@ class RevisionSpecification:
             project_repo = repo_set.repo(project)
             project_repo.git.checkout(revision)
 
+    def revision(self, project):
+        return self._revisions[project]
+
 class RepoStatus:
     def __init__(self, buildspec=None):
         if not buildspec:

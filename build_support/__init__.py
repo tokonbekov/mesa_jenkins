@@ -51,6 +51,7 @@ from jenkins import *
 from bisect_test import *
 from builders import *
 from deqp_builder import *
+from perf_builder import *
 
 class DefaultTimeout:
     def __init__(self, options=None):
