@@ -240,6 +240,7 @@
       <remote name="tarceri" repo="git://github.com/tarceri/Mesa_arrays_of_arrays"/>
       <remote name="evelikov" repo="git://github.com/evelikov/mesa"/>
       <remote name="sarah" repo="git://people.freedesktop.org/~sarah/mesa"/>
+      <remote name="airlied" repo="git://people.freedesktop.org/~airlied/mesa"/>
     </mesa>
 
     <drm repo="http://anongit.freedesktop.org/git/mesa/drm.git">
@@ -477,6 +478,10 @@
 
     <branch name="tarceri" project="test-single-arch">
       <mesa branch="tarceri/intel_ci"/>
+    </branch>
+
+    <branch name="airlied" project="test-single-arch">
+      <mesa branch="airlied/jenkins"/>
     </branch>
 
     <branch name="tarceri_slow" project="test-single-arch-ben">
