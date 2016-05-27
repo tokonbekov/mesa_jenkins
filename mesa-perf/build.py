@@ -9,19 +9,15 @@ import build_support as bs
 
 class MesaPerf:
     def __init__(self):
-        opts = bs.Options()
+        self.opts = bs.Options()
 
-        if opts.arch == "m32":
-            # only run perf tests on m64
-            print "ERROR: perf not supported for i386"
-            assert(False)
-        if opts.config == 'debug':
+        if self.opts.config == 'debug':
             print "ERROR: perf not supported for debug"
             assert(False)
 
         pm = bs.ProjectMap()
         self._src_dir = pm.project_source_dir("mesa")
-        self._build_dir = "/tmp/build_root/perf/build/"
+        self._build_dir = "/tmp/mesa-perf/build_" + self.opts.arch
 
 
         self._flags = {
@@ -79,7 +75,7 @@ class MesaPerf:
 
         save_dir = os.getcwd()
         for hw in ["skl", "bdw"]:
-            bd = self._build_dir + hw
+            bd = self._build_dir + "/" + hw
             if not os.path.exists(bd):
                 os.makedirs(bd)
             os.chdir(bd)
@@ -93,7 +89,7 @@ class MesaPerf:
             bs.run_batch_command(cmd)
             bs.run_batch_command(["make", "-j", str(bs.cpu_count()),
                                   "install"],
-                                 env={"DESTDIR" : "/tmp/build_root/perf/" + hw} )
+                                 env={"DESTDIR" : "/tmp/build_root/" + self.opts.arch + "/" + hw} )
         os.chdir(save_dir)
         bs.Export().export_perf()
 

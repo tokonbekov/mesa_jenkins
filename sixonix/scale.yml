@@ -1,9 +1,309 @@
 {
 xonotic: {
-  skl: 87.4304194
+  skl: 87.4304194,
+  bdw: 87.4304194
   },
   
+warsow: {
+  skl: 77.8,
+  bdw: 77.8
+  },
+
+valley: {
+  skl: 7.00288,
+  bdw: 7.00288
+  },
+
+fur: {
+  skl: 79.0,
+  bdw: 79.0
+  },
+
+triangle: {
+  skl: 4672.0,
+  bdw: 4672.0
+  },
+  
+plot3d: {
+  skl: 1143.0,
+  bdw: 1143.0
+  },
+  
+heaven: {
+  skl: 7.65905,
+  bdw: 7.65905
+  },
+
 egypt: {
-  skl: 75.44
+  skl: 75.44,
+  bdw: 75.44
+  },
+
+manhattan: {
+  skl: 44.634,
+  bdw: 44.634
+  },
+
+fill: {
+  skl: 30.106,
+  bdw: 30.106
+  },
+
+trex: {
+  skl: 89.262,
+  bdw: 89.262
+  },
+
+egypt_o: {
+  skl: 192.17,
+  bdw: 192.17
+  },
+
+manhattan_o: {
+  skl: 44.634,
+  bdw: 44.634
+  },
+
+fill_o: {
+  skl: 30.106,
+  bdw: 30.106
+  },
+
+trex_o: {
+  skl: 102.825,
+  bdw: 102.825
+  },
+
+
+OglFillPixel: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglFillTexMulti: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglFillTexSingle: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglTexFilterAniso: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglTexFilterTri: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglTexMem128: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglTexMem512: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglGeomPoint: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglGeomTriList: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglGeomTriStrip: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglZBuffer: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglBatch0: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglBatch1: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglBatch2: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglBatch3: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglBatch4: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglBatch5: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglBatch6: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglBatch7: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglVSDiffuse1: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglVSDiffuse8: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglVSTangent: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglVSInstancing: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglPSPhong: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglPSBump2: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglPSBump8: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglPSPom: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglShMapPcf: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglShMapVsm: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglCSCloth: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglCSDof: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+
+OglCSCloth: {
+  skl: 143.707,
+  bdw: 1.0
+  },
+  
+OglCSDof: {
+  skl: 143.707,
+  bdw: 1.0
+  },
+
+OglDeferred: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglDeferredAA: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglHdrBloom: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglMultithread: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglTerrainPanInst: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglTerrainFlyInst: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglTerrainPanTess: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglTerrainFlyTess: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglTerrainPanTess: {
+  skl: 112.1083,
+  bdw: 1.0
+  },
+
+OglTerrainFlyTess: {
+  skl: 112.1083,
+  bdw: 1.0
+  },
+
+OglDrvState: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglDrvShComp: {
+  skl: 1.0,
+  bdw: 1.0
+  },
+  
+OglDrvRes: {
+  skl: 1.0,
+  bdw: 1.0
   }
-  }
+  
+
+}

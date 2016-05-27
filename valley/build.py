@@ -7,5 +7,6 @@ sys.path.append(path.join(path.dirname(path.abspath(sys.argv[0])), ".."))
 import build_support as bs
 
 
-bs.build(bs.PerfBuilder("xonotic", iterations=20))
+bs.build(bs.PerfBuilder("valley", iterations=2,
+                        env={"allow_glsl_extension_directive_midshader":"true"}))
 

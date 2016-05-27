@@ -85,7 +85,7 @@ class Export:
         if not self.result_path:
             return
 
-        perf_path = "/tmp/build_root/perf"
+        perf_path = ProjectMap().build_root()
         if not os.path.exists(perf_path):
             print "ERROR: no results to export"
             return
@@ -99,19 +99,6 @@ class Export:
             run_batch_command(["sync"])
         except subprocess.CalledProcessError as e:
             print "WARN: some errors copying: " + str(e)
-
-        scores_path = perf_path + "/scores"
-        if os.path.exists(scores_path):
-            cmd = ["rsync", "-rlptD",
-                   scores_path, 
-                   self.result_path + "/.."]
-
-        try:
-            run_batch_command(cmd)
-            run_batch_command(["sync"])
-        except subprocess.CalledProcessError as e:
-            print "WARN: some errors copying: " + str(e)
-
 
     def import_build_root(self):
         o = Options()

@@ -214,19 +214,93 @@
       <prerequisite name="clean-workspace" hardware="bdwgt2-01,bdwgt2-02,bdwgt2-03,bdwgt2-04,bdwgt2-05,bdwgt2-06,bdwgt3e-01,bdwgt3e-02,bdwgt3e-03,bdwgt3e-04,bdwgt3e-05,bdwgt3e-06,bsw-01,bsw-02,bsw-03,bsw-04,bsw-05,bsw-06,bsw-07,bsw-08,bsw-09,bsw-10,bxt-02,bxt-03,byt-01,byt-02,byt-03,byt-04,byt-05,byt-06,byt-07,g33-01,g33-02,g33-03,g45-01,g45-02,g965-02,g965-03,hswgt1-01,hswgt1-02,hswgt2-01,hswgt2-02,hswgt2-03,hswgt3e-01,hswgt3e-02,hswgt3e-03,ilk-01,ilk-02,ilk-03,ivbgt1-01,ivbgt1-02,ivbgt2-01,ivbgt2-02,kbl-01,kbl-02,sklgt2-01,sklgt2-02,sklgt2-03,sklgt2-04,sklgt2-05,sklgt2-06,sklgt2-07,snbgt1-01,snbgt1-02,snbgt1-03,snbgt2-01,snbgt2-02"/>
     </project>
              
-
+    <!-- Performance projects BEGIN -->
     <project name="mesa-perf"/>
-    <project name="xonotic">
-      <prerequisite name="mesa-perf"/>
-    </project>
     <project name="egypt">
-      <prerequisite name="mesa-perf"/>
+      <prerequisite name="mesa-perf" hardware="builder"/>
+    </project>
+    <project name="egypt_o">
+      <prerequisite name="mesa-perf" hardware="builder"/>
+    </project>
+    <project name="fill">
+      <prerequisite name="mesa-perf" hardware="builder"/>
+    </project>
+    <project name="fill_o">
+      <prerequisite name="mesa-perf" hardware="builder"/>
+    </project>
+    <project name="fur">
+      <prerequisite name="mesa-perf" hardware="builder"/>
+    </project>
+    <project name="heaven">
+      <prerequisite name="mesa-perf" hardware="builder"/>
+    </project>
+    <project name="manhattan">
+      <prerequisite name="mesa-perf" hardware="builder"/>
+    </project>
+    <project name="manhattan_o">
+      <prerequisite name="mesa-perf" hardware="builder"/>
+    </project>
+    <project name="piglit-test">
+      <prerequisite name="mesa-perf" hardware="builder"/>
+    </project>
+    <project name="plot3d">
+      <prerequisite name="mesa-perf" hardware="builder"/>
+    </project>
+    <project name="scripts">
+      <prerequisite name="mesa-perf" hardware="builder"/>
+    </project>
+    <project name="sixonix">
+      <prerequisite name="mesa-perf" hardware="builder"/>
+    </project>
+    <project name="synmark_a">
+      <prerequisite name="mesa-perf" hardware="builder"/>
+    </project>
+    <project name="synmark_b">
+      <prerequisite name="mesa-perf" hardware="builder"/>
+    </project>
+    <project name="synmark_c">
+      <prerequisite name="mesa-perf" hardware="builder"/>
+    </project>
+    <project name="trex">
+      <prerequisite name="mesa-perf" hardware="builder"/>
+    </project>
+    <project name="trex_o">
+      <prerequisite name="mesa-perf" hardware="builder"/>
+    </project>
+    <project name="triangle">
+      <prerequisite name="mesa-perf" hardware="builder"/>
+    </project>
+    <project name="valley">
+      <prerequisite name="mesa-perf" hardware="builder"/>
+    </project>
+    <project name="warsow">
+      <prerequisite name="mesa-perf" hardware="builder"/>
+    </project>
+    <project name="xonotic">
+      <prerequisite name="mesa-perf" hardware="builder"/>
     </project>
     <project name="perf-all">
-      <prerequisite name="xonotic" hardware="bdwgt3e-01,sklgt2-01"/>
-      <prerequisite name="egypt" hardware="bdwgt3e-02,sklgt2-02"/>
+      <prerequisite name="synmark_a" hardware="sklgt2-01,bdwgt3e-01"/>
+      <prerequisite name="synmark_b" hardware="sklgt2-02,bdwgt3e-02"/>
+      <prerequisite name="warsow" hardware="sklgt2-03,bdwgt3e-03"/>
+      <prerequisite name="synmark_c" hardware="sklgt2-04,bdwgt3e-04"/>
+      <prerequisite name="heaven" hardware="sklgt2-05,bdwgt3e-05"/>
+      <prerequisite name="fill" hardware="sklgt2-06,bdwgt3e-01"/>
+      <prerequisite name="trex" hardware="sklgt2-07,bdwgt3e-02"/>
+      <prerequisite name="manhattan" hardware="sklgt2-07,bdwgt3e-03"/>
+      <prerequisite name="valley" hardware="sklgt2-06,bdwgt3e-04"/>
+      <prerequisite name="trex_o" hardware="sklgt2-05,bdwgt3e-05"/>
+      <prerequisite name="fill_o" hardware="sklgt2-04,bdwgt3e-01"/>
+      <prerequisite name="xonotic" hardware="sklgt2-03,bdwgt3e-02"/>
+      <prerequisite name="manhattan_o" hardware="sklgt2-02,bdwgt3e-03"/>
+      <prerequisite name="plot3d" hardware="sklgt2-01,bdwgt3e-04"/>
+      <prerequisite name="triangle" hardware="sklgt2-01,bdwgt3e-05"/>
+      <prerequisite name="fur" hardware="sklgt2-02,bdwgt3e-01"/>
+      <prerequisite name="egypt" hardware="sklgt2-03,bdwgt3e-02"/>
+      <prerequisite name="egypt_o" hardware="sklgt2-04,bdwgt3e-03"/>
     </project>
-    
+    <!-- Performance projects END -->
+
   </projects>
 
   <!-- the following servers and remotes correspond to projects -->
@@ -370,6 +444,10 @@
       <glslang/>
     </branch>
 
+    <branch name="mesa_perf" project="perf-all">
+      <sixonix branch="origin/mesa_ci" trigger="false"/>
+    </branch>
+    
     <branch name="bwidawsk_vulkan" project="vulkancts-full">
       <mesa branch="vulkan/bwidawsk"/>
       <vulkancts branch="khronos/vulkan-cts-1.0" trigger="false"/>
