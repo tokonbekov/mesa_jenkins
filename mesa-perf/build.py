@@ -95,6 +95,7 @@ class MesaPerf:
                                   "install"],
                                  env={"DESTDIR" : "/tmp/build_root/perf/" + hw} )
         os.chdir(save_dir)
+        bs.Export().export_perf()
 
     def clean(self):
         pm = bs.ProjectMap()

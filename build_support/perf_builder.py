@@ -2,7 +2,7 @@
 import datetime
 import os
 import yaml
-from . import ProjectMap, Options, RevisionSpecification, run_batch_command
+from . import ProjectMap, Options, RevisionSpecification, run_batch_command, Export
 
 class PerfBuilder(object):
     def __init__(self, benchmark):
@@ -39,6 +39,7 @@ class PerfBuilder(object):
         with open(outf, 'w') as of:
             yaml.dump(result, stream=of)
                 
+        Export().export_perf()
 
     def clean(self):
         pass
