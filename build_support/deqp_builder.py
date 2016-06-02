@@ -332,7 +332,7 @@ class DeqpBuilder:
         t = PiglitTester(piglit_test="spec.ext.framebuffer.object.getteximage-formats.init-by-clear-and-render.arch")
         if "vulkancts" in pm.current_project():
             t.test()
-        t.check_gpu_hang()
+        check_gpu_hang()
         
 
     def shard_caselist(self, caselist_fn, shard):
