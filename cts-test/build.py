@@ -2,6 +2,7 @@
 
 import os
 import sys
+import re
 import xml.etree.ElementTree  as ET
 
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
@@ -156,6 +157,25 @@ class CtsBuilder:
                         # a test may match more than one revision
                         # encoded in a comment
                         break
+
+            # strip unneeded output from passing tests
+            for apass in a_suite.findall("testcase"):
+                if apass.attrib["status"] != "pass":
+                    continue
+                out_tag = apass.find("system-out")
+                if out_tag is not None:
+                    apass.remove(out_tag)
+                err_tag = apass.find("system-err")
+                if err_tag is not None and err_tag.text is not None:
+                    found = False
+                    for a_line in err_tag.text.splitlines():
+                        m = re.match("pid: ([0-9]+)", a_line)
+                        if m is not None:
+                            found = True
+                            err_tag.text = a_line
+                            break
+                    if not found:
+                        apass.remove(err_tag)
                 
         t.write(outfile)
 
