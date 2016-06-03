@@ -79,6 +79,10 @@ class CtsBuilder:
         if "11.1" in mesa_version or "11.0" in mesa_version:
             extra_excludes += ["--exclude-tests", "es31-cts"]
 
+        if "snb" in o.hardware:
+            # bug 96346
+            extra_excludes += ["es2-cts.gtf.gl.atan"]
+
         suite_name = "cts_gles"
         piglit_cts_runner = pm.project_source_dir("piglit") + "/tests/cts_gles.py"
         if not os.path.exists(piglit_cts_runner):
