@@ -628,6 +628,8 @@ class PiglitTester(object):
             for apass in a_suite.findall("testcase"):
                 if apass.attrib["status"] != "pass":
                     continue
+                if apass.find("failure") is not None:
+                    continue
                 out_tag = apass.find("system-out")
                 if out_tag is not None:
                     apass.remove(out_tag)
