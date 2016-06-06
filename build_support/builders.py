@@ -479,10 +479,6 @@ class PiglitTester(object):
             # hangs snb
             exclude_tests = exclude_tests + ["triangle_strip_adjacency"]
             
-        if "hsw" in hardware:
-            # Bug 94255
-            exclude_tests += ["arb_compute_shader.execution.shared-atomics"]
-
         if "g965" in hardware:
             # intermittent GPU hang on g965
             exclude_tests = exclude_tests + ["arb_shader_texture_lod.execution.tex-miplevel-selection",
