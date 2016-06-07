@@ -246,6 +246,7 @@ class DeqpBuilder:
         # performance penalty.  This setting is required to pass
         # several dEQP and vulkan tests.
         self.env["INTEL_PRECISE_TRIG"] = "1"
+        self.env["precise_trig"] = "true"
         
         out_dir = self.build_root + "/test/" + o.hardware
 
