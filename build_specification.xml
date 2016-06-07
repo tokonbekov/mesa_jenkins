@@ -355,6 +355,11 @@
       <piglit branch="janesma/11_2_jenkins" trigger="false"/>
     </branch>
 
+    <branch name="mesa_12.0" project="all-test">
+      <mesa branch="origin/12.0"/>
+      <piglit branch="janesma/12_0_jenkins" trigger="false"/>
+    </branch>
+
     <branch name="vulkancts" project="vulkancts-full">
       <mesa/>
       <vulkancts branch="khronos/vulkan-cts-1.0"/>
