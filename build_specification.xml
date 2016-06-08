@@ -251,7 +251,7 @@
       <remote name="chadv" repo="git://github.com/chadversary/mesa"/>
       <remote name="tarceri" repo="git://github.com/tarceri/Mesa_arrays_of_arrays"/>
       <remote name="evelikov" repo="git://github.com/evelikov/mesa"/>
-      <remote name="sarah" repo="git://people.freedesktop.org/~sarah/mesa"/>
+      <remote name="juhapekka" repo="git://github.com/juhapekka/juha_mesaexperimentals"/>
       <remote name="airlied" repo="git://people.freedesktop.org/~airlied/mesa"/>
     </mesa>
 
@@ -515,8 +515,8 @@
 
     <branch name="nir_test_clone" project="test-single-arch"/>
 
-    <branch name="sarah" project="test-single-arch">
-      <mesa branch="sarah/jenkins"/>
+    <branch name="juhapekka" project="test-single-arch">
+      <mesa branch="juhapekka/jenkins"/>
     </branch>
 
   </branches>
