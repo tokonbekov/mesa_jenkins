@@ -337,7 +337,6 @@
       <drm/>
       <deqp/>
       <cts/>
-      <deqp branch="origin/context31"/>
       <prerelease trigger="false"/>
     </branch>
 
