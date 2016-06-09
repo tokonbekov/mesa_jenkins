@@ -398,7 +398,7 @@ class DeqpBuilder:
                     for tag in afail.findall("failure"):
                         afail.remove(tag)
                 # strip out any failure where a gles3.1 context could not be created.
-                if "Warning: Unable to create native OpenGL ES 3.1 context, will use wrapper context." in stdout.txt:
+                if "Warning: Unable to create native OpenGL ES 3.1 context, will use wrapper context." in stdout.text:
                     stdout.text = stdout.text + "\nWARN: Intel CI ignores failures due to dEQP bugs (fdo 95299)\n"
                     for tag in afail.findall("failure"):
                         afail.remove(tag)
