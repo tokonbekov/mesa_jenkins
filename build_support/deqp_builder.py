@@ -391,7 +391,7 @@ class DeqpBuilder:
                 stdout = afail.find("system-out")
                 if stdout is None:
                     continue
-                if not stdout.txt:
+                if not stdout.text:
                     continue
                 if "Suspicious performance behavior" in stdout.text:
                     stdout.text = stdout.text + "WARN: Intel CI ignores performance failure"
