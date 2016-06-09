@@ -391,8 +391,15 @@ class DeqpBuilder:
                 stdout = afail.find("system-out")
                 if stdout is None:
                     continue
-                if stdout.text and "Suspicious performance behavior" in stdout.text:
+                if not stdout.txt:
+                    continue
+                if "Suspicious performance behavior" in stdout.text:
                     stdout.text = stdout.text + "WARN: Intel CI ignores performance failure"
+                    for tag in afail.findall("failure"):
+                        afail.remove(tag)
+                # strip out any failure where a gles3.1 context could not be created.
+                if "Warning: Unable to create native OpenGL ES 3.1 context, will use wrapper context." in stdout.txt:
+                    stdout.text = stdout.text + "\nWARN: Intel CI ignores failures due to dEQP bugs (fdo 95299)\n"
                     for tag in afail.findall("failure"):
                         afail.remove(tag)
 
