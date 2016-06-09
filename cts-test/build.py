@@ -28,7 +28,7 @@ class CtsBuilder:
                      # forces deqp to run headless
                      "EGL_PLATFORM" : "surfaceless"}
 
-        if ("hsw" in o.hardware):
+        if ("hsw" in o.hardware or "ivb" in o.hardware or "byt" in o.hardware):
             self.env["MESA_GLES_VERSION_OVERRIDE"] = "3.1"
             
         o.update_env(self.env)
@@ -74,9 +74,7 @@ class CtsBuilder:
             extra_excludes += ["--exclude-tests", "es3-cts",
                                "--exclude-tests", "es31-cts"]
 
-        if ("snb" in o.hardware or
-            "ivb" in o.hardware or
-            "byt" in o.hardware):
+        if ("snb" in o.hardware):
             extra_excludes += ["--exclude-tests", "es31-cts"]
 
         if "11.1" in mesa_version or "11.0" in mesa_version:
