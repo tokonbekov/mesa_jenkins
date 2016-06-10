@@ -373,6 +373,8 @@ class PiglitTester(object):
                 'PATH': '{}:{}'.format(os.path.join(self.build_root, 'bin'),
                                        os.environ['PATH']),
         }
+        if "hsw" in o.hardware or "byt" in o.hardware or "ivb" in o.hardware:
+            self.env["MESA_GLES_VERSION_OVERRIDE"] = "3.1"
 
     def test(self):
         pm = ProjectMap()
