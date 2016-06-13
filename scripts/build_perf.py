@@ -75,6 +75,9 @@ def main():
                      revspec=revspec)
 
     depGraph = bs.DependencyGraph(projects, o)
+    for i in depGraph.all_builds():
+        if i.project != "mesa-perf":
+            i.set_info("status", "rebuild")
 
     # use a global, so signal handler can abort builds when scheduler
     # is interrupted

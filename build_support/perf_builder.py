@@ -16,23 +16,24 @@ class PerfBuilder(object):
         self._discard = discard
         self._pm = ProjectMap()
         self._env = env
+        self._opt = Options()
         if self._env is None:
             self._env = {}
 
     def build(self):
         # todo(majanes) possibly verify that benchmarks are in /opt
         pass
+
     def test(self):
-        o = Options()
         iterations = self._iterations
         if self._opt.type == "daily":
             iterations *= 5
         save_dir = os.getcwd()
-        if o.hardware == "builder":
+        if self._opt.hardware == "builder":
             print "ERROR: hardware must be set to a specific sku.  'builder' is not a valid hardware setting."
             assert(False)
-        hw = o.hardware[:3]
-        mesa_dir = "/tmp/build_root/" + o.arch + "/" + hw + "/usr/local/lib"
+        hw = self._opt.hardware[:3]
+        mesa_dir = "/tmp/build_root/" + self._opt.arch + "/" + hw + "/usr/local/lib"
         os.chdir(self._pm.project_source_dir("sixonix"))
         env = self._env
         if (os.path.exists("/usr/local/bin/chmodtty9.sh")):
@@ -98,7 +99,7 @@ class PerfBuilder(object):
                 print "ERROR: failed to find scale for " + benchmark
                 continue
             result[benchmark] = {hw: {"mesa=" + r: [{"score": scores[b[-1]], "scale": scale}]}}
-            out_dir = "/tmp/build_root/" + o.arch + "/scores/" + benchmark + "/" + hw
+            out_dir = "/tmp/build_root/" + self._opt.arch + "/scores/" + benchmark + "/" + hw
             if not os.path.exists(out_dir):
                 os.makedirs(out_dir)
             outf = out_dir + "/" + datetime.datetime.now().isoformat() + ".json"

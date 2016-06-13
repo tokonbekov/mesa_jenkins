@@ -74,6 +74,12 @@ class DependencyGraph:
 
         return ret_list
 
+    def all_builds(self):
+        ret_list = []
+        for k in self._dependency_graph.keys():
+            ret_list.append(ProjectInvoke(from_string=k))
+        return ret_list
+
     def build_complete(self, build):
         """notifies the DependencyGraph that a build has completed.
         Makes other builds available via ready_builds"""
