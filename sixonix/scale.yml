@@ -1,309 +1,57 @@
-{
-xonotic: {
-  skl: 87.4304194,
-  bdw: 87.4304194
-  },
-  
-warsow: {
-  skl: 77.8,
-  bdw: 77.8
-  },
-
-valley: {
-  skl: 7.00288,
-  bdw: 7.00288
-  },
-
-fur: {
-  skl: 79.0,
-  bdw: 79.0
-  },
-
-triangle: {
-  skl: 4672.0,
-  bdw: 4672.0
-  },
-  
-plot3d: {
-  skl: 1143.0,
-  bdw: 1143.0
-  },
-  
-heaven: {
-  skl: 7.65905,
-  bdw: 7.65905
-  },
-
-egypt: {
-  skl: 75.44,
-  bdw: 75.44
-  },
-
-manhattan: {
-  skl: 44.634,
-  bdw: 44.634
-  },
-
-fill: {
-  skl: 30.106,
-  bdw: 30.106
-  },
-
-trex: {
-  skl: 89.262,
-  bdw: 89.262
-  },
-
-egypt_o: {
-  skl: 192.17,
-  bdw: 192.17
-  },
-
-manhattan_o: {
-  skl: 44.634,
-  bdw: 44.634
-  },
-
-fill_o: {
-  skl: 30.106,
-  bdw: 30.106
-  },
-
-trex_o: {
-  skl: 102.825,
-  bdw: 102.825
-  },
-
-
-OglFillPixel: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglFillTexMulti: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglFillTexSingle: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglTexFilterAniso: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglTexFilterTri: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglTexMem128: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglTexMem512: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglGeomPoint: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglGeomTriList: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglGeomTriStrip: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglZBuffer: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglBatch0: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglBatch1: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglBatch2: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglBatch3: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglBatch4: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglBatch5: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglBatch6: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglBatch7: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglVSDiffuse1: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglVSDiffuse8: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglVSTangent: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglVSInstancing: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglPSPhong: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglPSBump2: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglPSBump8: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglPSPom: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglShMapPcf: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglShMapVsm: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglCSCloth: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglCSDof: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-
-OglCSCloth: {
-  skl: 143.707,
-  bdw: 1.0
-  },
-  
-OglCSDof: {
-  skl: 143.707,
-  bdw: 1.0
-  },
-
-OglDeferred: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglDeferredAA: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglHdrBloom: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglMultithread: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglTerrainPanInst: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglTerrainFlyInst: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglTerrainPanTess: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglTerrainFlyTess: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglTerrainPanTess: {
-  skl: 112.1083,
-  bdw: 1.0
-  },
-
-OglTerrainFlyTess: {
-  skl: 112.1083,
-  bdw: 1.0
-  },
-
-OglDrvState: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglDrvShComp: {
-  skl: 1.0,
-  bdw: 1.0
-  },
-  
-OglDrvRes: {
-  skl: 1.0,
-  bdw: 1.0
-  }
-  
-
-}
+OglBatch0: {bdw: 491.2106, skl: 325.21180000000004}
+OglBatch1: {bdw: 494.94759999999997, skl: 325.92060000000004}
+OglBatch2: {bdw: 498.13680000000005, skl: 321.91790000000003}
+OglBatch3: {bdw: 488.8205, skl: 321.90060000000005}
+OglBatch4: {bdw: 484.3134, skl: 308.14099999999996}
+OglBatch5: {bdw: 471.57970000000006, skl: 260.37460000000004}
+OglBatch6: {bdw: 163.85170000000002, skl: 142.29410000000001}
+OglBatch7: {bdw: 45.50622, skl: 43.89151}
+OglCSCloth: {bdw: 453.6227999999999, skl: 300.1476}
+OglCSDof: {bdw: 22.48237, skl: 12.713449999999998}
+OglDeferred: {bdw: 86.8745, skl: 50.78119}
+OglDeferredAA: {bdw: 23.66991333333333, skl: 19.350393333333333}
+OglDrvRes: {bdw: 83.53000999999999, skl: 65.12239}
+OglDrvShComp: {bdw: 2.4085039999999998, skl: 2.805017}
+OglDrvState: {bdw: 21.36418, skl: 24.639300000000002}
+OglFillPixel: {bdw: 21.4897, skl: 22.78585}
+OglFillTexMulti: {bdw: 153.7835, skl: 82.84364000000001}
+OglFillTexSingle: {bdw: 20.622130000000002, skl: 22.979969999999998}
+OglGeomPoint: {bdw: 213.55990000000003, skl: 178.027}
+OglGeomTriList: {bdw: 249.99750000000003, skl: 227.72709999999998}
+OglGeomTriStrip: {bdw: 318.2579333333333, skl: 231.41566666666668}
+OglHdrBloom: {bdw: 115.89090000000002, skl: 62.44646}
+OglMultithread: {bdw: 17.3049, skl: 15.347010000000001}
+OglPSBump2: {bdw: 667.6482, skl: 315.6394666666667}
+OglPSBump8: {bdw: 352.20186666666666, skl: 166.66500000000002}
+OglPSPhong: {bdw: 368.054, skl: 173.1940666666667}
+OglPSPom: {bdw: 138.75926666666663, skl: 68.69891333333335}
+OglShMapPcf: {bdw: 235.5006, skl: 103.55506666666666}
+OglShMapVsm: {bdw: 312.5784, skl: 145.6268}
+OglTerrainFlyInst: {bdw: 194.927, skl: 113.718}
+OglTerrainFlyTess: {bdw: 187.59589999999997, skl: 102.979}
+OglTerrainPanInst: {bdw: 170.35520000000002, skl: 130.752}
+OglTerrainPanTess: {bdw: 179.4206, skl: 123.03800000000001}
+OglTexFilterAniso: {bdw: 51.85623999999999, skl: 27.951766666666664}
+OglTexFilterTri: {bdw: 84.22522, skl: 63.965366666666675}
+OglTexMem128: {bdw: 68.85731333333334, skl: 73.48197333333334}
+OglTexMem512: {bdw: 10.630806666666668, skl: 20.39114}
+OglVSDiffuse1: {bdw: 423.9778666666667, skl: 263.3503333333333}
+OglVSDiffuse8: {bdw: 369.4952666666667, skl: 263.17553333333336}
+OglVSInstancing: {bdw: 69.23218999999999, skl: 66.73554}
+OglVSTangent: {bdw: 365.1938, skl: 263.12430000000006}
+OglZBuffer: {bdw: 140.7707, skl: 121.06390000000002}
+egypt: {bdw: 178.20350000000002, skl: 117.93250000000002}
+egypt_o: {bdw: 295.853, skl: 224.25900000000001}
+fill: {bdw: 29.3419625, skl: 28.889549999999996}
+fill_o: {bdw: 31.34982, skl: 29.28862}
+fur: {bdw: 148.48, skl: 114.98}
+heaven: {bdw: 7.499041000000001, skl: 8.316162}
+manhattan: {bdw: 68.43474666666667, skl: 44.65033333333333}
+manhattan_o: {bdw: 78.59074285714287, skl: 58.276942857142856}
+plot3d: {bdw: 1083.5, skl: 1154.28}
+trex: {bdw: 143.2912133333333, skl: 97.99561333333334}
+trex_o: {bdw: 96.53212000000002, skl: 121.50605999999999}
+triangle: {bdw: 6589.04, skl: 4161.36}
+valley: {bdw: 10.98831, skl: 7.285016000000001}
+warsow: {bdw: 138.69466666666668, skl: 80.14000000000001}
+xonotic: {bdw: 233.202263294, skl: 159.629855931}
