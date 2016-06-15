@@ -25,6 +25,9 @@ class ShadercBuilder(object):
         spirv = self._src_dir + "/third_party/spirv-tools"
         if not os.path.exists(spirv):
             os.symlink("../../spirvtools", spirv)
+        spirvheaders = self._src_dir + "/third_party/spirv-tools/external/spirv-headers"
+        if not os.path.exists(spirvheaders):
+            os.symlink("../../spirvheaders", spirvheaders)
 
         if not os.path.exists(self._build_dir):
             os.makedirs(self._build_dir)

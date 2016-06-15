@@ -314,6 +314,7 @@
       <remote name="khronos" repo="git@gitlab.khronos.org:vulkan/vulkancts.git"/>
     </vulkancts>
     <spirvtools repo="ssh://git@gitlab.khronos.org/spirv/spirv-tools.git"/>
+    <spirvheaders repo="git://github.com/KhronosGroup/SPIRV-Headers"/>
     <sixonix repo="git://github.com/janesma/sixonix"
              branch="mesa_ci"/>
   </repos>
