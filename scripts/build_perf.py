@@ -1,6 +1,8 @@
 import argparse
 import datetime
+import git
 import os
+import random
 import sys
 import time
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
@@ -41,11 +43,20 @@ def main():
     bs.rmtree(pm.source_root() + "/test_summary.txt")
 
     # checkout the desired revision on top of recent revisions
-    bspec.checkout("mesa_master")
-    revspec = None
-    if (revision):
-        revspec = bs.RevisionSpecification(from_cmd_line=revision.split())
-        revspec.checkout()
+    if not revision:
+        # randomly select a commit post 11.2
+        mesa_repo = git.Repo(bs.ProjectMap().project_source_dir("mesa"))
+        branch_commit = mesa_repo.tags["11.2-branchpoint"].commit.hexsha
+        commits = []
+        for commit in mesa_repo.iter_commits('origin/master', max_count=8000):
+            if commit.hexsha == branch_commit:
+                break
+            commits.append(commit.hexsha)
+        revision = "mesa=" + str(commits[int(random.random() * len(commits))])
+        
+    bspec.checkout("mesa_perf")
+    revspec = bs.RevisionSpecification(from_cmd_line=revision.split())
+    revspec.checkout()
 
     revspec = bs.RevisionSpecification()
     hashstr = "mesa=" + revspec.revision("mesa")
@@ -56,13 +67,6 @@ def main():
     results_dir = spec_xml.find("build_master").attrib["results_dir"]
     result_path = "/".join([results_dir, "perf", hashstr])
     o.result_path = result_path
-
-    for a_perf_dir in ["egypt", "xonotic"]:
-        # remove prior build status files.  We want to rebuild perf
-        # results by default
-        status_dir = result_path + "/" + a_perf_dir
-        if (os.path.exists(status_dir)):
-            bs.rmtree(status_dir)
 
     if not projects:
         projects = ["perf-all"]
