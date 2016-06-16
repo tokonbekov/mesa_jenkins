@@ -16,7 +16,7 @@
     <maxNumRetries>0</maxNumRetries>
     <retryWaitTime>0</retryWaitTime>
   </launcher>
-  <label>snbgt1</label>
+  <label>snbgt1 snb</label>
   <nodeProperties/>
   <userId>dcbaker</userId>
 </slave>
