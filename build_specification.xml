@@ -253,6 +253,7 @@
       <remote name="evelikov" repo="git://github.com/evelikov/mesa"/>
       <remote name="juhapekka" repo="git://github.com/juhapekka/juha_mesaexperimentals"/>
       <remote name="airlied" repo="git://people.freedesktop.org/~airlied/mesa"/>
+      <remote name="pnmanolova" repo="git://github.com/pnmanolova/mesa"/>
     </mesa>
 
     <drm repo="http://anongit.freedesktop.org/git/mesa/drm.git">
@@ -517,6 +518,10 @@
 
     <branch name="juhapekka" project="test-single-arch">
       <mesa branch="juhapekka/jenkins"/>
+    </branch>
+
+    <branch name="pnmanolova" project="test-single-arch">
+      <mesa branch="pnmanolova/jenkins"/>
     </branch>
 
   </branches>
