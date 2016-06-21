@@ -240,9 +240,6 @@
     <project name="manhattan_o">
       <prerequisite name="mesa-perf" hardware="builder"/>
     </project>
-    <project name="piglit-test">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
     <project name="plot3d">
       <prerequisite name="mesa-perf" hardware="builder"/>
     </project>
