@@ -15,11 +15,10 @@ class SlowTimeout:
     def GetDuration(self):
         return 500
 
-env = {}
-if (os.path.exists("/usr/local/bin/chmodtty9.sh")):
-    env["DISPLAY"] = ":9"
-
 o = bs.Options()
+
+env = {}
+o.update_env(env)
 
 if "hsw" in o.hardware or "byt" in o.hardware or "ivb" in o.hardware:
     env["MESA_GLES_VERSION_OVERRIDE"] = "3.1"

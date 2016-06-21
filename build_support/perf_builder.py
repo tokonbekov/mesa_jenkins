@@ -19,6 +19,7 @@ class PerfBuilder(object):
         self._opt = Options()
         if self._env is None:
             self._env = {}
+        self._opt.update_env(self._env)
 
     def build(self):
         # todo(majanes) possibly verify that benchmarks are in /opt
@@ -35,10 +36,8 @@ class PerfBuilder(object):
         hw = self._opt.hardware[:3]
         mesa_dir = "/tmp/build_root/" + self._opt.arch + "/" + hw + "/usr/local/lib"
         os.chdir(self._pm.project_source_dir("sixonix"))
-        env = self._env
-        if (os.path.exists("/usr/local/bin/chmodtty9.sh")):
-            env["DISPLAY"] = ":9"
 
+        env = self._env
         # set the resolution to 1080p
         (out, _) = run_batch_command(["xrandr"],
                                      streamedOutput=False,
