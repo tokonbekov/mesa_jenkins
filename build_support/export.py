@@ -41,20 +41,25 @@ class Export:
     def __init__(self):
         # todo: provide wildcard mechanism
         self.result_path = Options().result_path
+        self.rsyncd_path = None
         if not self.result_path:
             return
 
         if not os.path.exists(self.result_path):
             os.makedirs(self.result_path)
+            run_batch_command(["sync"])
+
+        self._dest = self.result_path
+        if self.result_path.startswith("/mnt/jenkins/"):
+            self.rsyncd_path = self.result_path.replace("/mnt/jenkins/", "otc-mesa-ci.local::nfs/")
+            self._dest = self.rsyncd_path
 
     def export(self):
         if not self.result_path:
             return
-        if not os.path.exists(self.result_path):
-            os.makedirs(self.result_path)
 
-        cmd = ["rsync", "-rlptD",
-               ProjectMap().build_root(), self.result_path]
+        cmd = ["rsync", "-rlpzD",
+               ProjectMap().build_root(), self._dest]
 
         try:
             run_batch_command(cmd)
@@ -71,13 +76,12 @@ class Export:
         if not os.path.exists(test_path):
             os.makedirs(test_path)
 
-        cmd = ["rsync", "-rlptD",
+        cmd = ["rsync", "-rlpzD",
                test_path, 
-               self.result_path]
+               self._dest]
 
         try:
             run_batch_command(cmd)
-            run_batch_command(["sync"])
         except subprocess.CalledProcessError as e:
             print "WARN: some errors copying: " + str(e)
 
@@ -90,13 +94,12 @@ class Export:
             print "ERROR: no results to export"
             return
 
-        cmd = ["rsync", "-rlptD", "--exclude=build",
+        cmd = ["rsync", "-rlpzD", "--exclude=build",
                perf_path, 
-               self.result_path]
+               self._dest]
 
         try:
             run_batch_command(cmd)
-            run_batch_command(["sync"])
         except subprocess.CalledProcessError as e:
             print "WARN: some errors copying: " + str(e)
 
@@ -116,8 +119,8 @@ class Export:
         if not os.path.exists(br):
             os.makedirs(br)
 
-        cmd = ["rsync", "-rlptD", 
-               result_path, br]
+        cmd = ["rsync", "-rlpzD", 
+               self._dest + "/" + o.arch, br]
 
         # don't want to confuse test results with any preexisting
         # files in the build root.
