@@ -13,6 +13,14 @@ class SynmarkTimeout:
             return 120
         return 30
 
+def iterations(bench, hw):
+    if bench == "OglHdrBloom":
+        if hw == "skl":
+            return 4
+    if bench == "OglVSTangent":
+        if hw == "bdw":
+            return 4
+
 high_variance_benchmarks = ["OglFillTexSingle",
                             "OglBatch3",
                             "OglDeferred",
@@ -28,5 +36,6 @@ high_variance_benchmarks = ["OglFillTexSingle",
                             "OglFillPixel",
                             "OglGeomTriList"]
 
-bs.build(bs.PerfBuilder("synmark_long", high_variance_benchmarks, iterations=2),
+bs.build(bs.PerfBuilder("synmark_long", high_variance_benchmarks, iterations=2,
+                        custom_iterations_fn=iterations),
          time_limit=SynmarkTimeout())

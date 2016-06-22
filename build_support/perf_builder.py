@@ -7,7 +7,8 @@ import random
 from . import ProjectMap, Options, RevisionSpecification, run_batch_command, Export, check_gpu_hang
 
 class PerfBuilder(object):
-    def __init__(self, benchmark, sub_benchmarks=None, iterations=2, discard=0, env=None):
+    def __init__(self, benchmark, sub_benchmarks=None, iterations=2, discard=0,
+                 env=None, custom_iterations_fn=None):
         self._benchmark = benchmark
         self._sub_benchmarks = sub_benchmarks
         if not sub_benchmarks:
@@ -20,6 +21,7 @@ class PerfBuilder(object):
         if self._env is None:
             self._env = {}
         self._opt.update_env(self._env)
+        self._custom_iterations_fn = custom_iterations_fn
 
     def build(self):
         # todo(majanes) possibly verify that benchmarks are in /opt
@@ -27,8 +29,6 @@ class PerfBuilder(object):
 
     def test(self):
         iterations = self._iterations
-        if self._opt.type == "daily":
-            iterations *= 5
         save_dir = os.getcwd()
         if self._opt.hardware == "builder":
             print "ERROR: hardware must be set to a specific sku.  'builder' is not a valid hardware setting."
@@ -49,7 +49,6 @@ class PerfBuilder(object):
                 continue
             run_batch_command(["xrandr", "--output", words[0], "--mode", "1920x1080"],
                               quiet=True, streamedOutput=False, env=env)
-            break
         
         (out, _) = run_batch_command(["xdpyinfo"],
                                      quiet=True,
@@ -69,20 +68,32 @@ class PerfBuilder(object):
         if self._sub_benchmarks:
             benchmarks = [[self._benchmark.upper(), b] for b in self._sub_benchmarks]
         scores = dict([[b[-1],[]] for b in benchmarks])
-                
-        for iteration in range(0,iterations):
-            random.shuffle(benchmarks)
-            for b in benchmarks:
-                cmd = ["./glx.sh", mesa_dir] + b
-                print " ".join(cmd)
-                (out, err) = run_batch_command(cmd, streamedOutput=False, env=env)
-                if err:
-                    print "err: " + err
-                if iteration >= self._discard:
-                    if not out:
-                        print "ERROR: no score: " + b[-1]
-                        continue
-                    scores[b[-1]].append(float(out.splitlines()[-1]))
+
+        # build a list of each benchmark to run
+        bench_runs = []
+        iterations = self._iterations
+        it_multiplier = 1
+        if self._opt.type == "daily":
+            it_multiplier = 5
+        for b in benchmarks:
+            if self._custom_iterations_fn:
+                iterations = self._custom_iterations_fn(b[-1], hw) or iterations
+            bench_runs += [b] * iterations * it_multiplier
+
+        random.shuffle(bench_runs)
+        iteration = 0
+        for b in bench_runs:
+            cmd = ["./glx.sh", mesa_dir] + b
+            print " ".join(cmd)
+            (out, err) = run_batch_command(cmd, streamedOutput=False, env=env)
+            if err:
+                print "err: " + err
+            if iteration >= self._discard:
+                if not out:
+                    print "ERROR: no score: " + b[-1]
+                    continue
+                scores[b[-1]].append(float(out.splitlines()[-1]))
+            iteration += 1
 
         os.chdir(save_dir)
         for b in benchmarks:

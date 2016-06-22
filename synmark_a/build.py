@@ -13,6 +13,27 @@ class SynmarkTimeout:
             return 120
         return 30
 
+def iterations(bench, hw):
+    if bench == "OglBatch5":
+        if hw == "skl":
+            return 4
+    if bench == "OglBatch6":
+        return 4
+    if bench == "OglBatch7":
+        return 4
+    if bench == "OglDrvRes":
+        if hw == "skl":
+            return 3
+    if bench == "OglDrvState":
+        return 4
+    if bench == "OglTerrainFlyInst":
+        if hw == "skl":
+            return 3
+    if bench == "OglZBuffer":
+        if hw == "bdw":
+            return 3
+    
+    
 high_variance_benchmarks = ["OglVSInstancing",
                             "OglTerrainFlyInst",
                             "OglMultithread",
@@ -28,6 +49,7 @@ high_variance_benchmarks = ["OglVSInstancing",
                             "OglZBuffer",
                             "OglBatch2"]
 
-bs.build(bs.PerfBuilder("synmark_long", high_variance_benchmarks, iterations=2),
+bs.build(bs.PerfBuilder("synmark_long", high_variance_benchmarks, iterations=2,
+                        custom_iterations_fn=iterations),
          time_limit=SynmarkTimeout())
 

@@ -13,6 +13,21 @@ class SynmarkTimeout:
             return 120
         return 30
 
+def iterations(bench, hw):
+    if bench == "OglTexFilterAniso":
+        if hw == "bdw":
+            return 4
+    if bench == "OglTexFilterTri":
+        if hw == "bdw":
+            return 5
+    if bench == "OglTexMem128":
+        if hw == "bdw":
+            return 4
+    if bench == "OglVSDiffuse8":
+        if hw == "bdw":
+            return 4
+    
+
 low_variance_benchmarks = ["OglPSBump8",
                            "OglDeferredAA",
                            "OglTexMem128",
