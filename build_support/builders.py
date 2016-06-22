@@ -455,6 +455,18 @@ class PiglitTester(object):
         # intermittent on at least snbgt1
         exclude_tests = ["glsl-1_10.execution.vs-vec2-main-return"]
 
+        # broken egl tests require X, and intermittently pass when run concurrently
+        exclude_tests += ["spec.egl.1_4.eglquerysurface.egl",
+                          "spec.egl_ext_client_extensions.conformance",
+                          "spec.egl_khr_create_context",
+                          "spec.egl_khr_get_all_proc_addresses",
+                          "spec.egl_khr_surfaceless_context",
+                          "spec.egl_mesa_configless_context",
+                          "spec.egl_nok_swap_region",
+                          "spec.egl_nok_texture_from_pixmap.basic",
+                          "spec.egl.1_4.eglterminate.then.unbind.context",
+                          "spec.egl_chromium_sync_control.conformance"]
+        
         # bogus test
         exclude_tests += ["arb_shader_image_load_store.execution.coherency-extra"]
 
