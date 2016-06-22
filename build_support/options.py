@@ -175,9 +175,6 @@ class Options(object):
             if not avar:
                 continue
             (varname, varval) = avar.split("=", 1)
-            if varname in env:
-                print "ERROR: overriding existing environmment variable: " + varname
-                assert(False)
             env[varname] = varval
 
 class CustomOptions(object):
