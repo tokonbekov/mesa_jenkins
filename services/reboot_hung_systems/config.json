@@ -8,8 +8,7 @@
         "otc-gfxtest-bsw-06.local": {"switch": 1, "outlet": 6},
         "otc-gfxtest-kbl-01.local": {"switch": 2, "outlet": 5},
         "otc-gfxtest-bxt-03.local": {"switch": 2, "outlet": 3},
-        "otc-gfxtest-kbl-02.local": {"switch": 2, "outlet": 4},
-        "otc-gfxtest-bxt-02.local": {"switch": 2, "outlet": 6}
+        "otc-gfxtest-kbl-02.local": {"switch": 2, "outlet": 4}
     },
     "switches": {
         "1": {
