@@ -1,7 +1,3 @@
-function foo() {
-    console.log("foo");
-}
-
 function do_plot(bench_name, placeholder_id, click_id, dataset) {
     data = []
     var hardwares = ["skl", "bdw"];
