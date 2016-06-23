@@ -31,7 +31,26 @@
 	<script language="javascript" type="text/javascript" src="${url_for('static', filename='javascript/jquery/dist/jquery.js')}"></script>
 	<script language="javascript" type="text/javascript" src="${url_for('static', filename='javascript/flot/jquery.flot.js')}"></script>
 	<script language="javascript" type="text/javascript" src="${url_for('static', filename='javascript/flot/jquery.flot.time.js')}"></script>
-	<script language="javascript" type="text/javascript" src="${url_for('static', filename='scripts/perf_plot.js')}"></script>
+	<script language="javascript" type="text/javascript" src="${url_for('static', filename='scripts/plotter.js')}"></script>
+  <script>
+    $(function() {
+        var data = {};
+        $.ajax({
+            dataType: 'text',
+            url: "${url_for('static', filename='scores.json')}",
+            data: data,
+            success: function( data ) {
+                // debugger;
+                var d = JSON.parse(data);
+% for benchmark in benchmarks:
+                do_plot("${benchmark}", "#${benchmark}", "#click_${benchmark}", d);
+% endfor
+            }
+        });
+      // Add the Flot version string to the footer
+      $("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
+    });
+  </script>
   </head>
   <body>
 
