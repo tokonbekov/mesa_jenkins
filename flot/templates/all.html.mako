@@ -19,17 +19,19 @@
 ## OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 ## SOFTWARE.
 
+<%! from flask import url_for %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
   <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Mesa Performance: Continuous Integration</title>
-	<link href="${css}" rel="stylesheet" type="text/css">
+	<link href="${url_for('static', filename='examples.css')}" rel="stylesheet" type="text/css">
 	<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../../excanvas.min.js"></script><![endif]-->
-	<script language="javascript" type="text/javascript" src="${javascript}/jquery/jquery.js"></script>
-	<script language="javascript" type="text/javascript" src="${javascript}/jquery-flot/jquery.flot.js"></script>
-	<script language="javascript" type="text/javascript" src="${javascript}/jquery-flot/jquery.flot.time.js"></script>
-	<script language="javascript" type="text/javascript" src="${plotjs}"></script>
+	<script language="javascript" type="text/javascript" src="${url_for('static', filename='javascript/jquery/dist/jquery.js')}"></script>
+	<script language="javascript" type="text/javascript" src="${url_for('static', filename='javascript/flot/jquery.flot.js')}"></script>
+	<script language="javascript" type="text/javascript" src="${url_for('static', filename='javascript/flot/jquery.flot.time.js')}"></script>
+	<script language="javascript" type="text/javascript" src="${url_for('static', filename='scripts/perf_plot.js')}"></script>
   </head>
   <body>
 

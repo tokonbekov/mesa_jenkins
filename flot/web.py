@@ -94,12 +94,7 @@ _BENCHMARKS = [
 
 @APP.route('/')
 def front():
-    return TEMPLATES.get_template('all.html.mako').render(
-        benchmarks=_BENCHMARKS,
-        css=flask.url_for('static', filename='examples.css'),
-        plotjs=flask.url_for('static', filename='scripts/perf_plot.js'),
-        javascript=flask.url_for('static', filename='javascript'),
-    )
+    return TEMPLATES.get_template('all.html.mako').render(benchmarks=_BENCHMARKS)
 
 
 if __name__ == '__main__':
