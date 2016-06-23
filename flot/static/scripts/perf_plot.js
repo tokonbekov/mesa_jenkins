@@ -52,7 +52,7 @@ $(function() {
     var data = {};
     $.ajax({
         dataType: 'text',
-        url: "scores.json",
+        url: "static/scores.json",
         data: data,
         success: function( data ) {
             // debugger;
