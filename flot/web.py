@@ -21,14 +21,13 @@
 # SOFTWARE.
 
 """Flask webpage for performance data."""
-
-import flask  # pylint: disable=import-error
-from mako.lookup import TemplateLookup
+# pylint: disable=import-error
+import flask
+from flask_mako import MakoTemplates, render_template
+# pylint: enable=import-error
 
 APP = flask.Flask(__name__)
-
-# TODO: Add a modules directory and possibly cache
-TEMPLATES = TemplateLookup('templates')
+_ = MakoTemplates(APP)
 
 # TODO: It might be better to autodiscover this list
 _BENCHMARKS = [
@@ -94,20 +93,17 @@ _BENCHMARKS = [
 
 @APP.route('/')
 def front():
-    return TEMPLATES.get_template('index.html.mako').render(
-        benchmarks=_BENCHMARKS)
+    return render_template('index.html.mako', benchmarks=_BENCHMARKS)
 
 
 @APP.route('/apps/all')
-def all():
-    return TEMPLATES.get_template('apps.html.mako').render(
-        benchmarks=_BENCHMARKS)
+def all():  # pylint: disable=redefined-builtin
+    return render_template('apps.html.mako', benchmarks=_BENCHMARKS)
 
 
 @APP.route('/apps/<benchmark>')
 def apps(benchmark):
-    return TEMPLATES.get_template('apps.html.mako').render(
-        benchmarks=[benchmark])
+    return render_template('apps.html.mako', benchmarks=[benchmark])
 
 
 if __name__ == '__main__':
