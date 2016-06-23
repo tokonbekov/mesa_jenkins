@@ -94,7 +94,20 @@ _BENCHMARKS = [
 
 @APP.route('/')
 def front():
-    return TEMPLATES.get_template('all.html.mako').render(benchmarks=_BENCHMARKS)
+    return TEMPLATES.get_template('index.html.mako').render(
+        benchmarks=_BENCHMARKS)
+
+
+@APP.route('/apps/all')
+def all():
+    return TEMPLATES.get_template('apps.html.mako').render(
+        benchmarks=_BENCHMARKS)
+
+
+@APP.route('/apps/<benchmark>')
+def apps(benchmark):
+    return TEMPLATES.get_template('apps.html.mako').render(
+        benchmarks=[benchmark])
 
 
 if __name__ == '__main__':
