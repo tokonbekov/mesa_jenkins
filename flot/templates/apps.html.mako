@@ -26,9 +26,9 @@
 	<title>Mesa Performance: Continuous Integration</title>
 	<link href="${url_for('static', filename='examples.css')}" rel="stylesheet" type="text/css">
 	<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../../excanvas.min.js"></script><![endif]-->
-	<script language="javascript" type="text/javascript" src="${url_for('static', filename='javascript/jquery/dist/jquery.js')}"></script>
-	<script language="javascript" type="text/javascript" src="${url_for('static', filename='javascript/flot/jquery.flot.js')}"></script>
-	<script language="javascript" type="text/javascript" src="${url_for('static', filename='javascript/flot/jquery.flot.time.js')}"></script>
+	<script language="javascript" type="text/javascript" src="https://code.jquery.com/jquery.js"></script>
+	<script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.js"></script>
+	<script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.time.js"></script>
 	<script language="javascript" type="text/javascript" src="${url_for('static', filename='scripts/plotter.js')}"></script>
   <script>
     $(function() {
