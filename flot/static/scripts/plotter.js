@@ -72,9 +72,9 @@ function do_plot(bench_name, placeholder_id, click_id, dataset) {
     
 	$(placeholder_id).bind("plotclick", function (event, pos, item) {
 	    if (item) {
-            $(click_id).text(dataset[bench_name][item.series.label][item.dataIndex]["commit"] +
-                             " ==> score:" + dataset[bench_name][item.series.label][item.dataIndex]["score"] +
-                             ", stddev: " + dataset[bench_name][item.series.label][item.dataIndex]["deviation"]);
+            $(click_id).text(dataset[bench_name][item.series.label]["mesa"][item.dataIndex]["commit"] +
+                             " ==> score:" + dataset[bench_name][item.series.label]["mesa"][item.dataIndex]["score"] +
+                             ", stddev: " + dataset[bench_name][item.series.label]["mesa"][item.dataIndex]["deviation"]);
 		}
 	});
 }
