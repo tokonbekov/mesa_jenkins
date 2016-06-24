@@ -27,12 +27,14 @@
 	<link href="${url_for('static', filename='examples.css')}" rel="stylesheet" type="text/css">
 	<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../../excanvas.min.js"></script><![endif]-->
 	<script language="javascript" type="text/javascript" src="https://code.jquery.com/jquery.js"></script>
+    <script language="javascript" type="text/javascript" src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.js"></script>
 	<script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.time.js"></script>
 	<script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.resize.js"></script>
 	<script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.errorbars.js"></script>
 	<script language="javascript" type="text/javascript" src="${url_for('static', filename='scripts/plotter.js')}"></script>
   <script>
+    // Run plot
     $(function() {
         var data = {};
         $.ajax({
@@ -47,6 +49,7 @@
 % endfor
             }
         });
+
       // Add the Flot version string to the footer
       $("#footer").prepend("Flot " + $.plot.version + " &ndash; ");
     });

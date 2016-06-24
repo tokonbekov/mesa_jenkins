@@ -85,19 +85,58 @@ function do_plot(bench_name, placeholder_id, click_id, dataset) {
                            hardware + "</div>");
     }
     
+    /* This function will build some data below the graph, information about
+     * the commit, standard deviation, the averaged score of the tests, and
+     * will build buttons to build a newer and older sha.
+     */
 	$(placeholder_id).bind("plotclick", function (event, pos, item) {
 	    if (item) {
-            var sha = dataset[bench_name][item.series.label]["mesa"][item.dataIndex]["commit"].slice(5);
+            // Only try to get a previous sha if we are not on the oldest sha already
+            if (item.dataIndex !== 0) {
+                var prev_sha = dataset[bench_name][item.series.label]["mesa"][item.dataIndex - 1]["commit"].slice(5);
+            } else {
+                var prev_sha = '';
+            }
+
+            // The current sha is always valid
+            var curr_sha = dataset[bench_name][item.series.label]["mesa"][item.dataIndex]["commit"].slice(5);
+
+            // Only try to get the next sha if we are not on the newest sha
+            if (item.dataIndex !== (dataset[bench_name][item.series.label]["mesa"].length - 1)) {
+                var next_sha = dataset[bench_name][item.series.label]["mesa"][item.dataIndex + 1]["commit"].slice(5);
+            } else {
+                var next_sha = '';
+            }
+
+            // This builds the raw html for each button, simplifying the html
+            // setup below somewhat
+            var build_buttons = new Array(2);
+            build_buttons[0] = '<input type="submit" id="build_old" value="Build Older">'
+            build_buttons[1] = '<input type="submit" id="build_new" value="Build Newer">'
+
+            // Build the table of data and the raw html for the buttons
             $(click_id).html(
-                '<table><tr><td/><td/></tr>' +
+                '<div><table><tr><td/><td/></tr>' +
                 '<tr><td>Commit</td>' +
-                '<td><a href="https://cgit.freedesktop.org/mesa/mesa/commit/?id=' + sha + '">' + sha  + '</a></td>' +
+                '<td><a href="https://cgit.freedesktop.org/mesa/mesa/commit/?id=' + curr_sha + '">' + curr_sha  + '</a></td>' +
                 '<tr><td>Score</td>' +
                 '<td>' + dataset[bench_name][item.series.label]["mesa"][item.dataIndex]["score"] + '</td>' +
                 '<tr><td>Standard Deviation</td>' +
                 '<td>' + dataset[bench_name][item.series.label]["mesa"][item.dataIndex]["deviation"] + '</td>' +
-                '</tr></table>'
+                '</tr></table></div><br />' +
+                '<div>' + build_buttons.join(' ') + '</div>'
             );
+
+            // Setup the buttons, this registers the links to call when we're ready to build things
+            $(function() {
+                $("#build_old").button().click(function() { window.open("http://otc-mesa-ci.jf.intel.com/job/perf/buildWithParameters?token=xyzzy&revision=" + prev_sha + ":" + curr_sha).close() });
+                $("#build_new").button().click(function() { window.open("http://otc-mesa-ci.jf.intel.com/job/perf/buildWithParameters?token=xyzzy&revision=" + curr_sha + ":" + next_sha).close() });
+
+                // Disable the build_old button if we are on the oldest value
+                if (item.dataIndex === 0) {
+                    $("#build_old").button("disable");
+                }
+            });
 		}
 	});
 }
