@@ -5,6 +5,7 @@ import json
 import git
 import os.path as path
 import sys
+import yaml
 import numpy
 sys.path.append(path.join(path.dirname(path.abspath(sys.argv[0])), ".."))
 import build_support as bs
@@ -45,10 +46,12 @@ class MesaStats:
                 a_score = json.load(f)
             self.merge_scores(all_scores, a_score)
 
-        mesa_repo = git.Repo(bs.ProjectMap().project_source_dir("mesa"))
+        pm =  bs.ProjectMap()
+        mesa_repo = git.Repo(pm.project_source_dir("mesa"))
+        sixonix_config = yaml.load(open(pm.project_build_dir("sixonix") + "/scale.yml"))
 
         # add mean score and date to data set
-        for _, platform in all_scores.iteritems():
+        for benchmark, platform in all_scores.iteritems():
             for platform_name, pscores in platform.iteritems():
                 scores_by_date = {}
                 for commit, series in pscores.iteritems():
@@ -67,7 +70,9 @@ class MesaStats:
                     scores_by_date[date] = accumulated_score
                 dates = scores_by_date.keys()
                 dates.sort()
-                platform[platform_name] = [scores_by_date[d] for d in dates]
+                sixonix_bench = sixonix_config[benchmark]
+                platform[platform_name] = {"mesa": [scores_by_date[d] for d in dates],
+                                           "UFO" : sixonix_bench["UFO"][platform_name] / sixonix_bench[platform_name] }
                 
         with open(self.opts.result_path + "/../scores.json", "w") as of:
             json.dump(all_scores, fp=of)
