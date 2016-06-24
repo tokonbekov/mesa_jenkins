@@ -72,9 +72,17 @@ function do_plot(bench_name, placeholder_id, click_id, dataset) {
     
 	$(placeholder_id).bind("plotclick", function (event, pos, item) {
 	    if (item) {
-            $(click_id).text(dataset[bench_name][item.series.label]["mesa"][item.dataIndex]["commit"] +
-                             " ==> score:" + dataset[bench_name][item.series.label]["mesa"][item.dataIndex]["score"] +
-                             ", stddev: " + dataset[bench_name][item.series.label]["mesa"][item.dataIndex]["deviation"]);
+            var sha = dataset[bench_name][item.series.label]["mesa"][item.dataIndex]["commit"].slice(5);
+            $(click_id).html(
+                '<table><tr><td/><td/></tr>' +
+                '<tr><td>Commit</td>' +
+                '<td><a href="https://cgit.freedesktop.org/mesa/mesa/commit/?id=' + sha + '">' + sha  + '</a></td>' +
+                '<tr><td>Score</td>' +
+                '<td>' + dataset[bench_name][item.series.label]["mesa"][item.dataIndex]["score"] + '</td>' +
+                '<tr><td>Standard Deviation</td>' +
+                '<td>' + dataset[bench_name][item.series.label]["mesa"][item.dataIndex]["deviation"] + '</td>' +
+                '</tr></table>'
+            );
 		}
 	});
 }

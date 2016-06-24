@@ -67,7 +67,7 @@
 	  <div class="demo-container">
 	    <div id="${benchmark}" class="demo-placeholder"></div>
 	  </div>
-    <p><span id="click_${benchmark}"></span></p>
+    <div id="click_${benchmark}"></div>
 % endfor
 
 	<div id="footer">
