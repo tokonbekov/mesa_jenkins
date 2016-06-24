@@ -10,7 +10,7 @@ class SynmarkTimeout:
         self._options = bs.Options()
     def GetDuration(self):
         if self._options.type == "daily":
-            return 120
+            return 240
         return 30
 
 def iterations(bench, hw):
