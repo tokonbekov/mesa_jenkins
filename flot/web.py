@@ -118,7 +118,7 @@ def front():
 
 @APP.route('/apps/all')
 def all():  # pylint: disable=redefined-builtin
-    return render_template('apps.html.mako', benchmarks=_BENCHMARKS,
+    return render_template('apps.html.mako', benchmarks=dict(_BENCHMARKS),
                            category="All Benchmarks")
 
 
