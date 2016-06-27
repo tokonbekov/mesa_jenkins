@@ -7,15 +7,30 @@ function do_plot(bench_name, placeholder_id, click_id, dataset) {
     for (var i = 0; i < len; i++) {
         var hardware = hardwares[i];
         var bench = dataset[bench_name][hardware]["mesa"];
+        var data_points = {
+            errorbars: "y",
+            show: true,
+			yerr: {show:true, upperCap: "-", lowerCap: "-", color: colors[i]},
+            lineWidth: 1
+        }
+        
         var d1 = {
             label: hardware,
-            data:[]
+            data: [],
+            points: data_points
         };
         for (var key in bench) {
-            var score = bench[key]["score"]
-            d1.data.push([bench[key]["date"] * 1000, score]);
-            if (score > ymax) {
-                ymax = score;
+            var score = bench[key]["score"];
+            var deviation = bench[key]["deviation"];
+            var point = [bench[key]["date"] * 1000, score];
+            if (deviation > 0.05) {
+                point.push(deviation);
+            } else {
+                point.push(0);
+            }
+            d1.data.push(point);
+            if (score + deviation > ymax) {
+                ymax = score + deviation;
             }
         }
         data.push(d1);
