@@ -78,7 +78,6 @@ function do_plot(bench_name, placeholder_id, click_id, dataset) {
         var hardware = hardwares[i];
         var ufo_score = dataset[bench_name][hardware]["UFO"];
         var o = plot.pointOffset({ y: ufo_score });
-        console.log("i:" + i);
         placeholder.append("<div style='position:absolute;left:" +
                            (75 * (i + 1)).toString() + "px;top:" + o.top +
                            "px;color:" + colors[i] + ";font-size:smaller'>GEOD: " +
