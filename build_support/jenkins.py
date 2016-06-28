@@ -172,7 +172,7 @@ class Jenkins:
         # use the current build_support branch on the component builds
         r = git.Repo(os.getcwd())
         bs_branch = r.commit().hexsha
-        url = "{0}/buildWithParameters?token=xyzzy&{1}&branch={2}&build_support_branch={3}".format(
+        url = "{0}/buildWithParameters?token=noauth&{1}&branch={2}&build_support_branch={3}".format(
             self._job_url,
             self._jenkins_params(project_invoke),
             branch,
@@ -187,7 +187,7 @@ class Jenkins:
 
     def reboot_builder(self, builder):
         self._job_url = "http://" + self._server + "/job/Leeroy"
-        url = "http://{0}/job/reboot_single/buildWithParameters?token=xyzzy&label={1}".format(
+        url = "http://{0}/job/reboot_single/buildWithParameters?token=noauth&label={1}".format(
             self._server,
             builder)
 
@@ -201,7 +201,7 @@ class Jenkins:
         build_link = self.get_build_link(project_invoke, block=False)
         if not build_link:
             return False
-        data = urllib.urlencode({'token': 'xyzzy'})
+        data = urllib.urlencode({'token': 'noauth'})
         build_link = build_link + "stop/"
 
         try:

@@ -138,7 +138,7 @@ function do_plot(bench_name, placeholder_id, click_id, dataset) {
             $(function() { 
                 $("#build_old").button().click(
                     function() { 
-                        window.open("http://otc-mesa-ci.jf.intel.com/job/perf/buildWithParameters?token=xyzzy&revision=" + prev_sha + ":" + curr_sha).close();
+                        window.open("http://otc-mesa-ci.jf.intel.com/job/perf/buildWithParameters?token=noauth&revision=" + prev_sha + ":" + curr_sha).close();
                         $("div#dialog").html(
                             "<p>Build successfully submitted for sha between " + prev_sha + " and " + curr_sha + "</p>" +
                             '<p><a href="http://otc-mesa-ci.jf.intel.com/view/All/job/perf/">Jenkins Job</a></p>'
@@ -148,7 +148,7 @@ function do_plot(bench_name, placeholder_id, click_id, dataset) {
                 );
                 $("#build_new").button().click(
                     function() {
-                        window.open("http://otc-mesa-ci.jf.intel.com/job/perf/buildWithParameters?token=xyzzy&revision=" + curr_sha + ":" + next_sha).close();
+                        window.open("http://otc-mesa-ci.jf.intel.com/job/perf/buildWithParameters?token=noauth&revision=" + curr_sha + ":" + next_sha).close();
                         $("div#dialog").html(
                             "<p>Build successfully submitted for sha between " + curr_sha + " and " + next_sha + "</p>" +
                             '<p><a href="http://otc-mesa-ci.jf.intel.com/view/All/job/perf/">Jenkins Job</a></p>'
