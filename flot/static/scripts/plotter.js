@@ -84,6 +84,14 @@ function do_plot(bench_name, placeholder_id, click_id, dataset) {
                            "px;color:" + colors[i] + ";font-size:smaller'>GEOD: " +
                            hardware + "</div>");
     }
+
+    $("div#dialog").dialog( {
+        modal: true,
+        buttons: {
+            Ok: function() { $(this).dialog("close"); }
+        }
+    });
+    $("div#dialog").dialog("close");
     
     /* This function will build some data below the graph, information about
      * the commit, standard deviation, the averaged score of the tests, and
@@ -100,7 +108,7 @@ function do_plot(bench_name, placeholder_id, click_id, dataset) {
 
             // The current sha is always valid
             var curr_sha = dataset[bench_name][item.series.label]["mesa"][item.dataIndex]["commit"].slice(5);
-
+            
             // Only try to get the next sha if we are not on the newest sha
             if (item.dataIndex !== (dataset[bench_name][item.series.label]["mesa"].length - 1)) {
                 var next_sha = dataset[bench_name][item.series.label]["mesa"][item.dataIndex + 1]["commit"].slice(5);
@@ -128,14 +136,26 @@ function do_plot(bench_name, placeholder_id, click_id, dataset) {
             );
 
             // Setup the buttons, this registers the links to call when we're ready to build things
-            $(function() {
-                $("#build_old").button().click(function() { window.open("http://otc-mesa-ci.jf.intel.com/job/perf/buildWithParameters?token=xyzzy&revision=" + prev_sha + ":" + curr_sha).close() });
-                $("#build_new").button().click(function() { window.open("http://otc-mesa-ci.jf.intel.com/job/perf/buildWithParameters?token=xyzzy&revision=" + curr_sha + ":" + next_sha).close() });
+            $(function() { 
+                $("#build_old").button().click(
+                    function() { 
+                        window.open("http://otc-mesa-ci.jf.intel.com/job/perf/buildWithParameters?token=xyzzy&revision=" + prev_sha + ":" + curr_sha).close();
+                        $("div#dialog").html("<p>Build successfully submitted for sha between " + prev_sha + " and " + curr_sha + "</p>");
+                        $("div#dialog").dialog("open");
+                    }
+                );
+                $("#build_new").button().click(
+                    function() {
+                        window.open("http://otc-mesa-ci.jf.intel.com/job/perf/buildWithParameters?token=xyzzy&revision=" + curr_sha + ":" + next_sha).close();
+                        $("div#dialog").html("<p>Build successfully submitted for sha between " + curr_sha + " and " + next_sha + "</p>");
+                        $("div#dialog").dialog("open");
+                    }
+                );
 
                 // Disable the build_old button if we are on the oldest value
                 if (item.dataIndex === 0) {
                     $("#build_old").button("disable");
-                }
+                } 
             });
 		}
 	});

@@ -24,10 +24,11 @@
   <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Mesa Performance: Continuous Integration</title>
+  <link rel=stylesheet type=text/css href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
 	<link href="${url_for('static', filename='examples.css')}" rel="stylesheet" type="text/css">
 	<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../../excanvas.min.js"></script><![endif]-->
 	<script language="javascript" type="text/javascript" src="https://code.jquery.com/jquery.js"></script>
-    <script language="javascript" type="text/javascript" src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script language="javascript" type="text/javascript" src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.js"></script>
 	<script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.time.js"></script>
 	<script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.resize.js"></script>
@@ -74,6 +75,8 @@
 	  </div>
     <div id="click_${benchmark}"></div>
 % endfor
+
+  <div id="dialog" title="Build Started"></div>
 
 	<div id="footer">
 	  Copyright &copy; 2007 - 2014 IOLA and Ole Laursen
