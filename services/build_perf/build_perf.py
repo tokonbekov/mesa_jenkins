@@ -26,7 +26,7 @@ def main():
     except:
         pass
     master_url = "http://otc-mesa-ci.jf.intel.com/computer/%28master%29/api/python"
-    perf_url = "http://otc-mesa-ci.jf.intel.com/view/All/job/perf/buildWithParameters?token=xyzzy"
+    perf_url = "http://otc-mesa-ci.jf.intel.com/view/All/job/perf/buildWithParameters?token=noauth"
 
     while True:
         try:

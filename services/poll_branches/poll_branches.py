@@ -72,7 +72,7 @@ def main():
                 print("Building " + branch, file=sys.stderr)
                 sys.stderr.flush()
                 job_url = "http://" + server + "/job/" + branch + \
-                          "/buildWithParameters?token=xyzzy&name=" + commit + "&type=percheckin"
+                          "/buildWithParameters?token=noauth&name=" + commit + "&type=percheckin"
                 retry_count = 0
 
                 # how wonderful, the proxy setting is required for
