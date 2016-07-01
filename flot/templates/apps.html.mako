@@ -33,6 +33,7 @@
 	<script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.time.js"></script>
 	<script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.resize.js"></script>
 	<script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.errorbars.js"></script>
+	<script language="javascript" type="text/javascript" src="http://www.flotcharts.org/flot/jquery.flot.navigate.js"></script>
 	<script language="javascript" type="text/javascript" src="${url_for('static', filename='scripts/plotter.js')}"></script>
   <script>
     // Run plot

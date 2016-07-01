@@ -62,7 +62,8 @@ function do_plot(bench_name, placeholder_id, click_id, dataset) {
 		},
 		yaxis: {
 			min: 0.25,
-            max: ymax
+            max: ymax,
+            zoomRange: false
 		},
 		xaxis: {
 			mode: "time",
@@ -70,6 +71,12 @@ function do_plot(bench_name, placeholder_id, click_id, dataset) {
 		},
 		legend: {
 			position: "se"
+		},
+        zoom: {
+			interactive: true
+		},
+		pan: {
+			interactive: true
 		}
     });
 
@@ -78,10 +85,12 @@ function do_plot(bench_name, placeholder_id, click_id, dataset) {
         var hardware = hardwares[i];
         var ufo_score = dataset[bench_name][hardware]["UFO"];
         var o = plot.pointOffset({ y: ufo_score });
-        placeholder.append("<div style='position:absolute;left:" +
-                           (75 * (i + 1)).toString() + "px;top:" + o.top +
-                           "px;color:" + colors[i] + ";font-size:smaller'>GEOD: " +
-                           hardware + "</div>");
+        placeholder.append("<div style='position:absolute;left:50px;bottom:" +
+                           (10 + (25 * (i + 1))).toString() + "px;color:" +
+                           colors[i] + ";font-size:smaller'>GEOD: " +
+                           hardware +
+                           "<hr width=60 color='" + colors[i] +
+                           "' size=2 align=LEFT></div>");
     }
 
     $("div#dialog").dialog( {
