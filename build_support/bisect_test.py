@@ -197,6 +197,9 @@ class PiglitTest:
                 status = failnode.attrib.get("type", "crash")
             else:
                 status = "crash"
+            if status == "warn":
+                # warn status is handled as pass in all cases
+                status = "pass"
 
             system_out_node = test_tag.find("./system-out")
             if system_out_node is not None:
