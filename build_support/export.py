@@ -37,11 +37,15 @@ from . import rmtree
 from . import Options
 from . import ProjectMap
 
+def convert_rsync_path(path):
+    if path.startswith("/mnt/jenkins/"):
+        return path.replace("/mnt/jenkins/", "otc-mesa-ci.local::nfs/")
+    return None
+
 class Export:
     def __init__(self):
         # todo: provide wildcard mechanism
         self.result_path = Options().result_path
-        self.rsyncd_path = None
         if not self.result_path:
             return
 
@@ -50,10 +54,11 @@ class Export:
             run_batch_command(["sync"])
 
         self._dest = self.result_path
-        if self.result_path.startswith("/mnt/jenkins/"):
-            self.rsyncd_path = self.result_path.replace("/mnt/jenkins/", "otc-mesa-ci.local::nfs/")
+        self.rsyncd_path = convert_rsync_path(self.result_path)
+        if self.result_path:
             self._dest = self.rsyncd_path
 
+        
     def export(self):
         if not self.result_path:
             return

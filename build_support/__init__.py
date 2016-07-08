@@ -45,7 +45,7 @@ from project_map import ProjectMap
 from timer import TimeOut
 from repo_set import *
 from dependency_graph import DependencyGraph
-from export import Export
+from export import Export, convert_rsync_path
 from gtest import *
 from jenkins import *
 from bisect_test import *
