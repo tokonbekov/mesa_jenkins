@@ -12,6 +12,6 @@ import build_support as bs
 # namespace.
 
 server = bs.ProjectMap().build_spec().find("build_master").attrib["host"]
-url = "http://" + server + "/job/reboot_single/buildWithParameters?token=xyzzy&label=" + bs.Options().hardware
+url = "http://" + server + "/job/reboot_single/buildWithParameters?token=noauth&label=" + bs.Options().hardware
 print "opening: " + url
 urllib2.urlopen(url)
