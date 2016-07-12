@@ -525,6 +525,10 @@ class PiglitTester(object):
             # jljusten gpu hanger
             exclude_tests += ["arb_compute_shader.zero-dispatch-size"]
 
+        if "ivb" in hardware or "bxt" in hardware:
+            # bug 96907
+            exclude_tests += ["arb_gpu_shader5.arb_gpu_shader5-emitstreamvertex_nodraw"]
+
         exclude_cmd = []
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
