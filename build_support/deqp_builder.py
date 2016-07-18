@@ -308,8 +308,7 @@ class DeqpBuilder:
                 if retests:
                     second_out_dir = out_dir + "/retest"
                     print "WARN: retesting deqp to " + second_out_dir
-                    run_batch_command(cmd + include_tests +
-                                         retests + suites + [second_out_dir],
+                    run_batch_command(cmd + retests + suites + [second_out_dir],
                                          env=self.env,
                                          expected_return_code=None,
                                          streamedOutput=True)

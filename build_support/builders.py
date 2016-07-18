@@ -586,7 +586,7 @@ class PiglitTester(object):
             if retests:
                 second_out_dir = out_dir + "/retest"
                 print "WARN: retesting piglit to " + second_out_dir
-                (out, err) = run_batch_command(cmd + exclude_cmd + include_tests + retests +
+                (out, err) = run_batch_command(cmd + exclude_cmd + retests +
                                                concurrency_options + [self.suite, second_out_dir ],
                                                env=self.env,
                                                expected_return_code=None,
