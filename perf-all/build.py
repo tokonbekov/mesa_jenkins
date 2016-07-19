@@ -62,7 +62,7 @@ class MesaStats:
                     if not normalized_runs:
                         continue
                     accumulated_score["score"] = numpy.mean(normalized_runs, dtype=numpy.float64)
-                    accumulated_score["deviation"] = numpy.std(normalized_runs, dtype=numpy.float64)
+                    accumulated_score["deviation"] = numpy.std(normalized_runs, dtype=numpy.float64) / accumulated_score["score"]
                     accumulated_score["commit"] = commit
                     date = mesa_repo.commit(commit.split("=")[1]).committed_date
                     accumulated_score["date"] = date
