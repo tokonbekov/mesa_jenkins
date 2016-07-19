@@ -71,8 +71,9 @@ class MesaStats:
                 dates = scores_by_date.keys()
                 dates.sort()
                 sixonix_bench = sixonix_config[benchmark]
-                platform[platform_name] = {"mesa": [scores_by_date[d] for d in dates],
-                                           "UFO" : sixonix_bench["UFO"][platform_name] / sixonix_bench[platform_name] }
+                platform[platform_name] = {"mesa": [scores_by_date[d] for d in dates]}
+                if "UFO" in sixonix_bench:
+                    platform[platform_name]["UFO"] = sixonix_bench["UFO"][platform_name] / sixonix_bench[platform_name]
                 
         with open(self.opts.result_path + "/../scores.json", "w") as of:
             json.dump(all_scores, fp=of)

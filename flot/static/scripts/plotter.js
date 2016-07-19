@@ -38,11 +38,13 @@ function do_plot(bench_name, placeholder_id, click_id, dataset) {
     var markings = []
     for (var i = 0; i < len; i++) {
         var hardware = hardwares[i];
-        var ufo_score = dataset[bench_name][hardware]["UFO"];
-        markings.push({ color: colors[i], lineWidth: 2,
-                        yaxis: { from: ufo_score, to: ufo_score } });
-        if (ufo_score > ymax) {
-            ymax = ufo_score;
+        if ("UFO" in dataset[bench_name][hardware]) {
+            var ufo_score = dataset[bench_name][hardware]["UFO"];
+            markings.push({ color: colors[i], lineWidth: 2,
+                            yaxis: { from: ufo_score, to: ufo_score } });
+            if (ufo_score > ymax) {
+                ymax = ufo_score;
+            }
         }
     }
     ymax = Math.round(ymax * 10.0 + 0.5) / 10.0;
@@ -61,7 +63,7 @@ function do_plot(bench_name, placeholder_id, click_id, dataset) {
             markings: markings
 		},
 		yaxis: {
-			min: 0.25,
+			min: 0.0,
             max: ymax,
             zoomRange: false
 		},
@@ -83,14 +85,16 @@ function do_plot(bench_name, placeholder_id, click_id, dataset) {
 	var placeholder = $(placeholder_id);
     for (var i = 0; i < len; i++) {
         var hardware = hardwares[i];
-        var ufo_score = dataset[bench_name][hardware]["UFO"];
-        var o = plot.pointOffset({ y: ufo_score });
-        placeholder.append("<div style='position:absolute;left:50px;bottom:" +
-                           (10 + (25 * (i + 1))).toString() + "px;color:" +
-                           colors[i] + ";font-size:smaller'>GEOD: " +
-                           hardware +
-                           "<hr width=60 color='" + colors[i] +
-                           "' size=2 align=LEFT></div>");
+        if ("UFO" in dataset[bench_name][hardware]) {
+            var ufo_score = dataset[bench_name][hardware]["UFO"];
+            var o = plot.pointOffset({ y: ufo_score });
+            placeholder.append("<div style='position:absolute;left:50px;bottom:" +
+                               (10 + (25 * (i + 1))).toString() + "px;color:" +
+                               colors[i] + ";font-size:smaller'>GEOD: " +
+                               hardware +
+                               "<hr width=60 color='" + colors[i] +
+                               "' size=2 align=LEFT></div>");
+        }
     }
 
     $("div#dialog").dialog( {
