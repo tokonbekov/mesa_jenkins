@@ -6,6 +6,17 @@ import os.path as path
 sys.path.append(path.join(path.dirname(path.abspath(sys.argv[0])), ".."))
 import build_support as bs
 
+class WarsowTimeout:
+    def __init__(self):
+        self._options = bs.Options()
+    def GetDuration(self):
+        base_time = 20
+        if self._options.hardware == "bsw":
+            base_time = base_time * 2
+        if self._options.type == "daily":
+            base_time = base_time * 5
+        return base_time
 
-bs.build(bs.PerfBuilder("warsow", iterations=15))
+bs.build(bs.PerfBuilder("warsow", iterations=15),
+         time_limit=WarsowTimeout())
 

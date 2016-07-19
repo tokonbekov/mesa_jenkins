@@ -2,230 +2,288 @@ OglBatch0:
   UFO: {bdw: 317.6044, skl: 319.64549999999997}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglBatch1:
   UFO: {bdw: 324.59990000000005, skl: 320.9459}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglBatch2:
   UFO: {bdw: 323.6276, skl: 321.16085}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglBatch3:
   UFO: {bdw: 321.70540000000005, skl: 316.1154}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglBatch4:
   UFO: {bdw: 317.6861, skl: 309.469}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglBatch5:
   UFO: {bdw: 299.58555000000007, skl: 246.36344999999997}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglBatch6:
   UFO: {bdw: 159.88075, skl: 143.54074999999997}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglBatch7:
   UFO: {bdw: 51.553605000000005, skl: 50.19039500000001}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglCSCloth:
   UFO: {bdw: 241.83159999999998, skl: 219.01889999999997}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglCSDof:
   UFO: {bdw: 25.081939999999996, skl: 20.534393333333334}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglDeferred:
   UFO: {bdw: 76.90930999999999, skl: 53.81705000000001}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglDeferredAA:
   UFO: {bdw: 15.714380000000002, skl: 8.798132666666667}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglDrvRes:
   UFO: {bdw: 35.595169999999996, skl: 23.66085333333333}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglDrvShComp:
   UFO: {bdw: 5.603751999999999, skl: 6.604640666666665}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglDrvState:
   UFO: {bdw: 32.1973, skl: 28.658169999999995}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglFillPixel:
   UFO: {bdw: 8.8278425, skl: 22.816915}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglFillTexMulti:
   UFO: {bdw: 63.659715000000006, skl: 82.69040499999998}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglFillTexSingle:
   UFO: {bdw: 7.773594, skl: 22.539570000000005}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglGeomPoint:
   UFO: {bdw: 98.31093999999999, skl: 159.03890000000004}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglGeomTriList:
   UFO: {bdw: 197.64414999999997, skl: 224.07435}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglGeomTriStrip:
   UFO: {bdw: 238.14419999999998, skl: 229.8002666666667}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglHdrBloom:
   UFO: {bdw: 97.18393, skl: 64.748065}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglMultithread:
   UFO: {bdw: 20.66532, skl: 19.35996666666666}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglPSBump2:
   UFO: {bdw: 389.0058666666667, skl: 322.6618}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglPSBump8:
   UFO: {bdw: 260.1086666666667, skl: 172.2764}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglPSPhong:
   UFO: {bdw: 268.64553333333333, skl: 179.45600000000002}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglPSPom:
   UFO: {bdw: 121.22999999999999, skl: 69.12984}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglShMapPcf:
   UFO: {bdw: 211.61333333333332, skl: 142.75300000000001}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglShMapVsm:
   UFO: {bdw: 224.45149999999998, skl: 149.34425}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglTerrainFlyInst:
   UFO: {bdw: 194.5284, skl: 151.49266666666665}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglTerrainFlyTess:
   UFO: {bdw: 192.2758, skl: 146.03955000000002}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglTerrainPanInst:
   UFO: {bdw: 171.50304999999997, skl: 158.2571}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglTerrainPanTess:
   UFO: {bdw: 185.5240666666667, skl: 158.2762}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglTexFilterAniso:
   UFO: {bdw: 48.90864666666666, skl: 30.957673333333336}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglTexFilterTri:
   UFO: {bdw: 41.69610000000001, skl: 61.114320000000006}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglTexMem128:
   UFO: {bdw: 53.26266, skl: 74.19898666666667}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglTexMem512:
   UFO: {bdw: 9.151203999999998, skl: 20.757753333333334}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglVSDiffuse1:
   UFO: {bdw: 290.3080666666666, skl: 261.46453333333335}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglVSDiffuse8:
   UFO: {bdw: 283.95473333333337, skl: 261.1474666666667}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglVSInstancing:
   UFO: {bdw: 25.91153, skl: 43.32514}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglVSTangent:
   UFO: {bdw: 272.1074, skl: 250.04110000000006}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 OglZBuffer:
   UFO: {bdw: 93.50156666666668, skl: 117.89000000000001}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 egypt:
   UFO: {bdw: 107.01916666666666, skl: 107.565}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 egypt_o:
   UFO: {bdw: 282.01289999999995, skl: 241.4481}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 fill:
   UFO: {bdw: 25.5334125, skl: 28.197474999999997}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 fill_o:
   UFO: {bdw: 29.475426666666667, skl: 28.858240000000002}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 fur:
   UFO: {bdw: 62.01, skl: 107.0}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 heaven:
   UFO: {bdw: 9.164582, skl: 7.12616}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 manhattan:
   UFO: {bdw: 82.32850666666667, skl: 48.783813333333335}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 manhattan_o:
   UFO: {bdw: 100.39531428571429, skl: 61.23822857142858}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 car_chase:
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 plot3d:
   UFO: {bdw: 904.38, skl: 1118.04}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 trex:
   UFO: {bdw: 91.93372, skl: 104.17755999999999}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 trex_o:
   UFO: {bdw: 74.57018, skl: 137.53468}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 triangle:
   UFO: {bdw: 6325.0, skl: 4159.733333333334}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 valley:
   UFO: {bdw: 12.483270000000001, skl: 8.738674}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 warsow:
   UFO: {bdw: 105.83599999999998, skl: 82.96266666666668}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0
 xonotic:
   UFO: {bdw: 171.17249346333332, skl: 154.741378264}
   bdw: 1.0
   skl: 1.0
+  bsw: 1.0

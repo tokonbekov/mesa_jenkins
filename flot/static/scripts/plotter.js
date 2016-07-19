@@ -1,11 +1,14 @@
 function do_plot(bench_name, placeholder_id, click_id, dataset) {
     data = []
-    var hardwares = ["skl", "bdw"];
+    var hardwares = ["skl", "bdw", "bsw"];
     var colors = ["#edc240", "#afd8f8", "#cb4b4b", "#4da74d", "#9440ed"];
     var len = hardwares.length;
     var ymax = 0;
     for (var i = 0; i < len; i++) {
         var hardware = hardwares[i];
+        if (!(hardware in dataset[bench_name])) {
+            continue;
+        }
         var bench = dataset[bench_name][hardware]["mesa"];
         var data_points = {
             errorbars: "y",
@@ -38,7 +41,7 @@ function do_plot(bench_name, placeholder_id, click_id, dataset) {
     var markings = []
     for (var i = 0; i < len; i++) {
         var hardware = hardwares[i];
-        if ("UFO" in dataset[bench_name][hardware]) {
+        if (hardware in dataset[bench_name] && "UFO" in dataset[bench_name][hardware]) {
             var ufo_score = dataset[bench_name][hardware]["UFO"];
             markings.push({ color: colors[i], lineWidth: 2,
                             yaxis: { from: ufo_score, to: ufo_score } });

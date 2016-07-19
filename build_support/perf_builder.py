@@ -103,11 +103,11 @@ class PerfBuilder(object):
                 # for synmark, use the sub-benchmark name
                 benchmark = b[1]
             r = str(RevisionSpecification().revision("mesa"))
+            scale = 1.0
             try:
                 scale = yaml.load(open(self._pm.project_build_dir("sixonix") + "/scale.yml"))[benchmark][hw]
             except:
-                print "ERROR: failed to find scale for " + benchmark
-                continue
+                print "WARN: failed to find scale for " + benchmark
             result[benchmark] = {hw: {"mesa=" + r: [{"score": scores[b[-1]], "scale": scale}]}}
             out_dir = "/tmp/build_root/" + self._opt.arch + "/scores/" + benchmark + "/" + hw
             if not os.path.exists(out_dir):

@@ -19,7 +19,7 @@ class MesaPerf:
         self._src_dir = pm.project_source_dir("mesa")
         self._build_dir = "/tmp/mesa-perf/build_" + self.opts.arch
 
-
+        # generated with `gcc -E -v -march=native - < /dev/null 2>&1 | grep cc1`
         self._flags = {
             "skl" : ["-march=broadwell", "-mmmx", "-mno-3dnow",
                      "-msse", "-msse2", "-msse3", "-mssse3",
@@ -54,7 +54,24 @@ class MesaPerf:
                      "-mno-avx512pf", "-mno-prefetchwt1", "--param",
                      "l1-cache-size=32", "--param",
                      "l1-cache-line-size=64", "--param",
-                     "l2-cache-size=6144", "-mtune=generic"]
+                     "l2-cache-size=6144", "-mtune=generic"],
+            "bsw" : ["-march=silvermont", "-mmmx", "-mno-3dnow",
+                     "-msse", "-msse2", "-msse3", "-mssse3", "-mno-sse4a",
+                     "-mcx16", "-msahf", "-mmovbe", "-maes", "-mno-sha",
+                     "-mpclmul", "-mpopcnt", "-mno-abm", "-mno-lwp",
+                     "-mno-fma", "-mno-fma4", "-mno-xop", "-mno-bmi",
+                     "-mno-bmi2", "-mno-tbm", "-mno-avx", "-mno-avx2",
+                     "-msse4.2", "-msse4.1", "-mno-lzcnt", "-mno-rtm",
+                     "-mno-hle", "-mrdrnd", "-mno-f16c", "-mno-fsgsbase",
+                     "-mno-rdseed", "-mprfchw", "-mno-adx", "-mfxsr",
+                     "-mno-xsave", "-mno-xsaveopt", "-mno-avx512f",
+                     "-mno-avx512er", "-mno-avx512cd", "-mno-avx512pf",
+                     "-mno-prefetchwt1", "-mno-clflushopt", "-mno-xsavec",
+                     "-mno-xsaves", "-mno-avx512dq", "-mno-avx512bw",
+                     "-mno-avx512vl", "-mno-avx512ifma", "-mno-avx512vbmi",
+                     "-mno-clwb", "-mno-pcommit", "-mno-mwaitx", "--param",
+                     "l1-cache-size=24", "--param", "l1-cache-line-size=64",
+                     "--param", "l2-cache-size=1024", "-mtune=generic"]
             }
         
     def build(self):
@@ -74,7 +91,7 @@ class MesaPerf:
                    "--without-gallium-drivers"]
 
         save_dir = os.getcwd()
-        for hw in ["skl", "bdw"]:
+        for hw in ["skl", "bdw", "bsw"]:
             bd = self._build_dir + "/" + hw
             if not os.path.exists(bd):
                 os.makedirs(bd)

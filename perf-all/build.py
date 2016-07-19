@@ -72,7 +72,7 @@ class MesaStats:
                 dates.sort()
                 sixonix_bench = sixonix_config[benchmark]
                 platform[platform_name] = {"mesa": [scores_by_date[d] for d in dates]}
-                if "UFO" in sixonix_bench:
+                if "UFO" in sixonix_bench and platform_name in sixonix_bench["UFO"]:
                     platform[platform_name]["UFO"] = sixonix_bench["UFO"][platform_name] / sixonix_bench[platform_name]
                 
         with open(self.opts.result_path + "/../scores.json", "w") as of:
