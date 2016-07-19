@@ -84,6 +84,8 @@ _BENCHMARKS = [
     ('heaven',             'engine-demo'        ),
     ('manhattan',          'synthetic-benchmark'),
     ('manhattan_o',        'synthetic-benchmark'),
+    ('car_chase',          'synthetic-benchmark'),
+    ('car_chase_o',          'synthetic-benchmark'),
     ('plot3d',             'micro-benchmark'    ),
     ('trex',               'synthetic-benchmark'),
     ('trex_o',             'synthetic-benchmark'),

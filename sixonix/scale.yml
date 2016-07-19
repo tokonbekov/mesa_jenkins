@@ -198,6 +198,9 @@ manhattan_o:
   UFO: {bdw: 100.39531428571429, skl: 61.23822857142858}
   bdw: 1.0
   skl: 1.0
+car_chase:
+  bdw: 1.0
+  skl: 1.0
 plot3d:
   UFO: {bdw: 904.38, skl: 1118.04}
   bdw: 1.0
