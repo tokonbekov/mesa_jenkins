@@ -19,13 +19,16 @@ def iterations(bench, hw):
             return 4
     if bench == "OglTexFilterTri":
         if hw == "bdw":
+            return 10
+    if bench == "OglTerrainPanTess":
+        if hw == "bdw":
             return 5
     if bench == "OglTexMem128":
         if hw == "bdw":
             return 4
     if bench == "OglVSDiffuse8":
         if hw == "bdw":
-            return 4
+            return 8
     
 
 low_variance_benchmarks = ["OglPSBump8",

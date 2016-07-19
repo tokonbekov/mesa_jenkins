@@ -18,6 +18,8 @@ def iterations(bench, hw):
         if hw == "skl":
             return 4
     if bench == "OglBatch6":
+        if hw == "bdw":
+            return 7
         return 4
     if bench == "OglBatch7":
         return 4
@@ -32,6 +34,9 @@ def iterations(bench, hw):
     if bench == "OglZBuffer":
         if hw == "bdw":
             return 3
+    if bench == "OglTerrainFlyTess":
+        if hw == "bdw":
+            return 4
     
     
 high_variance_benchmarks = ["OglVSInstancing",

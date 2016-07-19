@@ -8,7 +8,7 @@ import build_support as bs
 
 def iterations(_, hw):
     if hw == "bdw":
-        return 20
+        return 30
 
 bs.build(bs.PerfBuilder("fur", iterations=10,
                         custom_iterations_fn=iterations))
