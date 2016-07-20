@@ -47,7 +47,7 @@ def collate_tests(result_path, out_test_dir):
     # generate a results.tgz that can be used with piglit summary
     save_dir = os.getcwd()
     os.chdir("/tmp/")
-    tar = tarfile.open(out_test_dir + "/test/results.tgz", "w:gz")
+    tar = tarfile.open(out_test_dir + "/test/results.tar", "w:")
     shards = {}
     for a_file in os.listdir(out_test_dir + "/test"):
         if "piglit" not in a_file:
@@ -84,6 +84,7 @@ def collate_tests(result_path, out_test_dir):
         tar.add(shard + ".xml")
         os.unlink(shard + ".xml")
     tar.close()
+    bs.run_batch_command(["xz", "-9", out_test_dir + "/test/results.tar"])
     os.chdir(save_dir)
 
 def main():
