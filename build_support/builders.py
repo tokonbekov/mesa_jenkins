@@ -139,15 +139,10 @@ def check_gpu_hang(identify_test=True):
     # trigger reboot
     if ('otc-gfxtest-' in hostname):
         label = hostname[len('otc-gfxtest-'):]
-        o = Options()
-        o.hardware = label
-        reboot_invoke = ProjectInvoke(options=o, project="reboot-slave")
-        reboot_invoke.set_info("status", "rebuild")
-        try:
-            Jenkins(RevisionSpecification(),
-                    Options().result_path).reboot_builder(label)
-        except(urllib2.URLError):
-            print "ERROR: encountered error triggering reboot"
+        server = ProjectMap().build_spec().find("build_master").attrib["host"]
+        url = "http://" + server + "/job/reboot_single/buildWithParameters?token=noauth&label=" + label
+        print "opening: " + url
+        urllib2.urlopen(url)
         print "sleeping to allow reboot job to be scheduled."
         time.sleep(120)
 
