@@ -12,7 +12,7 @@ class SynmarkTimeout:
         limit = 30
         if self._options.type == "daily":
             limit *= 8
-        if self._options.hw == "bsw":
+        if self._options.hardware == "bsw":
             limit *= 2
         return limit
 
