@@ -9,9 +9,12 @@ class SynmarkTimeout:
     def __init__(self):
         self._options = bs.Options()
     def GetDuration(self):
+        limit = 30
         if self._options.type == "daily":
-            return 240
-        return 30
+            limit *= 8
+        if self._options.hw == "bsw":
+            limit *= 2
+        return limit
 
 def iterations(bench, hw):
     if bench == "OglBatch5":
