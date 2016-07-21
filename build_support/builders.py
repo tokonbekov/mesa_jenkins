@@ -657,3 +657,50 @@ class PiglitTester(object):
 
     def clean(self):
         pass
+
+# mostly this is necessary because cts has no make install
+class CtsBuilder(CMakeBuilder):
+    def __init__(self, suite):
+        self._suite = suite
+        assert(suite == "gl" or suite == "es")
+        arch = Options().arch
+        extra_definitions=["-DCMAKE_INCLUDE_PATH=/tmp/build_root/usr/include",
+                           "-DCMAKE_LIBRARY_PATH=/tmp/build_root/" + arch + "/lib"]        
+        if suite == "gl":
+            extra_definitions.append("-DDEQP_TARGET=intel-gbm-gl")
+        else:
+            extra_definitions.append("-DDEQP_TARGET=intel-gbm")
+        CMakeBuilder.__init__(self, extra_definitions=extra_definitions)
+            
+    def build(self):
+        pm = ProjectMap()
+        if not os.path.exists(self._build_dir):
+            os.makedirs(self._build_dir)
+
+        savedir = os.getcwd()
+        os.chdir(self._build_dir)
+
+        cflag = "-m32"
+        cxxflag = "-m32"
+        if self._options.arch == "m64":
+            cflag = "-m64"
+            cxxflag = "-m64"
+        env = {"CC":"ccache gcc",
+               "CXX":"ccache g++",
+               "CFLAGS":cflag,
+               "CXXFLAGS":cxxflag}
+        self._options.update_env(env)
+        
+        run_batch_command(["cmake", "-GNinja", self._src_dir] + self._extra_definitions,
+                             env=env)
+
+        run_batch_command(["ninja","-j" + str(cpu_count())], env=env)
+
+        install_dir = pm.build_root() + "/bin/" + self._suite
+        run_batch_command(["mkdir", "-p", install_dir])
+        run_batch_command(["cp", "-a", self._build_dir + "/cts",
+                              install_dir])
+
+        os.chdir(savedir)
+
+        Export().export()

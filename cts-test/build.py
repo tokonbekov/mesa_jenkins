@@ -53,11 +53,12 @@ class CtsBuilder:
 
         savedir = os.getcwd()
         cts_dir = self.build_root + "/bin/cts"
-        os.chdir(cts_dir)
+        # os.chdir(cts_dir)
 
         # invoke piglit
-        self.env["PIGLIT_CTS_BIN"] = cts_dir + "/glcts"
-        self.env["PIGLIT_CTS_GLES_BIN"] = cts_dir + "/glcts"
+        self.env["PIGLIT_CTS_BIN"] = self.build_root + "/bin/es/cts/glcts"
+        self.env["PIGLIT_CTS_GL_BIN"] = self.build_root + "/bin/gl/cts/glcts"
+        self.env["PIGLIT_CTS_GLES_BIN"] = self.build_root + "/bin/es/cts/glcts"
         out_dir = self.build_root + "/test/" + o.hardware
 
         include_tests = []
@@ -80,7 +81,7 @@ class CtsBuilder:
         if "11.1" in mesa_version or "11.0" in mesa_version:
             extra_excludes += ["--exclude-tests", "es31-cts"]
 
-        suite_name = "cts_gles"
+        suite_names = ["cts_gles", "cts_gl"]
         piglit_cts_runner = pm.project_source_dir("piglit") + "/tests/cts_gles.py"
         if not os.path.exists(piglit_cts_runner):
             # gles/gl versions of the cts runner were introduced in
@@ -96,7 +97,7 @@ class CtsBuilder:
                "--exclude-tests", "esext-cts",
                "--junit_suffix", "." + o.hardware + o.arch] + \
                extra_excludes + \
-               include_tests + [suite_name, out_dir]
+               include_tests + suite_names + [out_dir]
 
         bs.run_batch_command(cmd, env=self.env,
                              expected_return_code=None,

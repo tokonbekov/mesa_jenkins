@@ -63,10 +63,15 @@
       <prerequisite name="mesa"/>
     </project>
 
+    <project name="glcts">
+      <prerequisite name="mesa"/>
+    </project>
+
     <project name="cts-test"
              bisect_hardware="bdw,skl,hsw,ivb,snb,ilk,g965,bsw,byt,g33,g45,bxt,kbl"
              bisect_arch="m64">
       <prerequisite name="cts" hardware="builder"/>
+      <prerequisite name="glcts" hardware="builder"/>
       <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
     </project>
@@ -372,6 +377,9 @@
     <cts repo="ssh://majanes@git-amr-2.devtools.intel.com:29418/otc_gen_graphics-khronos-glconform.git"
          branch="origin/master-gbm"/>
 
+    <glcts repo="ssh://majanes@git-amr-2.devtools.intel.com:29418/otc_gen_graphics-khronos-glconform.git"
+           branch="origin/gl45release"/>
+
     <prerelease repo="ssh://majanes@git-amr-3.devtools.intel.com:29418/otc_gen_graphics-mesa_ci_prerelease.git"/>
 
     <shaderc repo="git://github.com/jekstrand/shaderc"
@@ -423,6 +431,7 @@
       <drm/>
       <deqp/>
       <cts/>
+      <glcts/>
       <prerelease trigger="false"/>
     </branch>
 
