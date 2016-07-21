@@ -252,6 +252,10 @@ car_chase:
   bdw: 1.0
   skl: 1.0
   bsw: 1.0
+car_chase_o:
+  bdw: 1.0
+  skl: 1.0
+  bsw: 1.0
 plot3d:
   UFO: {bdw: 904.38, skl: 1118.04}
   bdw: 1.0
