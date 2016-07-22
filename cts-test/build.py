@@ -81,7 +81,9 @@ class CtsBuilder:
         if "11.1" in mesa_version or "11.0" in mesa_version:
             extra_excludes += ["--exclude-tests", "es31-cts"]
 
-        suite_names = ["cts_gles", "cts_gl"]
+        suite_names = ["cts_gles"]
+        if "bdw" in o.hardware or "skl" in o.hardware or "kbl" in o.hardware or "bxt" in o.hardware or "bsw" in o.hardware:
+            suite_names.append("cts_gl")
         piglit_cts_runner = pm.project_source_dir("piglit") + "/tests/cts_gles.py"
         if not os.path.exists(piglit_cts_runner):
             # gles/gl versions of the cts runner were introduced in
