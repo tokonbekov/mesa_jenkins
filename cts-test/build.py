@@ -84,6 +84,7 @@ class CtsBuilder:
         suite_names = ["cts_gles"]
         if "bdw" in o.hardware or "skl" in o.hardware or "kbl" in o.hardware or "bxt" in o.hardware or "bsw" in o.hardware:
             suite_names.append("cts_gl")
+            extra_excludes += ["--exclude-tests", "gl45-cts"]
         piglit_cts_runner = pm.project_source_dir("piglit") + "/tests/cts_gles.py"
         if not os.path.exists(piglit_cts_runner):
             # gles/gl versions of the cts runner were introduced in
