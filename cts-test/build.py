@@ -69,7 +69,11 @@ class CtsBuilder:
                 # we were supposed to retest failures, but there were none
                 return
 
-        extra_excludes = []
+        # this test is flaky in glcts.  It passes enough for
+        # submission, but as per Ken, no developer will want to look
+        # at it to figure out why the test is flaky.
+        extra_excludes = ["--exclude-tests", "packed_depth_stencil.packed_depth_stencil_copyteximage"]
+
         if ("ilk" in o.hardware or "g33" in o.hardware
             or "g45" in o.hardware or "g965" in o.hardware):
             extra_excludes += ["--exclude-tests", "es3-cts",
