@@ -251,6 +251,12 @@
     <project name="car_chase_o">
       <prerequisite name="mesa-perf" hardware="builder"/>
     </project>
+    <project name="tess">
+      <prerequisite name="mesa-perf" hardware="builder"/>
+    </project>
+    <project name="tess_o">
+      <prerequisite name="mesa-perf" hardware="builder"/>
+    </project>
     <project name="plot3d">
       <prerequisite name="mesa-perf" hardware="builder"/>
     </project>
@@ -308,6 +314,8 @@
       <prerequisite name="egypt" hardware="sklgt2-06,bdwgt3e-02,bsw-06"/>
       <prerequisite name="car_chase" hardware="sklgt2-05,bdwgt3e-05,bsw-07"/>
       <prerequisite name="car_chase_o" hardware="sklgt2-06,bdwgt3e-06,bsw-08"/>
+      <prerequisite name="tess" hardware="sklgt2-04,bdwgt3e-04,bsw-03"/>
+      <prerequisite name="tess_o" hardware="sklgt2-07,bdwgt3e-05,bsw-02"/>
     </project>
     <!-- Performance projects END -->
 
