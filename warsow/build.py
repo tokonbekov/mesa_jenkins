@@ -11,7 +11,7 @@ class WarsowTimeout:
         self._options = bs.Options()
     def GetDuration(self):
         base_time = 20
-        if self._options.hardware == "bsw":
+        if "bsw" in self._options.hardware:
             base_time = base_time * 2
         if self._options.type == "daily":
             base_time = base_time * 5
