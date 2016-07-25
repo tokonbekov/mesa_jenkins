@@ -30,9 +30,21 @@ class CtsBuilder:
 
         if ("hsw" in o.hardware or "ivb" in o.hardware or "byt" in o.hardware):
             self.env["MESA_GLES_VERSION_OVERRIDE"] = "3.1"
-            
+
+        if self._hsw_plus():
+            self.env["MESA_GL_VERSION_OVERRIDE"] = "4.5"
+            self.env["MESA_GLSL_VERSION_OVERRIDE"] = "450"
         o.update_env(self.env)
 
+    def _hsw_plus(self):
+        o = bs.Options()
+        return ("hsw" in o.hardware or
+                "skl" in o.hardware or
+                "bdw" in o.hardware or
+                "bsw" in o.hardware or
+                "kbl" in o.hardware or
+                "bxt" in o.hardware)
+        
     def build(self):
         pass
 
@@ -86,9 +98,20 @@ class CtsBuilder:
             extra_excludes += ["--exclude-tests", "es31-cts"]
 
         suite_names = ["cts_gles"]
-        if "bdw" in o.hardware or "skl" in o.hardware or "kbl" in o.hardware or "bxt" in o.hardware or "bsw" in o.hardware:
+
+        if self._hsw_plus():
             suite_names.append("cts_gl")
-            extra_excludes += ["--exclude-tests", "gl45-cts"]
+            # flaky cts_gl tests
+            extra_excludes += ["arrays_of_arrays_gl.interaction",
+                               "geometry_shader.api_.max_image_uniforms",
+                               "texture_buffer.texture_buffer_precision",
+                               "geometry_shader.api_.max_image_uniforms"]
+        if "hsw" in o.hardware:
+            # flaky cts_gl tests
+            extra_excludes += ["shader_image_load_store.multiple-uniforms",
+                               "shader_image_size.basic-nonms-fs",
+                               "texture_gather.gather-tesselation-shader",
+                               "vertex_attrib_binding.basic-inputl-case1"]
         piglit_cts_runner = pm.project_source_dir("piglit") + "/tests/cts_gles.py"
         if not os.path.exists(piglit_cts_runner):
             # gles/gl versions of the cts runner were introduced in
