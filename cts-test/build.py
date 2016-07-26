@@ -99,7 +99,11 @@ class CtsBuilder:
 
         suite_names = ["cts_gles"]
 
-        if self._hsw_plus():
+        if (self._hsw_plus() and
+            # disable gl cts on stable versions of mesa, which do not
+            # support the feature set.
+            "11.2" not in mesa_version and
+            "12.0" not in mesa_version):
             suite_names.append("cts_gl")
             # flaky cts_gl tests
             extra_excludes += ["arrays_of_arrays_gl.interaction",
