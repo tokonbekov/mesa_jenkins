@@ -121,7 +121,7 @@ class CtsBuilder:
             # gles/gl versions of the cts runner were introduced in
             # mesa 12.0 time frame, with
             # 370f1d3a1bdb2499f600f5f7ace4503cd344f012
-            suite_name = "cts"
+            suite_names = ["cts"]
         cmd = [self.build_root + "/bin/piglit",
                "run",
                #"-p", "gbm",
