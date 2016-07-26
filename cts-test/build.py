@@ -108,7 +108,8 @@ class CtsBuilder:
             # flaky cts_gl tests
             extra_excludes += ["arrays_of_arrays_gl.interaction",
                                "texture_buffer.texture_buffer_precision",
-                               "geometry_shader.api.max_image_uniforms"]
+                               "geometry_shader.api.max_image_uniforms",
+                               "vertex_attrib_64bit.limits_test"]
             if "bxt" in o.hardware:
                 extra_excludes += ["gl3tests.packed_pixels.packed_pixels_pbo",
                                    "gpu_shader_fp64.named_uniform_blocks"]
