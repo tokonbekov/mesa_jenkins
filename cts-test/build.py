@@ -84,18 +84,18 @@ class CtsBuilder:
         # this test is flaky in glcts.  It passes enough for
         # submission, but as per Ken, no developer will want to look
         # at it to figure out why the test is flaky.
-        extra_excludes = ["--exclude-tests", "packed_depth_stencil.packed_depth_stencil_copyteximage"]
+        extra_excludes = ["packed_depth_stencil.packed_depth_stencil_copyteximage"]
 
         if ("ilk" in o.hardware or "g33" in o.hardware
             or "g45" in o.hardware or "g965" in o.hardware):
-            extra_excludes += ["--exclude-tests", "es3-cts",
-                               "--exclude-tests", "es31-cts"]
+            extra_excludes += ["es3-cts",
+                               "es31-cts"]
 
         if ("snb" in o.hardware):
-            extra_excludes += ["--exclude-tests", "es31-cts"]
+            extra_excludes += ["es31-cts"]
 
         if "11.1" in mesa_version or "11.0" in mesa_version:
-            extra_excludes += ["--exclude-tests", "es31-cts"]
+            extra_excludes += ["es31-cts"]
 
         suite_names = ["cts_gles"]
 
@@ -107,9 +107,11 @@ class CtsBuilder:
             suite_names.append("cts_gl")
             # flaky cts_gl tests
             extra_excludes += ["arrays_of_arrays_gl.interaction",
-                               "geometry_shader.api_.max_image_uniforms",
                                "texture_buffer.texture_buffer_precision",
-                               "geometry_shader.api_.max_image_uniforms"]
+                               "geometry_shader.api.max_image_uniforms"]
+            if "bxt" in o.hardware:
+                extra_excludes += ["gl3tests.packed_pixels.packed_pixels_pbo",
+                                   "gpu_shader_fp64.named_uniform_blocks"]
         if "hsw" in o.hardware:
             # flaky cts_gl tests
             extra_excludes += ["shader_image_load_store.multiple-uniforms",
@@ -122,6 +124,9 @@ class CtsBuilder:
             # mesa 12.0 time frame, with
             # 370f1d3a1bdb2499f600f5f7ace4503cd344f012
             suite_names = ["cts"]
+        exclude_tests = []
+        for  a in extra_excludes:
+            exclude_tests += ["--exclude-tests", a]
         cmd = [self.build_root + "/bin/piglit",
                "run",
                #"-p", "gbm",
@@ -130,7 +135,7 @@ class CtsBuilder:
                "-c",
                "--exclude-tests", "esext-cts",
                "--junit_suffix", "." + o.hardware + o.arch] + \
-               extra_excludes + \
+               exclude_tests + \
                include_tests + suite_names + [out_dir]
 
         bs.run_batch_command(cmd, env=self.env,
