@@ -273,15 +273,21 @@ def write_image(opts)
   abort "Error: could not write to #{opts[:write_target]}" unless status == true
 end
 
-# Cleanup working directories
-def cleanup(opts)
-  system('sudo rm -rf initrd work')
+# Unmount debian images
+def umount(opts)
   system('sudo umount x64')
-  FileUtils.rm_r('x64')
 
   return unless opts[:ia32]
 
   system('sudo umount ia32')
+
+# Cleanup working directories
+def cleanup(opts)
+  system('sudo rm -rf initrd work')
+  FileUtils.rm_r('x64')
+
+  return unless opts[:ia32]
+
   FileUtils.rm_r('ia32')
 end
 
@@ -323,6 +329,10 @@ def make_installer(opts)
   else
     puts 'No write target specified, not writing to disk'
   end
+
+  print 'Unmount debian images... '
+  umount(opts)
+  puts 'done'
 
   if opts[:cleanup]
     print 'Cleaning up temporary files... '
