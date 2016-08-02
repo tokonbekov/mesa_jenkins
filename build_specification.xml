@@ -366,6 +366,7 @@
       <remote name="curro" repo="git://people.freedesktop.org/~currojerez/piglit"/>
       <remote name="idr" repo="git://people.freedesktop.org/~idr/piglit"/>
       <remote name="bpeel" repo="git://github.com/bpeel/piglit"/>
+      <remote name="kwg" repo="git://people.freedesktop.org/~kwg/piglit"/>
     </piglit>
 
     <waffle repo="git://github.com/waffle-gl/waffle">
