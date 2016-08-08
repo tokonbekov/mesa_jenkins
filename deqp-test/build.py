@@ -23,7 +23,7 @@ o.update_env(env)
 if "hsw" in o.hardware or "byt" in o.hardware or "ivb" in o.hardware:
     env["MESA_GLES_VERSION_OVERRIDE"] = "3.1"
 
-modules = ["gles2", "gles3"]
+modules = ["gles2", "gles3", "egl"]
 excludes = []
 if "skl" in o.hardware or "bdw" in o.hardware or "bsw" in o.hardware or "hsw" in o.hardware or "byt" in o.hardware or "ivb" in o.hardware:
     modules += ["gles31"]

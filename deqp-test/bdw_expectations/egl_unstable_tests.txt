@@ -1,0 +1,13 @@
+dEQP-EGL.functional.image.modify
+dEQP-EGL.functional.multithread.pbuffer_single_window
+dEQP-EGL.functional.multithread.pbuffer_single_window_context
+dEQP-EGL.functional.multithread.pbuffer_window
+dEQP-EGL.functional.multithread.pbuffer_window_context
+dEQP-EGL.functional.multithread.window
+dEQP-EGL.functional.multithread.window_context
+dEQP-EGL.functional.negative_api.create_pbuffer_from_client_buffer
+dEQP-EGL.functional.negative_api.get_display
+dEQP-EGL.functional.reusable_sync
+dEQP-EGL.functional.sharing.gles2.multithread.simple
+dEQP-EGL.functional.sharing.gles2.multithread.simple_egl_server_sync
+dEQP-EGL.functional.sharing.gles2.multithread.simple_egl_sync

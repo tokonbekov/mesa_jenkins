@@ -47,6 +47,9 @@ class DeqpTrie:
         elif "dEQP-VK-cases" in xml_file:
             current_trie = DeqpTrie()
             self._trie["dEQP-VK"] = current_trie
+        elif "dEQP-EGL-cases" in xml_file:
+            current_trie = DeqpTrie()
+            self._trie["dEQP-EGL"] = current_trie
         else:
             return
         root = ET.parse(xml_file).getroot()
@@ -182,7 +185,7 @@ class DeqpBuilder:
                     if module not in askipfile.lower():
                         continue
                     skip.add_txt(expectations_dir + "/" + askipfile)
-            else:
+            if not skip._trie:
                 skip._trie["empty"] = None
 
             # create test trie
@@ -194,7 +197,6 @@ class DeqpBuilder:
             os.chdir(self.build_root + "/opt/deqp/modules/" + module_dir)
             # generate list of tests
             run_batch_command(["./deqp-" + module,
-                               "--deqp-surface-type=fbo", 
                                "--deqp-runmode=xml-caselist"],
                                  env=self.env)
             outfile = "dEQP-" + module.upper() + "-cases.xml"
@@ -242,6 +244,8 @@ class DeqpBuilder:
         self.env["PIGLIT_DEQP_GLES31_EXTRA_ARGS"] = base_options + self.build_root + "/opt/deqp/modules/gles31/gles31-cases.txt"
         self.env["PIGLIT_DEQP_VK_BIN"] = self.build_root + "/opt/deqp/modules/vulkan/deqp-vk"
         self.env["PIGLIT_DEQP_VK_EXTRA_ARGS"] = base_options + self.build_root + "/opt/deqp/modules/vulkan/vk-cases.txt" + " --deqp-surface-type=fbo "
+        self.env["PIGLIT_DEQP_EGL_BIN"] = self.build_root + "/opt/deqp/modules/egl/deqp-egl"
+        self.env["PIGLIT_DEQP_EGL_EXTRA_ARGS"] =  base_options + self.build_root + "/opt/deqp/modules/egl/egl-cases.txt"
         # makes trigonometric functions more accurate with significant
         # performance penalty.  This setting is required to pass
         # several dEQP and vulkan tests.
