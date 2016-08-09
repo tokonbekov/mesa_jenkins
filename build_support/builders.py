@@ -293,7 +293,8 @@ class CMakeBuilder(object):
                           + self._extra_definitions, env=env)
 
         run_batch_command(["ninja", "-j" + str(cpu_count())], env=env)
-        run_batch_command(["ninja", "install"])
+        print "Installing: output suppressed"
+        run_batch_command(["ninja", "install"], streamedOutput=False, quiet=True)
 
         os.chdir(savedir)
 
