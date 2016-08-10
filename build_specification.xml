@@ -438,7 +438,7 @@
       <!-- these repo tags exist soley to trigger a master build when
            anything changes -->
       <mesa/>
-      <piglit branch="janesma/pre_gles31"/>
+      <piglit/>
       <waffle/>
       <drm/>
       <deqp/>
@@ -463,7 +463,6 @@
       <crucible/>
       <shaderc/>
       <glslang/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="mesa_perf" project="perf-all">
@@ -473,85 +472,70 @@
     <branch name="bwidawsk_vulkan" project="vulkancts-full">
       <mesa branch="vulkan/bwidawsk"/>
       <vulkancts branch="khronos/vulkan-cts-1.0" trigger="false"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="jekstrand" project="vulkan-and-gl">
       <mesa branch="jekstrand/jenkins"/>
       <vulkancts branch="khronos/vulkan-cts-1.0" trigger="false"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="jekstrand_gl" project="test-single-arch">
       <mesa branch="jekstrand/jenkins_gl"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="jekstrand_vulkan" project="vulkancts-full">
       <mesa branch="jekstrand/jenkins_vulkan"/>
       <vulkancts branch="khronos/vulkan-cts-1.0" trigger="false"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="jljusten_vulkan" project="vulkancts-full">
       <mesa branch="jljusten/vulkan"/>
       <vulkancts branch="khronos/vulkan-cts-1.0" trigger="false"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="chadv_vulkan" project="vulkancts-full">
       <mesa branch="chadv/jenkins_vulkan"/>
       <vulkancts branch="khronos/vulkan-cts-1.0" trigger="false"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="krh_vulkan" project="vulkancts-full">
       <mesa branch="krh/jenkins_vulkan"/>
       <vulkancts branch="khronos/vulkan-cts-1.0" trigger="false"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="kwg" project="test-single-arch">
       <mesa branch="kwg/jenkins"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="kwg_vulkan" project="vulkancts-full">
       <mesa branch="kwg/vkjenkins"/>
       <vulkancts branch="khronos/vulkan-cts-1.0" trigger="false"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="krh" project="test-single-arch">
       <mesa branch="krh/jenkins"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="bwidawsk" project="test-single-arch-ben">
       <mesa branch="bwidawsk/jenkins"/>
       <!-- <piglit branch="bwidawsk/jenkins"/> -->
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="bwidawsk_fast" project="test-single-arch">
       <mesa branch="bwidawsk/fast_jenkins"/>
       <!-- <piglit branch="bwidawsk/jenkins"/> -->
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="idr" project="test-single-arch">
       <mesa branch="idr/jenkins"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="mattst88" project="test-single-arch">
       <mesa branch="mattst88/jenkins"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="majanes" project="test-single-arch">
       <mesa branch="janesma/jenkins"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="dcbaker" project="test-single-arch">
@@ -560,84 +544,68 @@
 
     <branch name="dcbaker_mesa" project="test-single-arch">
       <mesa branch="dcbaker/jenkins_gl"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="chadv" project="test-single-arch">
       <mesa branch="origin/10.3"/>
       <waffle branch="chadv/jenkins"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="jljusten" project="test-single-arch">
       <mesa branch="jljusten/jenkins"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="mperes" project="test-single-arch">
       <mesa branch="mperes/jenkins"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="tpalli" project="test-single-arch">
       <mesa branch="tpalli/jenkins"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="curro" project="test-single-arch">
       <mesa branch="curro/jenkins"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="aphogat" project="test-single-arch">
       <mesa branch="aphogat/jenkins"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="tpohjola" project="test-single-arch">
       <mesa branch="tpohjola/jenkins"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="nchery_vulkan" project="vulkancts-full">
       <mesa branch="nchery/jenkins_vulkan"/>
       <vulkancts branch="khronos/vulkan-cts-1.0" trigger="false"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="nchery" project="test-single-arch">
       <mesa branch="nchery/jenkins"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="cwabbott0" project="test-single-arch">
       <mesa branch="cwabbott0/jenkins"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="bpeel" project="test-single-arch-skl">
       <mesa branch="bpeel/jenkins"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
     
     <branch name="ickle" project="test-single-arch">
       <mesa branch="ickle/jenkins"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="tarceri" project="test-single-arch">
       <mesa branch="tarceri/intel_ci"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="airlied" project="test-single-arch">
       <mesa branch="airlied/jenkins"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="tarceri_slow" project="test-single-arch-ben">
       <mesa branch="tarceri/intel_ci_old"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="evelikov" project="test-single-arch">
@@ -649,17 +617,14 @@
 
     <branch name="juhapekka" project="test-single-arch">
       <mesa branch="juhapekka/jenkins"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="pnmanolova" project="test-single-arch">
       <mesa branch="pnmanolova/jenkins"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
     <branch name="imirkin" project="test-single-arch">
       <mesa branch="imirkin/jenkins"/>
-      <piglit branch="janesma/pre_gles31"/>
     </branch>
 
   </branches>
