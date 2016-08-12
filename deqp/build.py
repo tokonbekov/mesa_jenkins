@@ -4,5 +4,5 @@ import sys, os
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
 import build_support as bs
 
-bs.build(bs.CMakeBuilder(extra_definitions=["-DDEQP_TARGET=x11_egl"]))
+bs.build(bs.CMakeBuilder(extra_definitions=["-DDEQP_TARGET=x11_glx"]))
 
