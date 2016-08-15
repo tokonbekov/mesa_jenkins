@@ -463,6 +463,7 @@ class PiglitTester(object):
                           "spec.egl.1_4.eglterminate.then.unbind.context",
                           "spec.egl_chromium_sync_control.conformance",
                           "spec.egl.1_4.largest.possible.eglcreatepbuffersurface",
+                          "spec.egl.1_4.eglcreatepbuffersurface",
                           "spec.egl_khr_fence_sync.conformance"]
         
         # bogus test
