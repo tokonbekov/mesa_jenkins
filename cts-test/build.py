@@ -109,7 +109,17 @@ class CtsBuilder:
             extra_excludes += ["arrays_of_arrays_gl.interaction",
                                "texture_buffer.texture_buffer_precision",
                                "geometry_shader.api.max_image_uniforms",
-                               "vertex_attrib_64bit.limits_test"]
+                               "vertex_attrib_64bit.limits_test",
+                               # as per Ian, only run gl45
+                               "gl30-cts",
+                               "gl31-cts",
+                               "gl32-cts",
+                               "gl33-cts",
+                               "gl40-cts",
+                               "gl41-cts",
+                               "gl42-cts",
+                               "gl43-cts",
+                               "gl44-cts"]
             if "bxt" in o.hardware:
                 extra_excludes += ["gl3tests.packed_pixels.packed_pixels_pbo",
                                    "gpu_shader_fp64.named_uniform_blocks"]
