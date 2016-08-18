@@ -102,7 +102,7 @@
 
     <project name="crucible-test"
              bisect_hardware="bdw,skl,ivb,bsw,byt"
-             bisect_arch="m32,m64">
+             bisect_arch="m64">
       <prerequisite name="crucible" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
       <prerequisite name="piglit" hardware="builder"/>
@@ -110,7 +110,7 @@
 
     <project name="vulkancts-test" src_dir="vulkancts"
              bisect_hardware="bdw,skl,bsw,kbl,hsw"
-             bisect_arch="m64,m32">
+             bisect_arch="m64">
       <prerequisite name="vulkancts" hardware="builder"/>
       <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
@@ -118,13 +118,11 @@
 
     <project name="vulkancts-full">
       <prerequisite name="vulkancts-test" hardware="bdw" arch="m64" shard="8"/>
-      <prerequisite name="vulkancts-test" only_for_type="daily" hardware="bdw" arch="m32" shard="8"/>
       <prerequisite name="vulkancts-test" hardware="skl,hsw" arch="m64" shard="7"/>
-      <prerequisite name="vulkancts-test" only_for_type="daily" hardware="skl,hsw" arch="m32" shard="7"/>
       <prerequisite name="vulkancts-test"
                     only_for_type="daily"
                     hardware="bsw"
-                    arch="m64,m32"
+                    arch="m64"
                     shard="9"/>
       <!-- kbl and bxt have limited test machines and are not stable.
            Limit testing to m64 to use fewer resources, and shard the
@@ -136,7 +134,6 @@
       <!--               shard="6"/> -->
 
       <prerequisite name="crucible-test" arch="m64" hardware="bdw,skl,bsw"/>
-      <prerequisite name="crucible-test" only_for_type="daily" arch="m32" hardware="bdw,skl,bsw"/>
     </project>
 
     <project name="vulkancts"/>
