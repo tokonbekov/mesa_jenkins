@@ -97,15 +97,6 @@ class VulkanCtsBuilder(object):
                               self._build_dir + "/external/vulkancts/modules",
                               bin_dir])
 
-        # newest CTS requires this
-        lib_dir = self._build_root + "/lib/"
-        if not os.path.exists(lib_dir):
-            os.makedirs(lib_dir)
-        if not os.path.islink(lib_dir + "libvulkan-1.so"):
-            os.symlink("libvulkan_intel.so", lib_dir + "libvulkan-1.so")
-        if not os.path.islink(lib_dir + "libvulkan.so.1"):
-            os.symlink("libvulkan_intel.so", lib_dir + "libvulkan.so.1")
-
         bs.Export().export()
 
     def clean(self):
