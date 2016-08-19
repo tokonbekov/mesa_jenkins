@@ -336,7 +336,7 @@ class RevisionSpecification:
         repo_set = RepoSet()
         for (project, revision) in self._revisions.iteritems():
             project_repo = repo_set.repo(project)
-            project_repo.git.checkout(revision)
+            project_repo.git.checkout(["-f", revision])
 
     def revision(self, project):
         return self._revisions[project]
