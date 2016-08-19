@@ -412,9 +412,8 @@
       <remote name="fdo" repo="http://anongit.freedesktop.org/git/mesa/crucible.git"/>
     </crucible>
 
-    <vulkancts repo="ssh://git@gitlab.khronos.org/jekstrand/vulkancts.git"
-               branch="vulkan-cts-1.0.0-internal">
-      <remote name="khronos" repo="git@gitlab.khronos.org:vulkan/vulkancts.git"/>
+    <vulkancts repo="git@gitlab.khronos.org:Tracker/vulkancts.git"
+               branch="vulkan-cts-1.0.0">
     </vulkancts>
     <spirvtools repo="ssh://git@gitlab.khronos.org/spirv/spirv-tools.git"/>
     <spirvheaders repo="git://github.com/KhronosGroup/SPIRV-Headers"/>
@@ -457,7 +456,7 @@
 
     <branch name="vulkancts" project="vulkancts-full">
       <mesa/>
-      <vulkancts branch="khronos/vulkan-cts-1.0"/>
+      <vulkancts branch="origin/vulkan-cts-1.0.0"/>
       <crucible/>
       <shaderc/>
       <glslang/>
