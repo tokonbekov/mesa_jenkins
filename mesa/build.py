@@ -47,6 +47,24 @@ class MesaBuilder(bs.AutoBuilder):
         # without them.
         bs.AutoBuilder.__init__(self, configure_options=options, opt_flags="-O2")
 
+    def build(self):
+        bs.AutoBuilder.build(self)
+        # since mesa doesn't install an icd, generate one
+        icd_path = "/tmp/build_root/" + self._options.arch + "/usr/share/vulkan/icd.d/dev_icd.json"
+        icd_content = """\
+{
+    "file_format_version": "1.0.0",
+    "ICD": {
+        "library_path": "/tmp/build_root/%s/lib/libvulkan_intel.so",
+        "abi_versions": "1.0.3"
+    }
+}
+""" % self._options.arch
+        if not os.path.exists(os.path.dirname(icd_path)):
+            os.makedirs(os.path.dirname(icd_path))
+        with open(icd_path, "w") as icd_f:
+            icd_f.write(icd_content)
+
     def test(self):
         gtests = ["src/glx/tests/glx-test",
                   "src/mesa/main/tests/main-test",
