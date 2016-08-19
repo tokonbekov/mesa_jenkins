@@ -78,6 +78,7 @@
 
     <project name="piglit">
       <prerequisite name="waffle" hardware="builder"/>
+      <prerequisite name="mesa" hardware="builder"/>
     </project>
 
     <project name="piglit-test"
