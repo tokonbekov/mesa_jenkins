@@ -93,7 +93,8 @@ class CrucibleTester(object):
     def test(self):
         pm = bs.ProjectMap()
         build_root = pm.build_root()
-        env = { "LD_LIBRARY_PATH" : build_root + "/lib"}
+        env = { "LD_LIBRARY_PATH" : build_root + "/lib",
+                "VK_ICD_FILENAMES" : build_root + "/usr/share/vulkan/icd.d/dev_icd.json"}
         o = bs.Options()
         o.update_env(env)
         br = bs.ProjectMap().build_root()
