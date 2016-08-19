@@ -124,7 +124,8 @@ class DeqpBuilder:
                      # bugs in debian's s2tc library.  Recommended by nroberts
                      "S2TC_DITHER_MODE" : "NONE",
                      # forces deqp to run headless
-                     "PIGLIT_NO_TIMEOUT" : "1"
+                     "PIGLIT_NO_TIMEOUT" : "1",
+                     "VK_ICD_FILENAMES" : self.build_root + "/usr/share/vulkan/icd.d/dev_icd.json"
         }
         if env:
             for (k,v) in env.items():
