@@ -9,3 +9,4 @@ dEQP-VK.pipeline.sampler.view_type.2d_array
 dEQP-VK.pipeline.sampler.view_type.3d
 dEQP-VK.pipeline.vertex_input.multiple_attributes.binding_one_to_many.attributes.ivec3_as_r32g32b32_sint_rate_vertex-mat3_as_r32g32b32_sfloat_rate_instance-mat4_as_r16g16b16a16_sfloat_rate_vertex
 dEQP-VK.memory.mapping.random
+dEQP-VK.pipeline.multisample.alpha_to_one.samples_8
