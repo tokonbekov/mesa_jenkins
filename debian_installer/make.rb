@@ -280,6 +280,7 @@ def umount(opts)
   return unless opts[:ia32]
 
   system('sudo umount ia32')
+end
 
 # Cleanup working directories
 def cleanup(opts)
