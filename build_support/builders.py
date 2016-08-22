@@ -469,13 +469,6 @@ class PiglitTester(object):
         # bogus test
         exclude_tests += ["arb_shader_image_load_store.execution.coherency-extra"]
 
-        # TODO: bisect these intermittent failures and write bugs
-        exclude_tests = exclude_tests + ["arb_separate_shader_objects.validateprogrampipeline",
-                                         "glsl-1_50.execution.geometry.clip-distance",
-                                         "glsl-1_50.execution.gs-redeclares-pervertex-out-only",
-                                         "glsl-1_50.execution.redeclare-pervertex-subset-vs-to-gs",
-                                         "glsl-1_50.transform-feedback-type-and-size"]
-
         # Bug 95008
         exclude_tests += ["arb_sync.clientwaitsync-timeout"]
 
