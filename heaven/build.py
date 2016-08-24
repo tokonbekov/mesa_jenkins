@@ -8,5 +8,6 @@ import build_support as bs
 
 
 bs.build(bs.PerfBuilder("heaven", iterations=2,
-                        env={"allow_glsl_extension_directive_midshader":"true"}))
+                        env={"allow_glsl_extension_directive_midshader":"true",
+                             "dual_color_blend_by_location":"true"}))
 

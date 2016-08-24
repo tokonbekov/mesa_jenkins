@@ -17,6 +17,7 @@ class WarsowTimeout:
             base_time = base_time * 5
         return base_time
 
-bs.build(bs.PerfBuilder("warsow", iterations=15),
+bs.build(bs.PerfBuilder("warsow", iterations=15,
+                        env={"allow_glsl_extension_directive_midshader":"true"}),
          time_limit=WarsowTimeout())
 
