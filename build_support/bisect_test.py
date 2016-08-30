@@ -331,7 +331,7 @@ class PiglitTest:
                 c.set("expected-failures", self.test_name, self.bisected_revision)
             elif self.status == "crash":
                 c.set("expected-crashes", self.test_name, self.bisected_revision)
-            elif self.status == "pass":
+            elif self.status == "pass" or self.status == "skip":
                 if not c.has_section("fixed-tests"):
                     c.add_section("fixed-tests")
                 c.set("fixed-tests", self.test_name, self.bisected_revision)
