@@ -1,3 +1,2 @@
 dEQP-VK.memory.mapping.random
-dEQP-VK.synchronization
 
