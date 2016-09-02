@@ -15,6 +15,8 @@ class SlowTimeout:
             return 120
         if self.hardware == "bxt":
             return 120
+        if self.hardware == "kbl":
+            return 120
         if self.hardware == "g33":
             return 120
         if self.hardware == "g965":
