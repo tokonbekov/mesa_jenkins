@@ -465,6 +465,10 @@ class PiglitTester(object):
                           "spec.egl.1_4.largest.possible.eglcreatepbuffersurface",
                           "spec.egl.1_4.eglcreatepbuffersurface",
                           "spec.egl_khr_fence_sync.conformance"]
+
+        # https://bugs.freedesktop.org/show_bug.cgi?id=97577
+        exclude_tests += ["spec.ext_shader_samples_identical.glsl-es-3_10.compiler.all-functions_vert",
+                          "spec.oes_shader_io_blocks.compiler.layout-location-aliasing_vert"]
         
         # bogus test
         exclude_tests += ["arb_shader_image_load_store.execution.coherency-extra"]
