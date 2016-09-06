@@ -8,7 +8,21 @@ from . import *
 class DeqpTrie:
     def __init__(self):
         self._trie = {}
-        
+        self._result = {}
+        self._content = {}
+        self._duration = {}
+        self._stdout = {}
+        self._stderr = {}
+
+    def empty(self):
+        return not self._trie
+
+    def results_count(self, running_count = 0):
+        for _,v in iter(self._trie.items()):
+            running_count = v.results_count(running_count)
+        running_count += len(self._result)
+        return running_count
+    
     def add_txt(self, txt_file):
         fh = None
         if (txt_file[-4:] == ".bz2"):
@@ -50,6 +64,24 @@ class DeqpTrie:
         elif "dEQP-EGL-cases" in xml_file:
             current_trie = DeqpTrie()
             self._trie["dEQP-EGL"] = current_trie
+        elif "CTS-Configs-cases" in xml_file:
+            current_trie = DeqpTrie()
+            self._trie["CTS-Configs"] = current_trie
+        elif "ES2-CTS-cases" in xml_file:
+            current_trie = DeqpTrie()
+            self._trie["ES2-CTS"] = current_trie
+        elif "ES3-CTS-cases" in xml_file:
+            current_trie = DeqpTrie()
+            self._trie["ES3-CTS"] = current_trie
+        elif "ES31-CTS-cases" in xml_file:
+            current_trie = DeqpTrie()
+            self._trie["ES31-CTS"] = current_trie
+        elif "ES32-CTS-cases" in xml_file:
+            current_trie = DeqpTrie()
+            self._trie["ES32-CTS"] = current_trie
+        elif "ESEXT-CTS" in xml_file:
+            current_trie = DeqpTrie()
+            self._trie["ESEXT-CTS"] = current_trie
         else:
             return
         root = ET.parse(xml_file).getroot()
@@ -73,7 +105,6 @@ class DeqpTrie:
             self._trie = {}
         for group in blacklist._trie.keys():
             if group not in self._trie:
-                print "ERROR: blacklist of " + group + " not in tests"
                 continue
             self._trie[group].filter(blacklist._trie[group])
             if len(self._trie[group]._trie) == 0:
@@ -87,19 +118,132 @@ class DeqpTrie:
                 continue
             self._trie[group].filter_whitelist(whitelist._trie[group], prefix=prefix + group + ".")
 
-    def write_caselist(self, outfh, prefix=""):
+    def write_caselist(self, outfh, prefix="", shard=0, shard_count=0, current_shard=1):
         items = self._trie.items()
         # ensure stable order, so sharding will work correctly
         items.sort()
         for group, trie in items:
             if len(trie._trie) == 0:
-                outfh.write(prefix + "." + group + "\n")
+                if shard == 0 or current_shard == shard:
+                    outfh.write(prefix + "." + group + "\n")
+                if shard:
+                    current_shard += 1
+                if current_shard > shard_count:
+                    current_shard = 1
                 continue
             # else
             if prefix:
                 group = prefix + "." + group
-            trie.write_caselist(outfh, group)
-            
+            current_shard = trie.write_caselist(outfh, group, shard, shard_count, current_shard)
+        return current_shard
+
+    def merge(self, other):
+        for (k, v) in iter(other._trie.items()):
+            if k in self._trie:
+                self._trie[k].merge(v)
+            else:
+                self._trie[k] = v
+
+    def add_qpa_blob(self, split_test_name, blob, pid):
+        if len(split_test_name) == 1:
+            test = split_test_name[0] 
+            self._trie[test] = DeqpTrie()
+            self._content[test] = blob
+            self._duration[test] = 0.0
+            self._stdout[test] = ""
+            self._stderr[test] = "pid: {}\n".format(str(pid))
+            try:
+                t = ET.fromstringlist(blob)
+                stat_tag = t.find("./Result")
+                if stat_tag is None:
+                    self._result[test] = "crash"
+                else:
+                    self._result[test] = stat_tag.attrib["StatusCode"]
+                if self._result[test] == "QualityWarning":
+                    self._result[test] = "Pass"
+                elif self._result[test] == "Fail":
+                    out_txt = ""
+                    for a_text in t.findall("./Text"):
+                        out_txt += a_text.text + "\n"
+                    self._stdout[test] = out_txt
+                # get the test duration value
+                for number in t.findall("./Number"):
+                    if number.attrib["Name"] != "TestDuration":
+                        continue
+                    duration = float(number.text)
+                    if number.attrib["Unit"] == "us":
+                        duration /= 1000000.0
+                    elif number.attrib["Unit"] == "ms":
+                        duration /= 1000.0
+                    self._duration[test] = duration
+                
+            except:
+                self._result[test] = "crash"
+            return
+        group = split_test_name[0]
+        if not self._trie.has_key(group):
+            self._trie[group] = DeqpTrie()
+        self._trie[group].add_qpa_blob(split_test_name[1:], blob, pid)
+
+    def write_junit(self, of, config, missing_commits):
+        of.write("<testsuites>\n")
+        for group, t in iter(self._trie.items()):
+            of.write(""" <testsuite name="{}" tests="{}">\n""".format(group, str(t.results_count())))
+            self._trie[group]._write_junit_tag(of, group, config, missing_commits)
+            of.write(" </testsuite>\n")
+        of.write("</testsuites>")
+        
+    def _write_junit_tag(self, of, prefix, config, missing_commits):
+        for test_name in self._result:
+            status = self._result[test_name].lower()
+            if status == "notsupported":
+                status = "skip"
+            if status not in ["pass", "crash", "skip", "fail"]:
+                print "WARN: invalid status: " + test_name + " : " + status
+                status = "fail"
+            config.write_junit(of, prefix, test_name,
+                               status,
+                               self._duration[test_name],
+                               self._stdout[test_name],
+                               self._stderr[test_name],
+                               missing_commits)
+        for group in self._trie:
+            self._trie[group]._write_junit_tag(of, prefix + "." + group, config, missing_commits)
+
+    def write_nunit(self, of):
+        of.write("<testsuites>\n")
+        for group, t in iter(self._trie.items()):
+            of.write(""" <testsuite name="{}" tests="{}">\n""".format(group, str(t.results_count())))
+            self._trie[group]._write_nunit_tag(of, group)
+            of.write(" </testsuite>\n")
+        of.write("</testsuites>")
+
+    def _write_nunit_tag(self, of, prefix):
+        for test_name in self._result:
+            status = self._result[test_name].lower()
+            if status == "pass":
+                of.write("""\
+  <testcase classname="{}" name="{}" status="pass" time="{}"/>
+""".format(prefix, test_name, self._duration[test_name]))
+            elif status == "notsupported":
+                status = "skip"
+                of.write("""\
+  <testcase classname="{}" name="{}" status="skip" time="{}">
+   <skipped type="skip"/>
+  </testcase>
+""".format(prefix, test_name, self._duration[test_name]))
+            else:
+                status = "fail"
+                of.write("""\
+  <testcase classname="{}" name="{}" status="fail" time="{}">
+   <failure type="fail"/>
+   <system-out>{}</system-out>
+  </testcase>
+""".format(prefix, test_name, self._duration[test_name], self._stdout[test_name]))
+                
+        for group in self._trie:
+            self._trie[group]._write_nunit_tag(of, prefix + "." + group)
+
 class DeqpBuilder:
     def __init__(self, modules, excludes=None, env=None):
         # eg: ["gles2", "gles3"]

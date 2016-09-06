@@ -70,7 +70,6 @@ class CtsBuilder:
         # invoke piglit
         self.env["PIGLIT_CTS_BIN"] = self.build_root + "/bin/es/cts/glcts"
         self.env["PIGLIT_CTS_GL_BIN"] = self.build_root + "/bin/gl/cts/glcts"
-        self.env["PIGLIT_CTS_GLES_BIN"] = self.build_root + "/bin/es/cts/glcts"
         out_dir = self.build_root + "/test/" + o.hardware
 
         include_tests = []

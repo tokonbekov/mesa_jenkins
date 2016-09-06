@@ -76,6 +76,20 @@
       <prerequisite name="mesa" hardware="builder"/>
     </project>
 
+    <project name="glescts-test"
+             bisect_hardware="skl,bdw,hsw,snb,ivb"
+             bisect_arch="m64">
+      <prerequisite name="mesa" hardware="builder"/>
+      <prerequisite name="cts" hardware="builder"/>
+    </project>
+
+    <project name="glescts-test-full">
+      <prerequisite name="glescts-test" hardware="skl,bdw" shard="5"/>
+      <prerequisite name="glescts-test" hardware="hsw" shard="4"/>
+      <prerequisite name="glescts-test" hardware="bsw,byt" shard="8" only_for_type="daily"/>
+      <prerequisite name="glescts-test" hardware="g33,g45,ilk,g965,bxt,ivb,snb,kbl" shard="3" only_for_type="daily"/>
+    </project>
+
     <project name="piglit">
       <prerequisite name="waffle" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
@@ -438,7 +452,7 @@
       <waffle/>
       <drm/>
       <deqp/>
-      <cts/>
+      <cts branch="updated-cts"/>
       <glcts/>
       <prerelease trigger="false"/>
     </branch>

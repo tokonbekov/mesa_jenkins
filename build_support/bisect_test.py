@@ -621,6 +621,183 @@ class CrucibleTest:
     def RetestInclude(self):
         return [self.test_name]
 
+
+class DeqpTest:
+    """Represents a single test.  Has the primary arch that will be
+    tested, and a list of other arches that are expected to be caused by
+    the same revision"""
+
+    def __init__(self, full_test_name, status, test_tag=None, retest_path=""):
+        # TODO(majanes) figure out how to connect test to project
+        self.project = "glescts-test"
+        self.pid = None
+        self.test_tag = test_tag
+        if test_tag is not None:
+            full_test_name = test_tag.attrib["classname"] + "." + test_tag.attrib["name"]
+            status = test_tag.attrib["status"]
+
+        # drop the hw/arch from the test name
+        self.test_name = ".".join(full_test_name.split(".")[:-1])
+        self.status = status
+        self._retest_path = retest_path
+
+        hwarch = full_test_name.split(".")[-1]
+        self.hardware = hwarch[:-3]
+        self.arch = hwarch[-3:]
+
+        self.other_arches = []
+
+        self.bisected_revision = "unknown"
+
+    def FailsPlatform(self, arch, hardware):
+        if arch == self.arch and hardware == self.hardware:
+            return self.status != "pass" and self.status != "skip"
+        if (arch, hardware) in self.other_arches:
+            return self.status != "pass" and self.status != "skip"
+        return False
+        
+    def AddTest(self, test):
+        assert(test.test_name == self.test_name)
+        if test.status != self.status:
+            print "WARN: skipping mismatched status for test: " + test.test_name
+
+        primary_arch = self.arch
+        primary_hw = self.hardware
+        secondary_arch = test.arch
+        secondary_hw = test.hardware
+        if self.arch == "m32" and test.arch == "m64":
+            # m64 is preferred
+            primary_arch = test.arch
+            primary_hw = test.hardware
+            secondary_arch = self.arch
+            secondary_hw = self.hardware
+        elif ((self.hardware not in preferred_hardware and test.hardware in preferred_hardware) or
+              # or if other test has more preferred hardware
+              (preferred_hardware[self.hardware] > preferred_hardware[test.hardware])):
+            # else prefer faster platform
+            primary_arch = test.arch
+            primary_hw = test.hardware
+            secondary_arch = self.arch
+            secondary_hw = self.hardware
+
+        self.other_arches.append((secondary_arch, secondary_hw))
+        self.arch = primary_arch
+        self.hardware = primary_hw
+
+    def Print(self):
+        print " ".join([self.project, self.test_name, self.arch, self.hardware,
+                        self.status, str(self.other_arches)])
+
+    def PrettyPrint(self, fh):
+        pass
+
+    def Bisect(self, bisect_project, commits, bisect_dir):
+        print "Bisecting for " + self.test_name
+        b = Bisector(bisect_project, self, 
+                     commits, self._retest_path, bisect_dir)
+        self.bisected_revision = b.Bisect()
+        if not self.bisected_revision:
+            print "No bisection found for " + self.test_name
+            return
+        self.bisected_revision = self.bisected_revision.replace("=", " ")
+
+    def GetConf(self, hardware=None, arch=None):
+        if not hardware:
+            hardware = self.hardware
+        if not arch:
+            arch = self.arch
+        return get_conf_file(hardware, arch, project=self.project)
+        
+    def UpdateConf(self):
+        full_list = [(self.arch, self.hardware)] + self.other_arches
+        for arch, hardware in full_list:
+            try:
+                conf_file = self.GetConf(hardware=hardware, arch=arch)
+            except NoConfigFile:
+                continue
+            c = CaseConfig(allow_no_value=True)
+            c.optionxform = str
+            c.read(conf_file)
+            if not c.has_section("expected-failures"):
+                c.add_section("expected-failures")
+            if not c.has_section("expected-crashes"):
+                c.add_section("expected-crashes")
+            if not c.has_section("fixed-tests"):
+                c.add_section("fixed-tests")
+
+            # remove test from whatever section it might be in, and
+            # add it back to the right place
+            c.remove_option("expected-failures", self.test_name)
+            c.remove_option("expected-crashes", self.test_name)
+            c.remove_option("fixed-tests", self.test_name)
+            if self.status == "fail":
+                c.set("expected-failures", self.test_name, self.bisected_revision)
+            elif self.status == "crash":
+                c.set("expected-crashes", self.test_name, self.bisected_revision)
+            elif self.status == "pass" or self.status == "skip":
+                c.set("fixed-tests", self.test_name, self.bisected_revision)
+            else:
+                assert(False)
+
+            c.write(open(conf_file, "w"))
+
+    def GetConfRevision(self):
+        try:
+            conf_file = self.GetConf()
+        except NoConfigFile:
+            return ''
+
+        c = CaseConfig(allow_no_value=True)
+        c.optionxform = str
+        c.read(conf_file)
+        for section in ["expected-failures", "expected-crashes", "fixed-tests"]:
+            try:
+                rev = c.get(section, self.test_name)
+                if not rev:
+                    rev = ""
+                return rev
+            except(ConfigParser.NoSectionError, ConfigParser.NoOptionError):
+                pass
+        return ""
+
+    def Passed(self, result_path, rev):
+        # returns true if the crucible test passed at the specified result_path
+        test_result = "/".join([result_path, "test", "piglit-glescts-" +
+                                self.hardware + "-" + self.arch + "-0.xml"])
+        iteration = 0
+        while not os.path.exists(test_result):
+            if iteration < 140:
+                time.sleep(1)
+                iteration = iteration + 1
+                continue
+            print "BUILD FAILED - no test results: " + test_result
+            return False
+
+        result = ET.parse(test_result)
+        for testcase in result.findall("./testsuite/testcase"):
+            full_test_name = testcase.attrib["classname"] + "." + testcase.attrib["name"]
+            # drop the hw/arch from the test name
+            testname = ".".join(full_test_name.split(".")[:-1])
+            if self.test_name != testname:
+                continue
+            if testcase.findall("failure") or testcase.findall("error"):
+                print "TEST FAILED: " + rev
+                return False
+
+            if testcase.findall("skipped"):
+                print "INFO: the target test was skipped"
+            print "TEST PASSED: " + rev
+            return True
+
+        print "ERROR -- TEST NOT FOUND, treating as success: " + rev + " " + self.test_name
+        return True
+
+    def ForcePass(self, result_file):
+        assert(False)
+
+    def RetestInclude(self):
+        return ["-n", self.test_name]
+    
 class TestLister:
     """reads xml files and generates a set of PiglitTest objects"""
     def __init__(self, bad_dir, include_passes=False):
@@ -632,6 +809,7 @@ class TestLister:
         self._tests["cts-test"] = {}
         self._tests["crucible-test"] = {}
         self._tests["vulkancts-test"] = {}
+        self._tests["glescts-test"] = {}
 
         test_files = []
         if os.path.isfile(bad_dir):
@@ -655,7 +833,8 @@ class TestLister:
                 "piglit-cpu-test" not in a_file and
                 "piglit-cts" not in a_file and
                 "piglit-crucible" not in a_file and
-                "piglit-deqp" not in a_file) :
+                "piglit-deqp" not in a_file and
+                "piglit-glescts" not in a_file):
                 continue
             self._add_tests(a_file)
 
@@ -666,6 +845,8 @@ class TestLister:
         testclass = PiglitTest
         if "crucible" in os.path.basename(test_path):
             testclass = CrucibleTest
+        if "glescts" in os.path.basename(test_path):
+            testclass = DeqpTest
 
         tags = r.findall(".//failure/..") + r.findall(".//error/..")
         if self._include_passes:
