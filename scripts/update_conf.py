@@ -72,6 +72,10 @@ _revspec = bs.RevisionSpecification(from_cmd_line=[k + "=" + v for k,v in rev_ha
 _revspec.checkout()
 _revspec = bs.RevisionSpecification()
 
+# use the full sha for the blame, so it can be looked up in a map when
+# processing the config file
+blame[1] = str(repos.repo(blame[0]).git.rev_parse(blame[1]))
+
 if not bs.retest_failures(args.result_path, retest_dir):
     print "ERROR: retest failed"
     sys.exit(-1)
