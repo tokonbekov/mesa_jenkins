@@ -59,7 +59,7 @@ if retest_dir == "":
 
 if rev_hash[blame[0]] == blame[1]:
     # rsync to save build if the blame is the same as the build
-    src_dir = "/".join(dirnames[:-1])
+    src_dir = "/".join(dirnames[:-1]) + "/"
     dest_dir = bs.convert_rsync_path(retest_dir)
     cmd = ["rsync", "-rlptD", "--exclude", "/*test/", src_dir, dest_dir]
     bs.run_batch_command(cmd)
