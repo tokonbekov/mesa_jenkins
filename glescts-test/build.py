@@ -148,19 +148,31 @@ class GLESCTSTester(object):
         # generate xml files for each suite
         savedir = os.getcwd()
         os.chdir(self.build_root + "/bin/es/cts")
-        bs.run_batch_command(["./glcts", "--deqp-runmode=xml-caselist"], env=self.env)
 
         all_tests = bs.DeqpTrie()
-        # filter suites against must pass
-        for caselist in glob.glob("*.xml"):
-            testlist = bs.DeqpTrie()
-            testlist.add_xml(caselist)
-            if caselist in self.whitelists:
-                whitelist = bs.DeqpTrie()
-                whitelist.add_txt(self.whitelists[caselist])
-                testlist.filter_whitelist(whitelist)
-            # combine test list into single file
-            all_tests.merge(testlist)
+        if self.o.retest_path:
+            testlist = bs.TestLister(self.o.retest_path + "/test/")
+            include_tests = testlist.RetestIncludes(self.pm.current_project())
+            if not include_tests:
+                # we were supposed to retest failures, but there were none
+                return
+            with open("retest_caselist.txt", "w") as fh:
+                for t in include_tests:
+                    fh.write(t)
+                    fh.write("\n")
+            all_tests.add_txt("retest_caselist.txt")
+        else:
+            bs.run_batch_command(["./glcts", "--deqp-runmode=xml-caselist"], env=self.env)
+            # filter suites against must pass
+            for caselist in glob.glob("*.xml"):
+                testlist = bs.DeqpTrie()
+                testlist.add_xml(caselist)
+                if caselist in self.whitelists:
+                    whitelist = bs.DeqpTrie()
+                    whitelist.add_txt(self.whitelists[caselist])
+                    testlist.filter_whitelist(whitelist)
+                # combine test list into single file
+                all_tests.merge(testlist)
                 
         # filter suites against unstable blacklist
         # TODO(majanes) filter against build type blacklist

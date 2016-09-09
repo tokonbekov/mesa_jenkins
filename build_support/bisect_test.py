@@ -796,7 +796,7 @@ class DeqpTest:
         assert(False)
 
     def RetestInclude(self):
-        return ["-n", self.test_name]
+        return [self.test_name]
     
 class TestLister:
     """reads xml files and generates a set of PiglitTest objects"""
