@@ -178,6 +178,7 @@ class GLESCTSTester(object):
 
         shard_tests = bs.DeqpTrie()
         shard_tests.add_txt("mesa-ci-caselist.txt")
+
         cpus = multiprocessing.cpu_count()
         base_commands = ["./glcts",
                          "--deqp-log-images=disable",
@@ -189,15 +190,31 @@ class GLESCTSTester(object):
         procs = {}
         out_fh = open(os.devnull, "w")
         procEnv = dict(os.environ.items() + self.env.items())
+        single_proc = False
+        if "DEQP_DETECT_GPU_HANG" in self.env:
+            single_proc = True
         for cpu in range(1, cpus + 1):
             case_fn = "mesa-ci-caselist-" + str(cpu) + ".txt"
             out_fn = "TestResults-" + str(cpu) + ".qpa"
-            bs.rmtree(out_fn)
+            if os.path.exists(out_fn):
+                os.remove(out_fn)
             with open(case_fn, "w") as fh:
                 shard_tests.write_caselist(fh, prefix="", shard=cpu,
                                            shard_count=cpus)
+
+            # do not execute deqp if no tests have been scheduled for
+            # the current cpu core
+            core_tests = bs.DeqpTrie()
+            core_tests.add_txt(case_fn)
+            if core_tests.empty():
+                continue
+            
             commands = base_commands + ["--deqp-caselist-file=" + case_fn,
                                         "--deqp-log-filename=" + out_fn]
+            if single_proc:
+                with open(case_fn, "r") as fh:
+                    commands = base_commands + ["-n", fh.readline().strip(),
+                                                "--deqp-log-filename=" + out_fn]
             proc = subprocess.Popen(commands,
                                     stdout=out_fh,
                                     stderr=out_fh,
@@ -205,7 +222,8 @@ class GLESCTSTester(object):
             procs[cpu] = proc
         # invoke tests
         while True:
-            time.sleep(1)
+            if not single_proc:
+                time.sleep(1)
             if not procs:
                 break
             for cpu, proc in procs.items():
@@ -230,12 +248,19 @@ class GLESCTSTester(object):
                 if (unfinished_tests.empty()):
                     del procs[cpu]
                     continue
-                print "WARN: continuing test after crash"
+                if not single_proc:
+                    print "WARN: continuing test after crash"
                 with open(case_fn, "w") as fh:
                     unfinished_tests.write_caselist(fh)
-                bs.rmtree(out_fn)
-                proc = subprocess.Popen(base_commands + ["--deqp-caselist-file=" + case_fn,
-                                                         "--deqp-log-filename=" + out_fn],
+                if os.path.exists(out_fn):
+                    os.remove(out_fn)
+                commands = base_commands + ["--deqp-caselist-file=" + case_fn,
+                                            "--deqp-log-filename=" + out_fn]
+                if single_proc:
+                    with open(case_fn, "r") as fh:
+                        commands = base_commands + ["-n", fh.readline().strip(),
+                                                    "--deqp-log-filename=" + out_fn]
+                proc = subprocess.Popen(commands,
                                         stdout=out_fh,
                                         stderr=out_fh,
                                         env=procEnv)
