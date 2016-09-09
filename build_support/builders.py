@@ -666,12 +666,12 @@ class CtsBuilder(CMakeBuilder):
         self._suite = suite
         assert(suite == "gl" or suite == "es")
         arch = Options().arch
-        extra_definitions=["-DCMAKE_INCLUDE_PATH=/tmp/build_root/usr/include",
-                           "-DCMAKE_LIBRARY_PATH=/tmp/build_root/" + arch + "/lib"]        
+        extra_definitions=["-DCMAKE_INCLUDE_PATH=/tmp/build_root/" + arch + "/include",
+                           "-DCMAKE_LIBRARY_PATH=/tmp/build_root/" + arch + "/lib"]
         if suite == "gl":
             extra_definitions.append("-DDEQP_TARGET=intel-gbm-gl")
         else:
-            extra_definitions.append("-DDEQP_TARGET=intel-gbm")
+            extra_definitions.append("-DDEQP_TARGET=x11")
         CMakeBuilder.__init__(self, extra_definitions=extra_definitions)
             
     def build(self):

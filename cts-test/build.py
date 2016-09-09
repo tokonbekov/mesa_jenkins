@@ -63,12 +63,7 @@ class CtsBuilder:
 
         conf_file = bs.get_conf_file(o.hardware, o.arch, "cts-test")
 
-        savedir = os.getcwd()
-        cts_dir = self.build_root + "/bin/cts"
-        # os.chdir(cts_dir)
-
         # invoke piglit
-        self.env["PIGLIT_CTS_BIN"] = self.build_root + "/bin/es/cts/glcts"
         self.env["PIGLIT_CTS_GL_BIN"] = self.build_root + "/bin/gl/cts/glcts"
         out_dir = self.build_root + "/test/" + o.hardware
 
@@ -85,19 +80,7 @@ class CtsBuilder:
         # at it to figure out why the test is flaky.
         extra_excludes = ["packed_depth_stencil.packed_depth_stencil_copyteximage"]
 
-        if ("ilk" in o.hardware or "g33" in o.hardware
-            or "g45" in o.hardware or "g965" in o.hardware):
-            extra_excludes += ["es3-cts",
-                               "es31-cts"]
-
-        if ("snb" in o.hardware):
-            extra_excludes += ["es31-cts"]
-
-        if "11.1" in mesa_version or "11.0" in mesa_version:
-            extra_excludes += ["es31-cts"]
-
-        suite_names = ["cts_gles"]
-
+        suite_names = []
         if (self._hsw_plus() and
             # disable gl cts on stable versions of mesa, which do not
             # support the feature set.
@@ -128,15 +111,14 @@ class CtsBuilder:
                                "shader_image_size.basic-nonms-fs",
                                "texture_gather.gather-tesselation-shader",
                                "vertex_attrib_binding.basic-inputl-case1"]
-        piglit_cts_runner = pm.project_source_dir("piglit") + "/tests/cts_gles.py"
-        if not os.path.exists(piglit_cts_runner):
-            # gles/gl versions of the cts runner were introduced in
-            # mesa 12.0 time frame, with
-            # 370f1d3a1bdb2499f600f5f7ace4503cd344f012
-            suite_names = ["cts"]
         exclude_tests = []
         for  a in extra_excludes:
             exclude_tests += ["--exclude-tests", a]
+        if not suite_names:
+            # for master, on old hardware, this component will not
+            # test anything.  The gles tests are instead targeted with
+            # the gles32 cts, in the glescts-test component
+            return
         cmd = [self.build_root + "/bin/piglit",
                "run",
                #"-p", "gbm",
@@ -151,7 +133,6 @@ class CtsBuilder:
         bs.run_batch_command(cmd, env=self.env,
                              expected_return_code=None,
                              streamedOutput=True)
-        os.chdir(savedir)
         single_out_dir = self.build_root + "/../test"
         if not os.path.exists(single_out_dir):
             os.makedirs(single_out_dir)
