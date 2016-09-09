@@ -122,11 +122,7 @@ class GLESCTSTester(object):
                      "INTEL_PRECISE_TRIG" : "1"
         }
         
-        if ("hsw" in self.o.hardware or "ivb" in self.o.hardware or "byt" in self.o.hardware):
-            self.env["MESA_GLES_VERSION_OVERRIDE"] = "3.1"
-
-        if self._hsw_plus():
-            self.env["MESA_GLES_VERSION_OVERRIDE"] = "3.2"
+        self.env["MESA_GLES_VERSION_OVERRIDE"] = "3.2"
         self.o.update_env(self.env)
 
         self.whitelists = {
@@ -135,6 +131,7 @@ class GLESCTSTester(object):
             "ES31-CTS-cases.xml":self.build_root + "/bin/es/cts/gl_cts/data/aosp_mustpass/gles31-master.txt",
             "ES32-CTS-cases.xml":self.build_root + "/bin/es/cts/gl_cts/data/aosp_mustpass/gles32-master.txt",
             }
+        self.blacklist = self.pm.project_build_dir(self.pm.current_project()) + "/" + self.o.hardware[:3] + "_blacklist.txt"
 
     def _hsw_plus(self):
         return ("hsw" in self.o.hardware or
@@ -173,10 +170,16 @@ class GLESCTSTester(object):
                     testlist.filter_whitelist(whitelist)
                 # combine test list into single file
                 all_tests.merge(testlist)
-                
+
         # filter suites against unstable blacklist
-        # TODO(majanes) filter against build type blacklist
-        # shard
+        if os.path.exists(self.blacklist):
+            blacklist = bs.DeqpTrie()
+            blacklist.add_txt(self.blacklist)
+            all_tests.filter(blacklist)
+
+        if all_tests.empty():
+            return
+
         shardno = 0
         shardcount = 0
         if self.o.shard != "0":
