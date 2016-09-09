@@ -4,6 +4,7 @@ from __future__ import print_function
 import ast
 import os
 import time
+import datetime
 import urllib2
 
 # When running as a service, mesa_jenkins must be available to
@@ -29,6 +30,11 @@ def main():
     perf_url = "http://otc-mesa-ci.jf.intel.com/view/All/job/perf/buildWithParameters?token=noauth"
 
     while True:
+        hour = datetime.datetime.now().hour
+        if hour > 11 and hour < 19:
+            # no perf builds between 11am and 7pm
+            sleeptime = (19 - hour) * 60 * 60
+            time.sleep(sleeptime)
         try:
             f = urllib2.urlopen(master_url)
             master_page = ast.literal_eval(f.read())
