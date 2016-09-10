@@ -1,3 +1,6 @@
-ES3-CTS
-ES31-CTS
 ES32-CTS
+ES31-CTS.functional.stencil_texturing.format.depth24_stencil8_cube
+ES31-CTS.functional.stencil_texturing.format.depth32f_stencil8_cube
+ES31-CTS.functional.texture.border_clamp.formats.stencil_index8.gather_size_pot
+ES31-CTS.functional.texture.border_clamp.formats.stencil_index8.gather_size_npot
+ES31-CTS.functional.synchronization.inter_call.without_memory_barrier.ssbo_atomic_counter_mixed_dispatch_100_calls_1k_invocations

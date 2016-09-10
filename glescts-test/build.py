@@ -121,8 +121,13 @@ class GLESCTSTester(object):
                      "GBM_DRIVERS_PATH" : self.build_root + "/lib/dri",
                      "INTEL_PRECISE_TRIG" : "1"
         }
-        
-        self.env["MESA_GLES_VERSION_OVERRIDE"] = "3.2"
+
+        self.env["MESA_GLES_VERSION_OVERRIDE"] = ""
+        if self._gles_32():
+            self.env["MESA_GLES_VERSION_OVERRIDE"] = "3.2"
+        elif self._gles_31():
+            self.env["MESA_GLES_VERSION_OVERRIDE"] = "3.1"
+
         self.o.update_env(self.env)
 
         self.whitelists = {
@@ -131,19 +136,42 @@ class GLESCTSTester(object):
             "ES31-CTS-cases.xml":self.build_root + "/bin/es/cts/gl_cts/data/aosp_mustpass/gles31-master.txt",
             "ES32-CTS-cases.xml":self.build_root + "/bin/es/cts/gl_cts/data/aosp_mustpass/gles32-master.txt",
             }
-        self.blacklist = self.pm.project_build_dir(self.pm.current_project()) + "/" + self.o.hardware[:3] + "_blacklist.txt"
 
-    def _hsw_plus(self):
-        return ("hsw" in self.o.hardware or
-                "skl" in self.o.hardware or
-                "bdw" in self.o.hardware or
-                "bsw" in self.o.hardware or
+    def _gles_32(self):
+        return ("skl" in self.o.hardware or
                 "kbl" in self.o.hardware or
                 "bxt" in self.o.hardware)
+        
+    def _gles_31(self):
+        return ("hsw" in self.o.hardware or
+                "bdw" in self.o.hardware or
+                "bsw" in self.o.hardware or
+                "byt" in self.o.hardware or
+                "ivb" in self.o.hardware)
 
+    def _blacklist(self):
+        project = self.pm.current_project()
+        blacklist_dir = self.pm.project_build_dir(project) + "/"
+        blacklist = bs.DeqpTrie()
+        if "bxt" in self.o.hardware:
+            blacklist_dir = self.pm.project_source_dir("prerelease") + "/" + project + "/"
+        blacklist_file = blacklist_dir + self.o.hardware + self.o.arch + "_blacklist.txt"
+        if os.path.exists(blacklist_file):
+            blacklist.add_txt(blacklist_file)
+            return blacklist
+        blacklist_file = blacklist_dir + self.o.hardware + "_blacklist.txt"
+        if os.path.exists(blacklist_file):
+            blacklist.add_txt(blacklist_file)
+            return blacklist
+        blacklist_file = blacklist_dir + self.o.hardware[:3] + "_blacklist.txt"
+        if os.path.exists(blacklist_file):
+            blacklist.add_txt(blacklist_file)
+        return blacklist
+    
     def test(self):
         # generate xml files for each suite
         savedir = os.getcwd()
+        blacklist = self._blacklist()
         os.chdir(self.build_root + "/bin/es/cts")
 
         all_tests = bs.DeqpTrie()
@@ -159,7 +187,10 @@ class GLESCTSTester(object):
                     fh.write("\n")
             all_tests.add_txt("retest_caselist.txt")
         else:
+            save_override = self.env["MESA_GLES_VERSION_OVERRIDE"]
+            self.env["MESA_GLES_VERSION_OVERRIDE"] = "3.2"
             bs.run_batch_command(["./glcts", "--deqp-runmode=xml-caselist"], env=self.env)
+            self.env["MESA_GLES_VERSION_OVERRIDE"] = save_override
             # filter suites against must pass
             for caselist in glob.glob("*.xml"):
                 testlist = bs.DeqpTrie()
@@ -172,10 +203,7 @@ class GLESCTSTester(object):
                 all_tests.merge(testlist)
 
         # filter suites against unstable blacklist
-        if os.path.exists(self.blacklist):
-            blacklist = bs.DeqpTrie()
-            blacklist.add_txt(self.blacklist)
-            all_tests.filter(blacklist)
+        all_tests.filter(blacklist)
 
         if all_tests.empty():
             return

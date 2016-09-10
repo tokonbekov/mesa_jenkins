@@ -77,7 +77,7 @@
     </project>
 
     <project name="glescts-test"
-             bisect_hardware="skl,bdw,hsw,snb,ivb"
+             bisect_hardware="g33,g45,ilk,g965,bxt,byt,bsw,skl,bdw,hsw,snb,ivb,kbl"
              bisect_arch="m64">
       <prerequisite name="mesa" hardware="builder"/>
       <prerequisite name="cts" hardware="builder"/>

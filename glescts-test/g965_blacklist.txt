@@ -1,3 +1,5 @@
+ES2-CTS.functional.shaders.struct.local.array_member_dynamic_index_vertex
+ES2-CTS.functional.fbo.api.delete_tex_cube_attached_to_bound_fbo
 ES3-CTS
 ES31-CTS
 ES32-CTS
