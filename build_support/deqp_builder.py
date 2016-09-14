@@ -99,6 +99,15 @@ class DeqpTrie:
             self._trie[name]._add_tag(child)
 
     def filter(self, blacklist):
+        # blacklist can either be a trie or a list of tests
+        if list == type(blacklist):
+            if not blacklist:
+                return
+            bltrie = DeqpTrie()
+            for test in blacklist:
+                bltrie.add_line(test)
+            blacklist = bltrie
+        
         if not blacklist._trie and self._trie:
             # caller is filtering out a group of tests with a common
             # prefix.

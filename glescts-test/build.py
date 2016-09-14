@@ -167,11 +167,30 @@ class GLESCTSTester(object):
         if os.path.exists(blacklist_file):
             blacklist.add_txt(blacklist_file)
         return blacklist
+
+    def _gen(self):
+        if "skl" in self.o.hardware or "kbl" in self.o.hardware or "bxt" in self.o.hardware:
+            return 9.0
+        if "bdw" in self.o.hardware or "bsw" in self.o.hardware:
+            return 8.0
+        if "hsw" in self.o.hardware:
+            return 7.5
+        if "ivb" in self.o.hardware or "byt" in self.o.hardware:
+            return 7.0
+        if "snb" in self.o.hardware:
+            return 6.0
+        if "ilk" in self.o.hardware:
+            return 5.0
+        assert("g965" in self.o.hardware or "g33" in self.o.hardware or "g45" in self.o.hardware)
+        return 4.0
+        
+    
     
     def test(self):
         # generate xml files for each suite
-        savedir = os.getcwd()
+        mesa_version = bs.mesa_version()
         blacklist = self._blacklist()
+        savedir = os.getcwd()
         os.chdir(self.build_root + "/bin/es/cts")
 
         all_tests = bs.DeqpTrie()
@@ -202,8 +221,22 @@ class GLESCTSTester(object):
                 # combine test list into single file
                 all_tests.merge(testlist)
 
-        # filter suites against unstable blacklist
         all_tests.filter(blacklist)
+
+        # filter suites against unstable blacklist
+        unsupported = []
+        if "11.2" in mesa_version:
+            unsupported = ["ES32-CTS"]
+            if self._gen() < 8.0:
+                unsupported.append("ES31-CTS")
+            if self._gen() < 6.0:
+                unsupported.append("ES30-CTS")
+
+        if "12.0" in mesa_version:
+            if self._gen() < 8.0:
+                unsupported.append("ES31-CTS")
+
+        all_tests.filter(unsupported)        
 
         if all_tests.empty():
             return

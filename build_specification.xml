@@ -81,6 +81,7 @@
              bisect_arch="m64">
       <prerequisite name="mesa" hardware="builder"/>
       <prerequisite name="cts" hardware="builder"/>
+      <prerequisite name="waffle" hardware="builder"/>
     </project>
 
     <project name="glescts-test-full">
