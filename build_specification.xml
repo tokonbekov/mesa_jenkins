@@ -84,7 +84,7 @@
       <prerequisite name="waffle" hardware="builder"/>
     </project>
 
-    <project name="glescts-test-full">
+    <project name="glescts-full">
       <prerequisite name="glescts-test" hardware="skl,bdw" shard="5"/>
       <prerequisite name="glescts-test" hardware="hsw" shard="4"/>
       <prerequisite name="glescts-test" hardware="bsw,byt" shard="8" only_for_type="daily"/>
@@ -172,6 +172,7 @@
       <prerequisite name="piglit-cpu-test" only_for_type="daily" hardware="fastgpu" arch="m32"/>
       <prerequisite name="mesa-buildtest" hardware="builder" arch="m64"/>
       <prerequisite name="cts-full"/>
+      <prerequisite name="glescts-full"/>
     </project>
 
     <project name="test-single-arch">
@@ -182,6 +183,7 @@
       <prerequisite name="mesa-buildtest" hardware="builder"/>
       <prerequisite name="deqp-full"/>
       <prerequisite name="cts-full"/>
+      <prerequisite name="glescts-full"/>
     </project>
 
     <!-- this is used for ben's percheckin build -->
@@ -192,6 +194,7 @@
       <prerequisite name="mesa-buildtest" hardware="builder"/>
       <prerequisite name="deqp-full"/>
       <prerequisite name="cts-full"/>
+      <prerequisite name="glescts-full"/>
     </project>
 
     <project name="deqp-full">
@@ -399,7 +402,7 @@
     </deqp>
 
     <cts repo="ssh://majanes@git-amr-2.devtools.intel.com:29418/otc_gen_graphics-khronos-glconform.git"
-         branch="origin/master-gbm"/>
+         branch="origin/updated-cts"/>
 
     <glcts repo="ssh://majanes@git-amr-2.devtools.intel.com:29418/otc_gen_graphics-khronos-glconform.git"
            branch="origin/gl45release"/>
@@ -453,7 +456,7 @@
       <waffle/>
       <drm/>
       <deqp/>
-      <cts branch="updated-cts"/>
+      <cts branch="origin/updated-cts"/>
       <glcts/>
       <prerelease trigger="false"/>
     </branch>
