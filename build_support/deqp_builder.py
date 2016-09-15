@@ -120,6 +120,8 @@ class DeqpTrie:
                 del(self._trie[group])
 
     def filter_whitelist(self, whitelist, prefix=""):
+        if "*" in whitelist._trie:
+            return
         for group in self._trie.keys():
             if group not in whitelist._trie:
                 # print "DEBUG: filtering " + prefix + group + " not in whitelist"

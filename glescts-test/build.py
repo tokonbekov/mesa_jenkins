@@ -217,7 +217,12 @@ class GLESCTSTester(object):
                 if caselist in self.whitelists:
                     whitelist = bs.DeqpTrie()
                     whitelist.add_txt(self.whitelists[caselist])
+
+                    # add GTF tests, which are not in the whitelists
+                    suite = "-".join(caselist.split("-")[:2]) + ".gtf.*"
+                    whitelist.add_line(suite)
                     testlist.filter_whitelist(whitelist)
+                
                 # combine test list into single file
                 all_tests.merge(testlist)
 
