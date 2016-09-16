@@ -36,29 +36,9 @@ EOF
 
 echo 'startup_states: highstate' > /etc/salt/minion.d/startup.conf
 
-# Update to Testing
-cat > /etc/apt/sources.list <<EOF
-deb http://linux-ftp.jf.intel.com/pub/mirrors/debian/ testing main
-deb-src http://linux-ftp.jf.intel.com/pub/mirrors/debian/ testing main
-EOF
 
 # Add our nfs mount to fstab
 echo 'otc-mesa-ci.local:/srv/jenkins       /mnt/jenkins    nfs     _netdev,auto,async,comment=systemd.automount        0       0' >> /etc/fstab
-
-apt-get update -y
-for _ in `seq 3`; do
-    DEBIAN_FRONTEND=noninteractive \
-    APT_LISTCHANGES_FRONTEND=mail \
-        apt-get -o Dpkg::Options::="--force-confdef" \
-        --force-yes -fuy dist-upgrade
-done
-
-# Debian testing has a bug that causes systemd to be uinstalled, but we want
-# it.
-DEBIAN_FRONTEND=noninteractive \
-APT_LISTCHANGES_FRONTEND=mail \
-    apt-get -o Dpkg::Options::="--force-confdef" \
-    --force-yes -fuy install linux-image-amd64 systemd systemd-sysv
 
 mkdir -p /etc/systemd/network
 cat > /etc/systemd/network/eth0.network << EOF
