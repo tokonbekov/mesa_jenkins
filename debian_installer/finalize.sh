@@ -40,10 +40,12 @@ echo 'startup_states: highstate' > /etc/salt/minion.d/startup.conf
 # Add our nfs mount to fstab
 echo 'otc-mesa-ci.local:/srv/jenkins       /mnt/jenkins    nfs     _netdev,auto,async,comment=systemd.automount        0       0' >> /etc/fstab
 
+name=$(ip addr show scope link up | grep -v DOWN | grep UP | awk '{print $2}' | sed 's@:@@')
+
 mkdir -p /etc/systemd/network
-cat > /etc/systemd/network/eth0.network << EOF
+cat > "/etc/systemd/network/${name}.network" << EOF
 [Match]
-Name=eth0
+Name=${name}
 
 [Network]
 DHCP=yes
@@ -52,5 +54,8 @@ EOF
 rm /etc/resolv.conf
 ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf
 
+rm /etc/network/interfaces
+
 # Enable and disable some services
 systemctl enable systemd-networkd systemd-resolved avahi-daemon salt-minion
+systemctl disable networking
