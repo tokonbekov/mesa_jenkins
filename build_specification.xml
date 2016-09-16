@@ -127,18 +127,17 @@
              bisect_hardware="bdw,skl,bsw,kbl,hsw"
              bisect_arch="m64">
       <prerequisite name="vulkancts" hardware="builder"/>
-      <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
     </project>
 
     <project name="vulkancts-full">
-      <prerequisite name="vulkancts-test" hardware="bdw" arch="m64" shard="8"/>
-      <prerequisite name="vulkancts-test" hardware="skl,hsw" arch="m64" shard="7"/>
+      <prerequisite name="vulkancts-test" hardware="bdw" arch="m64" shard="2"/>
+      <prerequisite name="vulkancts-test" hardware="skl,hsw" arch="m64" shard="2"/>
       <prerequisite name="vulkancts-test"
                     only_for_type="daily"
                     hardware="bsw"
                     arch="m64"
-                    shard="9"/>
+                    shard="5"/>
       <!-- kbl and bxt have limited test machines and are not stable.
            Limit testing to m64 to use fewer resources, and shard the
            test in the event that one of the test runs crashes. -->

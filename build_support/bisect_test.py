@@ -629,7 +629,6 @@ class DeqpTest:
 
     def __init__(self, full_test_name, status, test_tag=None, retest_path=""):
         # TODO(majanes) figure out how to connect test to project
-        self.project = "glescts-test"
         self.pid = None
         self.test_tag = test_tag
         if test_tag is not None:
@@ -640,6 +639,9 @@ class DeqpTest:
         self.test_name = ".".join(full_test_name.split(".")[:-1])
         self.status = status
         self._retest_path = retest_path
+        self.project = "glescts-test"
+        if "dEQP-VK" in self.test_name:
+            self.project = "vulkancts-test"
 
         hwarch = full_test_name.split(".")[-1]
         self.hardware = hwarch[:-3]
@@ -830,6 +832,7 @@ class TestLister:
         test_files = [bad_dir + "/" + f for f in os.listdir(bad_dir)]
         for a_file in test_files:
             if ("piglit-test" not in a_file and
+                "piglit-vulkancts-test" not in a_file and
                 "piglit-cpu-test" not in a_file and
                 "piglit-cts" not in a_file and
                 "piglit-crucible" not in a_file and
@@ -846,6 +849,8 @@ class TestLister:
         if "crucible" in os.path.basename(test_path):
             testclass = CrucibleTest
         if "glescts" in os.path.basename(test_path):
+            testclass = DeqpTest
+        if "vulkancts" in os.path.basename(test_path):
             testclass = DeqpTest
 
         tags = r.findall(".//failure/..") + r.findall(".//error/..")

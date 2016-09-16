@@ -2,6 +2,7 @@
 import bz2
 import os
 import xml.etree.ElementTree as ET
+import xml.sax.saxutils as saxutils
 
 from . import *
 
@@ -255,332 +256,290 @@ class DeqpTrie:
         for group in self._trie:
             self._trie[group]._write_nunit_tag(of, prefix + "." + group)
 
-class DeqpBuilder:
-    def __init__(self, modules, excludes=None, env=None):
-        # eg: ["gles2", "gles3"]
-        self._modules = modules
+class ConfigFilter(object):
+    """parses config files, to filter out test failures that are not regressions"""
+    def __init__(self, file_path, options):
+        self._expected_fail = {}
+        self._expected_crash = {}
+        self._fixed = {}
+        self._suffix = options.hardware + options.arch
+        with open(file_path, "r") as fh:
+            p = CaseConfig(allow_no_value=True)
+            p.optionxform = str
 
-        self.excludes = excludes
-        if not excludes:
-            self.excludes = []
+            p.readfp(fh)
+            if p.has_section("expected-failures"):
+                for test, commit in p.items("expected-failures"):
+                    self._expected_fail[test] = commit
+            if p.has_section("expected-crashes"):
+                for test, commit in p.items("expected-crashes"):
+                    self._expected_crash[test] = commit
+                    assert test not in self._expected_fail
+            if p.has_section("fixed-tests"):
+                for test, commit in p.items("fixed-tests"):
+                    self._fixed[test] = commit
+                    assert test not in self._expected_fail
+                    assert test not in self._expected_crash
 
-        o = Options()
-        pm = ProjectMap()
-        self.build_root = pm.build_root()
+    def write_junit(self, of,
+                    suite, test_name, status, duration, stdout, stderr,
+                    missing_commits):
+        """
+        interprets test status with the config, filtering failures for
+        tests which have changed status in the missing_commits.
+        """
+        full_test_name = suite + "." + test_name
+        filtered_status = status
+        commit_filter = ""
+        if full_test_name in self._expected_fail:
+            commit_filter = self._expected_fail[full_test_name]
+            if status == "fail":
+                filtered_status = "skip"
+                stdout += "\nWARN: this test failed as expected."
+            if status == "crash":
+                stdout += "\nWARN: this test crashed when it was expected to fail."
+            if status == "pass":
+                filtered_status = "fail"
+                stdout += "\nWARN: this test passed when it was expected to fail."
+            if status == "skip":
+                filtered_status = "fail"
+                stdout += "\nWARN: this test skipped when it was expected to fail."
+        elif full_test_name in self._expected_crash:
+            commit_filter = self._expected_crash[full_test_name]
+            if status == "crash":
+                filtered_status = "skip"
+                stdout += "\nWARN: this test crashed as expected."
+            if status == "fail":
+                stdout += "\nWARN: this test failed when it was expected to crash."
+            if status == "pass":
+                filtered_status = "fail"
+                stdout += "\nWARN: this test passed when it was expected to crash."
+            if status == "skip":
+                filtered_status = "fail"
+                stdout += "\nWARN: this test skipped when it was expected to crash."
+        elif full_test_name in self._fixed:
+            commit_filter = self._fixed[full_test_name]
+
+        for word in commit_filter.split():
+            if word in missing_commits:
+                stdout += "\nWARN: this test had status " + status + \
+                          " but changed in " + commit_filter
+                filtered_status = "skip"
+                break
+                
+        # status attrib gets the "real" status of the test.  filtering
+        # based on config changes whether the tag has a <failure> or
+        # <skipped> subtag, which is how jenkins reports results.  We
+        # need the "real" test status for handling bisection.
+        of.write("""  <testcase classname="{}" name="{}" status="{}" time="{}">\n""".format(suite,
+                                                                                            test_name + "." + self._suffix,
+                                                                                            status,
+                                                                                            duration))
+        if filtered_status == "skip":
+            of.write("""   <skipped type="skip"/>\n""")
+        if filtered_status == "fail":
+            of.write("""   <failure type="fail"/>\n""")
+        if stdout:
+            of.write("""   <system-out>{}</system-out>\n""".format(saxutils.escape(stdout)))
+        if stderr:
+            of.write("""   <system-err>{}</system-err>\n""".format(saxutils.escape(stderr)))
+        of.write("""  </testcase>\n""")
+
+class DeqpTester:
+    def __init__(self):
+        self.o = Options()
+        self.pm = ProjectMap()
+
+    def test(self, binary, list_policy, extra_args=None, env=None):
+        if extra_args is None:
+            extra_args = []
+        if env == None:
+            env = {}
+        build_root = self.pm.build_root()
         libdir = "x86_64-linux-gnu"
-        if o.arch == "m32":
+        if self.o.arch == "m32":
             libdir = "i386-linux-gnu"
-        self.env = { "LD_LIBRARY_PATH" : self.build_root + "/lib:" + \
-                     self.build_root + "/lib/" + libdir + ":" + self.build_root + "/lib/dri",
-                     "LIBGL_DRIVERS_PATH" : self.build_root + "/lib/dri",
-                     "GBM_DRIVERS_PATH" : self.build_root + "/lib/dri",
-                     # fixes dxt subimage tests that fail due to a
-                     # combination of unreasonable tolerances and possibly
-                     # bugs in debian's s2tc library.  Recommended by nroberts
-                     "S2TC_DITHER_MODE" : "NONE",
-                     # forces deqp to run headless
-                     "PIGLIT_NO_TIMEOUT" : "1",
-                     "VK_ICD_FILENAMES" : self.build_root + "/usr/share/vulkan/icd.d/dev_icd.json"
+        base_env = { "LD_LIBRARY_PATH" : build_root + "/lib:" + \
+                     build_root + "/lib/" + libdir + ":" + build_root + "/lib/dri",
+                     "LIBGL_DRIVERS_PATH" : build_root + "/lib/dri",
+                     "INTEL_PRECISE_TRIG" : "1"
         }
-        if env:
-            for (k,v) in env.items():
-                self.env[k] = v
-        o.update_env(self.env)
-
-    def build(self):
-        pass
-
-    def clean(self):
-        pass
-
-    def test(self):
-        o = Options()
-        pm = ProjectMap()
-        savedir = os.getcwd()
-        
-        include_tests = []
-        if o.retest_path:
-            testlist = TestLister(o.retest_path + "/test/")
-            include_tests = testlist.RetestIncludes(pm.current_project())
+        for k,v in base_env.items():
+            env[k] = v
+        self.o.update_env(env)
+        all_tests = DeqpTrie()
+        if self.o.retest_path:
+            testlist = TestLister(self.o.retest_path + "/test/")
+            include_tests = testlist.RetestIncludes(self.pm.current_project())
             if not include_tests:
                 # we were supposed to retest failures, but there were none
                 return
-
-        expectations_dir = None
-        # identify platform
-        if "byt" in o.hardware:
-            expectations_dir = pm.project_build_dir(pm.current_project()) + "/byt_expectations"
-        elif "bdw" in o.hardware:
-            expectations_dir = pm.project_build_dir(pm.current_project()) + "/bdw_expectations"
-        elif "hsw" in o.hardware:
-            expectations_dir = pm.project_build_dir(pm.current_project()) + "/hsw_expectations"
-        elif "ivb" in o.hardware:
-            expectations_dir = pm.project_build_dir(pm.current_project()) + "/ivb_expectations"
-        elif "snb" in o.hardware:
-            expectations_dir = pm.project_build_dir(pm.current_project()) + "/snb_expectations"
-        elif "bsw" in o.hardware:
-            expectations_dir = pm.project_build_dir(pm.current_project()) + "/bsw_expectations"
-        elif "skl" in o.hardware:
-            expectations_dir = pm.project_build_dir(pm.current_project()) + "/skl_expectations"
-        elif "bxt" in o.hardware:
-            expectations_dir = pm.project_build_dir(pm.current_project()) + "/bxt_expectations"
-        elif "kbl" in o.hardware:
-            expectations_dir = pm.project_build_dir(pm.current_project()) + "/kbl_expectations"
-
-        conf_file = get_conf_file(o.hardware, o.arch, pm.current_project())
-
-        version = mesa_version()
-        if "11.0" in version or "11.1" in version or "11.2" in version:
-            if "gles31" in self._modules:
-                self._modules.remove("gles31")
-        for module in self._modules:
-            skip = DeqpTrie()
-            # for each skip list, parse into skip trie
-            if expectations_dir and os.path.exists(expectations_dir):
-                for askipfile in os.listdir(expectations_dir):
-                    if module not in askipfile.lower():
-                        continue
-                    skip.add_txt(expectations_dir + "/" + askipfile)
-            if not skip._trie:
-                skip._trie["empty"] = None
-
-            # create test trie
-            module_dir = module
-            if module == "vk":
-                module_dir = "vulkan"
-                self.env["EGL_PLATFORM"] = "surfaceless"
-
-            os.chdir(self.build_root + "/opt/deqp/modules/" + module_dir)
-            # generate list of tests
-            run_batch_command(["./deqp-" + module,
-                               "--deqp-runmode=xml-caselist"],
-                                 env=self.env)
-            outfile = "dEQP-" + module.upper() + "-cases.xml"
-            assert(os.path.exists(outfile))
-            testlist = DeqpTrie()
-            testlist.add_xml(outfile)
-
-            # filter skip trie from testlist trie
-            testlist.filter(skip)
-
-            whitelist_txt = None
-            if module == "gles2":
-                whitelist_txt = pm.project_source_dir("deqp") + "/android/cts/master/gles2-master.txt"
-            if module == "gles3":
-                whitelist_txt = pm.project_source_dir("deqp") + "/android/cts/master/gles3-master.txt"
-            if module == "gles31":
-                whitelist_txt = pm.project_source_dir("deqp") + "/android/cts/master/gles31-master.txt"
-            if whitelist_txt:
-                whitelist_trie = DeqpTrie()
-                whitelist_trie.add_txt(whitelist_txt)
-                # filter using the deqp whitelist
-                testlist.filter_whitelist(whitelist_trie)
-
-            # generate testlist file
-            caselist_fn = module + "-cases.txt"
-            caselist = open(caselist_fn, "w")
-            testlist.write_caselist(caselist)
-            caselist.close()
-            self.shard_caselist(caselist_fn, o.shard)
-
-        os.chdir(savedir)
-
-        # invoke piglit
-        base_options = ("--deqp-log-images=disable "
-                        '--deqp-gl-config-name=rgba8888d24s8 '
-                        '--deqp-surface-width=400 '
-                        '--deqp-surface-height=300 '
-                        '--deqp-visibility=hidden '
-                        "--deqp-caselist-file=")
-        self.env["PIGLIT_DEQP_GLES2_BIN"] = self.build_root + "/opt/deqp/modules/gles2/deqp-gles2"
-        self.env["PIGLIT_DEQP_GLES2_EXTRA_ARGS"] =  base_options + self.build_root + "/opt/deqp/modules/gles2/gles2-cases.txt"
-        self.env["PIGLIT_DEQP_GLES3_EXE"] = self.build_root + "/opt/deqp/modules/gles3/deqp-gles3"
-        self.env["PIGLIT_DEQP_GLES3_EXTRA_ARGS"] = base_options + self.build_root + "/opt/deqp/modules/gles3/gles3-cases.txt"
-        self.env["PIGLIT_DEQP_GLES31_BIN"] = self.build_root + "/opt/deqp/modules/gles31/deqp-gles31"
-        self.env["PIGLIT_DEQP_GLES31_EXTRA_ARGS"] = base_options + self.build_root + "/opt/deqp/modules/gles31/gles31-cases.txt"
-        self.env["PIGLIT_DEQP_VK_BIN"] = self.build_root + "/opt/deqp/modules/vulkan/deqp-vk"
-        self.env["PIGLIT_DEQP_VK_EXTRA_ARGS"] = base_options + self.build_root + "/opt/deqp/modules/vulkan/vk-cases.txt" + " --deqp-surface-type=fbo "
-        self.env["PIGLIT_DEQP_EGL_BIN"] = self.build_root + "/opt/deqp/modules/egl/deqp-egl"
-        self.env["PIGLIT_DEQP_EGL_EXTRA_ARGS"] =  base_options + self.build_root + "/opt/deqp/modules/egl/egl-cases.txt"
-        # makes trigonometric functions more accurate with significant
-        # performance penalty.  This setting is required to pass
-        # several dEQP and vulkan tests.
-        self.env["INTEL_PRECISE_TRIG"] = "1"
-        self.env["precise_trig"] = "true"
-        
-        out_dir = self.build_root + "/test/" + o.hardware
-
-        suites = ["deqp_" + m for m in self._modules]
-        cmd = [self.build_root + "/bin/piglit",
-               "run",
-               "-p", "gbm",
-               "-o",
-               "-b", "junit",
-               "--config", conf_file,
-               "-c",
-               "--junit_suffix", "." + o.hardware + o.arch]
-
-        for test in self.excludes:
-            cmd += ["--exclude-tests", test]
-        
-        run_batch_command(cmd + include_tests + suites + [out_dir],
-                             env=self.env,
-                             expected_return_code=None,
-                             streamedOutput=True)
-
-        single_out_dir = self.build_root + "/../test"
-        if not os.path.exists(single_out_dir):
-            os.makedirs(single_out_dir)
-
-        basename = "/piglit-deqp"
-        if "vulkancts" in pm.current_project():
-            basename = "/piglit-deqp-vk"
-        filename_components = [basename,
-                               o.hardware,
-                               o.arch]
-        # Uniquely name all test files in one directory, for
-        # jenkins
-        if o.shard != "0":
-            # only put the shard suffix on for non-zero shards.
-            # Having _0 suffix interferes with bisection.
-            filename_components.append(o.shard)
-        final_file = single_out_dir + "_".join(filename_components) + ".xml"
-
-        if not os.path.exists(out_dir + "/results.xml"):
-            print "ERROR: no results at " + out_dir + "/results.xml"
+            with open("retest_caselist.txt", "w") as fh:
+                for t in include_tests:
+                    fh.write(t)
+                    fh.write("\n")
+            all_tests.add_txt("retest_caselist.txt")
         else:
-            revisions = RepoSet().branch_missing_revisions()
-            print "INFO: filtering tests from " + out_dir + "/results.xml"
-            self.filter_tests(revisions,
-                              out_dir + "/results.xml",
-                              final_file)
+            all_tests = list_policy.tests(env)
 
-            retest = False
-            if "bsw" in o.hardware:
-                retest = True
-            if "hsw" in o.hardware and "vulkancts" in pm.current_project():
-                # Bug 95041
-                retest = True
-            if retest:
-                # run piglit again, to eliminate intermittent failures
-                tl = TestLister(final_file)
-                retests = tl.RetestIncludes(pm.current_project())
-                if retests:
-                    second_out_dir = out_dir + "/retest"
-                    print "WARN: retesting deqp to " + second_out_dir
-                    run_batch_command(cmd + retests + suites + [second_out_dir],
-                                         env=self.env,
-                                         expected_return_code=None,
-                                         streamedOutput=True)
-                    second_results = TestLister(second_out_dir + "/results.xml")
-                    for a_test in tl.TestsNotIn(second_results):
-                        print "stripping flaky test: " + a_test.test_name
-                        a_test.ForcePass(final_file)
-                    rmtree(second_out_dir)
-
-            # create a copy of the test xml in the source root, where
-            # jenkins can access it.
-            cmd = ["cp", "-a", "-n",
-                   self.build_root + "/../test", pm.source_root()]
-            run_batch_command(cmd)
-            Export().export_tests()
-
-        # run a single piglit test (selected at random) after
-        # vulkancts.  This has the side-effect of restoring the
-        # default L3 configuration.  The 11.1 stable branch does not
-        # restore L3 configuration and fails tests after vulkancts.
-        t = PiglitTester(piglit_test="spec.ext.framebuffer.object.getteximage-formats.init-by-clear-and-render.arch")
-        if "vulkancts" in pm.current_project():
-            t.test()
-        check_gpu_hang()
+        list_policy.blacklist(all_tests)
         
-
-    def shard_caselist(self, caselist_fn, shard):
-        if shard == "0":
+        if all_tests.empty():
             return
 
-        assert(":" in shard)
-        shardargs = shard.split(":")
-        shardno = int(shardargs[0])
-        shardcount = int(shardargs[1])
-        assert(shardno <= shardcount)
+        shardno = 0
+        shardcount = 0
+        if self.o.shard != "0":
+            shardargs = self.o.shard.split(":")
+            shardno = int(shardargs[0])
+            shardcount = int(shardargs[1])
 
-        shard_tests = []
-        test_no = 0
-        test_list = open(caselist_fn).readlines()
-        for a_test in test_list:
-            if (test_no % shardcount) + 1 == shardno:
-                shard_tests.append(a_test)
-            test_no = test_no + 1
+        savedir = os.getcwd()
+        os.chdir(os.path.dirname(binary))
+        with open("mesa-ci-caselist.txt", "w") as fh:
+            all_tests.write_caselist(fh, prefix="", shard=shardno,
+                                     shard_count=shardcount)
 
-        rmtree(caselist_fn)
-        caselist_fh = open(caselist_fn, "w")
-        for a_test in shard_tests:
-            caselist_fh.write(a_test)
+        shard_tests = DeqpTrie()
+        shard_tests.add_txt("mesa-ci-caselist.txt")
 
-    def filter_tests(self, revisions, infile, outfile):
-        """this method is ripped bleeding from builders.py / PiglitTester"""
-        t = ET.parse(infile)
-        for a_suite in t.findall("testsuite"):
-            # remove skipped tests, which uses ram on jenkins when
-            # displaying and provides no value.  
-            for a_skip in a_suite.findall("testcase/skipped/.."):
-                if a_skip.attrib["status"] in ["crash", "fail"]:
+        cpus = multiprocessing.cpu_count()
+        base_commands = [binary,
+                         "--deqp-log-images=disable",
+                         "--deqp-gl-config-name=rgba8888d24s8",
+                         "--deqp-surface-width=400",
+                         "--deqp-surface-height=300",
+                         "--deqp-visibility=hidden",
+                         "--deqp-crashhandler=enable"] + extra_args
+        procs = {}
+        out_fh = open(os.devnull, "w")
+        procEnv = dict(os.environ.items() + env.items())
+        single_proc = False
+        if "DEQP_DETECT_GPU_HANG" in env:
+            single_proc = True
+        for cpu in range(1, cpus + 1):
+            case_fn = "mesa-ci-caselist-" + str(cpu) + ".txt"
+            out_fn = "TestResults-" + str(cpu) + ".qpa"
+            if os.path.exists(out_fn):
+                os.remove(out_fn)
+            with open(case_fn, "w") as fh:
+                shard_tests.write_caselist(fh, prefix="", shard=cpu,
+                                           shard_count=cpus)
+
+            # do not execute deqp if no tests have been scheduled for
+            # the current cpu core
+            core_tests = DeqpTrie()
+            core_tests.add_txt(case_fn)
+            if core_tests.empty():
+                continue
+            
+            commands = base_commands + ["--deqp-caselist-file=" + case_fn,
+                                        "--deqp-log-filename=" + out_fn]
+            if single_proc:
+                with open(case_fn, "r") as fh:
+                    commands = base_commands + ["-n", fh.readline().strip(),
+                                                "--deqp-log-filename=" + out_fn]
+            proc = subprocess.Popen(commands,
+                                    stdout=out_fh,
+                                    stderr=out_fh,
+                                    env=procEnv)
+            procs[cpu] = proc
+
+        results = DeqpTrie()
+        # invoke tests
+        while True:
+            if not single_proc:
+                time.sleep(1)
+            if not procs:
+                break
+            for cpu, proc in procs.items():
+                proc.poll()
+                if proc.returncode is None:
                     continue
-                a_suite.remove(a_skip)
-
-            # for each failure, see if there is an entry in the config
-            # file with a revision that was missed by a branch
-            for afail in a_suite.findall("testcase/failure/..") + a_suite.findall("testcase/error/.."):
-                piglit_test = PiglitTest("foo", "foo", afail)
-                regression_revision = piglit_test.GetConfRevision()
-                abbreviated_revisions = [a_rev[:6] for a_rev in revisions]
-                for abbrev_rev in abbreviated_revisions:
-                    if abbrev_rev in regression_revision:
-                        print "stripping: " + piglit_test.test_name + " " + regression_revision
-                        a_suite.remove(afail)
-                        # a test may match more than one revision
-                        # encoded in a comment
-                        break
-
-            # strip any "Suspicious performance behavior failures from
-            # dEQP.  We run tests in parallel, and do not expect to
-            # have stable performance.
-            for afail in a_suite.findall("testcase/failure/.."):
-                stdout = afail.find("system-out")
-                if stdout is None:
-                    continue
-                if not stdout.text:
-                    continue
-                if "Suspicious performance behavior" in stdout.text:
-                    stdout.text = stdout.text + "WARN: Intel CI ignores performance failure"
-                    for tag in afail.findall("failure"):
-                        afail.remove(tag)
-                # strip out any failure where a gles3.1 context could not be created.
-                if "Warning: Unable to create native OpenGL ES 3.1 context, will use wrapper context." in stdout.text:
-                    stdout.text = stdout.text + "\nWARN: Intel CI ignores failures due to dEQP bugs (fdo 95299)\n"
-                    for tag in afail.findall("failure"):
-                        afail.remove(tag)
-
-            # strip unneeded output from passing tests
-            for apass in a_suite.findall("testcase"):
-                if apass.attrib["status"] != "pass":
-                    continue
-                if apass.find("failure") is not None:
-                    continue
-                out_tag = apass.find("system-out")
-                if out_tag is not None:
-                    apass.remove(out_tag)
-                err_tag = apass.find("system-err")
-                if err_tag is not None and err_tag.text is not None:
-                    found = False
-                    for a_line in err_tag.text.splitlines():
-                        m = re.match("pid: ([0-9]+)", a_line)
-                        if m is not None:
-                            found = True
-                            err_tag.text = a_line
-                            break
-                    if not found:
-                        apass.remove(err_tag)
                 
-        t.write(outfile)
+                out_fn = "TestResults-" + str(cpu) + ".qpa"
+                case_fn = "mesa-ci-caselist-" + str(cpu) + ".txt"
+                test_count = results.results_count()
+                self.parse_qpa_results(results, out_fn, pid=proc.pid)
+                if test_count == results.results_count():
+                    # no test executed
+                    with open(case_fn, "r") as fh:
+                        first_test_name = fh.readline().strip()
+                        results.add_qpa_blob(first_test_name.split("."),
+                                                  '<bogus><Result StatusCode="crash"/></bogus>',
+                                                  proc.pid)
+                unfinished_tests = DeqpTrie()
+                unfinished_tests.add_txt(case_fn)
+                unfinished_tests.filter(results)
+                if (unfinished_tests.empty()):
+                    del procs[cpu]
+                    continue
+                if not single_proc:
+                    print "WARN: continuing test after crash"
+                with open(case_fn, "w") as fh:
+                    unfinished_tests.write_caselist(fh)
+                if os.path.exists(out_fn):
+                    os.remove(out_fn)
+                commands = base_commands + ["--deqp-caselist-file=" + case_fn,
+                                            "--deqp-log-filename=" + out_fn]
+                if single_proc:
+                    with open(case_fn, "r") as fh:
+                        commands = base_commands + ["-n", fh.readline().strip(),
+                                                    "--deqp-log-filename=" + out_fn]
+                proc = subprocess.Popen(commands,
+                                        stdout=out_fh,
+                                        stderr=out_fh,
+                                        env=procEnv)
+                procs[cpu] = proc
+
+        os.remove("mesa-ci-caselist.txt")
+        os.chdir(savedir)
+        return results
+        
+    def parse_qpa_results(self, results_trie, filename, pid):
+        with open(filename, "r") as qpa:
+            current_test = ""
+            blob = []
+            for line in qpa:
+                if line.startswith("#beginTestCaseResult"):
+                    line = line.strip()
+                    current_test = line[len("#beginTestCaseResult "):]
+                    continue
+                if line.startswith("#endTestCaseResult"):
+                    results_trie.add_qpa_blob(current_test.split("."), blob, pid)
+                    blob = []
+                    current_test = ""
+                    continue
+                if not current_test:
+                    continue
+                
+                blob.append(line)
+            if current_test:
+                # crashed
+                results_trie.add_qpa_blob(current_test.split("."), blob, pid)
+
+    def generate_results(self, results_trie, config_policy):
+        out_dir = self.pm.build_root() + "/../test"
+        if not os.path.exists(out_dir):
+            os.makedirs(out_dir)
+        with open(out_dir + "/piglit-" + self.pm.current_project() + "-" + self.o.hardware + "-" + self.o.arch + "-" + self.o.shard + ".xml", "w") as of:
+            commits = {}
+            for commit in RepoSet().branch_missing_revisions():
+                commits[str(commit)] = True
+            results_trie.write_junit(of, config_policy, commits)
+
+        check_gpu_hang()
+
+        # create a copy of the test xml in the source root, where
+        # jenkins can access it.
+        cmd = ["cp", "-a", "-n",
+               self.pm.build_root() + "/../test", self.pm.source_root()]
+        run_batch_command(cmd)
+
+        Export().export_tests()
+
+
+    def build(self):
+        pass
+    def clean(self):
+        pass

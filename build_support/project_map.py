@@ -67,9 +67,11 @@ class ProjectMap:
             os.makedirs(br)
         return br
 
-    def project_build_dir(self, project):
+    def project_build_dir(self, project=None):
         """location of the build.py for the project"""
-        cb = self._source_root + "/" + project
+        if project is None:
+            project = self._current_project
+        cb = self._source_root + "/" + project + "/"
         return cb
 
     def project_source_dir(self, project=None):
