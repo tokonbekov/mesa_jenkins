@@ -140,7 +140,7 @@ def check_gpu_hang(identify_test=True):
     if ('otc-gfxtest-' in hostname):
         label = hostname[len('otc-gfxtest-'):]
         server = ProjectMap().build_spec().find("build_master").attrib["host"]
-        url = "http://" + server + "/job/reboot_single/buildWithParameters?token=noauth&label=" + label
+        url = "http://otc-mesa-ci.local/job/reboot_single/buildWithParameters?token=noauth&label=" + label
         print "opening: " + url
         urllib2.urlopen(url)
         print "sleeping to allow reboot job to be scheduled."
