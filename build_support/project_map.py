@@ -54,7 +54,11 @@ class ProjectMap:
 
             # else we have found the spec
             self._source_root = root
-            return
+            break
+        # cache the current_project, because it can't be recalculated
+        # if the caller changes directories.
+        self._current_project = None
+        self._current_project = self.current_project()
 
     def source_root(self):
         """top directory, which contains the build_specification.xml"""
@@ -95,6 +99,8 @@ class ProjectMap:
 
     def current_project(self):
         """name of the project which is invoking this method"""
+        if self._current_project:
+            return self._current_project
         build_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
         return os.path.split(build_dir)[1]
 
