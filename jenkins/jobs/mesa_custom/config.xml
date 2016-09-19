@@ -56,6 +56,7 @@
               <string>test-single-arch</string>
               <string>all-test</string>
               <string>piglit-test</string>
+              <string>piglit-cpu-test</string>
               <string>clean-all-workspaces</string>
               <string>deqp-full</string>
               <string>deqp-test</string>
@@ -66,6 +67,7 @@
               <string>vulkancts-test</string>
               <string>vulkancts-full</string>
               <string>perf-all</string>
+              <string>glescts-full</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
@@ -136,6 +138,8 @@
             <a class="string-array">
               <string>mesa_master</string>
               <string>vulkancts</string>
+              <string>mesa_12.0</string>
+              <string>mesa_11.2</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
@@ -173,12 +177,14 @@
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
-  <authToken>xyzzy</authToken>
+  <authToken>noauth</authToken>
   <triggers/>
   <concurrentBuild>true</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
       <command>rm -rf results/test
+rm -rf summary.xml
+rm -rf test_summary.txt
 python -u scripts/checkout_revision_spec.py
 python -u scripts/build_jenkins.py --type=${type} --config=${config} --rebuild=${rebuild} --revision=&quot;$revision&quot; --hardware=${hardware} --project=${project} --branch=${branch} --arch=${arch} --env=&quot;${env}&quot;
 </command>

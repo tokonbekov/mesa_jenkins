@@ -32,6 +32,11 @@
           <description>use daily type to run a 5X test, for recalibrating mean scores.</description>
           <defaultValue>developer</defaultValue>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>build_support_branch</name>
+          <description></description>
+          <defaultValue>master</defaultValue>
+        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
     <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.4">
@@ -54,7 +59,7 @@
     </userRemoteConfigs>
     <branches>
       <hudson.plugins.git.BranchSpec>
-        <name>perf</name>
+        <name>${build_support_branch}</name>
       </hudson.plugins.git.BranchSpec>
     </branches>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
@@ -63,16 +68,18 @@
   </scm>
   <assignedNode>master</assignedNode>
   <canRoam>false</canRoam>
-  <disabled>false</disabled>
+  <disabled>true</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
-  <authToken>xyzzy</authToken>
+  <authToken>noauth</authToken>
   <triggers/>
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>rm -rf results/test
-python -u scripts/checkout_revision_spec.py
+      <command>rm -rf summary.xml
+rm -rf test_summary.txt
+rm -rf results/test
+python -u scripts/checkout_revision_spec.py --branch=mesa_perf
 python -u scripts/build_perf.py --project=perf-all --type=${type} --config=release --revision=&quot;${revision}&quot;</command>
     </hudson.tasks.Shell>
   </builders>
@@ -85,15 +92,6 @@ python -u scripts/build_perf.py --project=perf-all --type=${type} --config=relea
       <defaultExcludes>true</defaultExcludes>
       <caseSensitive>true</caseSensitive>
     </hudson.tasks.ArtifactArchiver>
-    <hudson.tasks.BuildTrigger>
-      <childProjects>perf</childProjects>
-      <threshold>
-        <name>FAILURE</name>
-        <ordinal>2</ordinal>
-        <color>RED</color>
-        <completeBuild>true</completeBuild>
-      </threshold>
-    </hudson.tasks.BuildTrigger>
     <hudson.plugins.summary__report.ACIPluginPublisher plugin="summary_report@1.13">
       <name>summary.xml</name>
       <shownOnProjectPage>false</shownOnProjectPage>

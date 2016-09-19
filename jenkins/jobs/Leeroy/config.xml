@@ -13,11 +13,11 @@
       </strategy>
     </jenkins.model.BuildDiscarderProperty>
     <jenkins.advancedqueue.priority.strategy.PriorityJobProperty plugin="PrioritySorter@3.2">
-      <useJobPriority>true</useJobPriority>
+      <useJobPriority>false</useJobPriority>
       <priority>1</priority>
     </jenkins.advancedqueue.priority.strategy.PriorityJobProperty>
     <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.24">
-      <autoRebuild>true</autoRebuild>
+      <autoRebuild>false</autoRebuild>
     </com.sonyericsson.rebuild.RebuildSettings>
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
@@ -128,7 +128,7 @@
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
-  <authToken>xyzzy</authToken>
+  <authToken>noauth</authToken>
   <triggers/>
   <concurrentBuild>true</concurrentBuild>
   <builders>
@@ -137,23 +137,26 @@
 python -u scripts/checkout_revision_spec.py ${revision}
 ls /mnt/jenkins/results &gt; /dev/null
 mkdir -p /tmp/jenkins/${BUILD_NUMBER}
-if [ &quot;${project}&quot; = &quot;deqp-test&quot; ] || [ &quot;${project}&quot; = &quot;xonotic&quot; ] || [ &quot;${project}&quot; = &quot;egypt&quot; ]
+if [ &quot;${hardware}&quot; = &quot;builder&quot; ]
 then
-   killall Xorg || true
-   sudo /usr/local/bin/chmodtty9.sh
-   Xorg :9 vt9 -retro -sharevts -logfile /tmp/xorg.log&amp;
-   rm -rf /tmp/build_root
-   sleep 5  # Xorg doesn&apos;t always settle before starting piglit and that causes problems
-   python -u ${project}/build.py --arch ${arch} --result_path ${result_path} --config ${config} --type ${type} --hardware ${hardware} --action clean,build,test --shard ${shard} --env &quot;${env}&quot; ${extra_arg}
-   killall Xorg
-   rm -rf /tmp/build_root
-   exit 0
-fi
-unshare -m -r /bin/bash -c &quot;
+    # builders have multiple executors, which will clash on the
+    # filesystem during install.  Use a mount namespace to provide
+    # individual /tmp/ directories to each build.
+    unshare -m -r /bin/bash -c &quot;
 mount -o bind /tmp/jenkins/${BUILD_NUMBER} /tmp
 unset revision
 python -u ${project}/build.py --arch ${arch} --result_path ${result_path} --config ${config} --type ${type} --hardware ${hardware} --action clean,build,test --shard ${shard} --env \&quot;${env}\&quot; ${extra_arg}
 &quot;
+    exit 0
+fi
+killall Xorg || true
+sudo /usr/local/bin/chmodtty9.sh
+Xorg :0 vt0 -retro -sharevts -logfile /tmp/xorg.log&amp;
+rm -rf /tmp/build_root
+sleep 5  # Xorg doesn&apos;t always settle before starting piglit and that causes problems
+python -u ${project}/build.py --arch ${arch} --result_path ${result_path} --config ${config} --type ${type} --hardware ${hardware} --action clean,build,test --shard ${shard} --env &quot;DISPLAY=:0 ${env}&quot; ${extra_arg}
+killall Xorg
+rm -rf /tmp/build_root
 </command>
     </hudson.tasks.Shell>
   </builders>

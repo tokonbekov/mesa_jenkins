@@ -126,12 +126,15 @@
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
-  <authToken>xyzzy</authToken>
+  <authToken>noauth</authToken>
   <triggers/>
   <concurrentBuild>true</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>python -u scripts/checkout_revision_spec.py
+      <command>rm -rf results/test
+rm -rf summary.xml
+rm -rf test_summary.txt
+python -u scripts/checkout_revision_spec.py
 python -u scripts/jenkins_single_test.py --test=&quot;${test_name}&quot; --revision=&quot;$revision_set&quot; --hardware=${hardware} --arch=${arch} --branch=${branch_set} --config=${config}</command>
     </hudson.tasks.Shell>
   </builders>

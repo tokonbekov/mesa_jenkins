@@ -40,8 +40,10 @@
     <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.4">
       <maxConcurrentPerNode>0</maxConcurrentPerNode>
       <maxConcurrentTotal>0</maxConcurrentTotal>
+      <categories/>
       <throttleEnabled>false</throttleEnabled>
       <throttleOption>project</throttleOption>
+      <configVersion>1</configVersion>
     </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
     <jenkins.advancedqueue.jobinclusion.strategy.JobInclusionJobProperty plugin="PrioritySorter@3.2">
       <useJobGroup>false</useJobGroup>
@@ -69,7 +71,7 @@
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
-  <authToken>xyzzy</authToken>
+  <authToken>noauth</authToken>
   <triggers>
     <hudson.triggers.TimerTrigger>
       <spec>H 4 * * *</spec>
@@ -78,7 +80,10 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>python -u scripts/checkout_revision_spec.py
+      <command>rm -rf results/test
+rm -rf summary.xml
+rm -rf test_summary.txt
+python -u scripts/checkout_revision_spec.py
 python -u scripts/build_jenkins.py --branch=vulkancts --type=${type} --config=debug --hardware=bdwgt3e --rebuild=${rebuild} --revision=&quot;$revision&quot;</command>
     </hudson.tasks.Shell>
   </builders>
@@ -89,6 +94,7 @@ python -u scripts/build_jenkins.py --branch=vulkancts --type=${type} --config=de
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>
       <defaultExcludes>true</defaultExcludes>
+      <caseSensitive>true</caseSensitive>
     </hudson.tasks.ArtifactArchiver>
     <hudson.plugins.summary__report.ACIPluginPublisher plugin="summary_report@1.13">
       <name>summary.xml</name>

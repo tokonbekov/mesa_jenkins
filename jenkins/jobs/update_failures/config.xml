@@ -77,12 +77,15 @@
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
-  <authToken>xyzzy</authToken>
+  <authToken>noauth</authToken>
   <triggers/>
   <concurrentBuild>true</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>python -u scripts/checkout_revision_spec.py
+      <command>rm -rf results/test
+rm -rf summary.xml
+rm -rf test_summary.txt
+python -u scripts/checkout_revision_spec.py
 python -u scripts/update_conf.py --blame_revision=&quot;${blame_revision}&quot; --result_path ${result_path} --to &quot;${to}&quot; --dir &quot;${dir}&quot;</command>
     </hudson.tasks.Shell>
   </builders>

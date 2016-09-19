@@ -129,6 +129,7 @@
         <string>evelikov</string>
         <string>ickle</string>
         <string>idr</string>
+        <string>imirkin</string>
         <string>jekstrand</string>
         <string>jekstrand_gl</string>
         <string>jekstrand_vulkan</string>
@@ -146,6 +147,7 @@
         <string>mperes</string>
         <string>nchery</string>
         <string>nchery_vulkan</string>
+        <string>pnmanolova</string>
         <string>single_test</string>
         <string>tarceri</string>
         <string>tarceri_slow</string>
@@ -167,13 +169,12 @@
     <listView>
       <owner class="hudson" reference="../../.."/>
       <name>mesa</name>
+      <description></description>
       <filterExecutors>false</filterExecutors>
       <filterQueue>false</filterQueue>
       <properties class="hudson.model.View$PropertyList"/>
       <jobNames>
         <comparator class="hudson.util.CaseInsensitiveComparator" reference="../../../listView/jobNames/comparator"/>
-        <string>mesa_11.1</string>
-        <string>mesa_11.1_daily</string>
         <string>mesa_11.2</string>
         <string>mesa_11.2_daily</string>
         <string>mesa_12.0</string>

@@ -66,7 +66,7 @@
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
-  <authToken>xyzzy</authToken>
+  <authToken>noauth</authToken>
   <triggers>
     <hudson.triggers.TimerTrigger>
       <spec>H 2 * * *</spec>
@@ -75,7 +75,10 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>python -u scripts/checkout_revision_spec.py
+      <command>rm -rf results/test
+rm -rf summary.xml
+rm -rf test_summary.txt
+python -u scripts/checkout_revision_spec.py
 python -u scripts/build_jenkins.py --branch=mesa_12.0 --type=daily --config=debug --rebuild=${rebuild} --revision=&quot;$revision&quot;</command>
     </hudson.tasks.Shell>
   </builders>

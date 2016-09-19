@@ -104,18 +104,21 @@
   <disabled>false</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
-  <authToken>xyzzy</authToken>
+  <authToken>noauth</authToken>
   <triggers/>
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>python -u scripts/checkout_revision_spec.py
+      <command>rm -rf results/test
+rm -rf summary.xml
+rm -rf test_summary.txt
+python -u scripts/checkout_revision_spec.py
 python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=${type} --config=debug --arch=${arch} --hardware=${hardware} --project=${project} --rebuild=${rebuild}</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>summary.xml,results/test/results.tgz</artifacts>
+      <artifacts>summary.xml,results/test/results.tar.gz</artifacts>
       <allowEmptyArchive>false</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>

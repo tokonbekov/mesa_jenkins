@@ -13,7 +13,7 @@
     <maxNumRetries>0</maxNumRetries>
     <retryWaitTime>0</retryWaitTime>
   </launcher>
-  <label>hswgt2 hsw fastgpu</label>
+  <label>hswgt2</label>
   <nodeProperties/>
   <userId>majanes</userId>
 </slave>
