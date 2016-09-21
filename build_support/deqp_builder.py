@@ -362,8 +362,8 @@ class DeqpTester:
         base_env = { "LD_LIBRARY_PATH" : build_root + "/lib:" + \
                      build_root + "/lib/" + libdir + ":" + build_root + "/lib/dri",
                      "LIBGL_DRIVERS_PATH" : build_root + "/lib/dri",
-                     "INTEL_PRECISE_TRIG" : "1"
-        }
+                     "INTEL_PRECISE_TRIG" : "1",
+                     "GBM_DRIVERS_PATH" : build_root + "/lib/dri"}
         for k,v in base_env.items():
             env[k] = v
         self.o.update_env(env)
