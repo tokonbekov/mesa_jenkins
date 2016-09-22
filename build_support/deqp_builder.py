@@ -326,7 +326,10 @@ class ConfigFilter(object):
                           " but changed in " + commit_filter
                 filtered_status = "skip"
                 break
-                
+
+        if status == "skip" and filtered_status == "skip":
+            return
+        
         # status attrib gets the "real" status of the test.  filtering
         # based on config changes whether the tag has a <failure> or
         # <skipped> subtag, which is how jenkins reports results.  We
