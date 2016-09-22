@@ -68,11 +68,9 @@ class CtsTestList(object):
         blacklist_file = blacklist_dir + self.o.hardware + self.o.arch + "_blacklist.txt"
         if os.path.exists(blacklist_file):
             blacklist.add_txt(blacklist_file)
-            return blacklist
         blacklist_file = blacklist_dir + self.o.hardware + "_blacklist.txt"
         if os.path.exists(blacklist_file):
             blacklist.add_txt(blacklist_file)
-            return blacklist
         blacklist_file = blacklist_dir + self.o.hardware[:3] + "_blacklist.txt"
         if os.path.exists(blacklist_file):
             blacklist.add_txt(blacklist_file)
