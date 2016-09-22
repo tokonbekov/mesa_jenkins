@@ -15,21 +15,78 @@ class SlowTimeout:
     def GetDuration(self):
         return 500
 
-o = bs.Options()
+class DeqpLister(object):
+    def __init__(self, binary):
+        self.binary = binary
+        self.o = bs.Options()
+        self.pm = bs.ProjectMap()
+        self.blacklist_txt = None
 
-env = {}
-o.update_env(env)
+    def tests(self, env):
+        whitelist_txt = None
+        cases_xml = None
+        bd = self.pm.project_build_dir()
+        if "gles2" in self.binary:
+            whitelist_txt = self.pm.project_source_dir("deqp") + "/android/cts/master/gles2-master.txt"
+            cases_xml = "dEQP-GLES2-cases.xml"
+            self.blacklist_txt = bd + self.o.hardware[:3] + "_expectations/gles2_unstable_tests.txt"
+        if "gles3" in self.binary:
+            whitelist_txt = self.pm.project_source_dir("deqp") + "/android/cts/master/gles3-master.txt"
+            cases_xml = "dEQP-GLES3-cases.xml"
+            self.blacklist_txt = bd + self.o.hardware[:3] + "_expectations/gles3_unstable_tests.txt"
+        if "gles31" in self.binary:
+            whitelist_txt = self.pm.project_source_dir("deqp") + "/android/cts/master/gles31-master.txt"
+            cases_xml = "dEQP-GLES31-cases.xml"
+            self.blacklist_txt = bd + self.o.hardware[:3] + "_expectations/gles31_unstable_tests.txt"
+        deqp_dir = os.path.dirname(self.binary)
+        os.chdir(deqp_dir)
+        cmd = [self.binary,
+               "--deqp-runmode=xml-caselist"]
+        bs.run_batch_command(cmd, env=env)
+        all_tests = bs.DeqpTrie()
+        all_tests.add_xml(cases_xml)
+        whitelist = bs.DeqpTrie()
+        whitelist.add_txt(whitelist_txt)
+        all_tests.filter_whitelist(whitelist)
+        os.chdir(self.pm.project_build_dir())
+        return all_tests
 
-if "hsw" in o.hardware or "byt" in o.hardware or "ivb" in o.hardware:
-    env["MESA_GLES_VERSION_OVERRIDE"] = "3.1"
+    def blacklist(self, all_tests):
+        blacklist = bs.DeqpTrie()
+        blacklist.add_txt(self.blacklist_txt)
+        if "daily" != self.o.type and not self.o.retest_path:
+            # these tests triple the run-time
+            blacklist.add_line("dEQP-GLES31.functional.copy_image")
+        all_tests.filter(blacklist)
+        
+class DeqpBuilder(object):
+    def __init__(self):
+        self.pm = bs.ProjectMap()
+        self.o = bs.Options()
+        self.env = {}
+    def build(self):
+        pass
+    def clean(self):
+        pass
+    def test(self):
+        if "hsw" in self.o.hardware or "byt" in self.o.hardware or "ivb" in self.o.hardware:
+            self.env["MESA_GLES_VERSION_OVERRIDE"] = "3.1"
+        t = bs.DeqpTester()
+        all_results = bs.DeqpTrie()
+        modules = ["gles2", "gles3", "gles31"]
+        if "skl" in self.o.hardware or "bdw" in self.o.hardware or "bsw" in self.o.hardware or "hsw" in self.o.hardware or "byt" in self.o.hardware or "ivb" in self.o.hardware:
+            modules += ["gles31"]
 
-modules = ["gles2", "gles3"]
-excludes = []
-if "skl" in o.hardware or "bdw" in o.hardware or "bsw" in o.hardware or "hsw" in o.hardware or "byt" in o.hardware or "ivb" in o.hardware:
-    modules += ["gles31"]
-    if "daily" != o.type and not o.retest_path:
-        # these tests triple the run-time
-        excludes.append("deqp-gles31.functional.copy_image")
+        for module in modules:
+            binary = self.pm.build_root() + "/opt/deqp/modules/" + module + "/deqp-" + module
+            results = t.test(binary,
+                             DeqpLister(binary),
+                             [],
+                             self.env)
+            all_results.merge(results)
 
-bs.build(bs.DeqpBuilder(modules, excludes=excludes, env=env), time_limit=SlowTimeout())
+        config = bs.get_conf_file(self.o.hardware, self.o.arch, project=self.pm.current_project())
+        t.generate_results(all_results, bs.ConfigFilter(config, self.o))
+        
+bs.build(DeqpBuilder(), time_limit=SlowTimeout())
         

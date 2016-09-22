@@ -51,7 +51,6 @@
              bisect_hardware="bdw,skl,hsw,ivb,snb,byt,bsw"
              bisect_arch="m32,m64">
       <prerequisite name="deqp" hardware="builder"/>
-      <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
     </project>
 
