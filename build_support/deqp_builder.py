@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import bz2
+import glob
 import os
 import xml.etree.ElementTree as ET
 import xml.sax.saxutils as saxutils
@@ -546,3 +547,103 @@ class DeqpTester:
         pass
     def clean(self):
         pass
+
+def generation(options):
+        if "skl" in options.hardware or "kbl" in options.hardware or "bxt" in options.hardware:
+            return 9.0
+        if "bdw" in options.hardware or "bsw" in options.hardware:
+            return 8.0
+        if "hsw" in options.hardware:
+            return 7.5
+        if "ivb" in options.hardware or "byt" in options.hardware:
+            return 7.0
+        if "snb" in options.hardware:
+            return 6.0
+        if "ilk" in options.hardware:
+            return 5.0
+        assert("g965" in options.hardware or "g33" in options.hardware or "g45" in options.hardware)
+        return 4.0
+
+class CtsTestList(object):
+    def __init__(self):
+        self.pm = ProjectMap()
+        self.o = Options()
+
+    def tests(self, env=None):
+        br = self.pm.build_root()
+        whitelists = {
+            "ES2-CTS-cases.xml": br + "/bin/es/cts/gl_cts/data/aosp_mustpass/gles2-master.txt",
+            "ES3-CTS-cases.xml": br + "/bin/es/cts/gl_cts/data/aosp_mustpass/gles3-master.txt",
+            "ES31-CTS-cases.xml": br + "/bin/es/cts/gl_cts/data/aosp_mustpass/gles31-master.txt",
+            "ES32-CTS-cases.xml": br + "/bin/es/cts/gl_cts/data/aosp_mustpass/gles32-master.txt",
+            }
+
+        # provide a DeqpTrie with all tests
+        binary = br + "/bin/es/cts/glcts"
+        cts_dir = os.path.dirname(binary)
+        os.chdir(cts_dir)
+        if env is None:
+            libdir = "x86_64-linux-gnu"
+            if self.o.arch == "m32":
+                libdir = "i386-linux-gnu"
+            env = {"MESA_GLES_VERSION_OVERRIDE" : "3.2",
+                   "LD_LIBRARY_PATH" : br + "/lib:" + \
+                   br + "/lib/" + libdir + ":" + br + "/lib/dri",
+                   "LIBGL_DRIVERS_PATH" : br + "/lib/dri"}
+            self.o.update_env(env)
+
+        save_override = env["MESA_GLES_VERSION_OVERRIDE"]
+        env["MESA_GLES_VERSION_OVERRIDE"] = "3.2"
+        cmd = [binary,
+               "--deqp-runmode=xml-caselist"]
+        run_batch_command(cmd, env=env)
+        env["MESA_GLES_VERSION_OVERRIDE"] = save_override
+        all_tests = DeqpTrie()
+        for caselist in glob.glob("*.xml"):
+            testlist = DeqpTrie()
+            testlist.add_xml(caselist)
+            if caselist in whitelists:
+                whitelist = DeqpTrie()
+                whitelist.add_txt(whitelists[caselist])
+
+                # add GTF tests, which are not in the whitelists
+                suite = "-".join(caselist.split("-")[:2]) + ".gtf.*"
+                whitelist.add_line(suite)
+                testlist.filter_whitelist(whitelist)
+
+            # combine test list into single file
+            all_tests.merge(testlist)
+        os.chdir(self.pm.project_build_dir())
+        return all_tests
+
+    def blacklist(self, all_tests):
+        project = self.pm.current_project()
+        blacklist_dir = self.pm.project_build_dir(project) + "/"
+        blacklist = DeqpTrie()
+        if "bxt" in self.o.hardware:
+            blacklist_dir = self.pm.project_source_dir("prerelease") + "/" + project + "/"
+        blacklist_file = blacklist_dir + self.o.hardware + self.o.arch + "_blacklist.txt"
+        if os.path.exists(blacklist_file):
+            blacklist.add_txt(blacklist_file)
+        blacklist_file = blacklist_dir + self.o.hardware + "_blacklist.txt"
+        if os.path.exists(blacklist_file):
+            blacklist.add_txt(blacklist_file)
+        blacklist_file = blacklist_dir + self.o.hardware[:3] + "_blacklist.txt"
+        if os.path.exists(blacklist_file):
+            blacklist.add_txt(blacklist_file)
+        all_tests.filter(blacklist)
+        version = mesa_version()
+        unsupported = []
+        if "11.2" in version:
+            unsupported = ["ES32-CTS"]
+            if generation(self.o) < 8.0:
+                unsupported.append("ES31-CTS")
+            if generation(self.o) < 6.0:
+                unsupported.append("ES30-CTS")
+
+        if "12.0" in version:
+            if generation(self.o) < 8.0:
+                unsupported.append("ES31-CTS")
+
+        all_tests.filter(unsupported)        
+

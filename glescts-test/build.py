@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 import ConfigParser
-import glob
 import multiprocessing
 import os
 import subprocess
@@ -17,94 +16,6 @@ class CaseConfig(ConfigParser.SafeConfigParser):
     def optionxform(self, optionstr):
         return optionstr
 
-class CtsTestList(object):
-    def __init__(self):
-        self.pm = bs.ProjectMap()
-        self.o = bs.Options()
-
-    def tests(self, env):
-        br = self.pm.build_root()
-        whitelists = {
-            "ES2-CTS-cases.xml": br + "/bin/es/cts/gl_cts/data/aosp_mustpass/gles2-master.txt",
-            "ES3-CTS-cases.xml": br + "/bin/es/cts/gl_cts/data/aosp_mustpass/gles3-master.txt",
-            "ES31-CTS-cases.xml": br + "/bin/es/cts/gl_cts/data/aosp_mustpass/gles31-master.txt",
-            "ES32-CTS-cases.xml": br + "/bin/es/cts/gl_cts/data/aosp_mustpass/gles32-master.txt",
-            }
-
-        # provide a DeqpTrie with all tests
-        binary = br + "/bin/es/cts/glcts"
-        cts_dir = os.path.dirname(binary)
-        os.chdir(cts_dir)
-        save_override = env["MESA_GLES_VERSION_OVERRIDE"]
-        env["MESA_GLES_VERSION_OVERRIDE"] = "3.2"
-        cmd = [binary,
-               "--deqp-runmode=xml-caselist"]
-        bs.run_batch_command(cmd, env=env)
-        env["MESA_GLES_VERSION_OVERRIDE"] = save_override
-        all_tests = bs.DeqpTrie()
-        for caselist in glob.glob("*.xml"):
-            testlist = bs.DeqpTrie()
-            testlist.add_xml(caselist)
-            if caselist in whitelists:
-                whitelist = bs.DeqpTrie()
-                whitelist.add_txt(whitelists[caselist])
-
-                # add GTF tests, which are not in the whitelists
-                suite = "-".join(caselist.split("-")[:2]) + ".gtf.*"
-                whitelist.add_line(suite)
-                testlist.filter_whitelist(whitelist)
-
-            # combine test list into single file
-            all_tests.merge(testlist)
-        os.chdir(self.pm.project_build_dir())
-        return all_tests
-
-    def blacklist(self, all_tests):
-        project = self.pm.current_project()
-        blacklist_dir = self.pm.project_build_dir(project) + "/"
-        blacklist = bs.DeqpTrie()
-        if "bxt" in self.o.hardware:
-            blacklist_dir = self.pm.project_source_dir("prerelease") + "/" + project + "/"
-        blacklist_file = blacklist_dir + self.o.hardware + self.o.arch + "_blacklist.txt"
-        if os.path.exists(blacklist_file):
-            blacklist.add_txt(blacklist_file)
-        blacklist_file = blacklist_dir + self.o.hardware + "_blacklist.txt"
-        if os.path.exists(blacklist_file):
-            blacklist.add_txt(blacklist_file)
-        blacklist_file = blacklist_dir + self.o.hardware[:3] + "_blacklist.txt"
-        if os.path.exists(blacklist_file):
-            blacklist.add_txt(blacklist_file)
-        all_tests.filter(blacklist)
-        mesa_version = bs.mesa_version()
-        unsupported = []
-        if "11.2" in mesa_version:
-            unsupported = ["ES32-CTS"]
-            if self._gen() < 8.0:
-                unsupported.append("ES31-CTS")
-            if self._gen() < 6.0:
-                unsupported.append("ES30-CTS")
-
-        if "12.0" in mesa_version:
-            if self._gen() < 8.0:
-                unsupported.append("ES31-CTS")
-
-        all_tests.filter(unsupported)        
-
-    def _gen(self):
-        if "skl" in self.o.hardware or "kbl" in self.o.hardware or "bxt" in self.o.hardware:
-            return 9.0
-        if "bdw" in self.o.hardware or "bsw" in self.o.hardware:
-            return 8.0
-        if "hsw" in self.o.hardware:
-            return 7.5
-        if "ivb" in self.o.hardware or "byt" in self.o.hardware:
-            return 7.0
-        if "snb" in self.o.hardware:
-            return 6.0
-        if "ilk" in self.o.hardware:
-            return 5.0
-        assert("g965" in self.o.hardware or "g33" in self.o.hardware or "g45" in self.o.hardware)
-        return 4.0
 
 class GLESCTSTester(object):
     def __init__(self):
@@ -132,7 +43,7 @@ class GLESCTSTester(object):
     def test(self):
         t = bs.DeqpTester()
         results = t.test(self.pm.build_root() + "/bin/es/cts/glcts",
-                         CtsTestList(),
+                         bs.CtsTestList(),
                          [],
                          self.env)
 

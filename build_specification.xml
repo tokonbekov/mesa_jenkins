@@ -52,6 +52,7 @@
              bisect_arch="m32,m64">
       <prerequisite name="deqp" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
+      <prerequisite name="cts" hardware="builder"/>
     </project>
 
     <project name="deqp">
@@ -88,6 +89,11 @@
       <prerequisite name="glescts-test" hardware="hsw" shard="4"/>
       <prerequisite name="glescts-test" hardware="bsw,byt" shard="8" only_for_type="daily"/>
       <prerequisite name="glescts-test" hardware="g33,g45,ilk,g965,bxt,ivb,snb,kbl" shard="3" only_for_type="daily"/>
+      <prerequisite name="glescts-test"
+                    only_for_type="daily"
+                    arch="m32"
+                    hardware="snb,ivb,hsw,bdw,skl"
+                    shard="5"/>
     </project>
 
     <project name="piglit">
@@ -196,17 +202,15 @@
     </project>
 
     <project name="deqp-full">
-      <prerequisite name="deqp-test" hardware="hsw,skl" shard="2"/>
-      <prerequisite name="deqp-test" hardware="bdw" shard="5"/>
+      <prerequisite name="deqp-test" hardware="hsw,skl"/>
+      <prerequisite name="deqp-test" hardware="bdw"/>
       <prerequisite name="deqp-test"
                     only_for_type="daily"
-                    hardware="snb,byt,bsw,ivb"
-                    shard="5"/>
+                    hardware="snb,byt,bsw,ivb"/>
       <prerequisite name="deqp-test"
                     only_for_type="daily"
                     arch="m32"
-                    hardware="snb,ivb,hsw,bdw,skl"
-                    shard="5"/>
+                    hardware="snb,ivb,hsw,bdw,skl"/>
     </project>
 
     <project name="cts-full">

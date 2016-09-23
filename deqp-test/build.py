@@ -16,13 +16,15 @@ class SlowTimeout:
         return 500
 
 class DeqpLister(object):
-    def __init__(self, binary):
+    def __init__(self, binary, cts_tests):
         self.binary = binary
         self.o = bs.Options()
         self.pm = bs.ProjectMap()
         self.blacklist_txt = None
+        self.cts_blacklist = cts_tests
 
     def tests(self, env):
+        # don't execute tests that are part of the other suite
         whitelist_txt = None
         cases_xml = None
         bd = self.pm.project_build_dir()
@@ -49,23 +51,8 @@ class DeqpLister(object):
         whitelist.add_txt(whitelist_txt)
         all_tests.filter_whitelist(whitelist)
         os.chdir(self.pm.project_build_dir())
+        all_tests.filter(self.cts_blacklist)
         return all_tests
-
-    def _gen(self):
-        if "skl" in self.o.hardware or "kbl" in self.o.hardware or "bxt" in self.o.hardware:
-            return 9.0
-        if "bdw" in self.o.hardware or "bsw" in self.o.hardware:
-            return 8.0
-        if "hsw" in self.o.hardware:
-            return 7.5
-        if "ivb" in self.o.hardware or "byt" in self.o.hardware:
-            return 7.0
-        if "snb" in self.o.hardware:
-            return 6.0
-        if "ilk" in self.o.hardware:
-            return 5.0
-        assert("g965" in self.o.hardware or "g33" in self.o.hardware or "g45" in self.o.hardware)
-        return 4.0
 
     def blacklist(self, all_tests):
         blacklist = bs.DeqpTrie()
@@ -76,13 +63,13 @@ class DeqpLister(object):
             # these tests triple the run-time
             unsupported.append("dEQP-GLES31.functional.copy_image")
         if "11.2" in mesa_version:
-            if self._gen() < 8.0:
+            if bs.generation(self.o) < 8.0:
                 unsupported.append("dEQP-GLES31")
-            if self._gen() < 6.0:
+            if bs.generation(self.o) < 6.0:
                 unsupported.append("dEQP-GLES3")
 
         if "12.0" in mesa_version:
-            if self._gen() < 8.0:
+            if bs.generation(self.o) < 8.0:
                 unsupported.append("dEQP-GLES31")
         all_tests.filter(unsupported)
         
@@ -96,6 +83,11 @@ class DeqpBuilder(object):
     def clean(self):
         pass
     def test(self):
+        cts_blacklist = bs.CtsTestList().tests()
+        cts_blacklist._trie["dEQP-GLES32"] = cts_blacklist._trie["ES32-CTS"]
+        cts_blacklist._trie["dEQP-GLES31"] = cts_blacklist._trie["ES31-CTS"]
+        cts_blacklist._trie["dEQP-GLES3"] = cts_blacklist._trie["ES3-CTS"]
+        cts_blacklist._trie["dEQP-GLES2"] = cts_blacklist._trie["ES2-CTS"]
         if "hsw" in self.o.hardware or "byt" in self.o.hardware or "ivb" in self.o.hardware:
             self.env["MESA_GLES_VERSION_OVERRIDE"] = "3.1"
         t = bs.DeqpTester()
@@ -107,7 +99,7 @@ class DeqpBuilder(object):
         for module in modules:
             binary = self.pm.build_root() + "/opt/deqp/modules/" + module + "/deqp-" + module
             results = t.test(binary,
-                             DeqpLister(binary),
+                             DeqpLister(binary, cts_blacklist),
                              [],
                              self.env)
             all_results.merge(results)
