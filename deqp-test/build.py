@@ -51,13 +51,40 @@ class DeqpLister(object):
         os.chdir(self.pm.project_build_dir())
         return all_tests
 
+    def _gen(self):
+        if "skl" in self.o.hardware or "kbl" in self.o.hardware or "bxt" in self.o.hardware:
+            return 9.0
+        if "bdw" in self.o.hardware or "bsw" in self.o.hardware:
+            return 8.0
+        if "hsw" in self.o.hardware:
+            return 7.5
+        if "ivb" in self.o.hardware or "byt" in self.o.hardware:
+            return 7.0
+        if "snb" in self.o.hardware:
+            return 6.0
+        if "ilk" in self.o.hardware:
+            return 5.0
+        assert("g965" in self.o.hardware or "g33" in self.o.hardware or "g45" in self.o.hardware)
+        return 4.0
+
     def blacklist(self, all_tests):
         blacklist = bs.DeqpTrie()
         blacklist.add_txt(self.blacklist_txt)
+        mesa_version = bs.mesa_version()
+        unsupported = []
         if "daily" != self.o.type and not self.o.retest_path:
             # these tests triple the run-time
-            blacklist.add_line("dEQP-GLES31.functional.copy_image")
-        all_tests.filter(blacklist)
+            unsupported.append("dEQP-GLES31.functional.copy_image")
+        if "11.2" in mesa_version:
+            if self._gen() < 8.0:
+                unsupported.append("dEQP-GLES31")
+            if self._gen() < 6.0:
+                unsupported.append("dEQP-GLES3")
+
+        if "12.0" in mesa_version:
+            if self._gen() < 8.0:
+                unsupported.append("dEQP-GLES31")
+        all_tests.filter(unsupported)
         
 class DeqpBuilder(object):
     def __init__(self):
