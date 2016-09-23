@@ -11,3 +11,4 @@ dEQP-VK.pipeline.vertex_input.multiple_attributes.binding_one_to_many.attributes
 dEQP-VK.memory.mapping.random
 dEQP-VK.pipeline.multisample.alpha_to_one.samples_8
 dEQP-VK.synchronization.op.single_queue.event
+dEQP-VK.synchronization.basic.fence.multi
