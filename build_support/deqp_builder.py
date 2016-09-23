@@ -376,7 +376,7 @@ class DeqpTester:
             include_tests = testlist.RetestIncludes(self.pm.current_project())
             if not include_tests:
                 # we were supposed to retest failures, but there were none
-                return
+                return all_tests
             with open("retest_caselist.txt", "w") as fh:
                 for t in include_tests:
                     fh.write(t)
@@ -388,7 +388,7 @@ class DeqpTester:
         list_policy.blacklist(all_tests)
         
         if all_tests.empty():
-            return
+            return all_tests
 
         shardno = 0
         shardcount = 0
