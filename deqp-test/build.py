@@ -71,6 +71,8 @@ class DeqpLister(object):
         if "12.0" in mesa_version:
             if bs.generation(self.o) < 8.0:
                 unsupported.append("dEQP-GLES31")
+        if bs.generation(self.o) < 7.0:
+            unsupported.append("dEQP-GLES31")
         all_tests.filter(unsupported)
         
 class DeqpBuilder(object):
