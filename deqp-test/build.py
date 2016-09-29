@@ -86,10 +86,9 @@ class DeqpBuilder(object):
         pass
     def test(self):
         cts_blacklist = bs.CtsTestList().tests()
-        cts_blacklist._trie["dEQP-GLES32"] = cts_blacklist._trie["ES32-CTS"]
-        cts_blacklist._trie["dEQP-GLES31"] = cts_blacklist._trie["ES31-CTS"]
-        cts_blacklist._trie["dEQP-GLES3"] = cts_blacklist._trie["ES3-CTS"]
-        cts_blacklist._trie["dEQP-GLES2"] = cts_blacklist._trie["ES2-CTS"]
+        for suite in ["ES32", "ES31", "ES3", "ES2"]:
+            if suite + "-CTS" in cts_blacklist._trie:
+                cts_blacklist._trie["dEQP-GL" + suite] = cts_blacklist._trie[suite + "-CTS"]
         if "hsw" in self.o.hardware or "byt" in self.o.hardware or "ivb" in self.o.hardware:
             self.env["MESA_GLES_VERSION_OVERRIDE"] = "3.1"
         t = bs.DeqpTester()
