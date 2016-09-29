@@ -151,11 +151,11 @@ python -u ${project}/build.py --arch ${arch} --result_path ${result_path} --conf
 fi
 killall Xorg || true
 sudo /usr/local/bin/chmodtty9.sh
-Xorg :0 vt0 -retro -sharevts -logfile /tmp/xorg.log&amp;
+Xorg :0 vt0 -retro -sharevts &amp;
 rm -rf /tmp/build_root
 sleep 5  # Xorg doesn&apos;t always settle before starting piglit and that causes problems
 python -u ${project}/build.py --arch ${arch} --result_path ${result_path} --config ${config} --type ${type} --hardware ${hardware} --action clean,build,test --shard ${shard} --env &quot;DISPLAY=:0 ${env}&quot; ${extra_arg}
-killall Xorg
+killall Xorg || true
 rm -rf /tmp/build_root
 </command>
     </hudson.tasks.Shell>
