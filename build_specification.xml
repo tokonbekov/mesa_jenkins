@@ -588,6 +588,11 @@
       <mesa branch="aphogat/jenkins"/>
     </branch>
 
+    <branch name="aphogat_vulkan" project="vulkancts-full">
+      <mesa branch="aphogat/jenkins-vulkan"/>
+      <vulkancts branch="origin/vulkan-cts-1.0.1" trigger="false"/>
+    </branch>
+
     <branch name="tpohjola" project="test-single-arch">
       <mesa branch="tpohjola/jenkins"/>
     </branch>
