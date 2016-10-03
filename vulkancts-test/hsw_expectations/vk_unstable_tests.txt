@@ -14,4 +14,4 @@ dEQP-VK.synchronization
 dEQP-VK.glsl.derivate
 dEQP-VK.api.image_clearing.clear_color_image.1d_r8g8b8a8_snorm
 dEQP-VK.api.device_init.create_instance_null_appinfo
-dEQP-VK.wsi.xlib.surface.query_present_modes
+dEQP-VK.wsi
