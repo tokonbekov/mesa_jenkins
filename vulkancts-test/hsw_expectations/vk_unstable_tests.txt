@@ -15,3 +15,4 @@ dEQP-VK.glsl.derivate
 dEQP-VK.api.image_clearing.clear_color_image.1d_r8g8b8a8_snorm
 dEQP-VK.api.device_init.create_instance_null_appinfo
 dEQP-VK.wsi
+dEQP-VK.api.buffer_view.access.buffer_view_memory_test_partial_offset0
