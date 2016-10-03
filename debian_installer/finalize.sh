@@ -36,13 +36,14 @@ EOF
 
 echo 'startup_states: highstate' > /etc/salt/minion.d/startup.conf
 
-
 # Add our nfs mount to fstab
 echo 'otc-mesa-ci.local:/srv/jenkins       /mnt/jenkins    nfs     _netdev,auto,async,comment=systemd.automount        0       0' >> /etc/fstab
 
+# Create a systemd .network file for the network interfac
 name=$(ip addr show scope link up | grep -v DOWN | grep UP | awk '{print $2}' | sed 's@:@@')
 
 mkdir -p /etc/systemd/network
+
 cat > "/etc/systemd/network/${name}.network" << EOF
 [Match]
 Name=${name}
@@ -51,10 +52,17 @@ Name=${name}
 DHCP=yes
 EOF
 
+# setup resolve for systemd-resolved
 rm /etc/resolv.conf
 ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf
 
+# Remove interfaces to keep debian's interfaces from coming up as well as systemd
 rm /etc/network/interfaces
+
+# Copy the loader from ${EFI}/debian/grubx64.efi to ${EFI}/boot/bootx64.efi
+# This is a work-around for broken EFI implementations.
+mkdir -p /boot/efi/EFI/boot/
+cp /boot/efi/EFI/debian/grubx64.efi /boot/efi/EFI/boot/bootx64.efi
 
 # Enable and disable some services
 systemctl enable systemd-networkd systemd-resolved avahi-daemon salt-minion
