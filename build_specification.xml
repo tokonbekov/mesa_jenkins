@@ -141,12 +141,12 @@
       <prerequisite name="vulkancts-test" hardware="skl,hsw" arch="m64" shard="2"/>
       <prerequisite name="vulkancts-test"
                     only_for_type="daily"
-                    hardware="bsw"
+                    hardware="bsw,kbl"
                     arch="m64"
                     shard="5"/>
-      <!-- kbl and bxt have limited test machines and are not stable.
-           Limit testing to m64 to use fewer resources, and shard the
-           test in the event that one of the test runs crashes. -->
+      <!-- bxt test machines are limited and are not stable.  Limit
+           testing to m64 to use fewer resources, and shard the test
+           in the event that one of the test runs crashes. -->
       <!-- <prerequisite name="vulkancts-test" -->
       <!--               only_for_type="daily" -->
       <!--               hardware="kbl" -->
