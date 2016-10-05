@@ -413,8 +413,7 @@ class DeqpTester:
                          "--deqp-gl-config-name=rgba8888d24s8",
                          "--deqp-surface-width=400",
                          "--deqp-surface-height=300",
-                         "--deqp-visibility=hidden",
-                         "--deqp-crashhandler=enable"] + extra_args
+                         "--deqp-visibility=hidden"] + extra_args
         procs = {}
         out_fh = open(os.devnull, "w")
         procEnv = dict(os.environ.items() + env.items())
