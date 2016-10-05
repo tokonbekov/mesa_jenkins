@@ -21,7 +21,7 @@ parser.add_argument('--end_rev', type=str, default='',
 
 parser.add_argument('--project', type=str, default='all-test',
                     choices=['test-single-arch', 'piglit', 'piglit-test',
-                             'deqp-full', 'crucible-all', 'crucible-test', "cts-test", "mesa"],
+                             'deqp-full', 'crucible-all', 'crucible-test', "cts-test", "mesa", "vulkancts-full"],
                     help="The jenkins project to build")
 
 parser.add_argument('--series_name', type=str, default='',
@@ -37,6 +37,10 @@ parser.add_argument('--hardware', type=str, default='builder',
 
 parser.add_argument('--build_support_branch', type=str, default='master',
                     help="The automation branch to use"
+                    "(default: %(default)s)")
+
+parser.add_argument('--branch', type=str, default='mesa_master',
+                    help="The branch to use"
                     "(default: %(default)s)")
 
 args = parser.parse_args(sys.argv[1:])
@@ -87,14 +91,15 @@ print "building series:"
 for commit in commits:
     print commit.hexsha
 
-    custom_url = "http://otc-mesa-ci.jf.intel.com/job/mesa_custom/buildWithParameters?token=xyzzy&{0}"
+    custom_url = "http://otc-mesa-ci.jf.intel.com/job/mesa_custom/buildWithParameters?token=noauth&{0}"
     job_args = { "name" : args.series_name + "_" + commit.hexsha[:8],
                  "revision" : "mesa=" + commit.hexsha,
                  "project" : args.project,
                  "hardware" : args.hardware,
                  "rebuild" : "true",
                  "arch" : args.arch,
-                 "build_support_branch" : args.build_support_branch}
+                 "build_support_branch" : args.build_support_branch,
+                 "branch" : args.branch }
     url = custom_url.format(urllib.urlencode(job_args))
 
     failcount = 0
