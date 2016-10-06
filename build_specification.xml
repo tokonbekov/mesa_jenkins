@@ -78,7 +78,7 @@
     </project>
 
     <project name="glescts-test"
-             bisect_hardware="g33,g45,ilk,g965,bxt,byt,bsw,skl,bdw,hsw,snb,ivb,kbl"
+             bisect_hardware="g33,g45,ilk,g965,bxt,byt,bsw,skl,sklgt4e,bdw,hsw,snb,ivb,kbl"
              bisect_arch="m64">
       <prerequisite name="mesa" hardware="builder"/>
       <prerequisite name="cts" hardware="builder"/>
@@ -104,7 +104,7 @@
     </project>
 
     <project name="piglit-test"
-             bisect_hardware="bdwgt2,bdwgt3e,skl,hsw,ivb,ivbgt1,snb,bsw,byt,g965,ilk,g33,g45,bxt,kbl"
+             bisect_hardware="bdwgt2,bdwgt3e,skl,sklgt4e,hsw,ivb,ivbgt1,snb,bsw,byt,g965,ilk,g33,g45,bxt,kbl"
              bisect_arch="m64,m32">
       <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
@@ -131,7 +131,7 @@
     </project>
 
     <project name="vulkancts-test" src_dir="vulkancts"
-             bisect_hardware="bdw,skl,bsw,kbl,hsw"
+             bisect_hardware="bdw,skl,sklgt4e,bsw,kbl,hsw"
              bisect_arch="m64">
       <prerequisite name="vulkancts" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
