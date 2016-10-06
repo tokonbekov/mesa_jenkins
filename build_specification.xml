@@ -87,6 +87,7 @@
 
     <project name="glescts-full">
       <prerequisite name="glescts-test" hardware="skl,bdw" shard="5"/>
+      <prerequisite name="glescts-test" hardware="sklgt4e" shard="3"/>
       <prerequisite name="glescts-test" hardware="hsw" shard="4"/>
       <prerequisite name="glescts-test" hardware="bsw,byt" shard="8" only_for_type="daily"/>
       <prerequisite name="glescts-test" hardware="g33,g45,ilk,g965,bxt,ivb,snb,kbl" shard="3" only_for_type="daily"/>
@@ -137,8 +138,7 @@
     </project>
 
     <project name="vulkancts-full">
-      <prerequisite name="vulkancts-test" hardware="bdw" arch="m64" shard="2"/>
-      <prerequisite name="vulkancts-test" hardware="skl,hsw" arch="m64" shard="2"/>
+      <prerequisite name="vulkancts-test" hardware="bdw,hsw,skl" arch="m64" shard="2"/>
       <prerequisite name="vulkancts-test"
                     only_for_type="daily"
                     hardware="bsw,kbl"
@@ -163,11 +163,11 @@
     <project name="all-test">
       <prerequisite name="scons-buildtest" hardware="builder"/>
       <prerequisite name="piglit-test"
-                    hardware="ilk,snbgt1,snbgt2,ivbgt1,ivbgt2,hswgt1,hswgt2,hswgt3e,bdwgt2,bdwgt3e,skl"
+                    hardware="ilk,snbgt1,snbgt2,ivbgt1,ivbgt2,hswgt1,hswgt2,hswgt3e,bdwgt2,bdwgt3e,skl,sklgt4e"
                     arch="m64"/>
       <prerequisite name="piglit-test"
                     only_for_type="daily"
-                    hardware="ilk,snbgt1,snbgt2,ivbgt1,ivbgt2,hswgt1,hswgt2,hswgt3e,bdwgt2,bdwgt3e,skl"
+                    hardware="ilk,snbgt1,snbgt2,ivbgt1,ivbgt2,hswgt1,hswgt2,hswgt3e,bdwgt2,bdwgt3e,skl,sklgt4e"
                     arch="m32"/>
       <prerequisite only_for_type="daily" name="piglit-test" hardware="bsw,byt,g33,g45,g965" arch="m64,m32"/>
       <!-- do not test 32 bit for limited platforms -->
@@ -215,7 +215,7 @@
     </project>
 
     <project name="cts-full">
-      <prerequisite name="cts-test" hardware="snb,ivb,hsw,bdw,skl" arch="m64"/>
+      <prerequisite name="cts-test" hardware="snb,ivb,hsw,bdw,skl,sklgt4e" arch="m64"/>
       <prerequisite name="cts-test" only_for_type="daily" hardware="g965,g33,ilk,g45,bsw,byt,bxt,kbl" arch="m64"/>
     </project>
 
@@ -225,7 +225,7 @@
     </project>
 
     <project name="reboot-slaves">
-      <prerequisite name="reboot-slave" hardware="bdwgt2-01,bdwgt2-02,bdwgt2-03,bdwgt2-04,bdwgt2-05,bdwgt2-06,bdwgt3e-01,bdwgt3e-02,bdwgt3e-03,bdwgt3e-04,bdwgt3e-05,bdwgt3e-06,bdwgt3e-08,bsw-01,bsw-02,bsw-03,bsw-04,bsw-05,bsw-06,bsw-07,bsw-08,bsw-09,bsw-10,byt-01,byt-02,byt-03,byt-04,byt-05,byt-06,byt-07,bxt-03,g33-01,g33-02,g33-03,g45-01,g45-02,g45-03,g965-02,g965-03,hswgt1-01,hswgt1-02,hswgt2-01,hswgt2-02,hswgt2-03,hswgt3e-01,hswgt3e-02,hswgt3e-03,hswgt3e-04,ilk-01,ilk-02,ilk-03,ilk-05,ivbgt1-01,ivbgt1-02,ivbgt2-01,ivbgt2-02,ivbgt2-03,kbl-01,kbl-02,sklgt2-01,sklgt2-02,sklgt2-03,sklgt2-04,sklgt2-05,sklgt2-06,sklgt2-07,sklgt4e-01,sklgt4e-02,slkgt4e-03,snbgt1-01,snbgt1-02,snbgt1-03,snbgt1-04,snbgt2-01,snbgt2-02"/>
+      <prerequisite name="reboot-slave" hardware="bdwgt2-01,bdwgt2-02,bdwgt2-03,bdwgt2-04,bdwgt2-05,bdwgt2-06,bdwgt3e-01,bdwgt3e-02,bdwgt3e-03,bdwgt3e-04,bdwgt3e-05,bdwgt3e-06,bdwgt3e-08,bsw-01,bsw-02,bsw-03,bsw-04,bsw-05,bsw-06,bsw-07,bsw-08,bsw-09,bsw-10,byt-01,byt-02,byt-03,byt-04,byt-05,byt-06,byt-07,bxt-03,g33-01,g33-02,g33-03,g45-01,g45-02,g45-03,g965-02,g965-03,hswgt1-01,hswgt1-02,hswgt2-01,hswgt2-02,hswgt2-03,hswgt3e-01,hswgt3e-02,hswgt3e-03,hswgt3e-04,ilk-01,ilk-02,ilk-03,ilk-05,ivbgt1-01,ivbgt1-02,ivbgt2-01,ivbgt2-02,ivbgt2-03,kbl-01,kbl-02,sklgt2-01,sklgt2-02,sklgt2-03,sklgt2-04,sklgt2-05,sklgt2-06,sklgt2-07,sklgt4e-01,sklgt4e-02,sklgt4e-03,snbgt1-01,snbgt1-02,snbgt1-03,snbgt1-04,snbgt2-01,snbgt2-02"/>
     </project>
 
     <project name="reboot-slave"/>
