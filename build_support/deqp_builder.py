@@ -438,14 +438,19 @@ class DeqpTester:
             
             commands = base_commands + ["--deqp-caselist-file=" + case_fn,
                                         "--deqp-log-filename=" + out_fn]
+            test_name = ""
             if single_proc:
                 with open(case_fn, "r") as fh:
-                    commands = base_commands + ["-n", fh.readline().strip(),
+                    test_name = fh.readline().strip()
+                    commands = base_commands + ["-n", test_name,
                                                 "--deqp-log-filename=" + out_fn]
             proc = subprocess.Popen(commands,
                                     stdout=out_fh,
                                     stderr=out_fh,
                                     env=procEnv)
+            if single_proc:
+                print str(proc.pid) + ": " + test_name
+
             procs[cpu] = proc
 
         results = DeqpTrie()
@@ -485,14 +490,18 @@ class DeqpTester:
                     os.remove(out_fn)
                 commands = base_commands + ["--deqp-caselist-file=" + case_fn,
                                             "--deqp-log-filename=" + out_fn]
+                test_name = ""
                 if single_proc:
                     with open(case_fn, "r") as fh:
-                        commands = base_commands + ["-n", fh.readline().strip(),
+                        test_name = fh.readline().strip()
+                        commands = base_commands + ["-n", test_name,
                                                     "--deqp-log-filename=" + out_fn]
                 proc = subprocess.Popen(commands,
                                         stdout=out_fh,
                                         stderr=out_fh,
                                         env=procEnv)
+                if single_proc:
+                    print str(proc.pid) + ": " + test_name
                 procs[cpu] = proc
 
         os.remove("mesa-ci-caselist.txt")
