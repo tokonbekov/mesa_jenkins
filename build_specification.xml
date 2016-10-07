@@ -401,8 +401,7 @@
     <mesa_jenkins repo="git://github.com/janesma/mesa_jenkins.git"/>
 
     <deqp repo="git://github.com/janesma/deqp.git"
-          branch="origin/chadv">
-      <remote name="chadv" repo="git://github.com/chadversary/deqp.git"/>
+          branch="origin/nougat-cts-dev">
     </deqp>
 
     <cts repo="ssh://majanes@git-amr-2.devtools.intel.com:29418/otc_gen_graphics-khronos-glconform.git"
@@ -468,11 +467,13 @@
     <branch name="mesa_11.2" project="all-test">
       <mesa branch="origin/11.2"/>
       <piglit branch="janesma/11_2_jenkins" trigger="false"/>
+      <deqp branch="origin/chadv"/>
     </branch>
 
     <branch name="mesa_12.0" project="all-test">
       <mesa branch="origin/12.0"/>
       <piglit branch="janesma/12_0_jenkins" trigger="false"/>
+      <deqp branch="origin/chadv"/>
     </branch>
 
     <branch name="vulkancts" project="vulkancts-full">
