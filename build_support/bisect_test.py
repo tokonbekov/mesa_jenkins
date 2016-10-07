@@ -642,6 +642,8 @@ class DeqpTest:
         self.project = "glescts-test"
         if "dEQP-VK" in self.test_name:
             self.project = "vulkancts-test"
+        if "dEQP-GL" in self.test_name:
+            self.project = "deqp-test"
 
         hwarch = full_test_name.split(".")[-1]
         self.hardware = hwarch[:-3]
@@ -851,6 +853,8 @@ class TestLister:
         if "glescts" in os.path.basename(test_path):
             testclass = DeqpTest
         if "vulkancts" in os.path.basename(test_path):
+            testclass = DeqpTest
+        if "deqp" in os.path.basename(test_path):
             testclass = DeqpTest
 
         tags = r.findall(".//failure/..") + r.findall(".//error/..")
