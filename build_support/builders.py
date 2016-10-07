@@ -247,10 +247,11 @@ class AutoBuilder(object):
             assert(not os.path.exists(self._build_dir))
 
 class CMakeBuilder(object):
-    def __init__(self, extra_definitions=None, compiler="gcc"):
+    def __init__(self, extra_definitions=None, compiler="gcc", install=True):
         self._options = Options()
         self._project_map = ProjectMap()
         self._compiler = compiler
+        self._install = install
 
         if not extra_definitions:
             extra_definitions = []
@@ -293,8 +294,9 @@ class CMakeBuilder(object):
                           + self._extra_definitions, env=env)
 
         run_batch_command(["ninja", "-j" + str(cpu_count())], env=env)
-        print "Installing: output suppressed"
-        run_batch_command(["ninja", "install"], streamedOutput=False, quiet=True)
+        if self._install:
+            print "Installing: output suppressed"
+            run_batch_command(["ninja", "install"], streamedOutput=False, quiet=True)
 
         os.chdir(savedir)
 

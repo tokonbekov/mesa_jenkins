@@ -22,24 +22,27 @@ class DeqpLister(object):
         self.pm = bs.ProjectMap()
         self.blacklist_txt = None
         self.cts_blacklist = cts_tests
+        bd = self.pm.project_build_dir()
+        if "gles2" in self.binary:
+            self.blacklist_txt = bd + self.o.hardware[:3] + "_expectations/gles2_unstable_tests.txt"
+        if "gles3" in self.binary:
+            self.blacklist_txt = bd + self.o.hardware[:3] + "_expectations/gles3_unstable_tests.txt"
+        if "gles31" in self.binary:
+            self.blacklist_txt = bd + self.o.hardware[:3] + "_expectations/gles31_unstable_tests.txt"
 
     def tests(self, env):
         # don't execute tests that are part of the other suite
         whitelist_txt = None
         cases_xml = None
-        bd = self.pm.project_build_dir()
         if "gles2" in self.binary:
             whitelist_txt = self.pm.project_source_dir("deqp") + "/android/cts/master/gles2-master.txt"
             cases_xml = "dEQP-GLES2-cases.xml"
-            self.blacklist_txt = bd + self.o.hardware[:3] + "_expectations/gles2_unstable_tests.txt"
         if "gles3" in self.binary:
             whitelist_txt = self.pm.project_source_dir("deqp") + "/android/cts/master/gles3-master.txt"
             cases_xml = "dEQP-GLES3-cases.xml"
-            self.blacklist_txt = bd + self.o.hardware[:3] + "_expectations/gles3_unstable_tests.txt"
         if "gles31" in self.binary:
             whitelist_txt = self.pm.project_source_dir("deqp") + "/android/cts/master/gles31-master.txt"
             cases_xml = "dEQP-GLES31-cases.xml"
-            self.blacklist_txt = bd + self.o.hardware[:3] + "_expectations/gles31_unstable_tests.txt"
         deqp_dir = os.path.dirname(self.binary)
         os.chdir(deqp_dir)
         cmd = [self.binary,
@@ -51,12 +54,13 @@ class DeqpLister(object):
         whitelist.add_txt(whitelist_txt)
         all_tests.filter_whitelist(whitelist)
         os.chdir(self.pm.project_build_dir())
-        all_tests.filter(self.cts_blacklist)
         return all_tests
 
     def blacklist(self, all_tests):
-        blacklist = bs.DeqpTrie()
-        blacklist.add_txt(self.blacklist_txt)
+        if self.blacklist_txt:
+            blacklist = bs.DeqpTrie()
+            blacklist.add_txt(self.blacklist_txt)
+            all_tests.filter(self.cts_blacklist)
         mesa_version = bs.mesa_version()
         unsupported = []
         if "daily" != self.o.type and not self.o.retest_path:
