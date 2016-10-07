@@ -73,6 +73,14 @@ class DeqpLister(object):
                 unsupported.append("dEQP-GLES31")
         if bs.generation(self.o) < 7.0:
             unsupported.append("dEQP-GLES31")
+
+        if "gles2" in self.binary:
+            unsupported += ["dEQP-GLES3", "dEQP-GLES31"]
+        elif "gles31" in self.binary:
+            unsupported += ["dEQP-GLES2", "dEQP-GLES3"]
+        elif "gles3" in self.binary:
+            unsupported += ["dEQP-GLES2", "dEQP-GLES31"]
+
         all_tests.filter(unsupported)
         
 class DeqpBuilder(object):
@@ -93,7 +101,7 @@ class DeqpBuilder(object):
             self.env["MESA_GLES_VERSION_OVERRIDE"] = "3.1"
         t = bs.DeqpTester()
         all_results = bs.DeqpTrie()
-        modules = ["gles2", "gles3", "gles31"]
+        modules = ["gles2", "gles3"]
         if "skl" in self.o.hardware or "bdw" in self.o.hardware or "bsw" in self.o.hardware or "hsw" in self.o.hardware or "byt" in self.o.hardware or "ivb" in self.o.hardware:
             modules += ["gles31"]
 
