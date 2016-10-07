@@ -366,6 +366,7 @@
       <remote name="airlied" repo="git://people.freedesktop.org/~airlied/mesa"/>
       <remote name="pnmanolova" repo="git://github.com/pnmanolova/mesa"/>
       <remote name="imirkin" repo="git://github.com/imirkin/mesa"/>
+      <remote name="djdeath" repo="git://github.com/djdeath/mesa"/>
     </mesa>
 
     <drm repo="http://anongit.freedesktop.org/git/mesa/drm.git">
@@ -647,6 +648,15 @@
 
     <branch name="imirkin" project="test-single-arch">
       <mesa branch="imirkin/jenkins"/>
+    </branch>
+
+    <branch name="djdeath_vulkan" project="vulkancts-full">
+      <mesa branch="djdeath/jenkins_vulkan"/>
+      <vulkancts branch="origin/vulkan-cts-1.0.1" trigger="false"/>
+    </branch>
+
+    <branch name="djdeath" project="test-single-arch">
+      <mesa branch="djdeath/jenkins"/>
     </branch>
 
   </branches>
