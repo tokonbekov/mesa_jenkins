@@ -89,7 +89,7 @@
       <prerequisite name="glescts-test" hardware="skl,bdw" shard="5"/>
       <prerequisite name="glescts-test" hardware="hsw" shard="4"/>
       <prerequisite name="glescts-test" hardware="bsw,byt" shard="8" only_for_type="daily"/>
-      <prerequisite name="glescts-test" hardware="g33,g45,ilk,g965,bxt,ivb,snb,kbl" shard="3" only_for_type="daily"/>
+      <prerequisite name="glescts-test" hardware="g33,g45,ilk,g965,bxt,ivb,snb,kbl,sklgt4e" shard="3" only_for_type="daily"/>
       <prerequisite name="glescts-test"
                     only_for_type="daily"
                     arch="m32"
