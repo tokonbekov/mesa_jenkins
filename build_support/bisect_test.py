@@ -212,6 +212,11 @@ class PiglitTest:
                     m = re.match("pid: ([0-9]+)", a_line)
                     if m is not None:
                         self.pid = m.group(1)
+                    else:
+                        m = re.match("pid: \[([0-9]+)\]", a_line)
+                        if m is not None:
+                            self.pid = m.group(1)
+                        
         self._retest_path = retest_path
         arch_hardware = full_test_name.split(".")[-1]
         arch = arch_hardware[-3:]
@@ -635,6 +640,12 @@ class DeqpTest:
         if test_tag is not None:
             full_test_name = test_tag.attrib["classname"] + "." + test_tag.attrib["name"]
             status = test_tag.attrib["status"]
+            system_err_node = test_tag.find("./system-err")
+            if system_err_node is not None and system_err_node.text is not None:
+                for a_line in system_err_node.text.splitlines():
+                    m = re.match("pid: ([0-9]+)", a_line)
+                    if m is not None:
+                        self.pid = m.group(1)
 
         # drop the hw/arch from the test name
         self.test_name = ".".join(full_test_name.split(".")[:-1])
