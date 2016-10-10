@@ -25,17 +25,19 @@
 #  *   Mark Janes <mark.a.janes@intel.com>
 #  **********************************************************************/
 
-import threading, time, os, signal, subprocess, sys
+import threading, time, os, signal, sys
 
-from build_support import command
+from build_support import check_gpu_hang
 
 def quit_all(to):
     if not to.is_expired():
         return to.start()
 
     print( "ERROR: *** component timed out.")
+    check_gpu_hang(identify_test=False)
     sys.stdout.flush()
     os.kill(os.getpid(), signal.SIGINT)
+    
 
 class TimeOut:
     def __init__(self, time_limit):

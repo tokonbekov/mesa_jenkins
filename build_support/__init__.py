@@ -42,7 +42,6 @@ from project_map import ProjectMap
 #from export import ExportZip
 #from gtest import GTest as GTest
 #from clean_server import CleanServer
-from timer import TimeOut
 from repo_set import *
 from dependency_graph import DependencyGraph
 from export import Export, convert_rsync_path
@@ -50,6 +49,7 @@ from gtest import *
 from jenkins import *
 from bisect_test import *
 from builders import *
+from timer import TimeOut
 from deqp_builder import *
 from perf_builder import *
 

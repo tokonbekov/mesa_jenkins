@@ -120,7 +120,8 @@ def run_batch_command(commands, streamedOutput=True, noop=False, env = None,
                 print "STDERR: " + err
             raise subprocess.CalledProcessError(p.returncode,commands) 
     
-    del all_processes[p]
+    if p in all_processes:
+        del all_processes[p]
     
     if out and not quiet:
         print out
