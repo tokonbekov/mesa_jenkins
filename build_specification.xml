@@ -78,7 +78,7 @@
     </project>
 
     <project name="glescts-test"
-             bisect_hardware="g33,g45,ilk,g965,bxt,byt,bsw,skl,sklgt4e,bdw,hsw,snb,ivb,kbl"
+             bisect_hardware="g33,g45,ilk,g965,bxt,byt,bsw,skl,bdw,hsw,snb,ivb,kbl"
              bisect_arch="m64">
       <prerequisite name="mesa" hardware="builder"/>
       <prerequisite name="cts" hardware="builder"/>
@@ -89,7 +89,7 @@
       <prerequisite name="glescts-test" hardware="skl,bdw" shard="5"/>
       <prerequisite name="glescts-test" hardware="hsw" shard="4"/>
       <prerequisite name="glescts-test" hardware="bsw,byt" shard="8" only_for_type="daily"/>
-      <prerequisite name="glescts-test" hardware="g33,g45,ilk,g965,bxt,ivb,snb,kbl,sklgt4e" shard="3" only_for_type="daily"/>
+      <prerequisite name="glescts-test" hardware="g33,g45,ilk,g965,bxt,ivb,snb,kbl" shard="3" only_for_type="daily"/>
       <prerequisite name="glescts-test"
                     only_for_type="daily"
                     arch="m32"
@@ -103,7 +103,7 @@
     </project>
 
     <project name="piglit-test"
-             bisect_hardware="bdwgt2,bdwgt3e,skl,sklgt4e,hsw,ivb,ivbgt1,snb,bsw,byt,g965,ilk,g33,g45,bxt,kbl"
+             bisect_hardware="bdwgt2,bdwgt3e,skl,hsw,ivb,ivbgt1,snb,bsw,byt,g965,ilk,g33,g45,bxt,kbl"
              bisect_arch="m64,m32">
       <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
@@ -130,7 +130,7 @@
     </project>
 
     <project name="vulkancts-test" src_dir="vulkancts"
-             bisect_hardware="bdw,skl,sklgt4e,bsw,kbl,hsw"
+             bisect_hardware="bdw,skl,bsw,kbl,hsw"
              bisect_arch="m64">
       <prerequisite name="vulkancts" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
@@ -162,11 +162,11 @@
     <project name="all-test">
       <prerequisite name="scons-buildtest" hardware="builder"/>
       <prerequisite name="piglit-test"
-                    hardware="ilk,snbgt1,snbgt2,ivbgt1,ivbgt2,hswgt1,hswgt2,hswgt3e,bdwgt2,bdwgt3e,skl,sklgt4e"
+                    hardware="ilk,snbgt1,snbgt2,ivbgt1,ivbgt2,hswgt1,hswgt2,hswgt3e,bdwgt2,bdwgt3e,skl"
                     arch="m64"/>
       <prerequisite name="piglit-test"
                     only_for_type="daily"
-                    hardware="ilk,snbgt1,snbgt2,ivbgt1,ivbgt2,hswgt1,hswgt2,hswgt3e,bdwgt2,bdwgt3e,skl,sklgt4e"
+                    hardware="ilk,snbgt1,snbgt2,ivbgt1,ivbgt2,hswgt1,hswgt2,hswgt3e,bdwgt2,bdwgt3e,skl"
                     arch="m32"/>
       <prerequisite only_for_type="daily" name="piglit-test" hardware="bsw,byt,g33,g45,g965" arch="m64,m32"/>
       <!-- do not test 32 bit for limited platforms -->
