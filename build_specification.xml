@@ -109,9 +109,19 @@
       <prerequisite name="mesa" hardware="builder"/>
     </project>
 
-    <project name="piglit-cpu-test">
+    <project name="piglit-cpu-test-1">
       <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
+    </project>
+
+    <project name="piglit-cpu-test-2">
+      <prerequisite name="piglit" hardware="builder"/>
+      <prerequisite name="mesa" hardware="builder"/>
+    </project>
+
+    <project name="piglit-cpu-test">
+      <prerequisite name="piglit-cpu-test-1"/>
+      <prerequisite name="piglit-cpu-test-2"/>
     </project>
 
     <project name="shaderc"/>
