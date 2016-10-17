@@ -532,7 +532,7 @@ class PiglitTester(object):
             # flaky
             exclude_tests += ["arb_shader_image_load_store.invalid"]
 
-            exclude_cmd = []
+        exclude_cmd = []
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
             fixed_test = fixed_test.replace(' ', '.')
