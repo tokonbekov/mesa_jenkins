@@ -528,7 +528,11 @@ class PiglitTester(object):
             # bug 96907
             exclude_tests += ["arb_gpu_shader5.arb_gpu_shader5-emitstreamvertex_nodraw"]
 
-        exclude_cmd = []
+        if "ivb" in hardware:
+            # flaky
+            exclude_tests += ["arb_shader_image_load_store.invalid"]
+
+            exclude_cmd = []
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
             fixed_test = fixed_test.replace(' ', '.')
