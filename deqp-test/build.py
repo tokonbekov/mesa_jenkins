@@ -29,6 +29,8 @@ class DeqpLister(object):
             self.blacklist_txt = bd + self.o.hardware[:3] + "_expectations/gles3_unstable_tests.txt"
         if "gles31" in self.binary:
             self.blacklist_txt = bd + self.o.hardware[:3] + "_expectations/gles31_unstable_tests.txt"
+        if "egl" in self.binary:
+            self.blacklist_txt = bd + self.o.hardware[:3] + "_expectations/egl_unstable_tests.txt"
 
     def tests(self, env):
         # don't execute tests that are part of the other suite
@@ -43,6 +45,9 @@ class DeqpLister(object):
         if "gles31" in self.binary:
             whitelist_txt = self.pm.project_source_dir("deqp") + "/android/cts/master/gles31-master.txt"
             cases_xml = "dEQP-GLES31-cases.xml"
+        if "egl" in self.binary:
+            whitelist_txt = self.pm.project_source_dir("deqp") + "/android/cts/master/egl-master.txt"
+            cases_xml = "dEQP-EGL-cases.xml"
         deqp_dir = os.path.dirname(self.binary)
         os.chdir(deqp_dir)
         cmd = [self.binary,
@@ -60,30 +65,35 @@ class DeqpLister(object):
         if self.blacklist_txt:
             blacklist = bs.DeqpTrie()
             blacklist.add_txt(self.blacklist_txt)
-            all_tests.filter(self.cts_blacklist)
+            all_tests.filter(blacklist)
+        all_tests.filter(self.cts_blacklist)
         mesa_version = bs.mesa_version()
         unsupported = []
         if "daily" != self.o.type and not self.o.retest_path:
             # these tests triple the run-time
             unsupported.append("dEQP-GLES31.functional.copy_image")
         if "11.2" in mesa_version:
+            unsupported.append("dEQP-EGL")
             if bs.generation(self.o) < 8.0:
                 unsupported.append("dEQP-GLES31")
             if bs.generation(self.o) < 6.0:
                 unsupported.append("dEQP-GLES3")
 
         if "12.0" in mesa_version:
+            unsupported.append("dEQP-EGL")
             if bs.generation(self.o) < 8.0:
                 unsupported.append("dEQP-GLES31")
         if bs.generation(self.o) < 7.0:
             unsupported.append("dEQP-GLES31")
 
         if "gles2" in self.binary:
-            unsupported += ["dEQP-GLES3", "dEQP-GLES31"]
+            unsupported += ["dEQP-GLES3", "dEQP-GLES31", "dEQP-EGL"]
         elif "gles31" in self.binary:
-            unsupported += ["dEQP-GLES2", "dEQP-GLES3"]
+            unsupported += ["dEQP-GLES2", "dEQP-GLES3", "dEQP-EGL"]
         elif "gles3" in self.binary:
-            unsupported += ["dEQP-GLES2", "dEQP-GLES31"]
+            unsupported += ["dEQP-GLES2", "dEQP-GLES31", "dEQP-EGL"]
+        elif "egl" in self.binary:
+            unsupported += ["dEQP-GLES2", "dEQP-GLES3", "dEQP-GLES31"]
 
         all_tests.filter(unsupported)
         
@@ -105,7 +115,7 @@ class DeqpBuilder(object):
             self.env["MESA_GLES_VERSION_OVERRIDE"] = "3.1"
         t = bs.DeqpTester()
         all_results = bs.DeqpTrie()
-        modules = ["gles2", "gles3"]
+        modules = ["gles2", "gles3", "egl"]
         if "skl" in self.o.hardware or "bdw" in self.o.hardware or "bsw" in self.o.hardware or "hsw" in self.o.hardware or "byt" in self.o.hardware or "ivb" in self.o.hardware:
             modules += ["gles31"]
 

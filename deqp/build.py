@@ -56,5 +56,5 @@ class DeqpBuilder(bs.CMakeBuilder):
                               dest])
         bs.Export().export()
 
-bs.build(DeqpBuilder(extra_definitions=["-DDEQP_TARGET=x11_glx"]))
+bs.build(DeqpBuilder(extra_definitions=["-DDEQP_TARGET=x11_egl"]))
 
