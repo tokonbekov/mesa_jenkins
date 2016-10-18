@@ -132,7 +132,7 @@
     </project>
 
     <project name="crucible-test"
-             bisect_hardware="bdw,skl,ivb,bsw,byt"
+             bisect_hardware="bdw,skl,ivb,bsw,byt,hsw"
              bisect_arch="m64">
       <prerequisite name="crucible" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
@@ -162,7 +162,7 @@
       <!--               arch="m64" -->
       <!--               shard="6"/> -->
 
-      <prerequisite name="crucible-test" arch="m64" hardware="bdw,skl,bsw"/>
+      <prerequisite name="crucible-test" arch="m64" hardware="bdw,skl,bsw,hsw"/>
     </project>
 
     <project name="vulkancts"/>
