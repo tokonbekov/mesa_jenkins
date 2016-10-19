@@ -211,6 +211,8 @@ class DeqpTrie:
             status = self._result[test_name].lower()
             if status == "notsupported":
                 status = "skip"
+            if status == "internalerror":
+                status = "crash"
             if status not in ["pass", "crash", "skip", "fail"]:
                 print "WARN: invalid status: " + test_name + " : " + status
                 status = "fail"
