@@ -424,6 +424,7 @@
     <shaderc repo="git://github.com/jekstrand/shaderc"
              branch="shaderc/master">
       <remote name="shaderc" repo="git://github.com/google/shaderc"/>
+      <remote name="janesma" repo="git://github.com/janesma/shaderc.git"/>
     </shaderc>
     
     <gmock repo="git://github.com/google/googlemock"
@@ -432,6 +433,7 @@
              branch="public_glslang/master">
       <remote name="glsl" repo="git@gitlab.khronos.org:GLSL/glslang.git"/>
       <remote name="public_glslang" repo="git://github.com/KhronosGroup/glslang.git"/>
+      <remote name="janesma" repo="git://github.com/janesma/glslang.git"/>
     </glslang>
 
     <gtest repo="git://github.com/google/googletest"
@@ -439,6 +441,7 @@
     <crucible repo="ssh://majanes@git-amr-3.devtools.intel.com:29418/otc_gen_graphics-crucible"
               branch="fdo/master">
       <remote name="fdo" repo="http://anongit.freedesktop.org/git/mesa/crucible.git"/>
+      <remote name="janesma" repo="git://github.com/janesma/crucible.git"/>
     </crucible>
 
     <vulkancts repo="git@gitlab.khronos.org:Tracker/vulkancts.git"
