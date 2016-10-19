@@ -166,6 +166,11 @@
     </project>
 
     <project name="vulkancts"/>
+
+    <project name="all-test-vulkan">
+      <prerequisite name="all-test"/>
+      <prerequisite name="vulkancts-full"/>
+    </project>
     
     <!-- all-test has no build.py, and exists only to provide
          dependency relationships. -->
@@ -486,6 +491,16 @@
       <mesa branch="origin/12.0"/>
       <piglit branch="janesma/12_0_jenkins" trigger="false"/>
       <deqp branch="origin/chadv"/>
+    </branch>
+
+    <branch name="mesa_13.0" project="all-test-vulkan">
+      <mesa branch="origin/13.0"/>
+      <piglit branch="janesma/13_0_jenkins"/>
+      <deqp branch="origin/13_0_jenkins"/>
+      <vulkancts branch="7424a79323977f2b3b00609765e0d98783ac7abb"/>
+      <crucible branch="janesma/13_0_jenkins"/>
+      <shaderc branch="janesma/13_0_jenkins"/>
+      <glslang branch="janesma/13_0_jenkins"/>
     </branch>
 
     <branch name="vulkancts" project="vulkancts-full">
