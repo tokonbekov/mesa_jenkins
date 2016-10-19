@@ -656,6 +656,8 @@ class DeqpTest:
             self.project = "vulkancts-test"
         if "dEQP-GL" in self.test_name:
             self.project = "deqp-test"
+        if "dEQP-EGL" in self.test_name:
+            self.project = "deqp-test"
 
         hwarch = full_test_name.split(".")[-1]
         self.hardware = hwarch[:-3]
