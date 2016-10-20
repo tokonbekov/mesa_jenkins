@@ -381,6 +381,7 @@
       <remote name="pnmanolova" repo="git://github.com/pnmanolova/mesa"/>
       <remote name="imirkin" repo="git://github.com/imirkin/mesa"/>
       <remote name="djdeath" repo="git://github.com/djdeath/mesa"/>
+      <remote name="igalia" repo="git://github.com/Igalia/mesa"/>
     </mesa>
 
     <drm repo="http://anongit.freedesktop.org/git/mesa/drm.git">
@@ -685,6 +686,10 @@
 
     <branch name="djdeath" project="test-single-arch">
       <mesa branch="djdeath/jenkins"/>
+    </branch>
+
+    <branch name="igalia" project="test-single-arch">
+      <mesa branch="igalia/jenkins"/>
     </branch>
 
   </branches>
