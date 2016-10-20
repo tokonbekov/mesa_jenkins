@@ -1,1 +1,2 @@
 dEQP-VK.synchronization.basic.fence.multi
+dEQP-VK.glsl.derivate.dfdx.texture.msaa4.vec3_highp
