@@ -189,7 +189,7 @@
       <prerequisite name="deqp-full"/>
       <prerequisite name="piglit-cpu-test" hardware="fastgpu" arch="m64"/>
       <prerequisite name="piglit-cpu-test" only_for_type="daily" hardware="fastgpu" arch="m32"/>
-      <prerequisite name="mesa-buildtest" hardware="builder" arch="m64"/>
+      <!-- <prerequisite name="mesa-buildtest" hardware="builder" arch="m64"/> -->
       <prerequisite name="cts-full"/>
       <prerequisite name="glescts-full"/>
     </project>
@@ -199,7 +199,7 @@
       <prerequisite only_for_type="daily" name="piglit-test" hardware="bsw,byt,g33"/>
       <prerequisite name="piglit-cpu-test" hardware="fastgpu"/>
       <prerequisite name="scons-buildtest" hardware="builder" arch="m64"/>
-      <prerequisite name="mesa-buildtest" hardware="builder"/>
+      <!-- <prerequisite name="mesa-buildtest" hardware="builder"/> -->
       <prerequisite name="deqp-full"/>
       <prerequisite name="cts-full"/>
       <prerequisite name="glescts-full"/>
@@ -210,7 +210,7 @@
       <prerequisite name="piglit-test" hardware="ilk,g45,g965,snb,ivb,hsw,bdwgt3e,skl,bsw,byt,bxt"/>
       <prerequisite name="piglit-cpu-test" hardware="fastgpu"/>
       <prerequisite name="scons-buildtest" hardware="builder" arch="m64"/>
-      <prerequisite name="mesa-buildtest" hardware="builder"/>
+      <!-- <prerequisite name="mesa-buildtest" hardware="builder"/> -->
       <prerequisite name="deqp-full"/>
       <prerequisite name="cts-full"/>
       <prerequisite name="glescts-full"/>
