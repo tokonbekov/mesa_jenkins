@@ -174,6 +174,8 @@ class DeqpTrie:
                     self._result[test] = stat_tag.attrib["StatusCode"]
                 if self._result[test] == "QualityWarning":
                     self._result[test] = "Pass"
+                if self._result[test] == "CompatibilityWarning":
+                    self._result[test] = "Pass"
                 elif self._result[test] == "Fail":
                     out_txt = ""
                     for a_text in t.findall("./Text"):
