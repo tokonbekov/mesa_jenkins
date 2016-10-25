@@ -618,9 +618,12 @@ class CtsTestList(object):
                 whitelist = DeqpTrie()
                 whitelist.add_txt(whitelists[caselist])
 
-                # add GTF tests, which are not in the whitelists
+                # add GTF  and core tests, which are not in the whitelists
                 suite = "-".join(caselist.split("-")[:2]) + ".gtf.*"
                 whitelist.add_line(suite)
+                suite = "-".join(caselist.split("-")[:2]) + ".core.*"
+                whitelist.add_line(suite)
+
                 testlist.filter_whitelist(whitelist)
 
             # combine test list into single file
