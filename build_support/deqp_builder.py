@@ -538,7 +538,7 @@ class DeqpTester:
         out_dir = self.pm.build_root() + "/../test"
         if not os.path.exists(out_dir):
             os.makedirs(out_dir)
-        with open(out_dir + "/piglit-" + self.pm.current_project() + "-" + self.o.hardware + "-" + self.o.arch + "-" + self.o.shard + ".xml", "w") as of:
+        with open(out_dir + "/piglit-" + self.pm.current_project() + "_" + self.o.hardware + "_" + self.o.arch + "_" + self.o.shard + ".xml", "w") as of:
             commits = {}
             for commit in RepoSet().branch_missing_revisions():
                 commits[str(commit)] = True
