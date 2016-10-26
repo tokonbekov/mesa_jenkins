@@ -7,3 +7,7 @@ dEQP-EGL.functional.multithread.window_context
 dEQP-EGL.functional.sharing.gles2.multithread
 dEQP-EGL.functional.reusable_sync
 dEQP-EGL.functional.buffer_age.no_preserve
+dEQP-EGL.functional.query_surface.simple.pbuffer.rgb888_depth_stencil
+dEQP-EGL.functional.query_surface.simple.pbuffer.rgb888_no_depth_no_stencil
+dEQP-EGL.functional.query_surface.simple.pbuffer.rgba8888_depth_stencil
+dEQP-EGL.functional.query_surface.simple.pbuffer.rgba8888_no_depth_no_stencil
