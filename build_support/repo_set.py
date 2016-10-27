@@ -266,7 +266,7 @@ class RepoSet:
             # branchs can be a long time in the past.  For 10.4, there
             # have been more than 1000 commits since the branch point.
             try:
-                for master_commit in repo.iter_commits('origin/master', max_count=8000):
+                for master_commit in repo.iter_commits(self._branches[project], max_count=8000):
                     hexsha = master_commit.hexsha
                     if hexsha not in branch_commits:
                         tmp_revs.append(hexsha)

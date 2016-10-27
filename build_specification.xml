@@ -439,7 +439,7 @@
     </shaderc>
     
     <gmock repo="git://github.com/google/googlemock"
-           branch="release-1.7.0"/>
+           branch="origin/release-1.7.0"/>
     <glslang repo="ssh://git@gitlab.khronos.org/jekstrand/glslang.git"
              branch="public_glslang/master">
       <remote name="glsl" repo="git@gitlab.khronos.org:GLSL/glslang.git"/>
@@ -448,7 +448,7 @@
     </glslang>
 
     <gtest repo="git://github.com/google/googletest"
-           branch="release-1.7.0"/>
+           branch="origin/release-1.7.0"/>
     <crucible repo="ssh://majanes@git-amr-3.devtools.intel.com:29418/otc_gen_graphics-crucible"
               branch="fdo/master">
       <remote name="fdo" repo="http://anongit.freedesktop.org/git/mesa/crucible.git"/>
@@ -456,12 +456,12 @@
     </crucible>
 
     <vulkancts repo="git@gitlab.khronos.org:Tracker/vulkancts.git"
-               branch="vulkan-cts-1.0.0">
+               branch="origin/vulkan-cts-1.0.1">
     </vulkancts>
     <spirvtools repo="ssh://git@gitlab.khronos.org/spirv/spirv-tools.git"/>
     <spirvheaders repo="git://github.com/KhronosGroup/SPIRV-Headers"/>
     <sixonix repo="git://github.com/janesma/sixonix"
-             branch="mesa_ci"/>
+             branch="origin/mesa_ci"/>
   </repos>
 
 
