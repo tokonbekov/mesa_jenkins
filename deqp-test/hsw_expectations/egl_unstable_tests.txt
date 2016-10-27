@@ -11,3 +11,7 @@ dEQP-EGL.functional.create_surface.pbuffer.rgb888_depth_stencil
 dEQP-EGL.functional.create_surface.pbuffer.rgb888_no_depth_no_stencil
 dEQP-EGL.functional.create_surface.pbuffer.rgba8888_depth_stencil
 dEQP-EGL.functional.create_surface.pbuffer.rgba8888_no_depth_no_stencil
+dEQP-EGL.functional.query_surface.simple.pbuffer.rgba8888_no_depth_no_stencil
+dEQP-EGL.functional.query_surface.simple.pbuffer.rgba8888_depth_stencil
+dEQP-EGL.functional.query_surface.simple.pbuffer.rgb888_no_depth_no_stencil
+dEQP-EGL.functional.query_surface.simple.pbuffer.rgb888_depth_stencil
