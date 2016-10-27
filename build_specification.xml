@@ -194,6 +194,11 @@
       <prerequisite name="glescts-full"/>
     </project>
 
+    <project name="test-single-arch-vulkan">
+      <prerequisite name="test-single-arch"/>
+      <prerequisite name="vulkancts-full"/>
+    </project>
+
     <project name="test-single-arch">
       <prerequisite name="piglit-test" hardware="ilk,g45,g965,snb,ivb,hsw,bdwgt3e,skl"/>
       <prerequisite only_for_type="daily" name="piglit-test" hardware="bsw,byt,g33"/>
@@ -688,8 +693,36 @@
       <mesa branch="djdeath/jenkins"/>
     </branch>
 
-    <branch name="igalia" project="test-single-arch">
+    <branch name="igalia" project="test-single-arch-vulkan">
       <mesa branch="igalia/jenkins"/>
+    </branch>
+
+    <branch name="itoral" project="test-single-arch">
+      <mesa branch="igalia/itoral/jenkins"/>
+    </branch>
+
+    <branch name="siglesias" project="test-single-arch">
+      <mesa branch="igalia/siglesias/jenkins"/>
+    </branch>
+
+    <branch name="agomez" project="test-single-arch">
+      <mesa branch="igalia/wip/agomez/ci"/>
+    </branch>
+
+    <branch name="apinheiro" project="test-single-arch">
+      <mesa branch="igalia/apinheiro/jenkins"/>
+    </branch>
+
+    <branch name="apuentes" project="test-single-arch">
+      <mesa branch="igalia/apuentes/jenkins"/>
+    </branch>
+
+    <branch name="jasuarez" project="test-single-arch">
+      <mesa branch="igalia/jasuarez/jenkins"/>
+    </branch>
+
+    <branch name="elima" project="test-single-arch">
+      <mesa branch="igalia/elima/jenkins"/>
     </branch>
 
   </branches>
