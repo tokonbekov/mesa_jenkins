@@ -453,6 +453,9 @@ class PiglitTester(object):
         # intermittent on at least snbgt1
         exclude_tests = ["glsl-1_10.execution.vs-vec2-main-return"]
 
+        # causes gpu hang (by design)
+        exclude_tests += ["fbo-mrt-alphatest-no-buffer-zero-write"]
+
         # broken egl tests require X, and intermittently pass when run concurrently
         exclude_tests += ["spec.egl.1_4.eglquerysurface.egl",
                           "spec.egl_ext_client_extensions.conformance",
