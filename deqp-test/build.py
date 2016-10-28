@@ -86,6 +86,10 @@ class DeqpLister(object):
         if bs.generation(self.o) < 7.0:
             unsupported.append("dEQP-GLES31")
 
+        if "13.0" in mesa_version:
+            # Tapani's egl fixes not merged into 13.0 branch
+            unsupported.append("dEQP-EGL")
+
         if "gles2" in self.binary:
             unsupported += ["dEQP-GLES3", "dEQP-GLES31", "dEQP-EGL"]
         elif "gles31" in self.binary:
