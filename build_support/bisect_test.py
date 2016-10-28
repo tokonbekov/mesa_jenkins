@@ -779,9 +779,9 @@ class DeqpTest:
         return ""
 
     def Passed(self, result_path, rev):
-        # returns true if the crucible test passed at the specified result_path
-        test_result = "/".join([result_path, "test", "piglit-glescts-" +
-                                self.hardware + "-" + self.arch + "-0.xml"])
+        # returns true if the dEQP test passed at the specified result_path
+        test_result = "/".join([result_path, "test", "piglit-glescts-test_" +
+                                self.hardware + "_" + self.arch + "_0.xml"])
         iteration = 0
         while not os.path.exists(test_result):
             if iteration < 140:
