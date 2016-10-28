@@ -347,6 +347,8 @@ class ConfigFilter(object):
             of.write("""   <skipped type="skip"/>\n""")
         if filtered_status == "fail":
             of.write("""   <failure type="fail"/>\n""")
+        if filtered_status == "crash":
+            of.write("""   <error type="crash"/>\n""")
         if stdout:
             of.write("""   <system-out>{}</system-out>\n""".format(saxutils.escape(stdout)))
         if stderr:
