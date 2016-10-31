@@ -669,6 +669,12 @@
       <glslang branch="janesma/13_0_jenkins"/>
     </branch>
 
+    <branch name="evelikov_12" project="all-test">
+      <mesa branch="evelikov/mesa_12/jenkins"/>
+      <piglit branch="janesma/12_0_jenkins" trigger="false"/>
+      <deqp branch="origin/chadv"/>
+    </branch>
+
     <branch name="nir_test_clone" project="test-single-arch"/>
 
     <branch name="juhapekka" project="test-single-arch">
