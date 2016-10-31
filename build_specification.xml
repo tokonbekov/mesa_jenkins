@@ -365,7 +365,6 @@
       <!-- todo: add support for remotes.  -->
       <remote name="jekstrand" repo="git://people.freedesktop.org/~jekstrand/mesa"/>
       <remote name="kwg" repo="git://people.freedesktop.org/~kwg/mesa"/>
-      <remote name="krh" repo="git://people.freedesktop.org/~krh/mesa"/>
       <remote name="bwidawsk" repo="git://people.freedesktop.org/~bwidawsk/mesa"/>
       <remote name="idr" repo="git://people.freedesktop.org/~idr/mesa"/>
       <remote name="mattst88" repo="git://people.freedesktop.org/~mattst88/mesa"/>
@@ -550,11 +549,6 @@
       <vulkancts branch="origin/vulkan-cts-1.0.1" trigger="false"/>
     </branch>
 
-    <branch name="krh_vulkan" project="vulkancts-full">
-      <mesa branch="krh/jenkins_vulkan"/>
-      <vulkancts branch="origin/vulkan-cts-1.0.1" trigger="false"/>
-    </branch>
-
     <branch name="kwg" project="test-single-arch">
       <mesa branch="kwg/jenkins"/>
     </branch>
@@ -562,10 +556,6 @@
     <branch name="kwg_vulkan" project="vulkancts-full">
       <mesa branch="kwg/vkjenkins"/>
       <vulkancts branch="origin/vulkan-cts-1.0.1" trigger="false"/>
-    </branch>
-
-    <branch name="krh" project="test-single-arch">
-      <mesa branch="krh/jenkins"/>
     </branch>
 
     <branch name="bwidawsk" project="test-single-arch-ben">
