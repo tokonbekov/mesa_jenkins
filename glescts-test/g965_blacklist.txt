@@ -5,3 +5,4 @@ ES31-CTS
 ES32-CTS
 ES2-CTS.gtf.GL2FixedTests.gets.gets
 ES2-CTS.functional.fbo.api.delete_tex_cube_attached_to_not_bound_fbo
+ESEXT-CTS

@@ -663,8 +663,7 @@ class CtsTestList(object):
             if generation(self.o) < 8.0:
                 unsupported.append("ES31-CTS")
             if generation(self.o) < 6.0:
-                unsupported += ["ESEXT-CTS",
-                                "ES2-CTS.functional.clipping.triangle_vertex"]
+                unsupported.append("ES2-CTS.functional.clipping.triangle_vertex")
             if "g33" in self.o.hardware:
                 unsupported.append("ES2-CTS.functional.draw.random")
             if "g965" in self.o.hardware:
