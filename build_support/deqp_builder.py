@@ -279,10 +279,14 @@ class ConfigFilter(object):
             if p.has_section("expected-crashes"):
                 for test, commit in p.items("expected-crashes"):
                     self._expected_crash[test] = commit
-                    assert test not in self._expected_fail
+                    if test in self._expected_fail:
+                        print "ERROR: duplicate test status: " + test
+                        assert test not in self._expected_fail
             if p.has_section("fixed-tests"):
                 for test, commit in p.items("fixed-tests"):
                     self._fixed[test] = commit
+                    if test in self._expected_fail or test in self._expected_crash:
+                        print "ERROR: duplicate test status: " + test
                     assert test not in self._expected_fail
                     assert test not in self._expected_crash
 
