@@ -655,16 +655,21 @@ class CtsTestList(object):
         all_tests.filter(blacklist)
         version = mesa_version()
         unsupported = []
-        if "11.2" in version:
-            unsupported = ["ES32-CTS"]
+        if "12.0" in version:
+            # pre-existing failures on 12.0
+            if generation(self.o) == 8.0:
+                unsupported += ["ES31-CTS.core.geometry_shader.program_resource.program_resource",
+                                "ES31-CTS.core.tessellation_shader.tessellation_control_to_tessellation_evaluation.gl_tessLevel"]
             if generation(self.o) < 8.0:
                 unsupported.append("ES31-CTS")
             if generation(self.o) < 6.0:
-                unsupported.append("ES30-CTS")
-
-        if "12.0" in version:
-            if generation(self.o) < 8.0:
-                unsupported.append("ES31-CTS")
+                unsupported += ["ESEXT-CTS",
+                                "ES2-CTS.functional.clipping.triangle_vertex"]
+            if "g33" in self.o.hardware:
+                unsupported.append("ES2-CTS.functional.draw.random")
+            if "g965" in self.o.hardware:
+                unsupported += ["ES2-CTS.functional.texture.mipmap.cube.generate",
+                                "ES2-CTS.functional.texture.specification"]
 
         all_tests.filter(unsupported)        
 
