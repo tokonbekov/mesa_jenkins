@@ -643,7 +643,7 @@
       <mesa branch="ickle/jenkins"/>
     </branch>
 
-    <branch name="tarceri" project="test-single-arch">
+    <branch name="tarceri" project="test-single-arch-vulkan">
       <mesa branch="tarceri/intel_ci"/>
     </branch>
 
