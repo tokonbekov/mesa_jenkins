@@ -1,2 +1,2 @@
 dEQP-VK.memory.mapping.random
-dEQP-VK.api.info.device.layers
+dEQP-VK.api.info.device

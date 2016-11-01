@@ -1,4 +1,4 @@
 dEQP-VK.memory.mapping.random
 dEQP-VK.wsi
 dEQP-VK.api.device_init.create_instance_null_appinfo
-dEQP-VK.api.info.device.layers
+dEQP-VK.api.info.device

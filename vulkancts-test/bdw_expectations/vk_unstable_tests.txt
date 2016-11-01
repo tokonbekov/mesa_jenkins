@@ -2,6 +2,5 @@ dEQP-VK.synchronization.basic.fence.multi
 dEQP-VK.glsl.derivate.dfdx.texture.msaa4
 dEQP-VK.glsl.derivate.dfdy.texture.msaa4
 dEQP-VK.glsl.derivate.fwidthcoarse.texture.msaa4
-dEQP-VK.api.info.device.layers
-dEQP-VK.api.info.device.features
+dEQP-VK.api.info.device
 dEQP-VK.wsi.xcb.swapchain.simulate_oom.image_extent

@@ -1,3 +1,2 @@
 dEQP-VK.synchronization.basic.fence.multi
-dEQP-VK.api.info.device.layers
-dEQP-VK.api.info.device.features
+dEQP-VK.api.info.device
