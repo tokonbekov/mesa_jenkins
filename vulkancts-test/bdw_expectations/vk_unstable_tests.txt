@@ -4,5 +4,4 @@ dEQP-VK.glsl.derivate.dfdy.texture.msaa4
 dEQP-VK.glsl.derivate.fwidthcoarse.texture.msaa4
 dEQP-VK.api
 dEQP-VK.wsi
-dEQP-VK.glsl.derivate.dfdxcoarse.texture.msaa4.vec2_highp
-dEQP-VK.glsl.derivate.fwidth.texture.msaa4.vec2_highp
+dEQP-VK.glsl.derivate
