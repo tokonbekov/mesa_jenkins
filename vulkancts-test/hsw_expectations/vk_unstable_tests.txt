@@ -23,6 +23,5 @@ dEQP-VK.wsi.xcb.surface
 dEQP-VK.wsi.xcb.swapchain
 dEQP-VK.wsi.xlib.surface
 dEQP-VK.wsi.xlib.swapchain
-dEQP-VK.api.info.format_properties.r4g4_unorm_pack8
-dEQP-VK.glsl.derivate.dfdxcoarse.texture.msaa4.vec2_highp
-dEQP-VK.glsl.derivate.fwidth.texture.msaa4.vec2_highp
+dEQP-VK.api.info.format_properties
+dEQP-VK.glsl.derivate
