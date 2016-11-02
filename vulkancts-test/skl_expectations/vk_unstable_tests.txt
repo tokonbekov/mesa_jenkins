@@ -1,2 +1,3 @@
 dEQP-VK.synchronization.basic.fence.multi
 dEQP-VK.api.info.device
+dEQP-VK.wsi.xcb.swapchain
