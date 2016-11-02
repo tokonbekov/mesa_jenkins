@@ -109,7 +109,7 @@ class CtsBuilder:
             # flaky cts_gl tests
             extra_excludes += ["shader_image_load_store.multiple-uniforms",
                                "shader_image_size.basic-nonms-fs",
-                               "shader_image_size.advanced-nonms-fs-uint",
+                               "shader_image_size.advanced-nonms-fs",
                                "texture_gather.gather-tesselation-shader",
                                "vertex_attrib_binding.basic-inputl-case1"]
         exclude_tests = []
