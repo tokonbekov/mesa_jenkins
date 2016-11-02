@@ -3,3 +3,6 @@ dEQP-VK.wsi
 dEQP-VK.api.device_init.create_instance_null_appinfo
 dEQP-VK.api.info.device
 dEQP-VK.wsi.xcb.swapchain
+dEQP-VK.api.info.format_properties.r4g4_unorm_pack8
+dEQP-VK.glsl.derivate.dfdxcoarse.texture.msaa4.vec2_highp
+dEQP-VK.glsl.derivate.fwidth.texture.msaa4.vec2_highp
