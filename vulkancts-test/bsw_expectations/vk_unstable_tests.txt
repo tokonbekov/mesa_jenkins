@@ -6,3 +6,4 @@ dEQP-VK.wsi.xcb.swapchain
 dEQP-VK.api.info.format_properties
 dEQP-VK.glsl.derivate.dfdxcoarse.texture.msaa4.vec2_highp
 dEQP-VK.glsl.derivate.fwidth.texture.msaa4.vec2_highp
+dEQP-VK.api.info.image_format_properties

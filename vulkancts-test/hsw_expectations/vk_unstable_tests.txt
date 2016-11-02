@@ -25,3 +25,4 @@ dEQP-VK.wsi.xlib.surface
 dEQP-VK.wsi.xlib.swapchain
 dEQP-VK.api.info.format_properties
 dEQP-VK.glsl.derivate
+dEQP-VK.api.info.image_format_properties
