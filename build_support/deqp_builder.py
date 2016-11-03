@@ -661,7 +661,7 @@ class CtsTestList(object):
                 unsupported += ["ES31-CTS.core.geometry_shader.program_resource.program_resource",
                                 "ES31-CTS.core.tessellation_shader.tessellation_control_to_tessellation_evaluation.gl_tessLevel"]
             if generation(self.o) < 8.0:
-                unsupported.append("ES31-CTS")
+                unsupported += ["ES31-CTS", "ESEXT-CTS"]
 
         all_tests.filter(unsupported)        
 
