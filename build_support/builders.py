@@ -353,23 +353,23 @@ class PiglitTester(object):
         if o.arch == "m32":
             libdir = "i386-linux-gnu"
         self.env = { "LD_LIBRARY_PATH" : self.build_root + "/lib:" + \
-                self.build_root + "/lib/" + libdir + ":" + \
-                self.build_root + "/lib/dri:" + \
-                self.build_root + "/lib/piglit/lib",
+                     self.build_root + "/lib/" + libdir + ":" + \
+                     self.build_root + "/lib/dri:" + \
+                     self.build_root + "/lib/piglit/lib",
 
-                "LIBGL_DRIVERS_PATH" : self.build_root + "/lib/dri",
-                "GBM_DRIVERS_PATH" : self.build_root + "/lib/dri",
-                # fixes dxt subimage tests that fail due to a
-                # combination of unreasonable tolerances and possibly
-                # bugs in debian's s2tc library.  Recommended by nroberts
-                "S2TC_DITHER_MODE" : "NONE",
+                     "LIBGL_DRIVERS_PATH" : self.build_root + "/lib/dri",
+                     "GBM_DRIVERS_PATH" : self.build_root + "/lib/dri",
+                     # fixes dxt subimage tests that fail due to a
+                     # combination of unreasonable tolerances and possibly
+                     # bugs in debian's s2tc library.  Recommended by nroberts
+                     "S2TC_DITHER_MODE" : "NONE",
 
-                # In the event of a piglit related bug, we want the backtrace
-                "PIGLIT_DEBUG": "1",
+                     # In the event of a piglit related bug, we want the backtrace
+                     "PIGLIT_DEBUG": "1",
 
-                # Set the path to include buildroot/bin so fast skipping works
-                'PATH': '{}:{}'.format(os.path.join(self.build_root, 'bin'),
-                                       os.environ['PATH']),
+                     # Set the path to include buildroot/bin so fast skipping works
+                     'PATH': '{}:{}'.format(os.path.join(self.build_root, 'bin'),
+                                            os.environ['PATH'])
         }
         if "hsw" in o.hardware or "byt" in o.hardware or "ivb" in o.hardware:
             self.env["MESA_GLES_VERSION_OVERRIDE"] = "3.1"
