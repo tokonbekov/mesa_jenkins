@@ -377,7 +377,11 @@ class DeqpTester:
                      build_root + "/lib/" + libdir + ":" + build_root + "/lib/dri",
                      "LIBGL_DRIVERS_PATH" : build_root + "/lib/dri",
                      "INTEL_PRECISE_TRIG" : "1",
-                     "GBM_DRIVERS_PATH" : build_root + "/lib/dri"}
+                     "GBM_DRIVERS_PATH" : build_root + "/lib/dri",
+
+                     # without this, Xorg limits frame rate to 1 FPS
+                     # when display sleeps, cratering tests execution
+                     "vblank_mode": "0"}
         for k,v in base_env.items():
             env[k] = v
         self.o.update_env(env)

@@ -26,7 +26,12 @@ class CtsBuilder:
                      # bugs in debian's s2tc library.  Recommended by nroberts
                      "S2TC_DITHER_MODE" : "NONE",
                      # forces deqp to run headless
-                     "EGL_PLATFORM" : "surfaceless"}
+                     "EGL_PLATFORM" : "surfaceless",
+
+                     # without this, Xorg limits frame rate to 1 FPS
+                     # when display sleeps, cratering tests execution
+                     "vblank_mode": "0"
+        }
 
         if ("hsw" in o.hardware or "ivb" in o.hardware or "byt" in o.hardware):
             self.env["MESA_GLES_VERSION_OVERRIDE"] = "3.1"
