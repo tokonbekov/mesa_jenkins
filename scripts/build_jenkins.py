@@ -193,10 +193,12 @@ def main():
         tl = bs.TestLister(out_test_dir + "/test")
         tests = tl.Tests()
         if tests:
-            fh = open("test_summary.txt", "w")
-            for atest in tests:
-                atest.PrettyPrint(fh)
-            fh.close()
+            with open("test_summary.txt", "w") as fh:
+                for atest in tests:
+                    atest.PrettyPrint(fh)
+                fh.flush()
+                # end users report that sometimes the summary is empty
+                os.fsync(fh.fileno())
 
 if __name__=="__main__":
     try:
