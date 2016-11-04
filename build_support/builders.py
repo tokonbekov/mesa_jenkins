@@ -504,7 +504,9 @@ class PiglitTester(object):
                                              "glsl-1_20.execution.clipping.fixed-clip-enables",
                                              "glsl-1_10.execution.clipping.clip-plane-transformation pos_clipvert",
                                              # no bug yet (no bisection)
-                                             "ext_framebuffer_multisample.enable-flag"]
+                                             "ext_framebuffer_multisample.enable-flag",
+                                             # flaky
+                                             "ext_framebuffer_multisample.accuracy"]
 
         if "bdw" in hardware:
             exclude_tests = exclude_tests + ["arb_shader_image_load_store.execution.basic-imagestore-from-uniform"]
