@@ -537,6 +537,10 @@ class PiglitTester(object):
             # flaky
             exclude_tests += ["arb_shader_image_load_store.invalid"]
 
+        if "g33" in hardware:
+            # flaky: piglit.spec.!opengl 1_1.getteximage-formats
+            exclude_tests += ["opengl.1_1getteximage-formats"]
+
         exclude_cmd = []
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
