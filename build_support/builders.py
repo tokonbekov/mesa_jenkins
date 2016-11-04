@@ -168,7 +168,7 @@ class AutoBuilder(object):
 
         self._src_dir = self._project_map.project_source_dir(project)
         self._build_root = self._project_map.build_root()
-        self._build_dir = "/tmp/" + project + "/build_" + self._options.arch
+        self._build_dir = self._src_dir + "/build_" + self._options.arch
 
         self._env = {}
         self._options.update_env(self._env)
