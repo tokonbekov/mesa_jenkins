@@ -21,7 +21,7 @@ parser.add_argument('--end_rev', type=str, default='',
 
 parser.add_argument('--project', type=str, default='all-test',
                     choices=['test-single-arch', 'piglit', 'piglit-test',
-                             'deqp-full', 'crucible-all', 'crucible-test', "cts-test", "mesa", "vulkancts-full"],
+                             'deqp-full', 'crucible-all', 'crucible-test', "cts-test", "mesa", "vulkancts-full", "glescts-full"],
                     help="The jenkins project to build")
 
 parser.add_argument('--series_name', type=str, default='',
