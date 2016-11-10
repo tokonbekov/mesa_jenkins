@@ -702,31 +702,31 @@
       <mesa branch="igalia/jenkins"/>
     </branch>
 
-    <branch name="itoral" project="test-single-arch">
+    <branch name="itoral" project="test-single-arch-vulkan">
       <mesa branch="igalia/itoral/jenkins"/>
     </branch>
 
-    <branch name="siglesias" project="test-single-arch">
+    <branch name="siglesias" project="test-single-arch-vulkan">
       <mesa branch="igalia/siglesias/jenkins"/>
     </branch>
 
-    <branch name="agomez" project="test-single-arch">
+    <branch name="agomez" project="test-single-arch-vulkan">
       <mesa branch="igalia/wip/agomez/ci"/>
     </branch>
 
-    <branch name="apinheiro" project="test-single-arch">
+    <branch name="apinheiro" project="test-single-arch-vulkan">
       <mesa branch="igalia/apinheiro/jenkins"/>
     </branch>
 
-    <branch name="apuentes" project="test-single-arch">
+    <branch name="apuentes" project="test-single-arch-vulkan">
       <mesa branch="igalia/apuentes/jenkins"/>
     </branch>
 
-    <branch name="jasuarez" project="test-single-arch">
+    <branch name="jasuarez" project="test-single-arch-vulkan">
       <mesa branch="igalia/jasuarez/jenkins"/>
     </branch>
 
-    <branch name="elima" project="test-single-arch">
+    <branch name="elima" project="test-single-arch-vulkan">
       <mesa branch="igalia/elima/jenkins"/>
     </branch>
 
