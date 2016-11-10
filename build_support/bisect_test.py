@@ -778,7 +778,13 @@ class DeqpTest:
 
     def Passed(self, result_path, rev):
         # returns true if the dEQP test passed at the specified result_path
-        test_result = "/".join([result_path, "test", "piglit-glescts-test_" +
+        base_name = "piglit-glescts-test_"
+        if self.project == "deqp-test":
+            base_name = "piglit-deqp-test_"
+        if self.project == "vulkancts-test":
+            base_name = "piglit-vulkancts-test_"
+
+        test_result = "/".join([result_path, "test", base_name +
                                 self.hardware + "_" + self.arch + "_0.xml"])
         iteration = 0
         while not os.path.exists(test_result):
