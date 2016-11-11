@@ -1,4 +1,3 @@
-dEQP-VK.synchronization.basic.fence.multi
 dEQP-VK.glsl.derivate.dfdx.texture.msaa4
 dEQP-VK.glsl.derivate.dfdy.texture.msaa4
 dEQP-VK.glsl.derivate.fwidthcoarse.texture.msaa4
