@@ -110,6 +110,9 @@ class CrucibleTester(object):
         excludes = ["!func.query.timestamp"]
         parallelism = []
 
+        if "skl" in o.hardware:
+            excludes += ["!func.ssbo.interleve"]
+
         if "hsw" in o.hardware:
             # issue 4
             excludes += ["!func.copy.copy-buffer.large",
@@ -136,7 +139,7 @@ class CrucibleTester(object):
                          "!stress.lots-of-surface-state.fs.static"]
             parallelism = ['-j', '1']
 
-        if "bsw in o.hardware":
+        if "bsw" in o.hardware:
             excludes += ["!func.event.cmd_buffer"] # intermittent fail/crash
 
 
