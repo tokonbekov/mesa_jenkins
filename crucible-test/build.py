@@ -107,11 +107,9 @@ class CrucibleTester(object):
             include_tests = bs.TestLister(o.retest_path + "/test/").RetestIncludes("crucible-test")
 
         # flaky
-        excludes = ["!func.query.timestamp"]
+        excludes = ["!func.query.timestamp",
+                    "!func.ssbo.interleve"]
         parallelism = []
-
-        if "skl" in o.hardware:
-            excludes += ["!func.ssbo.interleve"]
 
         if "hsw" in o.hardware:
             # issue 4
