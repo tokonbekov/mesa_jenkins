@@ -93,7 +93,7 @@ for commit in commits:
 
     custom_url = "http://otc-mesa-ci.jf.intel.com/job/mesa_custom/buildWithParameters?token=noauth&{0}"
     job_args = { "name" : args.series_name + "_" + commit.hexsha[:8],
-                 "revision" : "mesa=" + commit.hexsha,
+                 "revision" : project + "=" + commit.hexsha,
                  "project" : args.project,
                  "hardware" : args.hardware,
                  "rebuild" : "true",
