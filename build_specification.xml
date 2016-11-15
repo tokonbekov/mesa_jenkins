@@ -103,7 +103,7 @@
     </project>
 
     <project name="piglit-test"
-             bisect_hardware="bdwgt2,bdwgt3e,skl,hsw,ivb,ivbgt1,snb,bsw,byt,g965,ilk,g33,g45,bxt,kbl"
+             bisect_hardware="bdwgt2,bdwgt3e,sklgt2,sklgt4e,hsw,ivb,ivbgt1,snb,bsw,byt,g965,ilk,g33,g45,bxt,kbl"
              bisect_arch="m64,m32">
       <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
