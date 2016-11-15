@@ -384,6 +384,11 @@ class PiglitTester(object):
                 print "WARNING: bxt not supported by stable mesa"
                 return
 
+        if o.hardware == "sklgt4e":
+            if "12" in mv:
+                print "WARNING: sklgt4e not supported by mesa 12"
+                return
+
         dev_ids = { "byt" : "0x0F32",
                     "g45" : "0x2E22",
                     "g965" : "0x29A2",
