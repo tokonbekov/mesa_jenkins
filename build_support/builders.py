@@ -536,7 +536,7 @@ class PiglitTester(object):
 
         if "g33" in hardware:
             # flaky: piglit.spec.!opengl 1_1.getteximage-formats
-            exclude_tests += ["opengl.1_1getteximage-formats"]
+            exclude_tests += ["opengl.1_1.getteximage-formats"]
 
         exclude_cmd = []
         for test in exclude_tests:
