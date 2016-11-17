@@ -386,7 +386,7 @@
       <remote name="imirkin" repo="git://github.com/imirkin/mesa"/>
       <remote name="djdeath" repo="git://github.com/djdeath/mesa"/>
       <remote name="igalia" repo="git://github.com/Igalia/mesa"/>
-      <remote name="internal" repo="ssh://git-amr-1.devtools.intel.com:29418/otc_gen_graphics-mesa.git"/>
+      <remote name="internal" repo="ssh://majanes@git-amr-1.devtools.intel.com:29418/otc_gen_graphics-mesa.git"/>
     </mesa>
 
     <drm repo="http://anongit.freedesktop.org/git/mesa/drm.git">
