@@ -526,7 +526,10 @@ class PiglitTester(object):
             # bug 93618, and B0 bugs: 95014
             exclude_tests = exclude_tests + ["ext_framebuffer_multisample.accuracy",
                                              "glsl-max-varyings"]
-
+        if "sklgt4e" in hardware:
+            # 93355
+            exclude_tests = exclude_tests + ["ext_framebuffer_multisample.accuracy"]
+            
         if "ivb" in hardware or "hsw" in hardware:
             # jljusten gpu hanger
             exclude_tests += ["arb_compute_shader.zero-dispatch-size"]
