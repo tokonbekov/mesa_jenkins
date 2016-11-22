@@ -199,6 +199,7 @@ def main():
                 fh.flush()
                 # end users report that sometimes the summary is empty
                 os.fsync(fh.fileno())
+            time.sleep(10)
 
 if __name__=="__main__":
     try:
