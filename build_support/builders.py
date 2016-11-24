@@ -528,7 +528,9 @@ class PiglitTester(object):
                                              "glsl-max-varyings"]
         if "sklgt4e" in hardware:
             # 93355
-            exclude_tests = exclude_tests + ["ext_framebuffer_multisample.accuracy"]
+            exclude_tests = exclude_tests + ["ext_framebuffer_multisample.accuracy",
+                                             # TODO: bug
+                                             "arb_buffer_storage.bufferstorage-persistent"]
             
         if "ivb" in hardware or "hsw" in hardware:
             # jljusten gpu hanger
