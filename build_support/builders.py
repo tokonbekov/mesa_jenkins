@@ -522,6 +522,10 @@ class PiglitTester(object):
             # intermittent, TODO bug
             exclude_tests = exclude_tests + ["arb_tessellation_shader.execution.vs-tes-vertex"]
 
+        if "skl" in hardware:
+            # https://bugs.freedesktop.org/show_bug.cgi?id=98893
+            exclude_tests += ["arb_shader_image_load_store.semantics"]
+
         if "bxt" in hardware:
             # bug 93618, and B0 bugs: 95014
             exclude_tests = exclude_tests + ["ext_framebuffer_multisample.accuracy",
