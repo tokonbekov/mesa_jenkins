@@ -117,6 +117,10 @@ class CtsBuilder:
                                "shader_image_size.advanced-nonms-fs",
                                "texture_gather.gather-tesselation-shader",
                                "vertex_attrib_binding.basic-inputl-case1"]
+        if "sklgt4e" in o.hardware:
+            extra_excludes += ["gl45-cts.gtf30.gl3tests.half_float.half_float_linear",
+                               "gl45-cts.gpu_shader_fp64.named_uniform_blocks"]
+
         exclude_tests = []
         for  a in extra_excludes:
             exclude_tests += ["--exclude-tests", a]
