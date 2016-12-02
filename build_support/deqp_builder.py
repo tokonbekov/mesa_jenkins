@@ -659,6 +659,11 @@ class CtsTestList(object):
         all_tests.filter(blacklist)
         version = mesa_version()
         unsupported = []
+        
+        if "12.0" in version or "13.0" in version:
+            # made stable by mesa 66a725570c9f93ab0341e9479390c9d042d7cd00
+            unsupported += ["ES31-CTS.core.sample_variables.mask.rgba32f.samples_8"]
+
         if "12.0" in version:
             # pre-existing failures on 12.0
             if generation(self.o) == 8.0:
