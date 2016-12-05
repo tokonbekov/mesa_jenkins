@@ -392,6 +392,10 @@ class PiglitTester(object):
                 print "WARNING: sklgt4e not supported by mesa 12"
                 return
 
+        if o.hardware == "glk":
+            if "12" in mv or "13.0" in mv:
+                print "WARNING: glk not supported by stable mesa"
+
         dev_ids = { "byt" : "0x0F32",
                     "g45" : "0x2E22",
                     "g965" : "0x29A2",
@@ -553,6 +557,10 @@ class PiglitTester(object):
         if "g33" in hardware:
             # flaky: piglit.spec.!opengl 1_1.getteximage-formats
             exclude_tests += ["opengl.1_1.getteximage-formats"]
+
+        if "glk" in hardware:
+            exclude_tests += ["arb_gpu_shader5.arb_gpu_shader5-emitstreamvertex_nodraw",
+                              "ext_framebuffer_multisample.accuracy"]
 
         exclude_cmd = []
         for test in exclude_tests:

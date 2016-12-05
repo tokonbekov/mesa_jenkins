@@ -103,7 +103,7 @@
     </project>
 
     <project name="piglit-test"
-             bisect_hardware="bdwgt2,bdwgt3e,sklgt2,sklgt4e,hsw,ivb,ivbgt1,snb,bsw,byt,g965,ilk,g33,g45,bxt,kbl"
+             bisect_hardware="bdwgt2,bdwgt3e,sklgt2,sklgt4e,hsw,ivb,ivbgt1,snb,bsw,byt,g965,ilk,g33,g45,bxt,kbl,glk"
              bisect_arch="m64,m32">
       <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
@@ -140,7 +140,7 @@
     </project>
 
     <project name="vulkancts-test" src_dir="vulkancts"
-             bisect_hardware="bdw,skl,bsw,kbl,hsw"
+             bisect_hardware="bdw,skl,bsw,kbl,hsw,glk"
              bisect_arch="m64">
       <prerequisite name="vulkancts" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
@@ -150,7 +150,7 @@
       <prerequisite name="vulkancts-test" hardware="bdw,hsw,skl" arch="m64" shard="2"/>
       <prerequisite name="vulkancts-test"
                     only_for_type="daily"
-                    hardware="bsw,kbl"
+                    hardware="bsw,kbl,glk"
                     arch="m64"
                     shard="5"/>
       <!-- bxt test machines are limited and are not stable.  Limit
@@ -185,7 +185,7 @@
                     arch="m32"/>
       <prerequisite only_for_type="daily" name="piglit-test" hardware="ilk,bsw,byt,g33,g45,g965,bdwgt2" arch="m64,m32"/>
       <!-- do not test 32 bit for limited platforms -->
-      <prerequisite only_for_type="daily" name="piglit-test" hardware="bxt,kbl" arch="m64"/>
+      <prerequisite only_for_type="daily" name="piglit-test" hardware="bxt,kbl,glk" arch="m64"/>
       <prerequisite name="deqp-full"/>
       <prerequisite name="piglit-cpu-test" hardware="fastgpu" arch="m64"/>
       <prerequisite name="piglit-cpu-test" only_for_type="daily" hardware="fastgpu" arch="m32"/>
@@ -201,7 +201,7 @@
 
     <project name="test-single-arch">
       <prerequisite name="piglit-test" hardware="ilk,g45,g965,snb,ivb,hsw,bdwgt3e,skl"/>
-      <prerequisite only_for_type="daily" name="piglit-test" hardware="bsw,byt,g33"/>
+      <prerequisite only_for_type="daily" name="piglit-test" hardware="bsw,byt,g33,glk,bxt"/>
       <prerequisite name="piglit-cpu-test" hardware="fastgpu"/>
       <prerequisite name="scons-buildtest" hardware="builder" arch="m64"/>
       <prerequisite name="mesa-buildtest" hardware="builder"/>

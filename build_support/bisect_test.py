@@ -169,10 +169,11 @@ preferred_hardware = {"skl"    : 1,
                       "bsw"    : 18,
                       "bxt"    : 19,
                       "kbl"    : 20,
-                      "g965"   : 21,
-                      "ilk"    : 22,
-                      "g33"    : 23,
-                      "g45"    : 24 }
+                      "glk"    : 21,
+                      "g965"   : 22,
+                      "ilk"    : 23,
+                      "g33"    : 24, 
+                      "g45"    : 25 }
 
 class PiglitTest:
     """Represents a single test.  Has the primary arch that will be
