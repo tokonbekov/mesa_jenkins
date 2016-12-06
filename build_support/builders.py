@@ -503,6 +503,9 @@ class PiglitTester(object):
         if "hswgt3e" in hardware:
             exclude_tests += ["arb_gpu_shader5.arb_gpu_shader5-emitstreamvertex_nodraw"]
 
+        if "hsw" in hardware:
+            exclude_tests += ["ext_framebuffer_multisample.accuracy"]
+
         if "snb" in hardware:
             # hangs snb
             exclude_tests = exclude_tests + ["triangle_strip_adjacency"]
