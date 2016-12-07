@@ -395,6 +395,7 @@ class PiglitTester(object):
         if o.hardware == "glk":
             if "12" in mv or "13.0" in mv:
                 print "WARNING: glk not supported by stable mesa"
+                return
 
         dev_ids = { "byt" : "0x0F32",
                     "g45" : "0x2E22",
