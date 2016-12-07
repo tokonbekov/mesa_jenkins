@@ -128,10 +128,11 @@ def check_gpu_hang(identify_test=True):
         return
 
     # obtain the pid from the hang_text
+    br = ProjectMap().build_root()
     m = re.search(r"\[([0-9]+)\]", hang_text)
     if m is not None and identify_test:
         pid = m.group(1)
-        test_path = os.path.abspath(ProjectMap().build_root() + "/../test")
+        test_path = os.path.abspath(br + "/../test")
         test = TestLister(test_path, include_passes=True).TestForPid(pid)
         if test is not None:
             hang_text += "\nHanging Test:\n" + test
@@ -139,6 +140,14 @@ def check_gpu_hang(identify_test=True):
     hostname = socket.gethostname()
     Export().create_failing_test("gpu-hang-" + hostname,
                                  hang_text)
+    test_path = os.path.abspath(br + "/../test/")
+    if not os.path.exists(test_path):
+        os.makedirs(test_path)
+    try:
+        run_batch_command(["sudo", "/usr/local/bin/copy_error_state.sh", test_path + "/card_error_" + hostname, "jenkins"])
+    except:
+        print "WARN: failed to capture error state"
+    
     # trigger reboot
     if ('otc-gfxtest-' in hostname):
         label = hostname[len('otc-gfxtest-'):]
