@@ -555,10 +555,6 @@ class PiglitTester(object):
                                              # TODO: bug
                                              "arb_buffer_storage.bufferstorage-persistent"]
             
-        if "ivb" in hardware or "hsw" in hardware:
-            # jljusten gpu hanger
-            exclude_tests += ["arb_compute_shader.zero-dispatch-size"]
-
         if "ivb" in hardware or "bxt" in hardware:
             # bug 96907
             exclude_tests += ["arb_gpu_shader5.arb_gpu_shader5-emitstreamvertex_nodraw"]
