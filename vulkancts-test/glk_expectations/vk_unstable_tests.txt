@@ -3,3 +3,4 @@ dEQP-VK.api.command_buffers.record_simul_use_secondary
 dEQP-VK.clipping.user_defined.clip_cull_distance_dynamic_index.vert_geom
 dEQP-VK.clipping.user_defined.clip_distance_dynamic_index.vert_geom
 dEQP-VK.wsi.xlib.surface
+dEQP-VK.wsi.xcb.swapchain
