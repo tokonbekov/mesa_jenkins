@@ -124,6 +124,9 @@ def check_gpu_hang(identify_test=True):
         if "*error* ring create req" in a_line.lower():
             hang_text = a_line
             break
+        if "unable to purge gpu memory due lock contention" in a_line.lower():
+            hang_text = a_line
+            break
     if not hang_text:
         return
 
