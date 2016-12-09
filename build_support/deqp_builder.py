@@ -645,8 +645,6 @@ class CtsTestList(object):
         project = self.pm.current_project()
         blacklist_dir = self.pm.project_build_dir(project) + "/"
         blacklist = DeqpTrie()
-        if "bxt" in self.o.hardware:
-            blacklist_dir = self.pm.project_source_dir("prerelease") + "/" + project + "/"
         blacklist_file = blacklist_dir + self.o.hardware + self.o.arch + "_blacklist.txt"
         if os.path.exists(blacklist_file):
             blacklist.add_txt(blacklist_file)
