@@ -119,6 +119,12 @@ class DeqpBuilder(object):
             self.env["MESA_GLES_VERSION_OVERRIDE"] = "3.1"
         t = bs.DeqpTester()
         all_results = bs.DeqpTrie()
+
+        if "bxt" in self.o.hardware:
+            version = bs.mesa_version()
+            if "12" in version or "13.0" in version:
+                return
+
         modules = ["gles2", "gles3", "egl"]
         if "skl" in self.o.hardware or "bdw" in self.o.hardware or "bsw" in self.o.hardware or "hsw" in self.o.hardware or "byt" in self.o.hardware or "ivb" in self.o.hardware:
             modules += ["gles31"]

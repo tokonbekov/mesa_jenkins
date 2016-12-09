@@ -42,6 +42,12 @@ class GLESCTSTester(object):
     
     def test(self):
         t = bs.DeqpTester()
+        if "bxt" in self.o.hardware or "glk" in self.o.hardware:
+            version = bs.mesa_version()
+            if "12" in version or "13.0" in version:
+                # unsupported platforms
+                return
+        
         results = t.test(self.pm.build_root() + "/bin/es/cts/glcts",
                          bs.CtsTestList(),
                          [],

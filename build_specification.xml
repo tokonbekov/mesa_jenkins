@@ -88,7 +88,7 @@
     <project name="glescts-full">
       <prerequisite name="glescts-test" hardware="skl,bdw" shard="5"/>
       <prerequisite name="glescts-test" hardware="hsw" shard="4"/>
-      <prerequisite name="glescts-test" hardware="bsw,byt" shard="8" only_for_type="daily"/>
+      <prerequisite name="glescts-test" hardware="bsw,byt,bxt" shard="8" only_for_type="daily"/>
       <prerequisite name="glescts-test" hardware="g33,g45,ilk,g965,bxt,ivb,snb" shard="3" only_for_type="daily"/>
       <prerequisite name="glescts-test"
                     only_for_type="daily"
@@ -226,7 +226,7 @@
       <prerequisite name="deqp-test" hardware="bdw"/>
       <prerequisite name="deqp-test"
                     only_for_type="daily"
-                    hardware="snb,byt,bsw,ivb"/>
+                    hardware="snb,byt,bsw,ivb,bxt"/>
       <prerequisite name="deqp-test"
                     only_for_type="daily"
                     arch="m32"
