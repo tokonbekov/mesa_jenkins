@@ -118,6 +118,8 @@ def run_batch_command(commands, streamedOutput=True, noop=False, env = None,
                 print "STDOUT: " + out
             if err:
                 print "STDERR: " + err
+            sys.stdout.flush()
+            sys.stderr.flush()
             raise subprocess.CalledProcessError(p.returncode,commands) 
     
     if p in all_processes:
