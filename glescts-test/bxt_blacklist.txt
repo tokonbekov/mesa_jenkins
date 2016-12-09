@@ -1,1 +1,3 @@
-none
+ES3-CTS.functional.fbo.render.shared_colorbuffer_clear
+ES32-CTS.core.texture_buffer.texture_buffer_max_size
+ESEXT-CTS.texture_buffer.texture_buffer_max_size
