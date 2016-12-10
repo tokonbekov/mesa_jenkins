@@ -116,6 +116,9 @@ def build(builder, options=None, time_limit=None):
     to = TimeOut(time_limit)
     to.start()
 
+    if options.hardware != "builder" and check_gpu_hang():
+        return
+
     Export().import_build_root()
 
     if type(actions) is str:

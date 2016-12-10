@@ -128,7 +128,10 @@ def check_gpu_hang(identify_test=True):
             hang_text = a_line
             break
     if not hang_text:
-        return
+        return False
+
+    print "ERROR: gpu hang found: " + hang_text
+    print "ERROR: system must be rebooted."
 
     # obtain the pid from the hang_text
     br = ProjectMap().build_root()
@@ -160,7 +163,8 @@ def check_gpu_hang(identify_test=True):
         urllib2.urlopen(url)
         print "sleeping to allow reboot job to be scheduled."
         time.sleep(120)
-
+    return True
+        
 class AutoBuilder(object):
 
     def __init__(self, o=None, configure_options=None, export=True,
