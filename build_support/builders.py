@@ -557,10 +557,6 @@ class PiglitTester(object):
             exclude_tests = exclude_tests + ["ext_framebuffer_multisample.accuracy",
                                              "glsl-max-varyings"]
 
-        if "byt" in hardware:
-            # Bug 99048
-            exclude_tests += ["fbo-maxsize"]
-
         if "sklgt4e" in hardware:
             # 93355
             exclude_tests = exclude_tests + ["ext_framebuffer_multisample.accuracy",
