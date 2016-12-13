@@ -532,6 +532,9 @@ class PiglitTester(object):
             exclude_tests = exclude_tests + ["arb_shader_texture_lod.execution.tex-miplevel-selection",
                                              # bug 92108
                                              "ext_framebuffer_object.fbo-maxsize",
+                                             # Jason changed the status of this test, which used to crash.
+                                             # g965 aperture size breaks this test. 
+                                             "opengl.1_2.tex3d-maxsize",
                                              # fdo Bug 89398
                                              "glsl-1_20.execution.clipping.fixed-clip-enables",
                                              "glsl-1_10.execution.clipping.clip-plane-transformation pos_clipvert",
