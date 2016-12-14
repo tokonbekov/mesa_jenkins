@@ -6,11 +6,10 @@ import build_support as bs
 
 class DeqpBuilder(bs.CMakeBuilder):
     def __init__(self, extra_definitions=None, compiler="gcc"):
-        self._o = bs.Options()
         bs.CMakeBuilder.__init__(self,
-                                 extra_definitions=["-DDEQP_GLES1_LIBRARIES=/tmp/build_root/"
-                                                    + self._o.arch + "/lib/libGL.so"], 
+                                 extra_definitions=extra_definitions, 
                                  compiler=compiler, install=False)
+        self._o = bs.Options()
         self._pm = bs.ProjectMap()
 
     def build(self):
@@ -59,5 +58,7 @@ class DeqpBuilder(bs.CMakeBuilder):
                               dest])
         bs.Export().export()
 
-bs.build(DeqpBuilder(extra_definitions=["-DDEQP_TARGET=x11_egl"]))
+bs.build(DeqpBuilder(extra_definitions=["-DDEQP_TARGET=x11_egl",
+                                        "-DDEQP_GLES1_LIBRARIES=/tmp/build_root/"
+                                        + bs.Options().arch + "/lib/libGL.so"]))
 
