@@ -144,6 +144,7 @@
              bisect_arch="m64">
       <prerequisite name="vulkancts" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
+      <prerequisite name="waffle" hardware="builder"/>
     </project>
 
     <project name="vulkancts-full">
