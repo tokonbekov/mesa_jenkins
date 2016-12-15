@@ -24,6 +24,13 @@ class DeqpTrie:
             running_count = v.results_count(running_count)
         running_count += len(self._result)
         return running_count
+
+    def test_count(self, running_count = 0):
+        if not self._trie:
+            return running_count + 1
+        for _,v in iter(self._trie.items()):
+            running_count = v.test_count(running_count)
+        return running_count
     
     def add_txt(self, txt_file):
         fh = None
@@ -439,7 +446,8 @@ class DeqpTester:
 
         shard_tests = DeqpTrie()
         shard_tests.add_txt("mesa-ci-caselist.txt")
-
+        full_test_count = shard_tests.test_count()
+        print "Total test count: " + str(full_test_count) + "\n"
         cpus = multiprocessing.cpu_count()
         base_commands = [binary,
                          "--deqp-log-images=disable",
@@ -490,19 +498,33 @@ class DeqpTester:
             procs[cpu] = proc
 
         results = DeqpTrie()
+
+        completed_tests = 0 # for status only.  accurate count is
+        completion_fh = {}  # maintained in the results object.
+
         # invoke tests
         while True:
             if not single_proc:
-                time.sleep(1)
+                print "[ " + str((completed_tests * 100) / full_test_count) + "% ]"
+                time.sleep(10)
             if not procs:
                 break
             for cpu, proc in procs.items():
+                out_fn = "TestResults-" + str(cpu) + ".qpa"
+                case_fn = "mesa-ci-caselist-" + str(cpu) + ".txt"
+
+                # check completion, to provide some status to the user
+                if cpu not in completion_fh:
+                    completion_fh[cpu] = open(out_fn, "r")
+                for line in completion_fh[cpu].readlines():
+                    if line == "#endTestCaseResult\n":
+                        completed_tests += 1
+
                 proc.poll()
                 if proc.returncode is None:
                     continue
-                
-                out_fn = "TestResults-" + str(cpu) + ".qpa"
-                case_fn = "mesa-ci-caselist-" + str(cpu) + ".txt"
+                completion_fh[cpu].close()
+                del completion_fh[cpu]
                 test_count = results.results_count()
                 self.parse_qpa_results(results, out_fn, pid=proc.pid)
                 if test_count == results.results_count():
