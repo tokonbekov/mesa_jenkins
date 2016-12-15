@@ -501,12 +501,16 @@ class DeqpTester:
 
         completed_tests = 0 # for status only.  accurate count is
         completion_fh = {}  # maintained in the results object.
+        completion_interval = 0
 
         # invoke tests
         while True:
             if not single_proc:
-                print "[ " + str((completed_tests * 100) / full_test_count) + "% ]"
-                time.sleep(10)
+                if completion_interval % 5 == 0:
+                    # print every 5 seconds
+                    print "[ " + str((completed_tests * 100) / full_test_count) + "% ]"
+                completion_interval += 1
+                time.sleep(1)
             if not procs:
                 break
             for cpu, proc in procs.items():
