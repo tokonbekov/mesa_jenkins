@@ -712,6 +712,7 @@ class CtsTestList(object):
             unsupported += ["ES31-CTS.core.sample_variables.mask.rgba32f.samples_8"]
 
         if "12.0" in version:
+            unsupported += ["ES32-CTS"]
             # pre-existing failures on 12.0
             if generation(self.o) == 8.0:
                 unsupported += ["ES31-CTS.core.geometry_shader.program_resource.program_resource",
