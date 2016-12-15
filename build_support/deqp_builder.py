@@ -518,17 +518,22 @@ class DeqpTester:
                 case_fn = "mesa-ci-caselist-" + str(cpu) + ".txt"
 
                 # check completion, to provide some status to the user
-                if cpu not in completion_fh:
-                    completion_fh[cpu] = open(out_fn, "r")
-                for line in completion_fh[cpu].readlines():
-                    if line == "#endTestCaseResult\n":
-                        completed_tests += 1
+                if not single_proc:
+                    # single_proc runs without a pause.  Test names
+                    # are written to console, so we don't need
+                    # percentages.
+                    if cpu not in completion_fh:
+                        completion_fh[cpu] = open(out_fn, "r")
+                    for line in completion_fh[cpu].readlines():
+                        if line == "#endTestCaseResult\n":
+                            completed_tests += 1
 
                 proc.poll()
                 if proc.returncode is None:
                     continue
-                completion_fh[cpu].close()
-                del completion_fh[cpu]
+                if not single_proc:
+                    completion_fh[cpu].close()
+                    del completion_fh[cpu]
                 test_count = results.results_count()
                 self.parse_qpa_results(results, out_fn, pid=proc.pid)
                 if test_count == results.results_count():
