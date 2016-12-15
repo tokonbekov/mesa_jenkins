@@ -131,6 +131,25 @@ class DeqpTrie:
                 continue
             self._trie[group].filter_whitelist(whitelist._trie[group], prefix=prefix + group + ".")
 
+    def pop_front(self, prefix=""):
+        items = self._trie.items()
+        items.sort()
+        # can't pop an empty list
+        assert(items)
+        group, trie = items[0]
+        if len(trie._trie) == 0:
+            del self._trie[group]
+            return(prefix + "." + group)
+        # else
+        if not prefix:
+            prefix = group
+        else:
+            prefix = prefix + "." + group
+        case_name =  trie.pop_front(prefix)
+        if trie.empty():
+            del self._trie[group]
+        return case_name
+        
     def write_caselist(self, outfh, prefix="", shard=0, shard_count=0, current_shard=1):
         items = self._trie.items()
         # ensure stable order, so sharding will work correctly
@@ -434,6 +453,8 @@ class DeqpTester:
         single_proc = False
         if "DEQP_DETECT_GPU_HANG" in env:
             single_proc = True
+        tests = {}
+        current_test = {}
         for cpu in range(1, cpus + 1):
             case_fn = "mesa-ci-caselist-" + str(cpu) + ".txt"
             out_fn = "TestResults-" + str(cpu) + ".qpa"
@@ -449,15 +470,16 @@ class DeqpTester:
             core_tests.add_txt(case_fn)
             if core_tests.empty():
                 continue
+            tests[cpu] =  core_tests
             
-            commands = base_commands + ["--deqp-caselist-file=" + case_fn,
-                                        "--deqp-log-filename=" + out_fn]
+            commands = base_commands + ["--deqp-log-filename=" + out_fn]
             test_name = ""
             if single_proc:
-                with open(case_fn, "r") as fh:
-                    test_name = fh.readline().strip()
-                    commands = base_commands + ["-n", test_name,
-                                                "--deqp-log-filename=" + out_fn]
+                test_name = core_tests.pop_front()
+                current_test[cpu] = test_name
+                commands += ["-n", test_name]
+            else:
+                commands += ["--deqp-caselist-file=" + case_fn,]
             proc = subprocess.Popen(commands,
                                     stdout=out_fh,
                                     stderr=out_fh,
@@ -484,32 +506,33 @@ class DeqpTester:
                 test_count = results.results_count()
                 self.parse_qpa_results(results, out_fn, pid=proc.pid)
                 if test_count == results.results_count():
-                    # no test executed
-                    with open(case_fn, "r") as fh:
-                        first_test_name = fh.readline().strip()
-                        results.add_qpa_blob(first_test_name.split("."),
-                                                  '<bogus><Result StatusCode="crash"/></bogus>',
-                                                  proc.pid)
-                unfinished_tests = DeqpTrie()
-                unfinished_tests.add_txt(case_fn)
-                unfinished_tests.filter(results)
+                    test_name = ""
+                    if single_proc:
+                        test_name = current_test[cpu]
+                    else:
+                        # no test executed
+                        with open(case_fn, "r") as fh:
+                            test_name = fh.readline().strip()
+                    results.add_qpa_blob(test_name.split("."),
+                                              '<bogus><Result StatusCode="crash"/></bogus>',
+                                              proc.pid)
+                unfinished_tests = tests[cpu]
+                if not single_proc:
+                    unfinished_tests.filter(results)
                 if (unfinished_tests.empty()):
                     del procs[cpu]
                     continue
-                if not single_proc:
+                commands = base_commands + ["--deqp-log-filename=" + out_fn]
+                if single_proc:
+                    test_name = unfinished_tests.pop_front()
+                    commands += ["-n", test_name]
+                else:
                     print "WARN: continuing test after crash"
-                with open(case_fn, "w") as fh:
-                    unfinished_tests.write_caselist(fh)
+                    with open(case_fn, "w") as fh:
+                        unfinished_tests.write_caselist(fh)
+                    commands +=  ["--deqp-caselist-file=" + case_fn]
                 if os.path.exists(out_fn):
                     os.remove(out_fn)
-                commands = base_commands + ["--deqp-caselist-file=" + case_fn,
-                                            "--deqp-log-filename=" + out_fn]
-                test_name = ""
-                if single_proc:
-                    with open(case_fn, "r") as fh:
-                        test_name = fh.readline().strip()
-                        commands = base_commands + ["-n", test_name,
-                                                    "--deqp-log-filename=" + out_fn]
                 proc = subprocess.Popen(commands,
                                         stdout=out_fh,
                                         stderr=out_fh,
