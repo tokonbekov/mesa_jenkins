@@ -517,7 +517,13 @@ class CrucibleTest:
                         self.status, str(self.other_arches)])
 
     def PrettyPrint(self, fh):
-        pass
+        fh.write("Project: " + self.project + "\n"
+                 "Test: " + self.test_name + "\n"
+                 "Status: " + self.status + "\n"
+                 "Platform/arch:\n\t"+ self.hardware + "/" + self.arch)
+        for arch, hw in self.other_arches:
+            fh.write(", " + hw + "/" + arch)
+        fh.write("\n\n")
 
     def Bisect(self, bisect_project, commits, bisect_dir):
         print "Bisecting for " + self.test_name
@@ -706,7 +712,13 @@ class DeqpTest:
                         self.status, str(self.other_arches)])
 
     def PrettyPrint(self, fh):
-        pass
+        fh.write("Project: " + self.project + "\n"
+                 "Test: " + self.test_name + "\n"
+                 "Status: " + self.status + "\n"
+                 "Platform/arch:\n\t"+ self.hardware + "/" + self.arch)
+        for arch, hw in self.other_arches:
+            fh.write(", " + hw + "/" + arch)
+        fh.write("\n\n")
 
     def Bisect(self, bisect_project, commits, bisect_dir):
         print "Bisecting for " + self.test_name
