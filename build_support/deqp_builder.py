@@ -523,10 +523,12 @@ class DeqpTester:
                     # are written to console, so we don't need
                     # percentages.
                     if cpu not in completion_fh:
-                        completion_fh[cpu] = open(out_fn, "r")
-                    for line in completion_fh[cpu].readlines():
-                        if line == "#endTestCaseResult\n":
-                            completed_tests += 1
+                        if os.path.exists(out_fn):
+                            completion_fh[cpu] = open(out_fn, "r")
+                    if cpu in completion_fh:
+                        for line in completion_fh[cpu].readlines():
+                            if line == "#endTestCaseResult\n":
+                                completed_tests += 1
 
                 proc.poll()
                 if proc.returncode is None:
