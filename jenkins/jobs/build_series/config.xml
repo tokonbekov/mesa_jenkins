@@ -2,14 +2,19 @@
 <project>
   <actions/>
   <description></description>
-  <logRotator class="hudson.tasks.LogRotator">
-    <daysToKeep>-1</daysToKeep>
-    <numToKeep>20</numToKeep>
-    <artifactDaysToKeep>-1</artifactDaysToKeep>
-    <artifactNumToKeep>-1</artifactNumToKeep>
-  </logRotator>
   <keepDependencies>false</keepDependencies>
   <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>20</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.24">
+      <autoRebuild>false</autoRebuild>
+    </com.sonyericsson.rebuild.RebuildSettings>
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
@@ -41,6 +46,8 @@
               <string>snb</string>
               <string>bsw</string>
               <string>bxt</string>
+              <string>byt</string>
+              <string>sklgt4e</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
@@ -59,6 +66,8 @@ choose piglit-test to test a single hardware platform</description>
               <string>cts-test</string>
               <string>mesa</string>
               <string>vulkancts-test</string>
+              <string>vulkancts-full</string>
+              <string>glescts-full</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
@@ -67,11 +76,30 @@ choose piglit-test to test a single hardware platform</description>
           <description>automation branch to use</description>
           <defaultValue>master</defaultValue>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>branch</name>
+          <description></description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>mesa_master</string>
+              <string>vulkancts</string>
+              <string>mesa_12.0</string>
+              <string>mesa_11.2</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>arch</name>
+          <description></description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>m32</string>
+              <string>m64</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
-    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.24">
-      <autoRebuild>false</autoRebuild>
-    </com.sonyericsson.rebuild.RebuildSettings>
     <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.4">
       <maxConcurrentPerNode>0</maxConcurrentPerNode>
       <maxConcurrentTotal>2</maxConcurrentTotal>
@@ -109,7 +137,7 @@ choose piglit-test to test a single hardware platform</description>
   <concurrentBuild>true</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>python -u scripts/build_series.py --start_rev=${start_rev} --end_rev=${end_rev} --project=${project} --series_name=&quot;$series_name&quot; --hardware=${hardware} --build_support_branch=${build_support_branch}</command>
+      <command>python -u scripts/build_series.py --start_rev=${start_rev} --end_rev=${end_rev} --project=${project} --series_name=&quot;$series_name&quot; --hardware=${hardware} --arch=${arch} --build_support_branch=${build_support_branch}</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

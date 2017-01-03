@@ -68,6 +68,8 @@
               <string>vulkancts-full</string>
               <string>perf-all</string>
               <string>glescts-full</string>
+              <string>glescts-test</string>
+              <string>all-test-vulkan</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
@@ -93,11 +95,13 @@
               <string>bsw</string>
               <string>builder</string>
               <string>sklgt2</string>
+              <string>sklgt4e</string>
               <string>bdwgt3e</string>
               <string>ivb</string>
               <string>bxt</string>
               <string>kbl</string>
               <string>snb</string>
+              <string>glk</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
@@ -138,6 +142,7 @@
             <a class="string-array">
               <string>mesa_master</string>
               <string>vulkancts</string>
+              <string>mesa_13.0</string>
               <string>mesa_12.0</string>
               <string>mesa_11.2</string>
             </a>
@@ -147,7 +152,7 @@
     </hudson.model.ParametersDefinitionProperty>
     <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.4">
       <maxConcurrentPerNode>0</maxConcurrentPerNode>
-      <maxConcurrentTotal>5</maxConcurrentTotal>
+      <maxConcurrentTotal>6</maxConcurrentTotal>
       <throttleEnabled>true</throttleEnabled>
       <throttleOption>project</throttleOption>
     </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
