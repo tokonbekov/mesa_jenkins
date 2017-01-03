@@ -69,7 +69,7 @@
     </project>
 
     <project name="cts-test"
-             bisect_hardware="bdw,sklgt2,sklgt4e,hsw,ivb,snb,ilk,g965,bsw,byt,g33,g45,bxt,kbl"
+             bisect_hardware="bdw,skl,hsw,ivb,snb,ilk,g965,bsw,byt,g33,g45,bxt,kbl"
              bisect_arch="m64">
       <prerequisite name="cts" hardware="builder"/>
       <prerequisite name="glcts" hardware="builder"/>
@@ -103,7 +103,7 @@
     </project>
 
     <project name="piglit-test"
-             bisect_hardware="bdwgt2,bdwgt3e,sklgt2,sklgt4e,hsw,ivb,ivbgt1,snb,bsw,byt,g965,ilk,g33,g45,bxt,kbl,glk"
+             bisect_hardware="bdw,skl,hsw,ivb,ivbgt1,snb,bsw,byt,g965,ilk,g33,g45,bxt,kbl,glk"
              bisect_arch="m64,m32">
       <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
