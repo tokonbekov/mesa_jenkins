@@ -37,6 +37,9 @@
     <project name="drm"/>
 
     <project name="mesa">
+      <!-- options for a prerequisite are inherited unless overridden.
+           For example, a build of mesa with arch=m32 will require a
+           build of drm with arch=m32 -->
       <prerequisite name="drm"/>
     </project>
 
@@ -47,9 +50,16 @@
 
     <project name="waffle"/>
 
+    <!-- test projects should specify bisect_hardware and bisect_arch,
+         which designate the full set of platforms that should be
+         re-tested when a regression occurs.  See update_conf.py and
+         bisect_project.py in scripts. -->
     <project name="deqp-test" src_dir="deqp"
              bisect_hardware="bdw,skl,hsw,ivb,snb,byt,bsw,bxt,kbl"
              bisect_arch="m32,m64">
+      <!-- deqp-test will be specificed for a test platform (eg skl),
+           but the hardware for its prerequisites should be a builder
+           (since they are all compilation projects) -->
       <prerequisite name="deqp" hardware="builder"/>
       <prerequisite name="waffle" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
@@ -88,6 +98,8 @@
     <project name="glescts-full">
       <prerequisite name="glescts-test" hardware="skl,bdw" shard="5"/>
       <prerequisite name="glescts-test" hardware="hsw,kbl" shard="4"/>
+      <!-- only_for_type enforces the prerequisite when type matches
+           the value. -->
       <prerequisite name="glescts-test" hardware="bsw,byt,bxt" shard="8" only_for_type="daily"/>
       <prerequisite name="glescts-test" hardware="g33,g45,ilk,g965,bxt,ivb,snb" shard="3" only_for_type="daily"/>
       <prerequisite name="glescts-test"
@@ -485,6 +497,13 @@
       <deqp/>
       <cts branch="origin/updated-cts"/>
       <glcts/>
+
+      <!-- the trigger attribute is used specify a branch that should
+           be used, but prevent builds from triggering if the branch
+           changes.  In this case, the prerelease repo contains test
+           status for unreleased platforms.  We want to use the
+           latest, but we don't want to retest every time a config
+           item changes. -->
       <prerelease trigger="false"/>
     </branch>
 
