@@ -31,6 +31,7 @@ mkdir -p /etc/salt/minion.d/
 cat > /etc/salt/minion.d/master.conf << EOF
 master: 192.168.1.1
 master_finger: ba:42:e5:d8:e6:3f:ec:ff:a4:7b:c3:cd:24:74:2a:8b
+hash_type: md5
 EOF
 
 echo 'startup_states: highstate' > /etc/salt/minion.d/startup.conf
