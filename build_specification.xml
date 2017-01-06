@@ -79,9 +79,8 @@
     </project>
 
     <project name="cts-test"
-             bisect_hardware="bdw,skl,hsw,ivb,snb,ilk,g965,bsw,byt,g33,g45,bxt,kbl"
+             bisect_hardware="bdw,skl,hsw,bsw,bxt_quad,kbl"
              bisect_arch="m64">
-      <prerequisite name="cts" hardware="builder"/>
       <prerequisite name="glcts" hardware="builder"/>
       <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
@@ -238,8 +237,8 @@
     </project>
 
     <project name="cts-full">
-      <prerequisite name="cts-test" hardware="snb,ivb,hsw,bdw,skl" arch="m64"/>
-      <prerequisite name="cts-test" only_for_type="daily" hardware="g965,g33,ilk,g45,bsw,byt,bxt,kbl" arch="m64"/>
+      <prerequisite name="cts-test" hardware="hsw,bdw,skl" arch="m64"/>
+      <prerequisite name="cts-test" only_for_type="daily" hardware="bsw,bxt_quad,kbl" arch="m64"/>
     </project>
 
     <project name="vulkan-and-gl">

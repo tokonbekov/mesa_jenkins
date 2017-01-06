@@ -26,31 +26,16 @@ class CtsBuilder:
                      # combination of unreasonable tolerances and possibly
                      # bugs in debian's s2tc library.  Recommended by nroberts
                      "S2TC_DITHER_MODE" : "NONE",
-                     # forces deqp to run headless
-                     "EGL_PLATFORM" : "surfaceless",
 
                      # without this, Xorg limits frame rate to 1 FPS
                      # when display sleeps, cratering tests execution
                      "vblank_mode": "0"
         }
 
-        if ("hsw" in o.hardware or "ivb" in o.hardware or "byt" in o.hardware):
-            self.env["MESA_GLES_VERSION_OVERRIDE"] = "3.1"
-
-        if self._hsw_plus():
-            self.env["MESA_GL_VERSION_OVERRIDE"] = "4.5"
-            self.env["MESA_GLSL_VERSION_OVERRIDE"] = "450"
+        self.env["MESA_GL_VERSION_OVERRIDE"] = "4.5"
+        self.env["MESA_GLSL_VERSION_OVERRIDE"] = "450"
         o.update_env(self.env)
 
-    def _hsw_plus(self):
-        o = bs.Options()
-        return ("hsw" in o.hardware or
-                "skl" in o.hardware or
-                "bdw" in o.hardware or
-                "bsw" in o.hardware or
-                "kbl" in o.hardware or
-                "bxt" in o.hardware)
-        
     def build(self):
         pass
 
@@ -63,10 +48,6 @@ class CtsBuilder:
 
         if not self.version:
             self.version = bs.mesa_version()
-        if o.hardware == "bxt" or o.hardware == "kbl":
-            if "11.0" in self.version:
-                print "WARNING: bxt/kbl not supported by stable mesa"
-                return
 
         conf_file = bs.get_conf_file(o.hardware, o.arch, "cts-test")
 
@@ -88,30 +69,21 @@ class CtsBuilder:
         extra_excludes = ["packed_depth_stencil.packed_depth_stencil_copyteximage"]
 
         suite_names = []
-        if (self._hsw_plus() and
-            # disable gl cts on stable versions of mesa, which do not
-            # support the feature set.
-            "11.2" not in self.version and
-            "12.0" not in self.version):
-            suite_names.append("cts_gl")
-            # flaky cts_gl tests
-            extra_excludes += ["arrays_of_arrays_gl.interaction",
-                               "texture_buffer.texture_buffer_precision",
-                               "geometry_shader.api.max_image_uniforms",
-                               "vertex_attrib_64bit.limits_test",
-                               # as per Ian, only run gl45
-                               "gl30-cts",
-                               "gl31-cts",
-                               "gl32-cts",
-                               "gl33-cts",
-                               "gl40-cts",
-                               "gl41-cts",
-                               "gl42-cts",
-                               "gl43-cts",
-                               "gl44-cts"]
-            if "bxt" in o.hardware:
-                extra_excludes += ["gl3tests.packed_pixels.packed_pixels_pbo",
-                                   "gpu_shader_fp64.named_uniform_blocks"]
+        # disable gl cts on stable versions of mesa, which do not
+        # support the feature set.
+        if "13.0" in self.version or "12.0" in self.version:
+            return
+        suite_names.append("cts_gl")
+        # as per Ian, only run gl45
+        extra_excludes += ["gl30-cts",
+                           "gl31-cts",
+                           "gl32-cts",
+                           "gl33-cts",
+                           "gl40-cts",
+                           "gl41-cts",
+                           "gl42-cts",
+                           "gl43-cts",
+                           "gl44-cts"]
         if "hsw" in o.hardware:
             # flaky cts_gl tests
             extra_excludes += ["shader_image_load_store.multiple-uniforms",
@@ -120,9 +92,6 @@ class CtsBuilder:
                                "texture_gather.gather-tesselation-shader",
                                "vertex_attrib_binding.basic-inputl-case1",
                                "gpu_shader_fp64.named_uniform_blocks"]
-        if "sklgt4e" in o.hardware:
-            extra_excludes += ["gl45-cts.gtf30.gl3tests.half_float.half_float_linear",
-                               "gl45-cts.gpu_shader_fp64.named_uniform_blocks"]
 
         exclude_tests = []
         for  a in extra_excludes:
