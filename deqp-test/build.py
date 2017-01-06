@@ -22,6 +22,7 @@ class DeqpLister(object):
         self.pm = bs.ProjectMap()
         self.blacklist_txt = None
         self.cts_blacklist = cts_tests
+        self.version = None
         bd = self.pm.project_build_dir()
         if "gles2" in self.binary:
             self.blacklist_txt = bd + self.o.hardware[:3] + "_expectations/gles2_unstable_tests.txt"
@@ -67,26 +68,27 @@ class DeqpLister(object):
             blacklist.add_txt(self.blacklist_txt)
             all_tests.filter(blacklist)
         all_tests.filter(self.cts_blacklist)
-        mesa_version = bs.mesa_version()
+        if not self.version:
+            self.version = bs.mesa_version()
         unsupported = []
         if "daily" != self.o.type and not self.o.retest_path:
             # these tests triple the run-time
             unsupported.append("dEQP-GLES31.functional.copy_image")
-        if "11.2" in mesa_version:
+        if "11.2" in self.version:
             unsupported.append("dEQP-EGL")
             if bs.generation(self.o) < 8.0:
                 unsupported.append("dEQP-GLES31")
             if bs.generation(self.o) < 6.0:
                 unsupported.append("dEQP-GLES3")
 
-        if "12.0" in mesa_version:
+        if "12.0" in self.version:
             unsupported.append("dEQP-EGL")
             if bs.generation(self.o) < 8.0:
                 unsupported.append("dEQP-GLES31")
         if bs.generation(self.o) < 7.0:
             unsupported.append("dEQP-GLES31")
 
-        if "13.0" in mesa_version:
+        if "13.0" in self.version:
             # Tapani's egl fixes not merged into 13.0 branch
             unsupported.append("dEQP-EGL")
 
@@ -106,6 +108,7 @@ class DeqpBuilder(object):
         self.pm = bs.ProjectMap()
         self.o = bs.Options()
         self.env = {}
+        self.version = None
     def build(self):
         pass
     def clean(self):
@@ -120,9 +123,10 @@ class DeqpBuilder(object):
         t = bs.DeqpTester()
         all_results = bs.DeqpTrie()
 
+        if not self.version:
+            self.version = bs.mesa_version()
         if "bxt" in self.o.hardware:
-            version = bs.mesa_version()
-            if "12" in version or "13.0" in version:
+            if "12" in self.version or "13.0" in self.version:
                 return
 
         modules = ["gles2", "gles3", "egl"]

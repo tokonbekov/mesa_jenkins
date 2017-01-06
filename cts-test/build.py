@@ -15,6 +15,7 @@ class CtsBuilder:
         pm = bs.ProjectMap()
         self.build_root = pm.build_root()
         libdir = "x86_64-linux-gnu"
+        self.version = None
         if o.arch == "m32":
             libdir = "i386-linux-gnu"
         self.env = { "LD_LIBRARY_PATH" : self.build_root + "/lib:" + \
@@ -60,9 +61,10 @@ class CtsBuilder:
         o = bs.Options()
         pm = bs.ProjectMap()
 
-        mesa_version = bs.mesa_version()
+        if not self.version:
+            self.version = bs.mesa_version()
         if o.hardware == "bxt" or o.hardware == "kbl":
-            if "11.0" in mesa_version:
+            if "11.0" in self.version:
                 print "WARNING: bxt/kbl not supported by stable mesa"
                 return
 
@@ -89,8 +91,8 @@ class CtsBuilder:
         if (self._hsw_plus() and
             # disable gl cts on stable versions of mesa, which do not
             # support the feature set.
-            "11.2" not in mesa_version and
-            "12.0" not in mesa_version):
+            "11.2" not in self.version and
+            "12.0" not in self.version):
             suite_names.append("cts_gl")
             # flaky cts_gl tests
             extra_excludes += ["arrays_of_arrays_gl.interaction",

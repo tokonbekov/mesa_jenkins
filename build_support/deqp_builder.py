@@ -646,6 +646,7 @@ class CtsTestList(object):
     def __init__(self):
         self.pm = ProjectMap()
         self.o = Options()
+        self.version = None
 
     def tests(self, env=None):
         br = self.pm.build_root()
@@ -711,14 +712,15 @@ class CtsTestList(object):
         if os.path.exists(blacklist_file):
             blacklist.add_txt(blacklist_file)
         all_tests.filter(blacklist)
-        version = mesa_version()
+        if not self.version:
+            self.version = mesa_version()
         unsupported = []
         
-        if "12.0" in version or "13.0" in version:
+        if "12.0" in self.version or "13.0" in self.version:
             # made stable by mesa 66a725570c9f93ab0341e9479390c9d042d7cd00
             unsupported += ["ES31-CTS.core.sample_variables.mask.rgba32f.samples_8"]
 
-        if "12.0" in version:
+        if "12.0" in self.version:
             unsupported += ["ES32-CTS"]
             # pre-existing failures on 12.0
             if generation(self.o) == 8.0:
