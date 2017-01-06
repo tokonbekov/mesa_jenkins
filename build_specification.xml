@@ -246,7 +246,7 @@
     </project>
 
     <project name="cts-full">
-      <prerequisite name="cts-test" hardware="snb,ivb,hsw,bdw,sklgt2,sklgt4e" arch="m64"/>
+      <prerequisite name="cts-test" hardware="snb,ivb,hsw,bdw,skl" arch="m64"/>
       <prerequisite name="cts-test" only_for_type="daily" hardware="g965,g33,ilk,g45,bsw,byt,bxt,kbl" arch="m64"/>
     </project>
 
