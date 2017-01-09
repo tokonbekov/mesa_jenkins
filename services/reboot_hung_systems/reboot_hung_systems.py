@@ -521,7 +521,7 @@ def main():
                     sys.stderr.flush()
                     reboot(system)
             hangs = []
-            time.sleep(360)
+            time.sleep(600)
 
         for system in systems.iterkeys():
             if not ping(system):
