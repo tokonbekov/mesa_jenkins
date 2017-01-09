@@ -256,7 +256,7 @@
     </project>
 
     <project name="reboot-slaves">
-      <prerequisite name="reboot-slave" hardware="i915-01,i915-02,bdwgt2-01,bdwgt2-03,bdwgt2-04,bdwgt2-05,bdwgt2-06,bdwgt3e-01,bdwgt3e-02,bdwgt3e-03,bdwgt3e-04,bdwgt3e-05,bdwgt3e-06,bdwgt3e-08,bsw-01,bsw-02,bsw-03,bsw-04,bsw-05,bsw-06,bsw-07,bsw-08,bsw-09,bsw-10,byt-01,byt-02,byt-03,byt-04,byt-05,byt-06,byt-07,bxt-01,bxt-03,bxt-04,g33-01,g45-01,g45-02,g45-03,g45-04,g965-02,g965-03,g965-04,g965-05,hswgt1-01,hswgt1-02,hswgt2-01,hswgt2-02,hswgt2-03,hswgt3e-01,hswgt3e-02,hswgt3e-03,hswgt3e-04,ilk-01,ilk-02,ilk-05,ivbgt1-01,ivbgt1-02,ivbgt2-01,ivbgt2-02,ivbgt2-03,kblgt2-01,kblgt2-02,kblgt2-03,kblgt2-04,sklgt2-01,sklgt2-02,sklgt2-03,sklgt2-04,sklgt2-05,sklgt2-06,sklgt2-07,sklgt4e-01,sklgt4e-02,sklgt4e-03,sklgt4e-04,snbgt1-01,snbgt1-02,snbgt1-03,snbgt1-04,snbgt2-01,snbgt2-02,glk-01,glk-02"/>
+      <prerequisite name="reboot-slave" hardware="i915-01,i915-02,bdwgt2-01,bdwgt2-03,bdwgt2-04,bdwgt2-05,bdwgt2-06,bdwgt3e-01,bdwgt3e-02,bdwgt3e-03,bdwgt3e-04,bdwgt3e-05,bdwgt3e-06,bdwgt3e-08,bsw-01,bsw-02,bsw-03,bsw-04,bsw-05,bsw-06,bsw-07,bsw-08,bsw-09,bsw-10,byt-01,byt-02,byt-03,byt-04,byt-05,byt-06,byt-07,bxt-01,bxt-02,bxt-04,bxt-05,bxt-06,g33-01,g45-01,g45-02,g45-03,g45-04,g965-02,g965-03,g965-04,g965-05,hswgt1-01,hswgt1-02,hswgt2-01,hswgt2-02,hswgt2-03,hswgt3e-01,hswgt3e-02,hswgt3e-03,hswgt3e-04,ilk-01,ilk-02,ilk-05,ivbgt1-01,ivbgt1-02,ivbgt2-01,ivbgt2-02,ivbgt2-03,kblgt2-01,kblgt2-02,kblgt2-03,kblgt2-04,sklgt2-01,sklgt2-02,sklgt2-03,sklgt2-04,sklgt2-05,sklgt2-06,sklgt2-07,sklgt4e-01,sklgt4e-02,sklgt4e-03,sklgt4e-04,snbgt1-01,snbgt1-02,snbgt1-03,snbgt1-04,snbgt2-01,snbgt2-02,glk-01,glk-02"/>
     </project>
 
     <project name="reboot-slave"/>
@@ -266,7 +266,7 @@
     <project name="clean-workspace"/>
     <!-- TODO: find a way to variablize this list of hardware -->
     <project name="clean-all-workspaces">
-      <prerequisite name="clean-workspace" hardware="i915-01,i915-02,bdwgt2-01,bdwgt2-03,bdwgt2-04,bdwgt2-05,bdwgt2-06,bdwgt3e-01,bdwgt3e-02,bdwgt3e-03,bdwgt3e-04,bdwgt3e-05,bdwgt3e-06,bsw-01,bsw-02,bsw-03,bsw-04,bsw-05,bsw-06,bsw-07,bsw-08,bsw-09,bsw-10,bxt-01,bxt-03,bxt-04,byt-01,byt-02,byt-03,byt-04,byt-05,byt-06,byt-07,g33-01,g45-01,g45-02,g45-03,g45-04,g965-02,g965-03,g965-04,g965-05,hswgt1-01,hswgt1-02,hswgt2-01,hswgt2-02,hswgt2-03,hswgt3e-01,hswgt3e-02,hswgt3e-03,ilk-01,ilk-02,ilk-05,ivbgt1-01,ivbgt1-02,ivbgt2-01,ivbgt2-02,ivbgt2-03,kblgt2-01,kblgt2-02,kblgt2-03,kblgt2-04,sklgt2-01,sklgt2-02,sklgt2-03,sklgt2-04,sklgt2-05,sklgt2-06,sklgt2-07,sklgt4e-01,sklgt4e-02,sklgt4e-03,sklgt4e-04,snbgt1-01,snbgt1-02,snbgt1-03,snbgt2-01,snbgt2-02,glk-01,glk-02"/>
+      <prerequisite name="clean-workspace" hardware="i915-01,i915-02,bdwgt2-01,bdwgt2-03,bdwgt2-04,bdwgt2-05,bdwgt2-06,bdwgt3e-01,bdwgt3e-02,bdwgt3e-03,bdwgt3e-04,bdwgt3e-05,bdwgt3e-06,bsw-01,bsw-02,bsw-03,bsw-04,bsw-05,bsw-06,bsw-07,bsw-08,bsw-09,bsw-10,bxt-01,bxt-02,bxt-04,bxt-05,bxt-06,byt-01,byt-02,byt-03,byt-04,byt-05,byt-06,byt-07,g33-01,g45-01,g45-02,g45-03,g45-04,g965-02,g965-03,g965-04,g965-05,hswgt1-01,hswgt1-02,hswgt2-01,hswgt2-02,hswgt2-03,hswgt3e-01,hswgt3e-02,hswgt3e-03,ilk-01,ilk-02,ilk-05,ivbgt1-01,ivbgt1-02,ivbgt2-01,ivbgt2-02,ivbgt2-03,kblgt2-01,kblgt2-02,kblgt2-03,kblgt2-04,sklgt2-01,sklgt2-02,sklgt2-03,sklgt2-04,sklgt2-05,sklgt2-06,sklgt2-07,sklgt4e-01,sklgt4e-02,sklgt4e-03,sklgt4e-04,snbgt1-01,snbgt1-02,snbgt1-03,snbgt2-01,snbgt2-02,glk-01,glk-02"/>
     </project>
              
     <!-- Performance projects BEGIN -->
