@@ -380,7 +380,6 @@
       <remote name="tpohjola" repo="git://people.freedesktop.org/~tpohjola/mesa"/>
       <remote name="dcbaker" repo="git://people.freedesktop.org/~dbaker/mesa"/>
       <remote name="nchery" repo="git://people.freedesktop.org/~nchery/mesa"/>
-      <remote name="chadv" repo="git://git.kiwitree.net/~chadv/mesa"/>
       <remote name="tarceri" repo="git://github.com/tarceri/Mesa_arrays_of_arrays"/>
       <remote name="evelikov" repo="git://github.com/evelikov/mesa"/>
       <remote name="juhapekka" repo="git://github.com/juhapekka/juha_mesaexperimentals"/>
@@ -390,6 +389,7 @@
       <remote name="djdeath" repo="git://github.com/djdeath/mesa"/>
       <remote name="igalia" repo="git://github.com/Igalia/mesa"/>
       <remote name="internal" repo="ssh://majanes@git-amr-1.devtools.intel.com:29418/otc_gen_graphics-mesa.git"/>
+      <remote name="chadv" repo="git://github.com/chadversary/mesa"/>
     </mesa>
 
     <drm repo="http://anongit.freedesktop.org/git/mesa/drm.git">
@@ -749,6 +749,10 @@
 
     <branch name="internal" project="test-single-arch">
       <mesa branch="internal/internal"/>
+    </branch>
+
+    <branch name="chadv" project="test-single-arch-vulkan">
+      <mesa branch="chadv/jenkins"/>
     </branch>
 
   </branches>
