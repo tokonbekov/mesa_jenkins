@@ -27,13 +27,13 @@ def strip_passes(root):
                     serr.text = " "
     
 
-def collate_tests(result_path, out_test_dir):
+def collate_tests(result_path, out_test_dir, make_tar=False):
     src_test_dir = result_path + "/test"
     print "collecting tests from " + src_test_dir
     i = 0
     while i < 10 and not os.path.exists(src_test_dir):
         i += 1
-        print "sleeping, waiting fort test directory: " + src_test_dir
+        print "sleeping, waiting for test directory: " + src_test_dir
         time.sleep(10)
     if not os.path.exists(src_test_dir):
         print "no test directory found: " + src_test_dir
@@ -44,7 +44,10 @@ def collate_tests(result_path, out_test_dir):
            out_test_dir]
     bs.run_batch_command(cmd)
 
-    # generate a results.tgz that can be used with piglit summary
+    if not make_tar:
+        return
+
+    # else generate a results.tgz that can be used with piglit summary
     save_dir = os.getcwd()
     os.chdir("/tmp/")
     tar = tarfile.open(out_test_dir + "/test/results.tar", "w:")
@@ -64,7 +67,13 @@ def collate_tests(result_path, out_test_dir):
         t.write(a_file)
         # occasionally, t.write() finishes, but the file is not available
         t = None
-        tar.add(a_file)
+        for _ in range(0,5):
+            try:
+                tar.add(a_file)
+                break
+            except:
+                print "WARN: failed to add file: " + a_file
+                time.sleep(10)
         os.unlink(a_file)
     for (shard, files) in shards.items():
         t = ET.parse(out_test_dir + "/test/" + files[0])
@@ -78,11 +87,18 @@ def collate_tests(result_path, out_test_dir):
             for a_suite in sr.findall("testsuite"):
                 for a_test in a_suite.findall("testcase"):
                     suite.append(a_test)
-        t.write(shard + ".xml")
+        shard_file = shard + ".xml"
+        t.write(shard_file)
         # occasionally, t.write() finishes, but the file is not available
         t = None
-        tar.add(shard + ".xml")
-        os.unlink(shard + ".xml")
+        for _ in range(0,5):
+            try:
+                tar.add(shard_file)
+                break
+            except:
+                print "WARN: failed to add file: " + shard_file
+                time.sleep(10)
+        os.unlink(shard_file)
     tar.close()
     bs.run_batch_command(["xz", "-9", out_test_dir + "/test/results.tar"])
     os.chdir(save_dir)
@@ -109,7 +125,8 @@ def main():
                         choices=['true', 'false'], 
                         help="specific set of revisions to build."
                         "(default: %(default)s)")
-
+    parser.add_argument("--tar", help="generate tar for email notification",
+                        action="store_true")
 
     args = parser.parse_args()
     projects = []
@@ -189,7 +206,7 @@ def main():
     try:
         jen.build_all(depGraph, branch=branch)
     finally:
-        collate_tests(result_path, out_test_dir)
+        collate_tests(result_path, out_test_dir, make_tar=args.tar)
         tl = bs.TestLister(out_test_dir + "/test")
         tests = tl.Tests()
         if tests:
