@@ -733,6 +733,12 @@ class CtsBuilder(CMakeBuilder):
             extra_definitions.append("-DDEQP_TARGET=x11")
         CMakeBuilder.__init__(self, extra_definitions=extra_definitions)
             
+    def test(self):
+        pass
+
+    def clean(self):
+        git_clean(self._src_dir)
+
     def build(self):
         pm = ProjectMap()
         if not os.path.exists(self._build_dir):
