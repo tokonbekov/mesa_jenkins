@@ -727,7 +727,10 @@ class CtsBuilder(CMakeBuilder):
         arch = Options().arch
         extra_definitions=["-DCMAKE_INCLUDE_PATH=/tmp/build_root/" + arch + "/include",
                            "-DCMAKE_LIBRARY_PATH=/tmp/build_root/" + arch + "/lib"]
-        extra_definitions.append("-DDEQP_TARGET=x11_egl")
+        if suite == "gl":
+            extra_definitions.append("-DDEQP_TARGET=x11_egl")
+        else:
+            extra_definitions.append("-DDEQP_TARGET=x11")
         CMakeBuilder.__init__(self, extra_definitions=extra_definitions)
             
     def build(self):
