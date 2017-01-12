@@ -7,7 +7,7 @@
         "otc-gfxtest-bsw-05.local": {"switch": 1, "outlet": 5},
         "otc-gfxtest-bsw-06.local": {"switch": 1, "outlet": 6},
         "otc-gfxtest-bsw-07.local": {"switch": 1, "outlet": 7},
-        "otc-gfxtest-bsw-07.local": {"switch": 1, "outlet": 8},
+        "otc-gfxtest-bsw-08.local": {"switch": 1, "outlet": 8},
         "otc-gfxtest-glk-01.local": {"switch": 2, "outlet": 1},
         "otc-gfxtest-glk-02.local": {"switch": 2, "outlet": 2},
         "otc-gfxtest-bsw-09.local": {"switch": 2, "outlet": 3}
