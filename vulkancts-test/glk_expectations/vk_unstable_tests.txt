@@ -8,3 +8,4 @@ dEQP-VK.wsi.xcb.surface
 dEQP-VK.api.copy_and_blit.image_to_image.simple_tests
 dEQP-VK.pipeline.multisample.raster_samples.samples_16.primitive_line
 dEQP-VK.api.command_buffers.record_simul_use_primary
+dEQP-VK.tessellation.primitive_discard
