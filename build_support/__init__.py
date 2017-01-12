@@ -65,6 +65,9 @@ class DefaultTimeout:
 
         if self._options.type == "daily" or self._options.type == "release":
             return 120
+        if self._options.hardware == "byt":
+            # bay trail takes 15min to rsync to /tmp on the sdcard
+            return 30
         return 15
 
 def null_build():
