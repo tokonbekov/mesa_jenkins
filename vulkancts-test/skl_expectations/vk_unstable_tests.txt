@@ -2,3 +2,4 @@ dEQP-VK.api
 dEQP-VK.wsi
 dEQP-VK.glsl.derivate.dfdxcoarse.texture.msaa4.vec2_highp
 dEQP-VK.glsl.derivate.fwidth.texture.msaa4.vec2_highp
+dEQP-VK.tessellation.primitive_discard
