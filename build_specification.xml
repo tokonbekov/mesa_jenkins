@@ -204,7 +204,7 @@
     </project>
 
     <project name="test-single-arch">
-      <prerequisite name="piglit-test" hardware="ilk,g45,g965,snb,ivb,hsw,bdwgt3e,skl"/>
+      <prerequisite name="piglit-test" hardware="g33,ilk,g45,g965,snb,ivb,hsw,bdwgt3e,skl"/>
       <prerequisite only_for_type="daily" name="piglit-test" hardware="bsw,byt,g33,glk,bxt"/>
       <prerequisite name="piglit-cpu-test" hardware="fastgpu"/>
       <prerequisite name="scons-buildtest" hardware="builder" arch="m64"/>
@@ -216,7 +216,7 @@
 
     <!-- this is used for ben's percheckin build -->
     <project name="test-single-arch-ben">
-      <prerequisite name="piglit-test" hardware="ilk,g45,g965,snb,ivb,hsw,bdwgt3e,skl,bsw,byt,bxt"/>
+      <prerequisite name="piglit-test" hardware="g33,ilk,g45,g965,snb,ivb,hsw,bdwgt3e,skl,bsw,byt,bxt"/>
       <prerequisite name="piglit-cpu-test" hardware="fastgpu"/>
       <prerequisite name="scons-buildtest" hardware="builder" arch="m64"/>
       <prerequisite name="mesa-buildtest" hardware="builder"/>
