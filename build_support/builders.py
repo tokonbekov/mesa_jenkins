@@ -497,10 +497,10 @@ class PiglitTester(object):
                           "spec.egl.1_4.largest.possible.eglcreatepbuffersurface",
                           "spec.egl.1_4.eglcreatepbuffersurface",
                           "spec.egl_khr_fence_sync.conformance",
-                          "spec.egl_khr_gl_colorspace",
+                          "spec.egl_khr_gl_colorspace"] #,
                           # https://bugs.freedesktop.org/show_bug.cgi?id=99265
-                          "spec.egl_khr_gl_image.egl_khr_gl_renderbuffer_image-clear-shared-image.gl_depth_component24",
-                          "spec.egl_khr_gl_image.egl_khr_gl_renderbuffer_image-clear-shared-image.gl_rgba"]
+                          # "spec.egl_khr_gl_image.egl_khr_gl_renderbuffer_image-clear-shared-image.gl_depth_component24",
+                          #"spec.egl_khr_gl_image.egl_khr_gl_renderbuffer_image-clear-shared-image.gl_rgba"]
 
         # https://bugs.freedesktop.org/show_bug.cgi?id=97577
         exclude_tests += ["spec.ext_shader_samples_identical.glsl-es-3_10.compiler.all-functions_vert",
