@@ -1,2 +1,3 @@
 dEQP-EGL.functional.resize
 dEQP-EGL.functional.sharing.gles2.multithread.simple_egl_server_sync.textures.copyteximage2d_texsubimage2d_render
+dEQP-EGL.functional.sharing.gles2.multithread.random_egl_server_sync
