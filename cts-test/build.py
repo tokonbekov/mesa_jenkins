@@ -91,10 +91,10 @@ class CtsBuilder:
                                "shader_image_size.advanced-nonms-fs",
                                "texture_gather.gather-tesselation-shader",
                                "vertex_attrib_binding.basic-inputl-case1",
-                               "gpu_shader_fp64.named_uniform_blocks",
+                               "gpu_shader_fp64.named_uniform_blocks"] #,
                                # gpu hang
-                               "gl45-cts.tessellation_shader.vertex_spacing",
-                               "gl45-cts.tessellation_shader.vertex_ordering"]
+                               # "gl45-cts.tessellation_shader.vertex_spacing",
+                               # "gl45-cts.tessellation_shader.vertex_ordering"]
 
         exclude_tests = []
         for  a in extra_excludes:
