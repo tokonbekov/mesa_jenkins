@@ -100,7 +100,7 @@
       <!-- only_for_type enforces the prerequisite when type matches
            the value. -->
       <prerequisite name="glescts-test" hardware="bsw,byt,bxt" shard="8" only_for_type="daily"/>
-      <prerequisite name="glescts-test" hardware="g33,g45,ilk,g965,bxt,ivb,snb,kbl" shard="3" only_for_type="daily"/>
+      <prerequisite name="glescts-test" hardware="g33,g45,ilk,g965,ivb,snb,kbl" shard="3" only_for_type="daily"/>
       <prerequisite name="glescts-test"
                     only_for_type="daily"
                     arch="m32"
