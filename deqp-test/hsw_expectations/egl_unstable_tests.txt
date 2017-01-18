@@ -1,2 +1,2 @@
 dEQP-EGL.functional.resize
-dEQP-EGL.functional.sharing.gles2.multithread.simple_egl_server_sync
+dEQP-EGL.functional.sharing.gles2.multithread
