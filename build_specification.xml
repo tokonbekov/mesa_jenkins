@@ -518,6 +518,8 @@
       <crucible branch="janesma/13_0_jenkins"/>
       <shaderc branch="janesma/13_0_jenkins"/>
       <glslang branch="janesma/13_0_jenkins"/>
+      <glcts branch="a2ef648"/>
+      <cts branch="416ccc5"/>
     </branch>
 
     <branch name="mesa_17.0" project="all-test-vulkan">
@@ -525,6 +527,8 @@
       <piglit branch="9861294"/>
       <deqp branch="89eedc1"/>
       <vulkancts branch="704ed05"/>
+      <glcts branch="a2ef648"/>
+      <cts branch="416ccc5"/>
       <crucible branch="c747219"/>
       <shaderc branch="4fa3150"/>
       <glslang branch="33dadd1"/>
