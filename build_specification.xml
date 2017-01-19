@@ -520,6 +520,16 @@
       <glslang branch="janesma/13_0_jenkins"/>
     </branch>
 
+    <branch name="mesa_17.0" project="all-test-vulkan">
+      <mesa branch="origin/17.0"/>
+      <piglit branch="9861294"/>
+      <deqp branch="89eedc1"/>
+      <vulkancts branch="704ed05"/>
+      <crucible branch="c747219"/>
+      <shaderc branch="4fa3150"/>
+      <glslang branch="33dadd1"/>
+    </branch>
+
     <branch name="vulkancts" project="vulkancts-full">
       <mesa/>
       <vulkancts branch="origin/vulkan-cts-1.0.1"/>
