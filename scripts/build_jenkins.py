@@ -103,6 +103,18 @@ def collate_tests(result_path, out_test_dir, make_tar=False):
     bs.run_batch_command(["xz", "-9", out_test_dir + "/test/results.tar"])
     os.chdir(save_dir)
 
+    tl = bs.TestLister(out_test_dir + "/test")
+    tests = tl.Tests()
+    if tests:
+        with open("test_summary.txt", "w") as fh:
+            for atest in tests:
+                atest.PrettyPrint(fh)
+            fh.flush()
+            # end users report that sometimes the summary is empty
+            os.fsync(fh.fileno())
+            fh.close()
+        time.sleep(10)
+
 def main():
     # reuse the options from the gasket
     o = bs.Options([sys.argv[0]])
@@ -207,16 +219,6 @@ def main():
         jen.build_all(depGraph, branch=branch)
     finally:
         collate_tests(result_path, out_test_dir, make_tar=args.tar)
-        tl = bs.TestLister(out_test_dir + "/test")
-        tests = tl.Tests()
-        if tests:
-            with open("test_summary.txt", "w") as fh:
-                for atest in tests:
-                    atest.PrettyPrint(fh)
-                fh.flush()
-                # end users report that sometimes the summary is empty
-                os.fsync(fh.fileno())
-            time.sleep(10)
 
 if __name__=="__main__":
     try:
