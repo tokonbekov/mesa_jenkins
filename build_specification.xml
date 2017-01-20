@@ -770,6 +770,10 @@
       <mesa branch="chadv/jenkins"/>
     </branch>
 
+    <branch name="lfrb" project="test-single-arch-vulkan">
+      <mesa branch="lfrb/jenkins"/>
+    </branch>
+
   </branches>
 
 </build_specification>
