@@ -96,7 +96,6 @@
 
     <project name="glescts-full">
       <prerequisite name="glescts-test" hardware="skl,bdw" shard="5"/>
-      <prerequisite name="glescts-test" hardware="hsw" shard="4"/>
       <!-- only_for_type enforces the prerequisite when type matches
            the value. -->
       <prerequisite name="glescts-test" hardware="bsw,byt,bxt" shard="8" only_for_type="daily"/>
@@ -226,7 +225,7 @@
     </project>
 
     <project name="deqp-full">
-      <prerequisite name="deqp-test" hardware="hsw,skl,kbl,bdw"/>
+      <prerequisite name="deqp-test" hardware="skl,kbl,bdw"/>
       <prerequisite name="deqp-test"
                     only_for_type="daily"
                     hardware="snb,byt,bsw,ivb,bxt"/>
@@ -237,7 +236,7 @@
     </project>
 
     <project name="cts-full">
-      <prerequisite name="cts-test" hardware="hsw,bdw,skl" arch="m64"/>
+      <prerequisite name="cts-test" hardware="bdw,skl" arch="m64"/>
       <prerequisite name="cts-test" only_for_type="daily" hardware="bsw,bxt_quad,kbl" arch="m64"/>
     </project>
 
