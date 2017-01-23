@@ -568,7 +568,9 @@ class PiglitTester(object):
             # 93355
             exclude_tests = exclude_tests + ["ext_framebuffer_multisample.accuracy",
                                              # TODO: bug
-                                             "arb_buffer_storage.bufferstorage-persistent"]
+                                             "arb_buffer_storage.bufferstorage-persistent",
+                                             # bug 99509
+                                             "arb_shader_image_load_store.qualifiers"]
             
         if "ivb" in hardware or "bxt" in hardware:
             # bug 96907
