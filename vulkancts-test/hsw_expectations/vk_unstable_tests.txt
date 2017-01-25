@@ -1,3 +1,4 @@
 dEQP-VK.api.command_buffers
 dEQP-VK.wsi
 dEQP-VK.synchronization
+dEQP-VK.api.info.device.extensions
