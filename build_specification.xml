@@ -147,7 +147,6 @@
              bisect_arch="m64">
       <prerequisite name="crucible" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
-      <prerequisite name="piglit" hardware="builder"/>
     </project>
 
     <project name="vulkancts-test" src_dir="vulkancts"
