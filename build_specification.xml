@@ -459,7 +459,7 @@
     </crucible>
 
     <vulkancts repo="git@gitlab.khronos.org:Tracker/vulkancts.git"
-               branch="origin/vulkan-cts-1.0.1">
+               branch="origin/vulkan-cts-1.0.2">
     </vulkancts>
     <spirvtools repo="ssh://git@gitlab.khronos.org/spirv/spirv-tools.git"/>
     <spirvheaders repo="git://github.com/KhronosGroup/SPIRV-Headers"/>
