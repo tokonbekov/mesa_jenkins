@@ -4,3 +4,6 @@ dEQP-VK.wsi.xlib.swapchain
 dEQP-VK.wsi.xcb.swapchain
 dEQP-VK.wsi.xcb.surface
 dEQP-VK.synchronization
+dEQP-VK.memory.pipeline_barrier
+dEQP-VK.pipeline.multisample.sampled_image
+dEQP-VK.memory.requirements.image
