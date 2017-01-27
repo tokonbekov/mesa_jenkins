@@ -1,5 +1,7 @@
 dEQP-VK.memory.mapping.random
-dEQP-VK.api
-dEQP-VK.wsi
+dEQP-VK.wsi.xlib.surface
+dEQP-VK.wsi.xlib.swapchain
+dEQP-VK.wsi.xcb.swapchain
+dEQP-VK.wsi.xcb.surface
 dEQP-VK.glsl.derivate.dfdxcoarse.texture.msaa4.vec2_highp
 dEQP-VK.glsl.derivate.fwidth.texture.msaa4.vec2_highp

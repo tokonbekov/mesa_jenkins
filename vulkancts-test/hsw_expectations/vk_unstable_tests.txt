@@ -1,5 +1,6 @@
 dEQP-VK.api.command_buffers
-dEQP-VK.wsi
+dEQP-VK.wsi.xlib.surface
+dEQP-VK.wsi.xlib.swapchain
+dEQP-VK.wsi.xcb.swapchain
+dEQP-VK.wsi.xcb.surface
 dEQP-VK.synchronization
-dEQP-VK.api.info.device.extensions
-dEQP-VK.api.info.instance.extensions
