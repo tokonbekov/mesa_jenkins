@@ -34,6 +34,14 @@ class VulkanCtsBuilder(object):
             bs.rmtree(spirvtools)
         if not os.path.exists(spirvtools):
             os.symlink("../../../spirvtools", spirvtools)
+        spirvheaders_dir = self._src_dir + "/external/spirv-headers"
+        if not os.path.exists(spirvheaders_dir):
+            os.makedirs(spirvheaders_dir)
+        spirvheaders = spirvheaders_dir + "/src"
+        if not os.path.islink(spirvheaders):
+            bs.rmtree(spirvheaders)
+        if not os.path.exists(spirvheaders):
+            os.symlink("../../../spirvheaders", spirvheaders)
         glslang = self._src_dir + "/external/glslang/src"
         if not os.path.islink(glslang):
             bs.rmtree(glslang)
