@@ -204,7 +204,7 @@ class DeqpTrie:
                     self._result[test] = "Pass"
                 elif self._result[test] == "Fail":
                     out_txt = ""
-                    for a_text in t.findall("./Text"):
+                    for a_text in t.findall(".//Text"):
                         out_txt += a_text.text + "\n"
                     self._stdout[test] = out_txt
                 # get the test duration value
