@@ -529,7 +529,7 @@
 
     <branch name="vulkancts" project="vulkancts-full">
       <mesa/>
-      <vulkancts branch="origin/vulkan-cts-1.0.1"/>
+      <vulkancts branch="origin/vulkan-cts-1.0.2"/>
       <crucible/>
       <shaderc/>
       <glslang/>
@@ -541,12 +541,12 @@
     
     <branch name="bwidawsk_vulkan" project="vulkancts-full">
       <mesa branch="vulkan/bwidawsk"/>
-      <vulkancts branch="origin/vulkan-cts-1.0.1" trigger="false"/>
+      <vulkancts branch="origin/vulkan-cts-1.0.2" trigger="false"/>
     </branch>
 
     <branch name="jekstrand" project="vulkan-and-gl">
       <mesa branch="jekstrand/jenkins"/>
-      <vulkancts branch="origin/vulkan-cts-1.0.1" trigger="false"/>
+      <vulkancts branch="origin/vulkan-cts-1.0.2" trigger="false"/>
     </branch>
 
     <branch name="jekstrand_gl" project="test-single-arch">
@@ -555,17 +555,17 @@
 
     <branch name="jekstrand_vulkan" project="vulkancts-full">
       <mesa branch="jekstrand/jenkins_vulkan"/>
-      <vulkancts branch="origin/vulkan-cts-1.0.1" trigger="false"/>
+      <vulkancts branch="origin/vulkan-cts-1.0.2" trigger="false"/>
     </branch>
 
     <branch name="jljusten_vulkan" project="vulkancts-full">
       <mesa branch="jljusten/vulkan"/>
-      <vulkancts branch="origin/vulkan-cts-1.0.1" trigger="false"/>
+      <vulkancts branch="origin/vulkan-cts-1.0.2" trigger="false"/>
     </branch>
 
     <branch name="chadv_vulkan" project="vulkancts-full">
       <mesa branch="chadv/jenkins_vulkan"/>
-      <vulkancts branch="origin/vulkan-cts-1.0.1" trigger="false"/>
+      <vulkancts branch="origin/vulkan-cts-1.0.2" trigger="false"/>
     </branch>
 
     <branch name="kwg" project="test-single-arch">
@@ -574,7 +574,7 @@
 
     <branch name="kwg_vulkan" project="vulkancts-full">
       <mesa branch="kwg/vkjenkins"/>
-      <vulkancts branch="origin/vulkan-cts-1.0.1" trigger="false"/>
+      <vulkancts branch="origin/vulkan-cts-1.0.2" trigger="false"/>
     </branch>
 
     <branch name="bwidawsk" project="test-single-arch-ben">
@@ -630,7 +630,7 @@
 
     <branch name="curro_vulkan" project="vulkancts-full">
       <mesa branch="curro/jenkins-vk"/>
-      <vulkancts branch="origin/vulkan-cts-1.0.1" trigger="false"/>
+      <vulkancts branch="origin/vulkan-cts-1.0.2" trigger="false"/>
     </branch>
 
     <branch name="aphogat" project="test-single-arch">
@@ -639,7 +639,7 @@
 
     <branch name="aphogat_vulkan" project="vulkancts-full">
       <mesa branch="aphogat/jenkins-vulkan"/>
-      <vulkancts branch="origin/vulkan-cts-1.0.1" trigger="false"/>
+      <vulkancts branch="origin/vulkan-cts-1.0.2" trigger="false"/>
     </branch>
 
     <branch name="tpohjola" project="test-single-arch">
@@ -648,7 +648,7 @@
 
     <branch name="nchery_vulkan" project="vulkancts-full">
       <mesa branch="nchery/jenkins_vulkan"/>
-      <vulkancts branch="origin/vulkan-cts-1.0.1" trigger="false"/>
+      <vulkancts branch="origin/vulkan-cts-1.0.2" trigger="false"/>
     </branch>
 
     <branch name="nchery" project="test-single-arch">
@@ -721,7 +721,7 @@
 
     <branch name="djdeath_vulkan" project="vulkancts-full">
       <mesa branch="djdeath/jenkins_vulkan"/>
-      <vulkancts branch="origin/vulkan-cts-1.0.1" trigger="false"/>
+      <vulkancts branch="origin/vulkan-cts-1.0.2" trigger="false"/>
     </branch>
 
     <branch name="djdeath" project="test-single-arch">
