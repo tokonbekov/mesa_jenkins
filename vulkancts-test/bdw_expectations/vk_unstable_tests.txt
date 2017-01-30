@@ -6,8 +6,6 @@ dEQP-VK.wsi.xlib.surface
 dEQP-VK.wsi.xlib.swapchain
 dEQP-VK.wsi.xcb.swapchain
 dEQP-VK.wsi.xcb.surface
-dEQP-VK.ubo.single_nested_struct_array.per_block_buffer
-dEQP-VK.ubo.single_nested_struct_array.single_buffer
 dEQP-VK.ssbo.layout.random.all_per_block_buffers.22
 dEQP-VK.tessellation.invariance.inner_triangle_set.quads_equal_spacing
 dEQP-VK.api.copy_and_blit.blit_image.all_formats
