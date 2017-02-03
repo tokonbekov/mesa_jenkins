@@ -135,6 +135,22 @@
       <prerequisite name="piglit-cpu-test-2"/>
     </project>
 
+    <project name="piglit-full">
+      <prerequisite name="piglit-test"
+                    hardware="snbgt1,snbgt2,ivbgt1,ivbgt2,hswgt1,hswgt2,hswgt3e,bdwgt3e,sklgt2,sklgt4e,kbl"
+                    arch="m64"/>
+      <prerequisite name="piglit-test"
+                    only_for_type="daily"
+                    hardware="snbgt1,snbgt2,ivbgt1,ivbgt2,hswgt1,hswgt2,hswgt3e,bdwgt3e,sklgt2,sklgt4e,kbl"
+                    arch="m32"/>
+      <prerequisite only_for_type="daily" name="piglit-test" hardware="ilk,bsw,byt,g33,g45,g965,bdwgt2" arch="m64,m32"/>
+      <!-- do not test 32 bit for limited platforms -->
+      <prerequisite only_for_type="daily" name="piglit-test" hardware="bxt,glk" arch="m64"/>
+
+      <prerequisite name="piglit-cpu-test" hardware="fastgpu" arch="m64"/>
+      <prerequisite only_for_type="daily" name="piglit-cpu-test" hardware="fastgpu" arch="m32"/>
+    </project>
+    
     <project name="shaderc"/>
 
     <project name="crucible">
@@ -179,19 +195,8 @@
          dependency relationships. -->
     <project name="all-test">
       <prerequisite name="scons-buildtest" hardware="builder"/>
-      <prerequisite name="piglit-test"
-                    hardware="snbgt1,snbgt2,ivbgt1,ivbgt2,hswgt1,hswgt2,hswgt3e,bdwgt3e,sklgt2,sklgt4e"
-                    arch="m64"/>
-      <prerequisite name="piglit-test"
-                    only_for_type="daily"
-                    hardware="snbgt1,snbgt2,ivbgt1,ivbgt2,hswgt1,hswgt2,hswgt3e,bdwgt3e,sklgt2,sklgt4e"
-                    arch="m32"/>
-      <prerequisite only_for_type="daily" name="piglit-test" hardware="ilk,bsw,byt,g33,g45,g965,bdwgt2" arch="m64,m32"/>
-      <!-- do not test 32 bit for limited platforms -->
-      <prerequisite only_for_type="daily" name="piglit-test" hardware="bxt,kbl,glk" arch="m64"/>
+      <prerequisite name="piglit-full"/>
       <prerequisite name="deqp-full"/>
-      <prerequisite name="piglit-cpu-test" hardware="fastgpu" arch="m64"/>
-      <prerequisite name="piglit-cpu-test" only_for_type="daily" hardware="fastgpu" arch="m32"/>
       <prerequisite name="mesa-buildtest" hardware="builder" arch="m64"/>
       <prerequisite name="cts-full"/>
       <prerequisite name="glescts-full"/>
