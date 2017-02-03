@@ -482,6 +482,12 @@ class PiglitTester(object):
         # intermittent on at least snbgt1
         exclude_tests = ["glsl-1_10.execution.vs-vec2-main-return"]
 
+        if o.arch == "m32":
+            # https://bugs.freedesktop.org/show_bug.cgi?id=93542
+            # It's not worth bisecting m32 piglit just for this test.
+            exclude_tests += ["spec.arb_tessellation_shader.execution.tess_with_geometry",
+                              "spec.arb_tessellation_shader.execution.quads"]
+
 
         # broken egl tests require X, and intermittently pass when run concurrently
         exclude_tests += ["spec.egl.1_4.eglquerysurface.egl",
