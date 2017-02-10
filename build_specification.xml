@@ -696,6 +696,8 @@
       <crucible branch="janesma/13_0_jenkins" trigger="false"/>
       <shaderc branch="janesma/13_0_jenkins" trigger="false"/>
       <glslang branch="janesma/13_0_jenkins" trigger="false"/>
+      <glcts branch="a2ef648" trigger="false"/>
+      <cts branch="416ccc5" trigger="false"/>
     </branch>
 
     <branch name="evelikov_17" project="all-test">
