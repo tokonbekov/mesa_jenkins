@@ -1,2 +1,3 @@
 dEQP-EGL.functional.resize
 dEQP-EGL.functional.sharing.gles2.multithread
+dEQP-EGL.functional.query_context.simple.query_api

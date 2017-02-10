@@ -91,6 +91,8 @@ class DeqpLister(object):
         if "13.0" in self.version:
             # Tapani's egl fixes not merged into 13.0 branch
             unsupported.append("dEQP-EGL")
+            if "hsw" in self.o.hardware:
+                unsupported += ["dEQP-GLES31.functional.debug.negative_coverage"]
 
         if "gles2" in self.binary:
             unsupported += ["dEQP-GLES3", "dEQP-GLES31", "dEQP-EGL"]
