@@ -430,6 +430,7 @@
 
     <deqp repo="git://github.com/janesma/deqp.git"
           branch="origin/nougat-cts-dev">
+      <remote name="aosp" repo="https://android.googlesource.com/platform/external/deqp"/>
     </deqp>
 
     <cts repo="ssh://majanes@git-amr-2.devtools.intel.com:29418/otc_gen_graphics-khronos-glconform.git"
@@ -489,7 +490,7 @@
       <piglit/>
       <waffle/>
       <drm/>
-      <deqp/>
+      <deqp branch="aosp/master"/>
       <cts branch="origin/updated-cts"/>
       <glcts/>
 
@@ -502,16 +503,10 @@
       <prerelease trigger="false"/>
     </branch>
 
-    <branch name="mesa_11.2" project="all-test">
-      <mesa branch="origin/11.2"/>
-      <piglit branch="janesma/11_2_jenkins" trigger="false"/>
-      <deqp branch="origin/chadv"/>
-    </branch>
-
     <branch name="mesa_13.0" project="all-test-vulkan">
       <mesa branch="origin/13.0"/>
       <piglit branch="janesma/13_0_jenkins"/>
-      <deqp branch="origin/13_0_jenkins"/>
+      <deqp branch="06811e1c449e303d86f5eba28699ef238dfd78f5"/>
       <vulkancts branch="7424a79323977f2b3b00609765e0d98783ac7abb"/>
       <crucible branch="janesma/13_0_jenkins"/>
       <shaderc branch="janesma/13_0_jenkins"/>
@@ -523,7 +518,7 @@
     <branch name="mesa_17.0" project="all-test-vulkan">
       <mesa branch="origin/17.0"/>
       <piglit branch="9861294"/>
-      <deqp branch="89eedc1"/>
+      <deqp branch="06811e1c449e303d86f5eba28699ef238dfd78f5"/>
       <vulkancts branch="704ed05"/>
       <glcts branch="a2ef648"/>
       <cts branch="416ccc5"/>
