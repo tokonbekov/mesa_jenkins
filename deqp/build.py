@@ -25,6 +25,14 @@ class DeqpBuilder(bs.CMakeBuilder):
                 bs.rmtree(glslang)
             if not os.path.exists(glslang):
                 os.symlink("../../../glslang", glslang)
+            spirvheaders_dir = self._src_dir + "/external/spirv-headers"
+            if not os.path.exists(spirvheaders_dir):
+                os.makedirs(spirvheaders_dir)
+            spirvheaders = spirvheaders_dir + "/src"
+            if not os.path.islink(spirvheaders):
+                bs.rmtree(spirvheaders)
+            if not os.path.exists(spirvheaders):
+                os.symlink("../../../spirvheaders", spirvheaders)
 
             # change spirv-tools and glslang to use the commits specified
             # in the vulkancts sources
