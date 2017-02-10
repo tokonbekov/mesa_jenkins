@@ -2,6 +2,7 @@
 import bz2
 import glob
 import os
+import datetime
 import xml.etree.ElementTree as ET
 import xml.sax.saxutils as saxutils
 
@@ -205,7 +206,9 @@ class DeqpTrie:
                 elif self._result[test] == "Fail":
                     out_txt = ""
                     for a_text in t.findall(".//Text"):
-                        out_txt += a_text.text + "\n"
+                        # text content can be None
+                        if a_text.text:
+                            out_txt += a_text.text + "\n"
                     self._stdout[test] = out_txt
                 # get the test duration value
                 for number in t.findall("./Number"):
@@ -565,7 +568,7 @@ class DeqpTester:
                         unfinished_tests.write_caselist(fh)
                     commands +=  ["--deqp-caselist-file=" + case_fn]
                 if os.path.exists(out_fn):
-                    os.remove(out_fn)
+                    os.rename(out_fn, out_fn + "." + datetime.datetime.now().isoformat())
                 proc = subprocess.Popen(commands,
                                         stdout=out_fh,
                                         stderr=out_fh,
