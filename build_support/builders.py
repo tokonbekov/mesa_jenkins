@@ -591,8 +591,7 @@ class PiglitTester(object):
             exclude_tests += ["opengl.1_1.getteximage-formats"]
 
         if "glk" in hardware:
-            exclude_tests += ["arb_gpu_shader5.arb_gpu_shader5-emitstreamvertex_nodraw",
-                              "ext_framebuffer_multisample.accuracy"]
+            exclude_tests += ["ext_framebuffer_multisample.accuracy"]
 
         exclude_cmd = []
         for test in exclude_tests:
