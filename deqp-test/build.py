@@ -103,6 +103,8 @@ class DeqpLister(object):
         elif "egl" in self.binary:
             unsupported += ["dEQP-GLES2", "dEQP-GLES3", "dEQP-GLES31"]
 
+        unsupported += ["dEQP-EGL.functional.robustness.reset_context.shaders.infinite_loop"]
+
         all_tests.filter(unsupported)
         
 class DeqpBuilder(object):
