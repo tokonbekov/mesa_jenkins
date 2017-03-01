@@ -103,7 +103,11 @@ class DeqpLister(object):
         elif "egl" in self.binary:
             unsupported += ["dEQP-GLES2", "dEQP-GLES3", "dEQP-GLES31"]
 
-        unsupported += ["dEQP-EGL.functional.robustness.reset_context.shaders.infinite_loop"]
+        unsupported += ["dEQP-EGL.functional.robustness.reset_context.shaders.infinite_loop",
+                        "dEQP-EGL.functional.render.multi_thread.gles3.rgb888_window",
+                        "dEQP-EGL.functional.render.multi_thread.gles3.rgba8888_window",
+                        "dEQP-EGL.functional.render.multi_thread.gles2_gles3.rgba8888_window",
+                        "dEQP-EGL.functional.robustness.negative_context.invalid_robust_shared_context_creation"]
 
         all_tests.filter(unsupported)
         
