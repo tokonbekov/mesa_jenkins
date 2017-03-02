@@ -55,6 +55,7 @@
             <a class="string-array">
               <string>test-single-arch</string>
               <string>all-test</string>
+              <string>piglit-full</string>
               <string>piglit-test</string>
               <string>piglit-cpu-test</string>
               <string>clean-all-workspaces</string>
@@ -197,7 +198,7 @@ python -u scripts/build_jenkins.py --type=${type} --config=${config} --rebuild=$
   </builders>
   <publishers>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>summary.xml</artifacts>
+      <artifacts>summary.xml,results/test/piglit*xml</artifacts>
       <allowEmptyArchive>false</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>

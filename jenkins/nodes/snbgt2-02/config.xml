@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <slave>
   <name>snbgt2-02</name>
-  <description></description>
+  <description>bay 1 center bottom laptop shelf</description>
   <remoteFS>/home/jenkins</remoteFS>
   <numExecutors>1</numExecutors>
   <mode>NORMAL</mode>

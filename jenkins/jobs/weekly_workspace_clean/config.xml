@@ -51,8 +51,6 @@
       <command>rm -rf results/test
 rm -rf summary.xml
 rm -rf test_summary.txt
-python -u scripts/checkout_revision_spec.py
-python -u clean-server/build.py
 python -u scripts/build_jenkins.py --project=clean-all-workspaces
 </command>
     </hudson.tasks.Shell>

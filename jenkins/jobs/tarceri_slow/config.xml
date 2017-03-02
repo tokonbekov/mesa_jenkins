@@ -65,7 +65,7 @@
 rm -rf summary.xml
 rm -rf test_summary.txt
 python -u scripts/checkout_revision_spec.py
-python -u scripts/build_jenkins.py --branch=tarceri_slow --type=percheckin --config=debug --project=test-single-arch-ben</command>
+python -u scripts/build_jenkins.py --branch=tarceri_slow --type=percheckin --config=debug --project=test-single-arch-ben --tar</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>

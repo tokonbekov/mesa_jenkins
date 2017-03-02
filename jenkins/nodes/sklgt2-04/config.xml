@@ -13,7 +13,7 @@
     <maxNumRetries>0</maxNumRetries>
     <retryWaitTime>0</retryWaitTime>
   </launcher>
-  <label>sklgt2 skl fastgpu</label>
+  <label>sklgt2 skl</label>
   <nodeProperties/>
   <userId>majanes</userId>
 </slave>

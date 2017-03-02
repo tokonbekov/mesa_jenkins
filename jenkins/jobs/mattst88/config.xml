@@ -80,7 +80,7 @@
 rm -rf summary.xml
 rm -rf test_summary.txt
 python -u scripts/checkout_revision_spec.py
-python -u scripts/build_jenkins.py --branch=mattst88 --type=${type} --config=debug --rebuild=${rebuild} --revision=&quot;$revision&quot;  --project=test-single-arch --arch=m32</command>
+python -u scripts/build_jenkins.py --branch=mattst88 --type=${type} --config=debug --rebuild=${rebuild} --revision=&quot;$revision&quot; </command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>

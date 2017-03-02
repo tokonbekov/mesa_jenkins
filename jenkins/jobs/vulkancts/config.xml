@@ -42,10 +42,8 @@
     <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.4">
       <maxConcurrentPerNode>0</maxConcurrentPerNode>
       <maxConcurrentTotal>0</maxConcurrentTotal>
-      <categories/>
       <throttleEnabled>false</throttleEnabled>
       <throttleOption>project</throttleOption>
-      <configVersion>1</configVersion>
     </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
     <jenkins.advancedqueue.jobinclusion.strategy.JobInclusionJobProperty plugin="PrioritySorter@3.2">
       <useJobGroup>false</useJobGroup>
@@ -87,7 +85,7 @@ python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=${type} --config=
   </builders>
   <publishers>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>summary.xml</artifacts>
+      <artifacts>summary.xml,results/test/piglit*xml</artifacts>
       <allowEmptyArchive>false</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>

@@ -2,14 +2,19 @@
 <project>
   <actions/>
   <description></description>
-  <logRotator class="hudson.tasks.LogRotator">
-    <daysToKeep>-1</daysToKeep>
-    <numToKeep>20</numToKeep>
-    <artifactDaysToKeep>-1</artifactDaysToKeep>
-    <artifactNumToKeep>-1</artifactNumToKeep>
-  </logRotator>
   <keepDependencies>false</keepDependencies>
   <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>20</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.24">
+      <autoRebuild>false</autoRebuild>
+    </com.sonyericsson.rebuild.RebuildSettings>
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
@@ -17,16 +22,8 @@
           <description>this parameter is set to the relevant commit when builds are triggered</description>
           <defaultValue>manually_started</defaultValue>
         </hudson.model.StringParameterDefinition>
-        <hudson.model.StringParameterDefinition>
-          <name>type</name>
-          <description>developer/daily/percheckin/release type specified to the test harnesses</description>
-          <defaultValue>developer</defaultValue>
-        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
-    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.24">
-      <autoRebuild>false</autoRebuild>
-    </com.sonyericsson.rebuild.RebuildSettings>
     <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.8.4">
       <maxConcurrentPerNode>0</maxConcurrentPerNode>
       <maxConcurrentTotal>0</maxConcurrentTotal>
@@ -42,7 +39,7 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>git://otc-mesa-ci.local/git/mesa_jenkins/origin</url>
+        <url>git://github.com/janesma/mesa_jenkins</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -68,7 +65,7 @@
 rm -rf summary.xml
 rm -rf test_summary.txt
 python -u scripts/checkout_revision_spec.py
-python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=${type} --config=debug</command>
+python -u scripts/build_jenkins.py --branch=chadv --type=percheckin --config=debug --tar</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
@@ -78,6 +75,7 @@ python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=${type} --config=
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>
       <defaultExcludes>true</defaultExcludes>
+      <caseSensitive>true</caseSensitive>
     </hudson.tasks.ArtifactArchiver>
     <hudson.plugins.summary__report.ACIPluginPublisher plugin="summary_report@1.13">
       <name>summary.xml</name>
@@ -102,7 +100,7 @@ python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=${type} --config=
       </types>
       <thresholds>
         <org.jenkinsci.plugins.xunit.threshold.FailedThreshold>
-          <unstableThreshold>1</unstableThreshold>
+          <unstableThreshold>0</unstableThreshold>
           <unstableNewThreshold></unstableNewThreshold>
           <failureThreshold></failureThreshold>
           <failureNewThreshold></failureNewThreshold>
@@ -119,6 +117,49 @@ python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=${type} --config=
         <testTimeMargin>3000</testTimeMargin>
       </extraConfiguration>
     </xunit>
+    <hudson.plugins.emailext.ExtendedEmailPublisher plugin="email-ext@2.40.2">
+      <recipientList>chadversary@chromium.org</recipientList>
+      <configuredTriggers>
+        <hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
+          <email>
+            <recipientList></recipientList>
+            <subject>$PROJECT_DEFAULT_SUBJECT</subject>
+            <body>$PROJECT_DEFAULT_CONTENT</body>
+            <recipientProviders>
+              <hudson.plugins.emailext.plugins.recipients.ListRecipientProvider/>
+            </recipientProviders>
+            <attachmentsPattern>test_summary.txt,results/test/results.tgz,results/test/results.tar.xz</attachmentsPattern>
+            <attachBuildLog>false</attachBuildLog>
+            <compressBuildLog>false</compressBuildLog>
+            <replyTo>$PROJECT_DEFAULT_REPLYTO</replyTo>
+            <contentType>project</contentType>
+          </email>
+        </hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
+        <hudson.plugins.emailext.plugins.trigger.PreBuildTrigger>
+          <email>
+            <recipientList>chadversary@chromium.org</recipientList>
+            <subject>$PROJECT_DEFAULT_SUBJECT</subject>
+            <body>$PROJECT_DEFAULT_CONTENT</body>
+            <recipientProviders/>
+            <attachmentsPattern></attachmentsPattern>
+            <attachBuildLog>false</attachBuildLog>
+            <compressBuildLog>false</compressBuildLog>
+            <replyTo>$PROJECT_DEFAULT_REPLYTO</replyTo>
+            <contentType>project</contentType>
+          </email>
+        </hudson.plugins.emailext.plugins.trigger.PreBuildTrigger>
+      </configuredTriggers>
+      <contentType>default</contentType>
+      <defaultSubject>$DEFAULT_SUBJECT</defaultSubject>
+      <defaultContent>$DEFAULT_CONTENT</defaultContent>
+      <attachmentsPattern></attachmentsPattern>
+      <presendScript>$DEFAULT_PRESEND_SCRIPT</presendScript>
+      <attachBuildLog>false</attachBuildLog>
+      <compressBuildLog>false</compressBuildLog>
+      <replyTo>$DEFAULT_REPLYTO</replyTo>
+      <saveOutput>false</saveOutput>
+      <disabled>false</disabled>
+    </hudson.plugins.emailext.ExtendedEmailPublisher>
   </publishers>
   <buildWrappers>
     <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.6"/>

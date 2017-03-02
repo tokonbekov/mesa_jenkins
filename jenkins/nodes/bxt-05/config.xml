@@ -13,7 +13,7 @@
     <maxNumRetries>0</maxNumRetries>
     <retryWaitTime>0</retryWaitTime>
   </launcher>
-  <label>bxt</label>
+  <label>bxt bxt_quad</label>
   <nodeProperties/>
   <userId>majanes</userId>
 </slave>

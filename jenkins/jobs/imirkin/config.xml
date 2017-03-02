@@ -65,7 +65,7 @@
 rm -rf summary.xml
 rm -rf test_summary.txt
 python -u scripts/checkout_revision_spec.py
-python -u scripts/build_jenkins.py --branch=imirkin --type=percheckin --config=debug --project=test-single-arch</command>
+python -u scripts/build_jenkins.py --branch=imirkin --type=percheckin --config=debug --project=test-single-arch --tar</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>

@@ -13,7 +13,7 @@
     <maxNumRetries>0</maxNumRetries>
     <retryWaitTime>0</retryWaitTime>
   </launcher>
-  <label>snbgt2-test snb-test</label>
+  <label>snbgt2 snb</label>
   <nodeProperties/>
   <userId>dcbaker</userId>
 </slave>

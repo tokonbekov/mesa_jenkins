@@ -1,8 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <slave>
-  <temporaryOfflineCause class="hudson.slaves.OfflineCause$LaunchFailed">
-    <timestamp>1482879509635</timestamp>
-  </temporaryOfflineCause>
   <name>g965-04</name>
   <description></description>
   <remoteFS>/home/jenkins</remoteFS>
@@ -10,7 +7,7 @@
   <mode>NORMAL</mode>
   <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
   <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
-    <host>otc-gfxtest-965-04.local</host>
+    <host>otc-gfxtest-g965-04.local</host>
     <port>22</port>
     <credentialsId>6d0fe36e-af28-4610-b037-9923e7ee9596</credentialsId>
     <maxNumRetries>0</maxNumRetries>

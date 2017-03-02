@@ -125,7 +125,7 @@
         <string>bwidawsk</string>
         <string>bwidawsk_fast</string>
         <string>bwidawsk_vulkan</string>
-        <string>chadv_vulkan</string>
+        <string>chadv</string>
         <string>curro</string>
         <string>curro_vulkan</string>
         <string>dcbaker</string>
@@ -134,8 +134,8 @@
         <string>djdeath_vulkan</string>
         <string>elima</string>
         <string>evelikov</string>
-        <string>evelikov_12</string>
         <string>evelikov_13</string>
+        <string>evelikov_17</string>
         <string>ickle</string>
         <string>idr</string>
         <string>igalia</string>
@@ -152,8 +152,10 @@
         <string>kwg</string>
         <string>kwg_vulkan</string>
         <string>ldeks</string>
+        <string>lfrb</string>
         <string>majanes</string>
         <string>mattst88</string>
+        <string>mattst88_vulkan</string>
         <string>mesa_custom</string>
         <string>mperes</string>
         <string>nchery</string>
@@ -186,10 +188,10 @@
       <properties class="hudson.model.View$PropertyList"/>
       <jobNames>
         <comparator class="hudson.util.CaseInsensitiveComparator" reference="../../../listView/jobNames/comparator"/>
-        <string>mesa_12.0</string>
-        <string>mesa_12.0_daily</string>
         <string>mesa_13.0</string>
         <string>mesa_13.0_daily</string>
+        <string>mesa_17.0</string>
+        <string>mesa_17.0_daily</string>
         <string>mesa_custom</string>
         <string>mesa_master</string>
         <string>mesa_master_daily</string>
