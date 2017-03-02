@@ -44,6 +44,11 @@ def collate_tests(result_path, out_test_dir, make_tar=False):
            out_test_dir]
     bs.run_batch_command(cmd)
 
+    # Junit files must have a recent time stamp or else Jenkins will
+    # not parse them.
+    for a_file in os.listdir(out_test_dir + "/test"):
+        os.utime(out_test_dir + "/test/" + a_file, None)
+
     if not make_tar:
         return
 
