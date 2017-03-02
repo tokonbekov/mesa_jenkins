@@ -205,15 +205,13 @@ rm -rf /tmp/build_root
         </hudson.plugins.postbuildtask.TaskProperties>
       </tasks>
     </hudson.plugins.postbuildtask.PostbuildTask>
+    <hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.6">
+      <testResults>results/test/piglit*xml</testResults>
+      <keepLongStdio>true</keepLongStdio>
+      <healthScaleFactor>1.0</healthScaleFactor>
+    </hudson.tasks.junit.JUnitResultArchiver>
     <xunit plugin="xunit@1.95">
       <types>
-        <JUnitType>
-          <pattern>test/piglit*xml</pattern>
-          <skipNoTestFiles>true</skipNoTestFiles>
-          <failIfNotNew>false</failIfNotNew>
-          <deleteOutputFiles>true</deleteOutputFiles>
-          <stopProcessingIfError>true</stopProcessingIfError>
-        </JUnitType>
         <GoogleTestType>
           <pattern>test/gtest*xml</pattern>
           <skipNoTestFiles>true</skipNoTestFiles>
