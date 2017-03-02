@@ -465,7 +465,8 @@
     </crucible>
 
     <vulkancts repo="git@gitlab.khronos.org:Tracker/vulkancts.git"
-               branch="origin/vulkan-cts-1.0.2">
+               branch="khronos/vulkan-cts-1.0.2">
+      <remote name="khronos" repo="git@gitlab.khronos.org:Tracker/vk-gl-cts.git"/>
     </vulkancts>
     <spirvtools repo="ssh://git@gitlab.khronos.org/spirv/spirv-tools.git"/>
     <spirvheaders repo="git://github.com/KhronosGroup/SPIRV-Headers"/>
@@ -529,7 +530,7 @@
 
     <branch name="vulkancts" project="vulkancts-full">
       <mesa/>
-      <vulkancts branch="origin/vulkan-cts-1.0.2"/>
+      <vulkancts branch="khronos/vulkan-cts-1.0.2"/>
       <crucible/>
       <shaderc/>
       <glslang/>
