@@ -386,8 +386,6 @@
       <remote name="nchery" repo="git://people.freedesktop.org/~nchery/mesa"/>
       <remote name="tarceri" repo="git://github.com/tarceri/Mesa_arrays_of_arrays"/>
       <remote name="evelikov" repo="git://github.com/evelikov/mesa"/>
-      <remote name="juhapekka" repo="git://github.com/juhapekka/juha_mesaexperimentals"/>
-      <remote name="airlied" repo="git://people.freedesktop.org/~airlied/mesa"/>
       <remote name="pnmanolova" repo="git://github.com/pnmanolova/mesa"/>
       <remote name="imirkin" repo="git://github.com/imirkin/mesa"/>
       <remote name="djdeath" repo="git://github.com/djdeath/mesa"/>
@@ -408,12 +406,10 @@
            not trigger builds unnecessarily -->
       <remote name="dcbaker" repo="git://github.com/dcbaker/piglit"/>
       <remote name="janesma" repo="git://github.com/janesma/piglit"/>
-      <remote name="bwidawsk" repo="git://people.freedesktop.org/~bwidawsk/piglit"/>
       <remote name="nchery" repo="git://people.freedesktop.org/~nchery/piglit"/>
       <remote name="chadv" repo="git://git.kiwitree.net/~chadv/piglit"/>
       <remote name="curro" repo="git://people.freedesktop.org/~currojerez/piglit"/>
       <remote name="idr" repo="git://people.freedesktop.org/~idr/piglit"/>
-      <remote name="bpeel" repo="git://github.com/bpeel/piglit"/>
       <remote name="kwg" repo="git://people.freedesktop.org/~kwg/piglit"/>
       <remote name="jljusten" repo="git://people.freedesktop.org/~jljusten/piglit"/>
       <remote name="mattst88" repo="git://people.freedesktop.org/~mattst88/piglit"/>
@@ -545,11 +541,6 @@
       <vulkancts branch="origin/vulkan-cts-1.0.2" trigger="false"/>
     </branch>
 
-    <branch name="jekstrand" project="vulkan-and-gl">
-      <mesa branch="jekstrand/jenkins"/>
-      <vulkancts branch="origin/vulkan-cts-1.0.2" trigger="false"/>
-    </branch>
-
     <branch name="jekstrand_gl" project="test-single-arch">
       <mesa branch="jekstrand/jenkins_gl"/>
     </branch>
@@ -664,20 +655,8 @@
       <mesa branch="cwabbott0/jenkins"/>
     </branch>
 
-    <branch name="bpeel" project="test-single-arch-skl">
-      <mesa branch="bpeel/jenkins"/>
-    </branch>
-    
-    <branch name="ickle" project="test-single-arch">
-      <mesa branch="ickle/jenkins"/>
-    </branch>
-
     <branch name="tarceri" project="test-single-arch-vulkan">
       <mesa branch="tarceri/intel_ci"/>
-    </branch>
-
-    <branch name="airlied" project="test-single-arch">
-      <mesa branch="airlied/jenkins"/>
     </branch>
 
     <branch name="tarceri_slow" project="test-single-arch-ben">
@@ -713,10 +692,6 @@
     </branch>
 
     <branch name="nir_test_clone" project="test-single-arch"/>
-
-    <branch name="juhapekka" project="test-single-arch">
-      <mesa branch="juhapekka/jenkins"/>
-    </branch>
 
     <branch name="pnmanolova" project="test-single-arch">
       <mesa branch="pnmanolova/jenkins"/>
