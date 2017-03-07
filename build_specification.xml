@@ -79,7 +79,7 @@
     </project>
 
     <project name="cts-test"
-             bisect_hardware="bdw,skl,hsw,bsw,bxt_quad,kbl"
+             bisect_hardware="bdw,skl,hsw,bsw,bxt,kbl"
              bisect_arch="m64">
       <prerequisite name="glcts" hardware="builder"/>
       <prerequisite name="piglit" hardware="builder"/>
@@ -242,7 +242,7 @@
 
     <project name="cts-full">
       <prerequisite name="cts-test" hardware="hsw,bdw,skl" arch="m64"/>
-      <prerequisite name="cts-test" only_for_type="daily" hardware="bsw,bxt_quad,kbl" arch="m64"/>
+      <prerequisite name="cts-test" only_for_type="daily" hardware="bsw,bxt,kbl" arch="m64"/>
     </project>
 
     <project name="vulkan-and-gl">
