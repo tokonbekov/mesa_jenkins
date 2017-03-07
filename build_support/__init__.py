@@ -85,7 +85,7 @@ class NullInvoke:
     def set_status(self, *args):
         pass
 
-def build(builder, options=None, time_limit=None):
+def build(builder, options=None, time_limit=None, import_build=True):
 
     if not time_limit:
         time_limit = DefaultTimeout()
@@ -122,7 +122,8 @@ def build(builder, options=None, time_limit=None):
     if options.hardware != "builder" and check_gpu_hang():
         return
 
-    Export().import_build_root()
+    if import_build:
+        Export().import_build_root()
 
     if type(actions) is str:
         actions = [actions]

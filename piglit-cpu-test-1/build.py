@@ -14,10 +14,10 @@ import build_support as bs
 start_time = time.time()
 
 bs.build(bs.PiglitTester(_suite="cpu", device_override="snbgt2"))
-bs.build(bs.PiglitTester(_suite="cpu", device_override="hswgt3"))
-bs.build(bs.PiglitTester(_suite="cpu", device_override="bdwgt2"))
-bs.build(bs.PiglitTester(_suite="cpu", device_override="sklgt3"))
-bs.build(bs.PiglitTester(_suite="cpu", device_override="bsw"))
+bs.build(bs.PiglitTester(_suite="cpu", device_override="hswgt3"), import_build=False)
+bs.build(bs.PiglitTester(_suite="cpu", device_override="bdwgt2"), import_build=False)
+bs.build(bs.PiglitTester(_suite="cpu", device_override="sklgt3"), import_build=False)
+bs.build(bs.PiglitTester(_suite="cpu", device_override="bsw"), import_build=False)
 
 options = bs.Options()
 if (options.result_path):
