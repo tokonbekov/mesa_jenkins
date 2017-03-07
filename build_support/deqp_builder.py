@@ -3,6 +3,7 @@ import bz2
 import glob
 import os
 import datetime
+import subprocess
 import xml.etree.ElementTree as ET
 import xml.sax.saxutils as saxutils
 
@@ -676,9 +677,20 @@ class CtsTestList(object):
 
         save_override = env["MESA_GLES_VERSION_OVERRIDE"]
         env["MESA_GLES_VERSION_OVERRIDE"] = "3.2"
-        cmd = [binary,
-               "--deqp-runmode=xml-caselist"]
-        run_batch_command(cmd, env=env)
+        cmd = [binary, "--deqp-runmode=xml-caselist"]
+
+        # Try to generate the case list up to 5 times, if that fails then just
+        # bail. This is related to a bug in the gles-cts
+        for _ in xrange(5):
+            try:
+                run_batch_command(cmd, env=env, expected_return_code=0)
+            except subprocess.CalledProcessError:
+                continue
+            else:
+                break
+        else:
+            raise RuntimeError('Unable to generate xml-caselist')
+
         env["MESA_GLES_VERSION_OVERRIDE"] = save_override
         all_tests = DeqpTrie()
         for caselist in glob.glob("*.xml"):
