@@ -2,6 +2,7 @@
 import bz2
 import glob
 import os
+import time
 import datetime
 import subprocess
 import xml.etree.ElementTree as ET
@@ -685,6 +686,7 @@ class CtsTestList(object):
             try:
                 run_batch_command(cmd, env=env, expected_return_code=0)
             except subprocess.CalledProcessError:
+                time.sleep(10)
                 continue
             else:
                 break
