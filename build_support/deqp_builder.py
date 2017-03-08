@@ -679,9 +679,9 @@ class CtsTestList(object):
         env["MESA_GLES_VERSION_OVERRIDE"] = "3.2"
         cmd = [binary, "--deqp-runmode=xml-caselist"]
 
-        # Try to generate the case list up to 5 times, if that fails then just
-        # bail. This is related to a bug in the gles-cts
-        for _ in xrange(5):
+        # Try to generate the case list a lot, if that fails then just bail.
+        # This is related to a bug in the gles-cts
+        for _ in xrange(30):
             try:
                 run_batch_command(cmd, env=env, expected_return_code=0)
             except subprocess.CalledProcessError:
