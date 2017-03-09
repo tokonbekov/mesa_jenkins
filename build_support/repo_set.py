@@ -312,6 +312,12 @@ class RevisionSpecification:
                 continue
             if project == "prerelease":
                 continue
+            if project == "gmock":
+                continue
+            if project == "gtest":
+                continue
+            if project == "sixonix":
+                continue
             revs.append(project + "=" + rev)
         return " ".join(revs)
 
