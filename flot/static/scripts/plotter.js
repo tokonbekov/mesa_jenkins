@@ -88,7 +88,7 @@ function do_plot(bench_name, placeholder_id, click_id, dataset) {
 	var placeholder = $(placeholder_id);
     for (var i = 0; i < len; i++) {
         var hardware = hardwares[i];
-        if ("UFO" in dataset[bench_name][hardware]) {
+        if ((hardware in dataset[bench_name]) && ("UFO" in dataset[bench_name][hardware])) {
             var ufo_score = dataset[bench_name][hardware]["UFO"];
             var o = plot.pointOffset({ y: ufo_score });
             placeholder.append("<div style='position:absolute;left:50px;bottom:" +
