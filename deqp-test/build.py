@@ -24,6 +24,8 @@ class DeqpLister(object):
         self.cts_blacklist = cts_tests
         self.version = None
         bd = self.pm.project_build_dir()
+        if "glk" in self.o.hardware:
+            bd = self.pm.project_source_dir("prerelease") + "/deqp-test/"
         if "gles2" in self.binary:
             self.blacklist_txt = bd + self.o.hardware[:3] + "_expectations/gles2_unstable_tests.txt"
         if "gles3" in self.binary:
