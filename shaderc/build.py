@@ -41,7 +41,6 @@ class ShadercBuilder(object):
         cmd = ["cmake", "-GNinja", "-DCMAKE_BUILD_TYPE=" + btype,
                "-DSHADERC_SKIP_TESTS=1",
                "-DCMAKE_C_FLAGS=" + flags, "-DCMAKE_CXX_FLAGS=" + flags,
-               "-DCMAKE_C_COMPILER=clang", "-DCMAKE_CXX_COMPILER=clang++",
                "-DCMAKE_INSTALL_PREFIX:PATH=" + self._build_root, ".."]
         bs.run_batch_command(cmd)
         bs.run_batch_command(["ninja"])
