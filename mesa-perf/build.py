@@ -105,7 +105,7 @@ class MesaPerf:
                    "--without-gallium-drivers"]
 
         save_dir = os.getcwd()
-        for hw in ["skl", "bdw", "bsw", "bxt"]:
+        for hw in self._flags:
             bd = self._build_dir + "/" + hw
             if not os.path.exists(bd):
                 os.makedirs(bd)
