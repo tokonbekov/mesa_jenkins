@@ -339,28 +339,28 @@
       <prerequisite name="mesa-perf" hardware="builder"/>
     </project>
     <project name="perf-all">
-      <prerequisite name="synmark_a" hardware="sklgt2-01,bdwgt3e-01,bsw-01"/>
-      <prerequisite name="synmark_c" hardware="sklgt2-02,bdwgt3e-02,bsw-02"/>
-      <prerequisite name="synmark_b" hardware="sklgt2-03,bdwgt3e-03,bsw-03"/>
-      <prerequisite name="warsow" hardware="sklgt2-04,bdwgt3e-04,bsw-04"/>
-      <prerequisite name="manhattan" hardware="sklgt2-05,bdwgt3e-05,bsw-05"/>
-      <prerequisite name="heaven" hardware="sklgt2-06,bdwgt3e-06,bsw-06"/>
-      <prerequisite name="trex" hardware="sklgt2-07,bdwgt3e-05,bsw-07"/>
-      <prerequisite name="fill" hardware="sklgt2-07,bdwgt3e-06,bsw-08"/>
-      <prerequisite name="fill_o" hardware="sklgt2-02,bdwgt3e-03,bsw-10"/>
-      <prerequisite name="valley" hardware="sklgt2-06,bdwgt3e-04,bsw-04"/>
-      <prerequisite name="xonotic" hardware="sklgt2-04,bdwgt3e-05,bsw-10"/>
-      <prerequisite name="trex_o" hardware="sklgt2-05,bdwgt3e-06,bsw-08"/>
-      <prerequisite name="fur" hardware="sklgt2-07,bdwgt3e-02,bsw-07"/>
-      <prerequisite name="manhattan_o" hardware="sklgt2-06,bdwgt3e-06,bsw-06"/>
-      <prerequisite name="triangle" hardware="sklgt2-05,bdwgt3e-05,bsw-05"/>
-      <prerequisite name="plot3d" hardware="sklgt2-04,bdwgt3e-04,bsw-04"/>
-      <prerequisite name="egypt_o" hardware="sklgt2-03,bdwgt3e-03,bsw-05"/>
-      <prerequisite name="egypt" hardware="sklgt2-06,bdwgt3e-02,bsw-06"/>
-      <prerequisite name="car_chase" hardware="bdwgt3e-05,bsw-07"/>
-      <prerequisite name="car_chase_o" hardware="bdwgt3e-06,bsw-08"/>
-      <prerequisite name="tess" hardware="sklgt2-04,bdwgt3e-04,bsw-03"/>
-      <prerequisite name="tess_o" hardware="sklgt2-07,bdwgt3e-05,bsw-02"/>
+      <prerequisite name="synmark_a" hardware="sklgt2-01,bdwgt3e-01,bsw-01,bxt-01"/>
+      <prerequisite name="synmark_c" hardware="sklgt2-02,bdwgt3e-02,bsw-02,bxt-02"/>
+      <prerequisite name="synmark_b" hardware="sklgt2-03,bdwgt3e-03,bsw-03,bxt-03"/>
+      <prerequisite name="warsow" hardware="sklgt2-04,bdwgt3e-04,bsw-04,bxt-04"/>
+      <prerequisite name="manhattan" hardware="sklgt2-05,bdwgt3e-05,bsw-05,bxt-05"/>
+      <prerequisite name="heaven" hardware="sklgt2-06,bdwgt3e-06,bsw-06,bxt-07"/>
+      <prerequisite name="trex" hardware="sklgt2-07,bdwgt3e-05,bsw-07,bxt-08"/>
+      <prerequisite name="fill" hardware="sklgt2-07,bdwgt3e-06,bsw-08,bxt-09"/>
+      <prerequisite name="fill_o" hardware="sklgt2-02,bdwgt3e-03,bsw-10,bxt-10"/>
+      <prerequisite name="valley" hardware="sklgt2-06,bdwgt3e-04,bsw-04,bxt-01"/>
+      <prerequisite name="xonotic" hardware="sklgt2-04,bdwgt3e-05,bsw-10,bxt-02"/>
+      <prerequisite name="trex_o" hardware="sklgt2-05,bdwgt3e-06,bsw-08,bxt-03"/>
+      <prerequisite name="fur" hardware="sklgt2-07,bdwgt3e-02,bsw-07,bxt-04"/>
+      <prerequisite name="manhattan_o" hardware="sklgt2-06,bdwgt3e-06,bsw-06,bxt-05"/>
+      <prerequisite name="triangle" hardware="sklgt2-05,bdwgt3e-05,bsw-05,bxt-07"/>
+      <prerequisite name="plot3d" hardware="sklgt2-04,bdwgt3e-04,bsw-04,bxt-08"/>
+      <prerequisite name="egypt_o" hardware="sklgt2-03,bdwgt3e-03,bsw-05,bxt-09"/>
+      <prerequisite name="egypt" hardware="sklgt2-06,bdwgt3e-02,bsw-06,bxt-10"/>
+      <prerequisite name="car_chase" hardware="bdwgt3e-05,bsw-07,bxt-01"/>
+      <prerequisite name="car_chase_o" hardware="bdwgt3e-06,bsw-08,bxt-02"/>
+      <prerequisite name="tess" hardware="sklgt2-04,bdwgt3e-04,bsw-03,bxt-03"/>
+      <prerequisite name="tess_o" hardware="sklgt2-07,bdwgt3e-05,bsw-02,bxt-04"/>
     </project>
     <!-- Performance projects END -->
 

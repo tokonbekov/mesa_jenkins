@@ -71,7 +71,25 @@ class MesaPerf:
                      "-mno-avx512vl", "-mno-avx512ifma", "-mno-avx512vbmi",
                      "-mno-clwb", "-mno-pcommit", "-mno-mwaitx", "--param",
                      "l1-cache-size=24", "--param", "l1-cache-line-size=64",
-                     "--param", "l2-cache-size=1024", "-mtune=generic"]
+                     "--param", "l2-cache-size=1024", "-mtune=generic"],
+            "bxt" : [ "-march=silvermont", "-mmmx", "-mno-3dnow", "-msse",
+                      "-msse2", "-msse3", "-mssse3", "-mno-sse4a", "-mcx16",
+                      "-msahf", "-mmovbe", "-maes", "-msha", "-mpclmul",
+                      "-mpopcnt", "-mno-abm", "-mno-lwp", "-mno-fma",
+                      "-mno-fma4", "-mno-xop", "-mno-bmi", "-mno-bmi2",
+                      "-mno-tbm", "-mno-avx", "-mno-avx2", "-msse4.2",
+                      "-msse4.1", "-mno-lzcnt", "-mno-rtm", "-mno-hle",
+                      "-mrdrnd", "-mno-f16c", "-mfsgsbase", "-mrdseed",
+                      "-mprfchw", "-mno-adx", "-mfxsr", "-mno-xsave",
+                      "-mno-xsaveopt", "-mno-avx512f", "-mno-avx512er",
+                      "-mno-avx512cd", "-mno-avx512pf", "-mno-prefetchwt1",
+                      "-mclflushopt", "-mno-xsavec", "-mno-xsaves",
+                      "-mno-avx512dq", "-mno-avx512bw", "-mno-avx512vl",
+                      "-mno-avx512ifma", "-mno-avx512vbmi", "-mno-clwb",
+                      "-mno-mwaitx", "-mno-clzero", "-mno-pku", "--param",
+                      "l1-cache-size=24", "--param",
+                      "l1-cache-line-size=64", "--param",
+                      "l2-cache-size=1024", "-mtune=generic"],
             }
         
     def build(self):
@@ -91,7 +109,7 @@ class MesaPerf:
                    "--without-gallium-drivers"]
 
         save_dir = os.getcwd()
-        for hw in ["skl", "bdw", "bsw"]:
+        for hw in ["skl", "bdw", "bsw", "bxt"]:
             bd = self._build_dir + "/" + hw
             if not os.path.exists(bd):
                 os.makedirs(bd)

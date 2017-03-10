@@ -1,6 +1,6 @@
 function do_plot(bench_name, placeholder_id, click_id, dataset) {
     data = []
-    var hardwares = ["skl", "bdw", "bsw"];
+    var hardwares = ["skl", "bdw", "bsw", "bxt"];
     var colors = ["#edc240", "#afd8f8", "#cb4b4b", "#4da74d", "#9440ed"];
     var len = hardwares.length;
     var ymax = 0;
