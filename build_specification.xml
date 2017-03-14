@@ -393,6 +393,7 @@
       <remote name="internal" repo="ssh://majanes@git-amr-1.devtools.intel.com:29418/otc_gen_graphics-mesa.git"/>
       <remote name="chadv" repo="git://github.com/chadversary/mesa"/>
       <remote name="lfrb" repo="git://git.collabora.com/git/user/lfrb/mesa.git"/>
+      <remote name="antognolli" repo="https://github.com/rantogno/mesa"/>
     </mesa>
 
     <drm repo="http://anongit.freedesktop.org/git/mesa/drm.git">
@@ -558,6 +559,10 @@
 
     <branch name="kwg" project="test-single-arch">
       <mesa branch="kwg/jenkins"/>
+    </branch>
+
+    <branch name="antognolli" project="test-single-arch">
+      <mesa branch="antognolli/jenkins"/>
     </branch>
 
     <branch name="kwg_vulkan" project="vulkancts-full">
