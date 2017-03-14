@@ -68,8 +68,8 @@ class MesaBuilder(bs.AutoBuilder):
     def test(self):
         gtests = ["src/glx/tests/glx-test",
                   "src/mesa/main/tests/main-test",
-                  "src/mesa/drivers/dri/i965/test_vec4_copy_propagation",
-                  "src/mesa/drivers/dri/i965/test_vec4_register_coalesce",
+                  "src/intel/compiler/test_vec4_copy_propagation",
+                  "src/intel/compiler/test_vec4_register_coalesce",
                   "./src/mapi/shared-glapi-test"]
         # override the test method, because we can't know exactly
         # where the tests will be as of 11.2
