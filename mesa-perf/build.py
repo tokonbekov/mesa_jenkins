@@ -31,7 +31,7 @@ class MesaPerf:
                     '-mno-avx512f', '-mno-avx512er', '-mno-avx512cd',
                     '-mno-avx512pf', '-mno-prefetchwt1', '-mclflushopt',
                     '-mxsavec', '-mxsaves', '-mno-avx512dq', '-mno-avx512bw',
-                    '-mno-avx512vl-mno-avx512ifma', '-mno-avx512vbmi',
+                    '-mno-avx512vl', '-mno-avx512ifma', '-mno-avx512vbmi',
                     '-mno-clwb', '-mno-mwaitx', '-mno-clzero', '-mno-pku',
                     '--param', 'l1-cache-size=32', '--param',
                     'l1-cache-line-size=64', '--param', 'l2-cache-size=4096',
