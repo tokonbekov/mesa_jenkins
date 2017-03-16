@@ -74,25 +74,16 @@ class DeqpLister(object):
         if "daily" != self.o.type and not self.o.retest_path:
             # these tests triple the run-time
             unsupported.append("dEQP-GLES31.functional.copy_image")
-        if "11.2" in self.version:
-            unsupported.append("dEQP-EGL")
-            if bs.generation(self.o) < 8.0:
-                unsupported.append("dEQP-GLES31")
-            if bs.generation(self.o) < 6.0:
-                unsupported.append("dEQP-GLES3")
-
-        if "12.0" in self.version:
-            unsupported.append("dEQP-EGL")
-            if bs.generation(self.o) < 8.0:
-                unsupported.append("dEQP-GLES31")
-        if bs.generation(self.o) < 7.0:
-            unsupported.append("dEQP-GLES31")
-
         if "13.0" in self.version:
             # Tapani's egl fixes not merged into 13.0 branch
-            unsupported.append("dEQP-EGL")
+            unsupported += ["dEQP-EGL.functional.create_context_ext",
+                            "dEQP-EGL.functional.reusable_sync",
+                            "dEQP-EGL.functional.thread_cleanup"]
             if "hsw" in self.o.hardware:
                 unsupported += ["dEQP-GLES31.functional.debug.negative_coverage"]
+            if "kbl" in self.o.hardware:
+                unsupported += ["dEQP-EGL.functional.image.api.create_image_gles2_tex2d_luminance",
+                                "dEQP-EGL.functional.image.api.create_image_gles2_tex2d_luminance_alpha"]
 
         if "gles2" in self.binary:
             unsupported += ["dEQP-GLES3", "dEQP-GLES31", "dEQP-EGL"]
