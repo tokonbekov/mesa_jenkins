@@ -8,6 +8,7 @@ import build_support as bs
 
 
 class MesaBuilder(bs.AutoBuilder):
+    """Provides mesa-specific customizations to AutoBuilder"""
     def __init__(self):
         global_opts = bs.Options()
 
@@ -48,8 +49,8 @@ class MesaBuilder(bs.AutoBuilder):
         bs.AutoBuilder.__init__(self, configure_options=options, opt_flags="-O2")
 
     def build(self):
+        """since mesa doesn't install an icd, generate one"""
         bs.AutoBuilder.build(self)
-        # since mesa doesn't install an icd, generate one
         icd_path = "/tmp/build_root/" + self._options.arch + "/usr/share/vulkan/icd.d/dev_icd.json"
         icd_content = """\
 {
@@ -66,22 +67,19 @@ class MesaBuilder(bs.AutoBuilder):
             icd_f.write(icd_content)
 
     def test(self):
+        """Provide gtests as available"""
+        # override the test method, because tests have moved
         gtests = ["src/glx/tests/glx-test",
                   "src/mesa/main/tests/main-test",
-                  "src/intel/compiler/test_vec4_copy_propagation",
-                  "src/intel/compiler/test_vec4_register_coalesce",
-                  "./src/mapi/shared-glapi-test"]
-        # override the test method, because we can't know exactly
-        # where the tests will be as of 11.2
-        if path.exists(self._src_dir + "/src/glsl/tests/general_ir_test.cpp"):
-            gtests += ["src/glsl/tests/general-ir-test",
-                       "src/glsl/tests/sampler-types-test",
-                       "src/glsl/tests/uniform-initializer-test"]
-        else:
-            gtests += ["src/compiler/glsl/tests/general-ir-test",
-                       "src/compiler/glsl/tests/sampler-types-test",
-                       "src/compiler/glsl/tests/uniform-initializer-test"]
+                  "./src/mapi/shared-glapi-test",
+                  "src/compiler/glsl/tests/general-ir-test",
+                  "src/compiler/glsl/tests/sampler-types-test",
+                  "src/compiler/glsl/tests/uniform-initializer-test"]
+
+        if path.exists(self._src_dir + "/src/intel/compiler/test_vec4_copy_propagation.cpp"):
+            gtests += ["src/intel/compiler/test_vec4_copy_propagation",
+                       "src/intel/compiler/test_vec4_register_coalesce"]
         self.SetGtests(gtests)
         bs.AutoBuilder.test(self)
-       
+
 bs.build(MesaBuilder())
