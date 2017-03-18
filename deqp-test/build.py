@@ -95,6 +95,10 @@ class DeqpLister(object):
         elif "egl" in self.binary:
             unsupported += ["dEQP-GLES2", "dEQP-GLES3", "dEQP-GLES31"]
 
+        if "17.0" in self.version:
+            if "byt" in self.o.hardware or "ivb" in self.o.hardware:
+                unsupported += ["dEQP-GLES31.functional.debug.negative_coverage"]
+
         unsupported += ["dEQP-EGL.functional.robustness.reset_context.shaders.infinite_loop",
                         "dEQP-EGL.functional.render.multi_thread.gles3.rgb888_window",
                         "dEQP-EGL.functional.render.multi_thread.gles3.rgba8888_window",
