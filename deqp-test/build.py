@@ -84,7 +84,8 @@ class DeqpLister(object):
             if "kbl" in self.o.hardware:
                 unsupported += ["dEQP-EGL.functional.image.api.create_image_gles2_tex2d_luminance",
                                 "dEQP-EGL.functional.image.api.create_image_gles2_tex2d_luminance_alpha"]
-
+            if "bdw" in self.o.hardware:
+                unsupported += ["dEQP-EGL.functional.buffer_age.no_preserve"]
         if "gles2" in self.binary:
             unsupported += ["dEQP-GLES3", "dEQP-GLES31", "dEQP-EGL"]
         elif "gles31" in self.binary:
