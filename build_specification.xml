@@ -390,6 +390,7 @@
       <remote name="imirkin" repo="git://github.com/imirkin/mesa"/>
       <remote name="djdeath" repo="git://github.com/djdeath/mesa"/>
       <remote name="igalia" repo="git://github.com/Igalia/mesa"/>
+      <remote name="igalia_release" repo="git://github.com/Igalia/release-mesa"/>
       <remote name="internal" repo="ssh://majanes@git-amr-1.devtools.intel.com:29418/otc_gen_graphics-mesa.git"/>
       <remote name="chadv" repo="git://github.com/chadversary/mesa"/>
       <remote name="lfrb" repo="git://git.collabora.com/git/user/lfrb/mesa.git"/>
@@ -676,8 +677,32 @@
       <cts branch="416ccc5" trigger="false"/>
     </branch>
 
-    <branch name="evelikov_17" project="all-test">
+    <branch name="evelikov_17" project="all-test-vulkan">
       <mesa branch="evelikov/mesa_17/jenkins"/>
+      <piglit branch="9861294"/>
+      <deqp branch="89eedc1"/>
+      <vulkancts branch="704ed05"/>
+      <glcts branch="a2ef648"/>
+      <cts branch="416ccc5"/>
+      <crucible branch="c747219"/>
+      <shaderc branch="4fa3150"/>
+      <glslang branch="33dadd1"/>
+    </branch>
+
+    <branch name="igalia_13" project="all-test-vulkan">
+      <mesa branch="igalia_release/igalia/13.0"/>
+      <piglit branch="janesma/13_0_jenkins" trigger="false"/>
+      <deqp branch="origin/13_0_jenkins" trigger="false"/>
+      <vulkancts branch="7424a79323977f2b3b00609765e0d98783ac7abb"/>
+      <crucible branch="janesma/13_0_jenkins" trigger="false"/>
+      <shaderc branch="janesma/13_0_jenkins" trigger="false"/>
+      <glslang branch="janesma/13_0_jenkins" trigger="false"/>
+      <glcts branch="a2ef648" trigger="false"/>
+      <cts branch="416ccc5" trigger="false"/>
+    </branch>
+
+    <branch name="igalia_17" project="all-test-vulkan">
+      <mesa branch="igalia_release/igalia/17.0"/>
       <piglit branch="9861294"/>
       <deqp branch="89eedc1"/>
       <vulkancts branch="704ed05"/>
