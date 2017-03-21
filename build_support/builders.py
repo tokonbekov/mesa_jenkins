@@ -570,7 +570,7 @@ class PiglitTester(object):
             exclude_tests = exclude_tests + ["ext_framebuffer_multisample.accuracy",
                                              "glsl-max-varyings"]
 
-        if "sklgt4e" in hardware:
+        if "skl" in hardware:
             # 93355
             exclude_tests = exclude_tests + ["ext_framebuffer_multisample.accuracy",
                                              # TODO: bug
