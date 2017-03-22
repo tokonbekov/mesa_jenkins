@@ -32,22 +32,26 @@ class GLESCTSTester(object):
         return ("skl" in self.o.hardware or
                 "kbl" in self.o.hardware or
                 "bxt" in self.o.hardware)
-        
+
     def _gles_31(self):
         return ("hsw" in self.o.hardware or
                 "bdw" in self.o.hardware or
                 "bsw" in self.o.hardware or
                 "byt" in self.o.hardware or
                 "ivb" in self.o.hardware)
-    
+
     def test(self):
         t = bs.DeqpTester()
-        if "bxt" in self.o.hardware or "glk" in self.o.hardware:
-            version = bs.mesa_version()
-            if "12" in version or "13.0" in version:
+        version = bs.mesa_version()
+        if "bxt" in self.o.hardware:
+            if "13.0" in version:
                 # unsupported platforms
                 return
-        
+        if "glk" in self.o.hardware:
+            if "17.0" in version:
+                # unsupported platforms
+                return
+
         results = t.test(self.pm.build_root() + "/bin/es/cts/glcts",
                          bs.CtsTestList(),
                          [],
@@ -56,7 +60,7 @@ class GLESCTSTester(object):
         o = bs.Options()
         config = bs.get_conf_file(self.o.hardware, self.o.arch, project=self.pm.current_project())
         t.generate_results(results, bs.ConfigFilter(config, o))
-        
+
     def build(self):
         pass
     def clean(self):

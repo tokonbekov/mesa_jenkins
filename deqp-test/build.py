@@ -129,13 +129,15 @@ class DeqpBuilder(object):
 
         if not self.version:
             self.version = bs.mesa_version()
-        if "bxt" in self.o.hardware:
-            if "12" in self.version or "13.0" in self.version:
+        if "glk" in self.o.hardware:
+            if "13.0" in self.version or "17.0" in self.version:
                 return
 
         modules = ["gles2", "gles3", "egl"]
-        if "skl" in self.o.hardware or "bdw" in self.o.hardware or "bsw" in self.o.hardware or "hsw" in self.o.hardware or "byt" in self.o.hardware or "ivb" in self.o.hardware:
-            modules += ["gles31"]
+        for hardware in ["skl", "bdw", "bsw", "hsw", "byt", "ivb"]:
+            if hardware in self.o.hardware:
+                modules += ["gles31"]
+                break
 
         for module in modules:
             binary = self.pm.build_root() + "/opt/deqp/modules/" + module + "/deqp-" + module

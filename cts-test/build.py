@@ -71,7 +71,10 @@ class CtsBuilder:
         suite_names = []
         # disable gl cts on stable versions of mesa, which do not
         # support the feature set.
-        if "13.0" in self.version or "12.0" in self.version:
+        if "13.0" in self.version:
+            return
+        if "17.0" in self.version and "glk" in o.hardware:
+            # glk not supported by stable mesa
             return
         suite_names.append("cts_gl")
         # as per Ian, only run gl45
