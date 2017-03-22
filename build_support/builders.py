@@ -565,11 +565,6 @@ class PiglitTester(object):
             # intermittent, TODO bug
             exclude_tests = exclude_tests + ["arb_tessellation_shader.execution.vs-tes-vertex"]
 
-        if "bxt" in hardware:
-            # bug 93618, and B0 bugs: 95014
-            exclude_tests = exclude_tests + ["ext_framebuffer_multisample.accuracy",
-                                             "glsl-max-varyings"]
-
         if "skl" in hardware:
             # 93355
             exclude_tests = exclude_tests + ["ext_framebuffer_multisample.accuracy",
