@@ -10,7 +10,8 @@
         "otc-gfxtest-bsw-08.local": {"switch": 1, "outlet": 8},
         "otc-gfxtest-glk-01.local": {"switch": 2, "outlet": 1},
         "otc-gfxtest-glk-02.local": {"switch": 2, "outlet": 2},
-        "otc-gfxtest-bsw-09.local": {"switch": 2, "outlet": 3}
+        "otc-gfxtest-bsw-09.local": {"switch": 2, "outlet": 3},
+        "otc-gfxtest-glk-03.local": {"switch": 2, "outlet": 5}
     },
     "switches": {
         "1": {
