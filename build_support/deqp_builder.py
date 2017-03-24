@@ -2,6 +2,7 @@
 import bz2
 import glob
 import os
+import tempfile
 import time
 import datetime
 import subprocess
@@ -186,14 +187,18 @@ class DeqpTrie:
             else:
                 self._trie[k] = v
 
-    def add_qpa_blob(self, split_test_name, blob, pid):
+    def add_qpa_blob(self, split_test_name, blob, pid, err=None):
+        if err == None:
+            err = []
+        err = [e for e in err if "ATTENTION: default value of option vblank_mode" not in e]
+        err = [e for e in err if "Mesa: " not in e]
         if len(split_test_name) == 1:
             test = split_test_name[0] 
             self._trie[test] = DeqpTrie()
             self._content[test] = blob
             self._duration[test] = 0.0
             self._stdout[test] = ""
-            self._stderr[test] = "pid: {}\n".format(str(pid))
+            self._stderr[test] = "".join(err) + "\npid: {}\n".format(str(pid))
             try:
                 t = ET.fromstringlist(blob)
                 stat_tag = t.find("./Result")
@@ -229,7 +234,7 @@ class DeqpTrie:
         group = split_test_name[0]
         if not self._trie.has_key(group):
             self._trie[group] = DeqpTrie()
-        self._trie[group].add_qpa_blob(split_test_name[1:], blob, pid)
+        self._trie[group].add_qpa_blob(split_test_name[1:], blob, pid, err)
 
     def write_junit(self, of, config, missing_commits):
         of.write("<testsuites>\n")
@@ -493,13 +498,15 @@ class DeqpTester:
                 commands += ["-n", test_name]
             else:
                 commands += ["--deqp-caselist-file=" + case_fn,]
+            err_fh = tempfile.TemporaryFile("w+")
             proc = subprocess.Popen(commands,
                                     stdout=out_fh,
-                                    stderr=out_fh,
+                                    stderr=err_fh,
                                     env=procEnv)
             if single_proc:
                 print str(proc.pid) + ": " + test_name
 
+            proc.err_fh = err_fh
             procs[cpu] = proc
 
         results = DeqpTrie()
@@ -542,7 +549,11 @@ class DeqpTester:
                     completion_fh[cpu].close()
                     del completion_fh[cpu]
                 test_count = results.results_count()
-                self.parse_qpa_results(results, out_fn, pid=proc.pid)
+                proc.err_fh.seek(0)
+                errors = proc.err_fh.readlines()
+                proc.err_fh.close()
+                self.parse_qpa_results(results, out_fn, pid=proc.pid,
+                                       err=errors)
                 if test_count == results.results_count():
                     test_name = ""
                     if single_proc:
@@ -553,7 +564,7 @@ class DeqpTester:
                             test_name = fh.readline().strip()
                     results.add_qpa_blob(test_name.split("."),
                                               '<bogus><Result StatusCode="crash"/></bogus>',
-                                              proc.pid)
+                                              proc.pid, errors)
                 unfinished_tests = tests[cpu]
                 if not single_proc:
                     unfinished_tests.filter(results)
@@ -571,19 +582,21 @@ class DeqpTester:
                     commands +=  ["--deqp-caselist-file=" + case_fn]
                 if os.path.exists(out_fn):
                     os.rename(out_fn, out_fn + "." + datetime.datetime.now().isoformat())
+                err_fh = tempfile.TemporaryFile("w+")
                 proc = subprocess.Popen(commands,
                                         stdout=out_fh,
-                                        stderr=out_fh,
+                                        stderr=err_fh,
                                         env=procEnv)
                 if single_proc:
                     print str(proc.pid) + ": " + test_name
+                proc.err_fh = err_fh
                 procs[cpu] = proc
 
         os.remove("mesa-ci-caselist.txt")
         os.chdir(savedir)
         return results
         
-    def parse_qpa_results(self, results_trie, filename, pid):
+    def parse_qpa_results(self, results_trie, filename, pid, err):
         with open(filename, "r") as qpa:
             current_test = ""
             blob = []
@@ -603,7 +616,7 @@ class DeqpTester:
                 blob.append(line)
             if current_test:
                 # crashed
-                results_trie.add_qpa_blob(current_test.split("."), blob, pid)
+                results_trie.add_qpa_blob(current_test.split("."), blob, pid, err)
 
     def generate_results(self, results_trie, config_policy):
         out_dir = self.pm.build_root() + "/../test"
