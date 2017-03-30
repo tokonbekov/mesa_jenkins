@@ -479,12 +479,6 @@ class PiglitTester(object):
         if os.path.exists(conf_file):
             cmd = cmd + ["--config", conf_file]
 
-        if 'hsw' in o.hardware:
-            # https://bugs.freedesktop.org/show_bug.cgi?id=100492
-            # These fail sporadically only on HSw, and pass reliably on all
-            # others
-            cmd += ['--exclude-tests',
-                    'spec.arb_gpu_shader_fp64.execution.[vf]s-double-uniform-array-direct-indirect-non-uniform-control-flow']
 
         # intermittent on at least snbgt1
         exclude_tests = ["glsl-1_10.execution.vs-vec2-main-return"]
@@ -494,7 +488,6 @@ class PiglitTester(object):
             # It's not worth bisecting m32 piglit just for this test.
             exclude_tests += ["spec.arb_tessellation_shader.execution.tess_with_geometry",
                               "spec.arb_tessellation_shader.execution.quads"]
-
 
         # broken egl tests require X, and intermittently pass when run concurrently
         exclude_tests += ["spec.egl.1_4.eglquerysurface.egl",
@@ -538,7 +531,13 @@ class PiglitTester(object):
             exclude_tests += ["arb_gpu_shader5.arb_gpu_shader5-emitstreamvertex_nodraw"]
 
         if "hsw" in hardware:
-            exclude_tests += ["ext_framebuffer_multisample.accuracy"]
+            exclude_tests += [
+                'ext_framebuffer_multisample.accuracy',
+                'spec.arb_gpu_shader_fp64.execution.vs-double-uniform-array-direct-indirect-non-uniform-control-flow',
+                'spec.arb_gpu_shader_fp64.execution.fs-double-uniform-array-direct-indirect-non-uniform-control-flow',
+            ]
+
+
 
         if "snb" in hardware:
             # hangs snb
