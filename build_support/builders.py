@@ -479,6 +479,13 @@ class PiglitTester(object):
         if os.path.exists(conf_file):
             cmd = cmd + ["--config", conf_file]
 
+        if 'hsw' in o.hardware:
+            # https://bugs.freedesktop.org/show_bug.cgi?id=100492
+            # These fail sporadically only on HSw, and pass reliably on all
+            # others
+            cmd += ['--exclude-tests',
+                    'spec.arb_gpu_shader_fp64.execution.[vf]s-double-uniform-array-direct-indirect-non-uniform-control-flow']
+
         # intermittent on at least snbgt1
         exclude_tests = ["glsl-1_10.execution.vs-vec2-main-return"]
 
