@@ -114,18 +114,10 @@
       <properties class="hudson.model.View$PropertyList"/>
       <jobNames>
         <comparator class="hudson.util.CaseInsensitiveComparator"/>
-        <string>agomez</string>
-        <string>airlied</string>
+        <string>antognolli</string>
         <string>aphogat</string>
         <string>aphogat_vulkan</string>
-        <string>apinheiro</string>
-        <string>apuentes</string>
-        <string>bpeel</string>
-        <string>build_series</string>
-        <string>bwidawsk</string>
         <string>bwidawsk_fast</string>
-        <string>bwidawsk_vulkan</string>
-        <string>chadv</string>
         <string>curro</string>
         <string>curro_vulkan</string>
         <string>dcbaker</string>
@@ -136,9 +128,10 @@
         <string>evelikov</string>
         <string>evelikov_13</string>
         <string>evelikov_17</string>
-        <string>ickle</string>
         <string>idr</string>
         <string>igalia</string>
+        <string>igalia_13</string>
+        <string>igalia_17</string>
         <string>imirkin</string>
         <string>internal</string>
         <string>itoral</string>
@@ -151,7 +144,6 @@
         <string>juhapekka</string>
         <string>kwg</string>
         <string>kwg_vulkan</string>
-        <string>ldeks</string>
         <string>lfrb</string>
         <string>majanes</string>
         <string>mattst88</string>
@@ -182,7 +174,6 @@
     <listView>
       <owner class="hudson" reference="../../.."/>
       <name>mesa</name>
-      <description></description>
       <filterExecutors>false</filterExecutors>
       <filterQueue>false</filterQueue>
       <properties class="hudson.model.View$PropertyList"/>
