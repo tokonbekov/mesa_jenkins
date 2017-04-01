@@ -5,3 +5,4 @@ dEQP-VK.wsi.xcb.swapchain
 dEQP-VK.wsi.xcb.surface
 dEQP-VK.glsl.derivate.dfdxcoarse.texture.msaa4.vec2_highp
 dEQP-VK.glsl.derivate.fwidth.texture.msaa4.vec2_highp
+dEQP-VK.wsi.xcb.display_timing
