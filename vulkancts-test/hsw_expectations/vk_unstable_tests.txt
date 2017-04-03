@@ -7,3 +7,4 @@ dEQP-VK.synchronization
 dEQP-VK.memory.pipeline_barrier
 dEQP-VK.pipeline.multisample.sampled_image
 dEQP-VK.memory.requirements.image
+dEQP-VK.geometry.layered.3d.render_to_default_layer
