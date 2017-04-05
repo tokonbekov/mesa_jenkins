@@ -6,3 +6,4 @@ dEQP-VK.wsi.xcb.surface
 dEQP-VK.glsl.derivate.dfdxcoarse.texture.msaa4.vec2_highp
 dEQP-VK.glsl.derivate.fwidth.texture.msaa4.vec2_highp
 dEQP-VK.geometry.layered.3d.render_to_default_layer
+dEQP-VK.wsi.xcb.incremental_present
