@@ -427,7 +427,7 @@
     <mesa_jenkins repo="git://github.com/janesma/mesa_jenkins.git"/>
 
     <deqp repo="git://github.com/janesma/deqp.git"
-          branch="origin/nougat-cts-dev">
+          branch="aosp/master">
       <remote name="aosp" repo="https://android.googlesource.com/platform/external/deqp"/>
     </deqp>
 
