@@ -512,6 +512,7 @@
       <glslang branch="janesma/13_0_jenkins"/>
       <glcts branch="a2ef648"/>
       <cts branch="416ccc5"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="mesa_17.0" project="all-test-vulkan">
@@ -524,6 +525,7 @@
       <crucible branch="c747219"/>
       <shaderc branch="4fa3150"/>
       <glslang branch="33dadd1"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="vulkancts" project="vulkancts-full">
@@ -532,6 +534,7 @@
       <crucible/>
       <shaderc/>
       <glslang/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="mesa_perf" project="perf-all">
@@ -540,6 +543,7 @@
     
     <branch name="bwidawsk_vulkan" project="vulkancts-full">
       <mesa branch="vulkan/bwidawsk"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="jekstrand_gl" project="test-single-arch">
@@ -548,14 +552,17 @@
 
     <branch name="jekstrand_vulkan" project="vulkancts-full">
       <mesa branch="jekstrand/jenkins_vulkan"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="jljusten_vulkan" project="vulkancts-full">
       <mesa branch="jljusten/vulkan"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="chadv_vulkan" project="vulkancts-full">
       <mesa branch="chadv/jenkins_vulkan"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="kwg" project="test-single-arch">
@@ -568,6 +575,7 @@
 
     <branch name="kwg_vulkan" project="vulkancts-full">
       <mesa branch="kwg/vkjenkins"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="bwidawsk" project="test-single-arch-ben">
@@ -586,10 +594,12 @@
 
     <branch name="mattst88" project="test-single-arch-vulkan">
       <mesa branch="mattst88/jenkins"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="mattst88_vulkan" project="vulkancts-full">
       <mesa branch="mattst88/jenkins_vulkan"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
     
     <branch name="majanes" project="test-single-arch">
@@ -627,6 +637,7 @@
 
     <branch name="curro_vulkan" project="vulkancts-full">
       <mesa branch="curro/jenkins-vk"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="aphogat" project="test-single-arch">
@@ -635,6 +646,7 @@
 
     <branch name="aphogat_vulkan" project="vulkancts-full">
       <mesa branch="aphogat/jenkins-vulkan"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="tpohjola" project="test-single-arch">
@@ -643,6 +655,7 @@
 
     <branch name="nchery_vulkan" project="vulkancts-full">
       <mesa branch="nchery/jenkins_vulkan"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="nchery" project="test-single-arch">
@@ -655,6 +668,7 @@
 
     <branch name="tarceri" project="test-single-arch-vulkan">
       <mesa branch="tarceri/intel_ci"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="tarceri_slow" project="test-single-arch-ben">
@@ -663,6 +677,7 @@
 
     <branch name="evelikov" project="test-single-arch-vulkan">
       <mesa branch="evelikov/intel-ci"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="evelikov_13" project="all-test-vulkan">
@@ -675,6 +690,7 @@
       <glslang branch="janesma/13_0_jenkins" trigger="false"/>
       <glcts branch="a2ef648" trigger="false"/>
       <cts branch="416ccc5" trigger="false"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="evelikov_17" project="all-test-vulkan">
@@ -687,6 +703,7 @@
       <crucible branch="c747219"/>
       <shaderc branch="4fa3150"/>
       <glslang branch="33dadd1"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="igalia_13" project="all-test-vulkan">
@@ -699,6 +716,7 @@
       <glslang branch="janesma/13_0_jenkins" trigger="false"/>
       <glcts branch="a2ef648" trigger="false"/>
       <cts branch="416ccc5" trigger="false"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="igalia_17" project="all-test-vulkan">
@@ -711,6 +729,7 @@
       <crucible branch="c747219"/>
       <shaderc branch="4fa3150"/>
       <glslang branch="33dadd1"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="nir_test_clone" project="test-single-arch"/>
@@ -725,6 +744,7 @@
 
     <branch name="djdeath_vulkan" project="vulkancts-full">
       <mesa branch="djdeath/jenkins_vulkan"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="djdeath" project="test-single-arch">
@@ -733,34 +753,42 @@
 
     <branch name="igalia" project="test-single-arch-vulkan">
       <mesa branch="igalia/jenkins"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="itoral" project="test-single-arch-vulkan">
       <mesa branch="igalia/itoral/jenkins"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="siglesias" project="test-single-arch-vulkan">
       <mesa branch="igalia/siglesias/jenkins"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="agomez" project="test-single-arch-vulkan">
       <mesa branch="igalia/wip/agomez/ci"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="apinheiro" project="test-single-arch-vulkan">
       <mesa branch="igalia/apinheiro/jenkins"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="apuentes" project="test-single-arch-vulkan">
       <mesa branch="igalia/apuentes/jenkins"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="jasuarez" project="test-single-arch-vulkan">
       <mesa branch="igalia/jasuarez/jenkins"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="elima" project="test-single-arch-vulkan">
       <mesa branch="igalia/elima/jenkins"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="internal" project="test-single-arch">
@@ -769,10 +797,12 @@
 
     <branch name="chadv" project="test-single-arch-vulkan">
       <mesa branch="chadv/jenkins"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
     <branch name="lfrb" project="test-single-arch-vulkan">
       <mesa branch="lfrb/jenkins"/>
+      <spirvheaders branch="5a87f0b042fe5b2b3d85d7c8aa5bd589c114cab3"/>
     </branch>
 
   </branches>
