@@ -347,7 +347,7 @@
       <prerequisite name="heaven" hardware="sklgt2-06,bdwgt3e-06,bsw-06,bxt-07"/>
       <prerequisite name="trex" hardware="sklgt2-07,bdwgt3e-05,bsw-07,bxt-08"/>
       <prerequisite name="fill" hardware="sklgt2-07,bdwgt3e-06,bsw-08,bxt-09"/>
-      <prerequisite name="fill_o" hardware="sklgt2-02,bdwgt3e-03,bsw-10,bxt-10"/>
+      <prerequisite name="fill_o" hardware="sklgt2-02,bdwgt3e-03,bsw-10"/>
       <prerequisite name="valley" hardware="sklgt2-06,bdwgt3e-04,bsw-04,bxt-01"/>
       <prerequisite name="xonotic" hardware="sklgt2-04,bdwgt3e-05,bsw-10,bxt-02"/>
       <prerequisite name="trex_o" hardware="sklgt2-05,bdwgt3e-06,bsw-08,bxt-03"/>
@@ -356,7 +356,7 @@
       <prerequisite name="triangle" hardware="sklgt2-05,bdwgt3e-05,bsw-05,bxt-07"/>
       <prerequisite name="plot3d" hardware="sklgt2-04,bdwgt3e-04,bsw-04,bxt-08"/>
       <prerequisite name="egypt_o" hardware="sklgt2-03,bdwgt3e-03,bsw-05,bxt-09"/>
-      <prerequisite name="egypt" hardware="sklgt2-06,bdwgt3e-02,bsw-06,bxt-10"/>
+      <prerequisite name="egypt" hardware="sklgt2-06,bdwgt3e-02,bsw-06"/>
       <prerequisite name="car_chase" hardware="bdwgt3e-05,bsw-07"/>
       <prerequisite name="car_chase_o" hardware="bdwgt3e-06,bsw-08"/>
       <prerequisite name="tess" hardware="sklgt2-04,bdwgt3e-04,bsw-03,bxt-03"/>
