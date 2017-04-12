@@ -566,6 +566,10 @@
       <mesa branch="antognolli/jenkins"/>
     </branch>
 
+    <branch name="antognolli_vulkan" project="vulkancts-full">
+      <mesa branch="antognolli/jenkins_vk"/>
+    </branch>
+
     <branch name="kwg_vulkan" project="vulkancts-full">
       <mesa branch="kwg/vkjenkins"/>
     </branch>
