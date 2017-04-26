@@ -383,7 +383,7 @@
       <remote name="aphogat" repo="git://github.com/aphogat/mesa"/>
       <remote name="tpohjola" repo="git://people.freedesktop.org/~tpohjola/mesa"/>
       <remote name="dcbaker" repo="git://people.freedesktop.org/~dbaker/mesa"/>
-      <remote name="nchery" repo="git://people.freedesktop.org/~nchery/mesa"/>
+      <!-- <remote name="nchery" repo="git://people.freedesktop.org/~nchery/mesa"/> -->
       <remote name="tarceri" repo="git://github.com/tarceri/Mesa_arrays_of_arrays"/>
       <remote name="evelikov" repo="git://github.com/evelikov/mesa"/>
       <remote name="pnmanolova" repo="git://github.com/pnmanolova/mesa"/>
@@ -408,7 +408,7 @@
            not trigger builds unnecessarily -->
       <remote name="dcbaker" repo="git://github.com/dcbaker/piglit"/>
       <remote name="janesma" repo="git://github.com/janesma/piglit"/>
-      <remote name="nchery" repo="git://people.freedesktop.org/~nchery/piglit"/>
+      <!-- <remote name="nchery" repo="git://people.freedesktop.org/~nchery/piglit"/> -->
       <remote name="chadv" repo="git://git.kiwitree.net/~chadv/piglit"/>
       <remote name="curro" repo="git://people.freedesktop.org/~currojerez/piglit"/>
       <remote name="idr" repo="git://people.freedesktop.org/~idr/piglit"/>
@@ -645,13 +645,13 @@
       <mesa branch="tpohjola/jenkins"/>
     </branch>
 
-    <branch name="nchery_vulkan" project="vulkancts-full">
-      <mesa branch="nchery/jenkins_vulkan"/>
-    </branch>
+    <!-- <branch name="nchery_vulkan" project="vulkancts-full"> -->
+    <!--   <mesa branch="nchery/jenkins_vulkan"/> -->
+    <!-- </branch> -->
 
-    <branch name="nchery" project="test-single-arch">
-      <mesa branch="nchery/jenkins"/>
-    </branch>
+    <!-- <branch name="nchery" project="test-single-arch"> -->
+    <!--   <mesa branch="nchery/jenkins"/> -->
+    <!-- </branch> -->
 
     <branch name="cwabbott0" project="test-single-arch">
       <mesa branch="cwabbott0/jenkins"/>
