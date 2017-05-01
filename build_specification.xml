@@ -395,6 +395,7 @@
       <remote name="chadv" repo="git://github.com/chadversary/mesa"/>
       <remote name="lfrb" repo="git://git.collabora.com/git/user/lfrb/mesa.git"/>
       <remote name="antognolli" repo="git://github.com/rantogno/mesa"/>
+      <remote name="hakzsam" repo="git://people.freedesktop.org/~hakzsam/mesa"/>
     </mesa>
 
     <drm repo="http://anongit.freedesktop.org/git/mesa/drm.git">
@@ -779,6 +780,9 @@
       <mesa branch="lfrb/jenkins"/>
     </branch>
 
+    <branch name="hakzsam" project="test-single-arch-vulkan">
+      <mesa branch="hakzsam/jenkins"/>
+    </branch>
   </branches>
 
 </build_specification>
