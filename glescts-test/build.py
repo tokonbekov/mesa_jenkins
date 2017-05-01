@@ -71,6 +71,6 @@ class SlowTimeout:
         self.hardware = bs.Options().hardware
 
     def GetDuration(self):
-        return 500
+        return 120
 
 bs.build(GLESCTSTester(), time_limit=SlowTimeout())
