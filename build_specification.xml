@@ -396,6 +396,8 @@
       <remote name="lfrb" repo="git://git.collabora.com/git/user/lfrb/mesa.git"/>
       <remote name="antognolli" repo="git://github.com/rantogno/mesa"/>
       <remote name="hakzsam" repo="git://people.freedesktop.org/~hakzsam/mesa"/>
+      <remote name="daniels" repo="git://git.collabora.com/git/user/daniels/mesa"/>
+      <remote name="chrisf" repo="git://github.com/chrisforbes/mesa"/>
     </mesa>
 
     <drm repo="http://anongit.freedesktop.org/git/mesa/drm.git">
@@ -783,6 +785,15 @@
     <branch name="hakzsam" project="test-single-arch-vulkan">
       <mesa branch="hakzsam/jenkins"/>
     </branch>
+
+    <!-- <branch name="daniels" project="test-single-arch-vulkan"> -->
+    <!--   <mesa branch="daniels/ci/intel"/> -->
+    <!-- </branch> -->
+    
+    <branch name="chrisf" project="test-single-arch-vulkan">
+      <mesa branch="chrisf/ci"/>
+    </branch>
+
   </branches>
 
 </build_specification>
