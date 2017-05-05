@@ -786,9 +786,9 @@
       <mesa branch="hakzsam/jenkins"/>
     </branch>
 
-    <!-- <branch name="daniels" project="test-single-arch-vulkan"> -->
-    <!--   <mesa branch="daniels/ci/intel"/> -->
-    <!-- </branch> -->
+    <branch name="daniels" project="test-single-arch-vulkan">
+      <mesa branch="daniels/ci/intel"/>
+    </branch>
     
     <branch name="chrisf" project="test-single-arch-vulkan">
       <mesa branch="chrisf/ci"/>
