@@ -494,7 +494,7 @@
       <drm/>
       <deqp branch="aosp/master"/>
       <cts branch="origin/updated-cts"/>
-      <glcts/>
+      <glcts branch="origin/updated-gl45"/>
 
       <!-- the trigger attribute is used specify a branch that should
            be used, but prevent builds from triggering if the branch
