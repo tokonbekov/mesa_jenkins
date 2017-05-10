@@ -30,6 +30,7 @@ import hashlib
 import json
 import os
 import signal
+import subprocess
 import sys
 import time
 import xml.etree.ElementTree as ET
@@ -69,7 +70,9 @@ class BranchSpecification:
         # override the defaults
         for a_project in branch_tag:
             name = a_project.tag
-            assert(self._project_branches.has_key(name))
+            if not self._project_branches.has_key(name):
+                # repo unavailable
+                continue
             self._project_branches[name].trigger = True
             # allow the spec to set a "stable" branch that won't trigger
             if a_project.attrib.has_key("trigger"):
@@ -81,6 +84,8 @@ class BranchSpecification:
         invalid = []
         for (name, branch) in self._project_branches.iteritems():
             repo = repos.repo(branch.name)
+            if not repo:
+                continue
             try:
                 branch.sha = repo.commit(branch.branch).hexsha
             except:
@@ -133,10 +138,20 @@ class TimeoutException(Exception):
     def __str__(self):
         return self._msg
 
+def is_build_lab():
+    p = subprocess.Popen(["ping", "-c", "1", "-w", "1", "-q", "otc-mesa-ci.local"],
+                         stderr=open(os.devnull, "w"), stdout=open(os.devnull, "w"))
+    p.communicate()
+    if p.returncode:
+        # error from ping: not in build lab
+        return False
+    return True
+    
+    
 class RepoSet:
     """this class represents the set of git repositories which are
     specified in the build_specification.xml file."""
-    def __init__(self):
+    def __init__(self, clone=False):
         buildspec = ProjectMap().build_spec()
         self._repos = {}
         # key is project, value is dictionary of remote name => remote object
@@ -148,28 +163,44 @@ class RepoSet:
         repo_dir = ProjectMap().source_root() + "/repos"
         repos = buildspec.find("repos")
 
+        build_lab = is_build_lab()
+        attempts = 1
+        if build_lab:
+            attempts = 10
+
         # fetch all the repos into _repo_dir
         for tag in repos:
+            project = tag.tag
             url = tag.attrib["repo"]
+            if build_lab:
+                url = "git://otc-mesa-ci.local/git/" + project + "/origin"
             branch = "origin/master"
             if tag.attrib.has_key("branch"):
                 branch = tag.attrib["branch"]
-            
-            project = tag.tag
 
-            assert ( not self._repos.has_key(project)) # double entry
-
+            # prohibit double entry
+            assert not self._repos.has_key(project)
             project_repo_dir = repo_dir + "/" + project
-            if not os.path.exists(project_repo_dir):
+            if not os.path.exists(project_repo_dir) and clone:
                 os.makedirs(project_repo_dir)
-                try:
-                    build_lab_url = "git://otc-mesa-ci.local/git/" + project + "/origin"
-                    print "attempting clone of " + build_lab_url
-                    git.Repo.clone_from(build_lab_url,
-                                        project_repo_dir)
-                except:
-                    print "clone failed, cloning from " + url
-                    git.Repo.clone_from(url, project_repo_dir)
+                success = False
+                for attempt in range(0,attempts):
+                    if attempt > 0:
+                        time.sleep(10)
+                    try:
+                        print "attempting clone of " + url
+                        git.Repo.clone_from(url,
+                                            project_repo_dir)
+                        success = True
+                        break
+                    except:
+                        print "WARN: unable to clone repo: " + url
+                if not success and not build_lab:
+                    os.makedirs(project_repo_dir + "/do_not_use")
+
+            if os.path.exists(project_repo_dir + "/do_not_use"):
+                continue
+
             repo = git.Repo(project_repo_dir)
             self._repos[project] = repo
             self._remotes[project] = {}
@@ -180,19 +211,27 @@ class RepoSet:
 
             for a_remote in tag.findall("remote"):
                 remote_name = a_remote.attrib["name"]
-                if not self._remotes[project].has_key(remote_name):
+                if not self._remotes[project].has_key(remote_name) and clone:
                     url = a_remote.attrib["repo"]
-                    build_lab_url = "git://otc-mesa-ci.local/git/" + project + "/" + remote_name
-                    print "Adding remote: " + remote_name + " " + build_lab_url
-                    try:
-                        remote = repo.create_remote(remote_name, build_lab_url)
-                        remote.fetch()
-                    except:
-                        repo.delete_remote(remote_name)
-                        print "build lab url failed, using " + url
-                        remote = repo.create_remote(remote_name, url)
-                    self._remotes[project][remote_name] = remote
-                
+                    if build_lab:
+                        url = "git://otc-mesa-ci.local/git/" + project + "/" + remote_name
+                    for attempt in range(0,attempts):
+                        print "Adding remote: " + remote_name + " " + url
+                        success = False
+                        try:
+                            if attempt > 0:
+                                time.sleep(10)
+                            remote = repo.create_remote(remote_name, url)
+                            remote.fetch()
+                            success = True
+                            self._remotes[project][remote_name] = remote
+                            break
+                        except:
+                            print "WARN: remote not available: " + url
+                            repo.delete_remote(remote_name)
+                    if not success and not build_lab:
+                        # make a dummy remote, so it doesn't attempt to fetch later
+                        remote = repo.create_remote(remote_name, project_repo_dir)
 
     def repo(self, project_name):
         return self._repos[project_name]
@@ -232,16 +271,16 @@ class RepoSet:
                     except git.GitCommandError as e:
                         print "error fetching: " + str(e)
                         signal.alarm(0)
-                        time.sleep(15)
+                        time.sleep(1)
                     except AssertionError as e:
                         print "assertion while fetching: " + str(e)
                         signal.alarm(0)
-                        time.sleep(15)
+                        time.sleep(1)
                     except TimeoutException as e:
                         print str(e)
                     except Exception as e:
                         print str(e)
-                        time.sleep(15)
+                        time.sleep(1)
                 if not success:
                     print "Failed to fetch remote, ignoring: " + remote.url
         # the fetch has left our repo objects in an inconsistent
@@ -295,8 +334,11 @@ class RevisionSpecification:
         repo_set = RepoSet()
         projects = repo_set.projects()
         for p in projects:
-            repo = repo_set.repo(p)
-            rev = repo.git.rev_parse("HEAD", short=True)
+            try:
+                repo = repo_set.repo(p)
+                rev = repo.git.rev_parse("HEAD", short=True)
+            except:
+                continue
             self._revisions[p] = rev
 
     def from_string(self, spec):

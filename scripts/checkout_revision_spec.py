@@ -13,7 +13,7 @@ parser.add_argument('commits', metavar='commits', type=str, nargs='*',
                     help='commits to check out, in repo=sha format')
 args = parser.parse_args()
 
-repos = bs.RepoSet()
+repos = bs.RepoSet(clone=True)
 repos.fetch()
 bs.BuildSpecification().checkout(args.branch, args.commits)
 
