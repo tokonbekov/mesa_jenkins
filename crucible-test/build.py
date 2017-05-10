@@ -52,6 +52,11 @@ def post_process_results(xml):
                     so = ET.Element("system-out")
                     so.text = "ERROR: this test passed when it expected failure"
                     atest.append(so)
+                elif atest.attrib["status"] == "skip":
+                    atest.append(ET.Element("failure"))
+                    so = ET.Element("system-out")
+                    so.text = "ERROR: this test skipped when it expected failure"
+                    atest.append(so)
                 else:
                     raise Exception("test has unknown status: " + atest.attrib["name"]
                                     + " " + atest.attrib["status"])
@@ -72,6 +77,11 @@ def post_process_results(xml):
                     atest.append(ET.Element("failure"))
                     so = ET.Element("system-out")
                     so.text = "ERROR: this test passed when it expected crash"
+                    atest.append(so)
+                elif atest.attrib["status"] == "skip":
+                    atest.append(ET.Element("failure"))
+                    so = ET.Element("system-out")
+                    so.text = "ERROR: this test skipped when it expected crash"
                     atest.append(so)
                 else:
                     raise Exception("test has unknown status: " + atest.attrib["name"]
