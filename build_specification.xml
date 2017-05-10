@@ -529,6 +529,18 @@
       <glslang branch="33dadd1"/>
     </branch>
 
+    <branch name="mesa_17.1" project="all-test-vulkan">
+      <mesa branch="origin/17.1"/>
+      <piglit branch="c12816f7b"/>
+      <deqp branch="1211e9fe"/>
+      <vulkancts branch="3a13e51f"/>
+      <glcts branch="7eb46860"/>
+      <cts branch="416ccc52"/>
+      <crucible branch="4f60bf1"/>
+      <shaderc branch="9b3dbd1"/>
+      <glslang branch="1ee1c8e1"/>
+    </branch>
+
     <branch name="vulkancts" project="vulkancts-full">
       <mesa/>
       <vulkancts branch="khronos/vulkan-cts-1.0.2"/>
