@@ -91,11 +91,6 @@ def main():
     while ready:
         for bi in ready:
             graph.build_complete(bi)
-            if bi.options.hardware != "builder":
-                # we cannot hope to successfully run byt/ilk tests on
-                # a developer's machine.
-                print "Skipping build for specific hardware: " + str(bi)
-                continue
             proj_build_dir = pm.project_build_dir(bi.project)
             script = proj_build_dir + "/build.py"
             if os.path.exists(script):
