@@ -451,27 +451,31 @@
     
     <gmock repo="git://github.com/google/googlemock"
            branch="origin/release-1.7.0"/>
-    <glslang repo="ssh://git@gitlab.khronos.org/jekstrand/glslang.git"
-             branch="public_glslang/master">
+    <glslang repo="git://github.com/KhronosGroup/glslang.git"
+             branch="origin/master">
       <remote name="glsl" repo="git@gitlab.khronos.org:GLSL/glslang.git"/>
-      <remote name="public_glslang" repo="git://github.com/KhronosGroup/glslang.git"/>
       <remote name="janesma" repo="git://github.com/janesma/glslang.git"/>
     </glslang>
 
     <gtest repo="git://github.com/google/googletest"
            branch="origin/release-1.7.0"/>
-    <crucible repo="ssh://majanes@git-amr-3.devtools.intel.com:29418/otc_gen_graphics-crucible"
-              branch="fdo/master">
-      <remote name="fdo" repo="http://anongit.freedesktop.org/git/mesa/crucible.git"/>
+    <crucible repo="http://anongit.freedesktop.org/git/mesa/crucible.git"
+              branch="origin/master">
       <remote name="janesma" repo="git://github.com/janesma/crucible.git"/>
     </crucible>
 
-    <vulkancts repo="git@gitlab.khronos.org:Tracker/vulkancts.git"
+    <vulkancts repo="https://github.com/KhronosGroup/VK-GL-CTS.git"
                branch="khronos/vulkan-cts-1.0.2">
       <remote name="khronos" repo="git@gitlab.khronos.org:Tracker/vk-gl-cts.git"/>
     </vulkancts>
-    <spirvtools repo="ssh://git@gitlab.khronos.org/spirv/spirv-tools.git"/>
+    
+    <spirvtools repo="git://github.com/KhronosGroup/SPIRV-Tools.git"
+                branch="khronos/master">
+      <remote name="khronos" repo="ssh://git@gitlab.khronos.org/spirv/spirv-tools.git"/>
+    </spirvtools>
+    
     <spirvheaders repo="git://github.com/KhronosGroup/SPIRV-Headers"/>
+    
     <sixonix repo="git://github.com/janesma/sixonix"
              branch="origin/mesa_ci"/>
   </repos>
