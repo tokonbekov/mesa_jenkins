@@ -93,8 +93,8 @@ function do_plot(bench_name, placeholder_id, click_id, dataset) {
             var o = plot.pointOffset({ y: ufo_score });
             placeholder.append("<div style='position:absolute;left:50px;bottom:" +
                                (10 + (25 * (i + 1))).toString() + "px;color:" +
-                               colors[i] + ";font-size:smaller'>GEOD: " +
-                               hardware +
+                               colors[i] + ";font-size:smaller'>UFO " +
+                               hardware + " : " + ufo_score.toFixed(3).toString() +
                                "<hr width=60 color='" + colors[i] +
                                "' size=2 align=LEFT></div>");
         }

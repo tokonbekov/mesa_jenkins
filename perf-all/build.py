@@ -48,32 +48,35 @@ class MesaStats:
 
         pm =  bs.ProjectMap()
         mesa_repo = git.Repo(pm.project_source_dir("mesa"))
-        sixonix_config = yaml.load(open(pm.project_build_dir("sixonix") + "/scale.yml"))
 
         # add mean score and date to data set
         for benchmark, platform in all_scores.iteritems():
             for platform_name, pscores in platform.iteritems():
                 scores_by_date = {}
+                UFO_score = None
                 for commit, series in pscores.iteritems():
                     accumulated_score = {}
-                    normalized_runs = []
+                    runs = []
                     for run in series:
-                        normalized_runs += [ r / run["scale"] for r in run["score"]]
-                    if not normalized_runs:
+                        runs += run["score"]
+                    if not runs:
                         continue
-                    accumulated_score["score"] = numpy.mean(normalized_runs, dtype=numpy.float64)
-                    accumulated_score["deviation"] = numpy.std(normalized_runs, dtype=numpy.float64) / accumulated_score["score"]
+                    accumulated_score["score"] = numpy.mean(runs, dtype=numpy.float64)
+                    accumulated_score["deviation"] = numpy.std(runs, dtype=numpy.float64) / accumulated_score["score"]
                     accumulated_score["commit"] = commit
+                    if "UFO" in commit:
+                        UFO_score = accumulated_score["score"]
+                        continue
                     date = mesa_repo.commit(commit.split("=")[1]).committed_date
                     accumulated_score["date"] = date
                     pscores[commit] = accumulated_score
                     scores_by_date[date] = accumulated_score
                 dates = scores_by_date.keys()
                 dates.sort()
-                sixonix_bench = sixonix_config[benchmark]
                 platform[platform_name] = {"mesa": [scores_by_date[d] for d in dates]}
-                if "UFO" in sixonix_bench and platform_name in sixonix_bench["UFO"]:
-                    platform[platform_name]["UFO"] = sixonix_bench["UFO"][platform_name] / sixonix_bench[platform_name]
+                if UFO_score:
+                    platform[platform_name]["UFO"] = UFO_score
+
                 
         with open(self.opts.result_path + "/../scores.json", "w") as of:
             json.dump(all_scores, fp=of)
