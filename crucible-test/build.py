@@ -104,7 +104,8 @@ class CrucibleTester(object):
         pm = bs.ProjectMap()
         build_root = pm.build_root()
         env = { "LD_LIBRARY_PATH" : build_root + "/lib",
-                "VK_ICD_FILENAMES" : build_root + "/usr/share/vulkan/icd.d/dev_icd.json"}
+                "VK_ICD_FILENAMES" : build_root + "/usr/share/vulkan/icd.d/dev_icd.json",
+                "ANV_ABORT_ON_DEVICE_LOSS" : "true"}
         o = bs.Options()
         o.update_env(env)
         br = bs.ProjectMap().build_root()

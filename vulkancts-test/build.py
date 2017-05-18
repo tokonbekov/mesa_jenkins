@@ -48,8 +48,9 @@ class VulkanTester(object):
         pass
     def test(self):
         pm = bs.ProjectMap()
-        env={"VK_ICD_FILENAMES" : pm.build_root() + \
-             "/usr/share/vulkan/icd.d/dev_icd.json"}
+        env = {"VK_ICD_FILENAMES" : pm.build_root() + \
+               "/usr/share/vulkan/icd.d/dev_icd.json",
+               "ANV_ABORT_ON_DEVICE_LOSS" : "true"}
         tester = bs.DeqpTester()
         binary = pm.build_root() + "/opt/deqp/modules/vulkan/deqp-vk"
         results = tester.test(binary,
