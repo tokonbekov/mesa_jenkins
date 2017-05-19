@@ -708,6 +708,18 @@
       <glslang branch="33dadd1"/>
     </branch>
 
+    <branch name="evelikov_17_1" project="all-test-vulkan">
+      <mesa branch="evelikov/mesa_17_1/jenkins"/>
+      <piglit branch="c12816f7b"/>
+      <deqp branch="1211e9fe"/>
+      <vulkancts branch="3a13e51f"/>
+      <glcts branch="7eb46860"/>
+      <cts branch="416ccc52"/>
+      <crucible branch="4f60bf1"/>
+      <shaderc branch="9b3dbd1"/>
+      <glslang branch="1ee1c8e1"/>
+    </branch>
+
     <branch name="igalia_13" project="all-test-vulkan">
       <mesa branch="igalia_release/igalia/13.0"/>
       <piglit branch="janesma/13_0_jenkins" trigger="false"/>
