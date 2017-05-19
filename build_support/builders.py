@@ -484,6 +484,7 @@ class PiglitTester(object):
         exclude_tests = ["glsl-1_10.execution.vs-vec2-main-return"]
 
         if o.arch == "m32":
+            exclude_tests += ["opengl.1_2.tex3d-maxsize"]            
             # https://bugs.freedesktop.org/show_bug.cgi?id=93542
             # It's not worth bisecting m32 piglit just for this test.
             exclude_tests += ["spec.arb_tessellation_shader.execution.tess_with_geometry",
