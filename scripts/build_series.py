@@ -20,7 +20,7 @@ parser.add_argument('--end_rev', type=str, default='',
                     help="The sha ending the sequence to be tested")
 
 parser.add_argument('--project', type=str, default='all-test',
-                    choices=['test-single-arch', 'piglit', 'piglit-test',
+                    choices=['test-single-arch', 'piglit', 'piglit-test', 'piglit-full',
                              'deqp-full', 'crucible-all', 'crucible-test', "cts-test", "mesa", "vulkancts-full", "glescts-full"],
                     help="The jenkins project to build")
 
