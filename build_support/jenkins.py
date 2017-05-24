@@ -655,7 +655,7 @@ def write_summary(out_dir, completed_builds, ljen, failure=False):
     titlecolor="black" 
     value="generate patch" 
     detailcolor="" 
-    href="http://otc-mesa-ci.jf.intel.com/job/update_failures/parambuild/?result_path={result_path}" />
+    href="http://otc-mesa-ci.jf.intel.com/job/accept_failed_tests/parambuild/?result_path={result_path}" />
 <br/>
 <br/>
     <field name="Build link to bisect failures"
