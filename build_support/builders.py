@@ -485,7 +485,7 @@ class PiglitTester(object):
 
         if o.arch == "m32":
             exclude_tests += ["opengl.1_2.tex3d-maxsize",
-                              "shaders.glsl-max-varyings..max_varying_components"]
+                              "shaders.glsl-max-varyings"]
 
             # https://bugs.freedesktop.org/show_bug.cgi?id=93542
             # It's not worth bisecting m32 piglit just for this test.
