@@ -338,6 +338,11 @@
     <project name="xonotic">
       <prerequisite name="mesa-perf" hardware="builder"/>
     </project>
+    <project name="dota-pts">
+      <prerequisite name="mesa-perf" hardware="builder"/>
+      <prerequisite name="apitrace" config="release" hardware="builder"/>
+    </project>
+
     <project name="perf-all">
       <prerequisite name="synmark_a" hardware="sklgt2-01,bdwgt3e-01,bsw-01,bxt-07"/>
       <prerequisite name="synmark_c" hardware="sklgt2-02,bdwgt3e-02,bsw-02,bxt-02"/>
@@ -478,6 +483,8 @@
     
     <sixonix repo="git://github.com/janesma/sixonix"
              branch="origin/mesa_ci"/>
+    <apitrace repo="git://github.com/janesma/apitrace"
+              branch="origin/frameretrace"/>
   </repos>
 
 
@@ -556,6 +563,7 @@
 
     <branch name="mesa_perf" project="perf-all">
       <sixonix branch="origin/mesa_ci" trigger="false"/>
+      <apitrace branch="origin/frameretrace" trigger="false"/>
     </branch>
     
     <branch name="bwidawsk_vulkan" project="vulkancts-full">
