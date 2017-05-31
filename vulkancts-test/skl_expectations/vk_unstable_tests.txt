@@ -7,3 +7,4 @@ dEQP-VK.glsl.derivate.fwidth.texture.msaa4.vec2_highp
 dEQP-VK.tessellation.primitive_discard
 dEQP-VK.geometry.layered.3d.render_to_default_layer
 dEQP-VK.wsi.xcb.incremental_present
+dEQP-VK.wsi.xlib.incremental_present
