@@ -410,7 +410,8 @@
       <remote name="janesma" repo="git://github.com/janesma/drm"/>
     </drm>
 
-    <piglit repo="git://github.com/mesa3d/piglit.git">
+    <piglit repo="git://github.com/mesa3d/piglit.git"
+            branch="7f838e5ae2a5876cbe587eb2e1a692e45721abe1">
       <remote name="jekstrand" repo="git://people.freedesktop.org/~jekstrand/piglit"/>
       <!-- Dylan's repository is more stable than the origin, and will
            not trigger builds unnecessarily -->
