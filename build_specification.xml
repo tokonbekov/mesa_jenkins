@@ -549,7 +549,7 @@
       <vulkancts branch="3a13e51f"/>
       <glcts branch="7eb46860"/>
       <cts branch="416ccc52"/>
-      <crucible branch="4f60bf1"/>
+      <crucible branch="4d73e835f9300b177e97fda46a51fe340d088741"/>
       <shaderc branch="9b3dbd1"/>
       <glslang branch="1ee1c8e1"/>
     </branch>
@@ -729,7 +729,7 @@
       <vulkancts branch="3a13e51f"/>
       <glcts branch="7eb46860"/>
       <cts branch="416ccc52"/>
-      <crucible branch="4f60bf1"/>
+      <crucible branch="4d73e835f9300b177e97fda46a51fe340d088741"/>
       <shaderc branch="9b3dbd1"/>
       <glslang branch="1ee1c8e1"/>
     </branch>
