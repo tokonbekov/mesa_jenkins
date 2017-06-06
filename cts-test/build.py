@@ -148,11 +148,11 @@ class CtsBuilder:
             cmd = ["cp", "-a", "-n",
                    self.build_root + "/../test", pm.source_root()]
             bs.run_batch_command(cmd)
-            bs.Export().export_tests()
         else:
             print "ERROR: no results at " + out_dir + "/results.xml"
 
         bs.check_gpu_hang()
+        bs.Export().export_tests()
 
     def filter_tests(self, revisions, infile, outfile):
         """this method is ripped bleeding from builders.py / PiglitTester"""
