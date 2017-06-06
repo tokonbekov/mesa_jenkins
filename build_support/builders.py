@@ -674,8 +674,8 @@ class PiglitTester(object):
                self.build_root + "/../test", pm.source_root()]
         run_batch_command(cmd)
 
-        Export().export_tests()
         check_gpu_hang()
+        Export().export_tests()
 
     def filter_tests(self, revisions, infile, outfile):
         """this functionality has been duplicated in deqp-test/build.py.  If

@@ -116,8 +116,8 @@ class PerfBuilder(object):
             with open(outf, 'w') as of:
                 json.dump(result, fp=of)
                 
-        Export().export_perf()
         check_gpu_hang(False)
+        Export().export_perf()
 
     def clean(self):
         pass
