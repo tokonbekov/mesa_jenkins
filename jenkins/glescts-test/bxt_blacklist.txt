@@ -1,6 +1,0 @@
-ES31-CTS.core.compute_shader.api-program
-ES31-CTS.core.shader_image_load_store
-ES31-CTS.functional.compute.indirect_dispatch
-ES31-CTS.functional.compute.shared_var
-ES31-CTS.functional.draw_indirect
-ES32-CTS.functional.tessellation.state_query

@@ -87,7 +87,7 @@
     </project>
 
     <project name="glescts-test"
-             bisect_hardware="g33,g45,ilk,g965,byt,bsw,skl,bdw,hsw,snb,ivb,kblgt2,glk"
+             bisect_hardware="g33,g45,ilk,g965,bxt,byt,bsw,skl,bdw,hsw,snb,ivb,kblgt2,glk"
              bisect_arch="m64">
       <prerequisite name="mesa" hardware="builder"/>
       <prerequisite name="cts" hardware="builder"/>
@@ -99,7 +99,7 @@
       <prerequisite name="glescts-test" hardware="hsw" shard="4"/>
       <!-- only_for_type enforces the prerequisite when type matches
            the value. -->
-      <prerequisite name="glescts-test" hardware="bsw,byt,glk" shard="8" only_for_type="daily"/>
+      <prerequisite name="glescts-test" hardware="bsw,byt,bxt,glk" shard="8" only_for_type="daily"/>
       <prerequisite name="glescts-test" hardware="g33,g45,ilk,g965,ivb,snb,kblgt2" shard="3" only_for_type="daily"/>
       <prerequisite name="glescts-test"
                     only_for_type="daily"
