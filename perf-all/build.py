@@ -46,6 +46,13 @@ class MesaStats:
                 a_score = json.load(f)
             self.merge_scores(all_scores, a_score)
 
+        # canoninical windows path is
+        # /mnt/jenkins/results/perf_win/scores/{benchmark}/{platform}/{date}.json:
+        for a_score_file in glob.glob("/mnt/jenkins/results/perf_win/scores/*/*/*/*.json"):
+            with open(a_score_file, "r") as f:
+                a_score = json.load(f)
+            self.merge_scores(all_scores, a_score)
+
         pm =  bs.ProjectMap()
         mesa_repo = git.Repo(pm.project_source_dir("mesa"))
 

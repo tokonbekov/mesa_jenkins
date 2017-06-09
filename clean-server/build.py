@@ -47,6 +47,8 @@ result_path = "/mnt/jenkins/results/"
 for a_dir in os.listdir(result_path):
     if a_dir == "traceValidator":
         continue
+    if a_dir == "perf_win":
+        continue
     sub_dir = result_path + a_dir
     for a_build_dir in os.listdir(sub_dir):
         build_dir = sub_dir + "/" + a_build_dir
