@@ -242,6 +242,10 @@ class RepoSet:
     def projects(self):
         return self._repos.keys()
 
+    def alarm(self, secs):
+        if os.name != "nt":
+            signal.alarm(secs)   # 5 minutes
+
     def fetch(self):
         def signal_handler(signum, frame):
             raise TimeoutException("Fetch timed out.")
@@ -256,25 +260,26 @@ class RepoSet:
                 print "ERROR: git repo is corrupt, removing: " + repo.working_tree_dir
                 run_batch_command(["rm", "-rf", repo.working_tree_dir])
                 raise;
-            signal.signal(signal.SIGALRM, signal_handler)
+            if os.name != "nt":
+                signal.signal(signal.SIGALRM, signal_handler)
             for remote in repo.remotes:
                 print "fetching " + remote.url
                 # 4 attempts
                 success = False
                 for _ in range(1,4):
                     try:
-                        signal.alarm(300)   # 5 minutes
+                        self.alarm(300)   # 5 minutes
                         remote.fetch()
-                        signal.alarm(0)
+                        self.alarm(0)
                         success = True
                         break
                     except git.GitCommandError as e:
                         print "error fetching: " + str(e)
-                        signal.alarm(0)
+                        self.alarm(0)
                         time.sleep(1)
                     except AssertionError as e:
                         print "assertion while fetching: " + str(e)
-                        signal.alarm(0)
+                        self.alarm(0)
                         time.sleep(1)
                     except TimeoutException as e:
                         print str(e)

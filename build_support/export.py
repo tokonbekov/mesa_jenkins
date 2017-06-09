@@ -38,8 +38,11 @@ from . import Options
 from . import ProjectMap
 
 def convert_rsync_path(path):
+    repl_path = "otc-mesa-ci.local::nfs/"
+    if os.name == "nt":
+        repl_path = "otc-mesa-ci.jf.intel.com::nfs/"
     if path.startswith("/mnt/jenkins/"):
-        return path.replace("/mnt/jenkins/", "otc-mesa-ci.local::nfs/")
+        return path.replace("/mnt/jenkins/", repl_path)
     return None
 
 class Export:
@@ -91,15 +94,18 @@ class Export:
             print "WARN: some errors copying: " + str(e)
 
     def export_perf(self):
-        if not self.result_path:
+        if not self.result_path and os.name != "nt":
             return
 
         perf_path = ProjectMap().build_root()
+        rsync = "rsync"
+        if os.name == "nt":
+            perf_path = os.path.relpath(ProjectMap().project_source_dir("sixonix") + "/windows/scores").replace("\\","/")
+            rsync = "c:/Program Files (x86)/Git/usr/bin/rsync.exe"
         if not os.path.exists(perf_path):
             print "ERROR: no results to export"
             return
-
-        cmd = ["rsync", "-rlpzD", "--exclude=build",
+        cmd = [rsync, "-rlpD", "--exclude=build",
                perf_path, 
                self._dest]
 
