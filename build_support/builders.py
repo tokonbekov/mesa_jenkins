@@ -113,6 +113,8 @@ def check_gpu_hang(identify_test=True):
     # produces a failing test if a hang is found, and schedules a
     # reboot if the host is determined to be a jenkins builder
     # (user=jenkins)
+    if os.name == "nt":
+        return
     (out, _) = run_batch_command(["dmesg", "--time-format", "iso"],
                                  quiet=True,
                                  streamedOutput=False)

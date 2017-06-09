@@ -96,13 +96,16 @@ def run_batch_command(commands, streamedOutput=True, noop=False, env = None,
     if noop:
         return 0
 
+    preexec = None
+    if os.name != "nt":
+        preexec = os.setsid
     if streamedOutput is True:
         p = subprocess.Popen(commands, env=procEnv, 
-                             preexec_fn=os.setsid,
+                             preexec_fn=preexec,
                              stdin=stdinput)
     else:
         p = subprocess.Popen(commands, env=procEnv, 
-                             preexec_fn=os.setsid, 
+                             preexec_fn=preexec,
                              stdout=subprocess.PIPE, 
                              stderr=subprocess.PIPE,
                              stdin=stdinput)

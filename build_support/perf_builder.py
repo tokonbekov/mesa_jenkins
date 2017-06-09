@@ -2,8 +2,9 @@
 import datetime
 import os
 import json
-import yaml
 import random
+import shutil
+import sys
 from . import ProjectMap, Options, RevisionSpecification, run_batch_command, Export, check_gpu_hang
 
 class PerfBuilder(object):
@@ -27,16 +28,7 @@ class PerfBuilder(object):
         # todo(majanes) possibly verify that benchmarks are in /opt
         pass
 
-    def test(self):
-        iterations = self._iterations
-        save_dir = os.getcwd()
-        if self._opt.hardware == "builder":
-            print "ERROR: hardware must be set to a specific sku.  'builder' is not a valid hardware setting."
-            assert(False)
-        hw = self._opt.hardware[:3]
-        mesa_dir = "/tmp/build_root/" + self._opt.arch + "/" + hw + "/usr/local/lib"
-        os.chdir(self._pm.project_source_dir("sixonix"))
-
+    def set_resolution(self):
         env = self._env
         # set the resolution to 1080p
         (out, _) = run_batch_command(["xrandr"],
@@ -64,6 +56,19 @@ class PerfBuilder(object):
             # else resolution is correct
             break
 
+    def test(self):
+        iterations = self._iterations
+        save_dir = os.getcwd()
+        if self._opt.hardware == "builder":
+            print "ERROR: hardware must be set to a specific sku.  'builder' is not a valid hardware setting."
+            assert(False)
+        hw = self._opt.hardware[:3]
+        mesa_dir = "/tmp/build_root/" + self._opt.arch + "/" + hw + "/usr/local/lib"
+        os.chdir(self._pm.project_source_dir("sixonix"))
+
+        if os.name != "nt":
+            self.set_resolution()
+
         benchmarks = [[self._benchmark.upper()]]
         if self._sub_benchmarks:
             benchmarks = [[self._benchmark.upper(), b] for b in self._sub_benchmarks]
@@ -83,9 +88,13 @@ class PerfBuilder(object):
         random.shuffle(bench_runs)
         iteration = 0
         for b in bench_runs:
-            cmd = ["./glx.sh", mesa_dir] + b
+            cmd = []
+            if os.name == "nt":
+                cmd = [sys.executable, "windows/run_benchmark.py"] + b
+            else:
+                cmd = ["./glx.sh", mesa_dir] + b
             print " ".join(cmd)
-            (out, err) = run_batch_command(cmd, streamedOutput=False, env=env)
+            (out, err) = run_batch_command(cmd, streamedOutput=False, env=self._env)
             if err:
                 print "err: " + err
             if iteration >= self._discard:
@@ -102,17 +111,17 @@ class PerfBuilder(object):
             if len(b) > 1:
                 # for synmark, use the sub-benchmark name
                 benchmark = b[1]
-            r = str(RevisionSpecification().revision("mesa"))
-            scale = 1.0
-            try:
-                scale = yaml.load(open(self._pm.project_build_dir("sixonix") + "/scale.yml"))[benchmark][hw]
-            except:
-                print "WARN: failed to find scale for " + benchmark
-            result[benchmark] = {hw: {"mesa=" + r: [{"score": scores[b[-1]], "scale": scale}]}}
+            if os.name == "nt":
+                r = "UFO"
+            else:
+                r = str(RevisionSpecification().revision("mesa"))
+            result[benchmark] = {hw: {"mesa=" + r: [{"score": scores[b[-1]]}]}}
             out_dir = "/tmp/build_root/" + self._opt.arch + "/scores/" + benchmark + "/" + hw
+            if os.name == "nt":
+                out_dir = self._pm.project_source_dir("sixonix") + "/windows/scores/" + benchmark + "/" + hw
             if not os.path.exists(out_dir):
                 os.makedirs(out_dir)
-            outf = out_dir + "/" + datetime.datetime.now().isoformat() + ".json"
+            outf = out_dir + "/" + datetime.datetime.now().isoformat().replace(":", ".") + ".json"
             with open(outf, 'w') as of:
                 json.dump(result, fp=of)
                 
@@ -120,6 +129,7 @@ class PerfBuilder(object):
         Export().export_perf()
 
     def clean(self):
-        pass
-
-
+        if os.name == "nt":
+            out_dir = self._pm.project_source_dir("sixonix") + "/windows/scores"
+            if os.path.exists(out_dir):
+                shutil.rmtree(out_dir)
