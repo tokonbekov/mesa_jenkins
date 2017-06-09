@@ -67,7 +67,7 @@ def main():
     # checkout the desired revision on top of recent revisions
     if not revision:
         # randomly select a commit post 11.2
-        branch_commit = mesa_repo.tags["11.2-branchpoint"].commit.hexsha
+        branch_commit = mesa_repo.tags["17.0-branchpoint"].commit.hexsha
         commits = []
         for commit in mesa_repo.iter_commits('origin/master', max_count=8000):
             if commit.hexsha == branch_commit:
