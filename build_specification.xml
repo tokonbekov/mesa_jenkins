@@ -424,6 +424,7 @@
       <remote name="jljusten" repo="git://people.freedesktop.org/~jljusten/piglit"/>
       <remote name="mattst88" repo="git://people.freedesktop.org/~mattst88/piglit"/>
       <remote name="hakzsam" repo="git://people.freedesktop.org/~hakzsam/piglit"/>
+      <remote name="antognolli" repo="git://github.com/rantogno/piglit"/>
     </piglit>
 
     <waffle repo="git://github.com/waffle-gl/waffle">
