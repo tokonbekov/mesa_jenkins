@@ -230,14 +230,14 @@
     </project>
 
     <project name="deqp-full">
-      <prerequisite name="deqp-test" hardware="hsw,skl,kbl,bdw"/>
+      <prerequisite name="deqp-test" hardware="hsw,skl,kbl,bdw,snb,ivb"/>
       <prerequisite name="deqp-test"
                     only_for_type="daily"
-                    hardware="snb,byt,bsw,ivb,bxt,glk"/>
+                    hardware="byt,bsw,bxt,glk"/>
       <prerequisite name="deqp-test"
                     only_for_type="daily"
                     arch="m32"
-                    hardware="snb,ivb,hsw,bdw,skl,kbl"/>
+                    hardware="snb,ivb,hsw,bdw,skl,kbl,bxt,bsw"/>
     </project>
 
     <project name="cts-full">
