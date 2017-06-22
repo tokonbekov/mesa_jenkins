@@ -88,14 +88,17 @@ class DeqpLister(object):
                                 "dEQP-EGL.functional.image.api.create_image_gles2_tex2d_luminance_alpha"]
             if "bdw" in self.o.hardware:
                 unsupported += ["dEQP-EGL.functional.buffer_age.no_preserve"]
-        if "gles2" in self.binary:
-            unsupported += ["dEQP-GLES3", "dEQP-GLES31", "dEQP-EGL"]
-        elif "gles31" in self.binary:
-            unsupported += ["dEQP-GLES2", "dEQP-GLES3", "dEQP-EGL"]
-        elif "gles3" in self.binary:
-            unsupported += ["dEQP-GLES2", "dEQP-GLES31", "dEQP-EGL"]
-        elif "egl" in self.binary:
-            unsupported += ["dEQP-GLES2", "dEQP-GLES3", "dEQP-GLES31"]
+
+        # filter immediately, since any unsupported tests under these
+        # top-level categories will prevent them from being filtered.
+        if "gles2" not in self.binary:
+            all_tests.filter(["dEQP-GLES2"])
+        if "gles31" not in self.binary:
+            all_tests.filter(["dEQP-GLES31"])
+        if "gles3" not in self.binary:
+            all_tests.filter(["dEQP-GLES3"])
+        if "egl" not in self.binary:
+            all_tests.filter(["dEQP-EGL"])
 
         if "17.0" in self.version:
             if "byt" in self.o.hardware or "ivb" in self.o.hardware:
