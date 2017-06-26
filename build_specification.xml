@@ -579,6 +579,10 @@
       <mesa branch="jekstrand/jenkins_vulkan"/>
     </branch>
 
+    <branch name="tf_jekstrand" project="vulkancts-full">
+      <mesa branch="internal/jekstrand_jenkins"/>
+    </branch>
+
     <branch name="jljusten_vulkan" project="vulkancts-full">
       <mesa branch="jljusten/vulkan"/>
     </branch>
