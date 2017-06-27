@@ -4,6 +4,7 @@ import os
 import sys
 import tarfile
 import time
+from prettytable import PrettyTable
 import xml.etree.ElementTree as ET
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
 import build_support as bs
@@ -25,7 +26,35 @@ def strip_passes(root):
                 serr = a_test.find("system-err")
                 if serr is not None:
                     serr.text = " "
-    
+
+def create_revision_table():
+    repo_set = bs.RepoSet()
+
+    table_repo = []
+    table_message = []
+    table_sha = []
+
+    for project in repo_set.projects():
+        repo = repo_set.repo(project)
+        commit = repo.commit()
+        message = commit.message.splitlines()[0]
+        sha = repo.git.rev_parse(commit.hexsha, short=True)
+
+        table_repo.append(project)
+        table_sha.append(sha)
+        table_message.append(message)
+
+    x = PrettyTable()
+    x.add_column("Project", [ p for p in table_repo])
+    x.add_column("sha", [ s for s in table_sha])
+    x.add_column("Message", [ m for m in table_message ])
+
+    x.align["Project"] = "l"
+    x.align["Commit"] = "c"
+    x.align["Message"] = "l"
+
+    text_table = str(x)
+    return text_table
 
 def collate_tests(result_path, out_test_dir, make_tar=False):
     src_test_dir = result_path + "/test"
@@ -38,7 +67,7 @@ def collate_tests(result_path, out_test_dir, make_tar=False):
     if not os.path.exists(src_test_dir):
         print "no test directory found: " + src_test_dir
         return
-        
+
     cmd = ["cp", "-a", "-n",
            src_test_dir,
            out_test_dir]
@@ -48,6 +77,10 @@ def collate_tests(result_path, out_test_dir, make_tar=False):
     # not parse them.
     for a_file in os.listdir(out_test_dir + "/test"):
         os.utime(out_test_dir + "/test/" + a_file, None)
+
+    revisions_path = bs.ProjectMap().source_root() + "/revisions.txt"
+    with open(revisions_path, "w") as revs:
+        revs.write(create_revision_table())
 
     if not make_tar:
         return
@@ -120,12 +153,13 @@ def collate_tests(result_path, out_test_dir, make_tar=False):
             fh.close()
         time.sleep(10)
 
+
 def main():
     # reuse the options from the gasket
     o = bs.Options([sys.argv[0]])
     description="builds a component on jenkins"
-    parser= argparse.ArgumentParser(description=description, 
-                                    parents=[o._parser], 
+    parser= argparse.ArgumentParser(description=description,
+                                    parents=[o._parser],
                                     conflict_handler="resolve")
     parser.add_argument('--project', dest='project', type=str, default="",
                         help='Project to build. Default project is specified '\
@@ -139,7 +173,7 @@ def main():
                         help="specific set of revisions to build.")
 
     parser.add_argument('--rebuild', type=str, default="false",
-                        choices=['true', 'false'], 
+                        choices=['true', 'false'],
                         help="specific set of revisions to build."
                         "(default: %(default)s)")
     parser.add_argument("--tar", help="generate tar for email notification",
