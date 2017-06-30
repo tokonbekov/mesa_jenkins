@@ -602,6 +602,9 @@ class PiglitTester(object):
         if "bxt" in hardware:
             exclude_tests += ["arb_compute_shader.execution.simple-barrier-atomics"]
 
+        if "byt" in hardware:
+            exclude_tests += ["ext_framebuffer_multisample.accuracy"]
+
         exclude_cmd = []
         for test in exclude_tests:
             fixed_test = test.replace('_', '.')
