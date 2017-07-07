@@ -22,10 +22,8 @@ class PerfBuilder(object):
         if self._env is None:
             self._env = {}
         build_root = self._pm.build_root()
-        libdir = "x86_64-linux-gnu"
-        if self._opt.arch == "m32":
-            libdir = "i386-linux-gnu"
-        prefix = build_root + "/" + self._opt.hardware + "/usr/local/lib/"
+        hw_prefix = self._opt.hardware[:3]
+        prefix = build_root + "/" + hw_prefix + "/usr/local/lib/"
         self._env["LD_LIBRARY_PATH"] = prefix + ":" + prefix + "dri"
         self._env["LIBGL_DRIVERS_PATH"] = prefix + "dri"
         self._opt.update_env(self._env)
