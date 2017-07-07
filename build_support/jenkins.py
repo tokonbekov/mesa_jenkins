@@ -651,14 +651,14 @@ def write_summary(out_dir, completed_builds, ljen, failure=False):
     outf.write("""\
 </table>
 <br/>
-    <field name="Build link to accept failed tests" 
+    <field name="Build link to accept changed tests" 
     titlecolor="black" 
     value="generate patch" 
     detailcolor="" 
     href="http://otc-mesa-ci.jf.intel.com/job/accept_failed_tests/parambuild/?result_path={result_path}" />
 <br/>
 <br/>
-    <field name="Build link to bisect failures"
+    <field name="Build link to bisect changed tests"
     titlecolor="black" 
     value="generate patch" 
     detailcolor="" 
