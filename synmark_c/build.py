@@ -46,6 +46,6 @@ low_variance_benchmarks = ["OglPSBump8",
                            "OglTexFilterTri",
                            "OglShMapPcf"]
 
-bs.build(bs.PerfBuilder("synmark_long", low_variance_benchmarks, iterations=3),
+bs.build(bs.PerfBuilder(low_variance_benchmarks, iterations=3),
          time_limit=SynmarkTimeout())
 

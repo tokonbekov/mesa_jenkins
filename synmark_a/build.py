@@ -57,7 +57,7 @@ high_variance_benchmarks = ["OglVSInstancing",
                             "OglZBuffer",
                             "OglBatch2"]
 
-bs.build(bs.PerfBuilder("synmark_long", high_variance_benchmarks, iterations=2,
+bs.build(bs.PerfBuilder(high_variance_benchmarks, iterations=2,
                         custom_iterations_fn=iterations),
          time_limit=SynmarkTimeout())
 

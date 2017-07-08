@@ -8,12 +8,9 @@ import sys
 from . import ProjectMap, Options, RevisionSpecification, run_batch_command, Export, check_gpu_hang
 
 class PerfBuilder(object):
-    def __init__(self, benchmark, sub_benchmarks=None, iterations=2, discard=0,
+    def __init__(self, benchmark, iterations=2, discard=0,
                  env=None, custom_iterations_fn=None):
         self._benchmark = benchmark
-        self._sub_benchmarks = sub_benchmarks
-        if not sub_benchmarks:
-            self._sub_benchmarks = []
         self._iterations = iterations
         self._discard = discard
         self._pm = ProjectMap()
@@ -74,10 +71,10 @@ class PerfBuilder(object):
         if os.name != "nt":
             self.set_resolution()
 
-        benchmarks = [[self._benchmark.upper()]]
-        if self._sub_benchmarks:
-            benchmarks = [[self._benchmark.upper(), b] for b in self._sub_benchmarks]
-        scores = dict([[b[-1],[]] for b in benchmarks])
+        benchmarks = self._benchmark
+        if type(benchmarks) != type([]):
+            benchmarks = [self._benchmark.upper()]
+        scores = dict([[b,[]] for b in benchmarks])
 
         # build a list of each benchmark to run
         bench_runs = []
@@ -87,14 +84,14 @@ class PerfBuilder(object):
             it_multiplier = 5
         for b in benchmarks:
             if self._custom_iterations_fn:
-                iterations = self._custom_iterations_fn(b[-1], hw) or iterations
+                iterations = self._custom_iterations_fn(b, hw) or iterations
             bench_runs += [b] * iterations * it_multiplier
 
         random.shuffle(bench_runs)
         iteration = 0
         for b in bench_runs:
             cmd = []
-            if b[0] in ["MANHATTAN",
+            if b in ["MANHATTAN",
                      "MANHATTAN_O",
                      "CAR_CHASE",
                      "CAR_CHASE_O",
@@ -105,33 +102,72 @@ class PerfBuilder(object):
                      "TESS",
                      "TESS_O",
                      "HEAVEN",
-                     "VALLEY"]:
-                cmd = [sys.executable, "run_benchmark.py"] + b
+                     "VALLEY",
+                     "OglBatch0",
+                     "OglBatch1",
+                     "OglBatch2",
+                     "OglBatch3",
+                     "OglBatch4",
+                     "OglBatch5",
+                     "OglBatch6",
+                     "OglBatch7",
+                     "OglCSCloth",
+                     "OglCSDof",
+                     "OglDeferred",
+                     "OglDeferredAA",
+                     "OglDrvRes",
+                     "OglDrvShComp",
+                     "OglDrvState",
+                     "OglFillPixel",
+                     "OglFillTexMulti",
+                     "OglFillTexSingle",
+                     "OglGeomPoint",
+                     "OglGeomTriList",
+                     "OglGeomTriStrip",
+                     "OglHdrBloom",
+                     "OglMultithread",
+                     "OglPSBump2",
+                     "OglPSBump8",
+                     "OglPSPhong",
+                     "OglPSPom",
+                     "OglShMapPcf",
+                     "OglShMapVsm",
+                     "OglTerrainFlyInst",
+                     "OglTerrainFlyTess",
+                     "OglTerrainPanInst",
+                     "OglTerrainPanTess",
+                     "OglTexFilterAniso",
+                     "OglTexFilterTri",
+                     "OglTexMem128",
+                     "OglTexMem512",
+                     "OglVSDiffuse1",
+                     "OglVSDiffuse8",
+                     "OglVSInstancing",
+                     "OglVSTangent",
+                     "OglZBuffer"]:
+                cmd = [sys.executable, "run_benchmark.py", b]
             else:
-                cmd = ["./glx.sh", mesa_dir] + b
+                cmd = ["./glx.sh", mesa_dir, b]
             print " ".join(cmd)
             (out, err) = run_batch_command(cmd, streamedOutput=False, env=self._env)
             if err:
                 print "err: " + err
             if iteration >= self._discard:
                 if not out:
-                    print "ERROR: no score: " + b[-1]
+                    print "ERROR: no score: " + b
                     continue
-                scores[b[-1]].append(float(out.splitlines()[-1]))
+                scores[b].append(float(out.splitlines()[-1]))
             iteration += 1
 
         os.chdir(save_dir)
         for b in benchmarks:
             result = {}
-            benchmark = self._benchmark
-            if len(b) > 1:
-                # for synmark, use the sub-benchmark name
-                benchmark = b[1]
+            benchmark = b
             if os.name == "nt":
                 r = "UFO"
             else:
                 r = str(RevisionSpecification().revision("mesa"))
-            result[benchmark] = {hw: {"mesa=" + r: [{"score": scores[b[-1]]}]}}
+            result[benchmark] = {hw: {"mesa=" + r: [{"score": scores[benchmark]}]}}
             out_dir = "/tmp/build_root/" + self._opt.arch + "/scores/" + benchmark + "/" + hw
             if os.name == "nt":
                 out_dir = self._pm.project_source_dir("sixonix") + "/windows/scores/" + benchmark + "/" + hw
