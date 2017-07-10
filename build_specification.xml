@@ -403,6 +403,7 @@
       <remote name="hakzsam" repo="git://people.freedesktop.org/~hakzsam/mesa"/>
       <remote name="daniels" repo="git://git.collabora.com/git/user/daniels/mesa"/>
       <remote name="chrisf" repo="git://github.com/chrisforbes/mesa"/>
+      <remote name="igalia_khronos" repo="git@gitlab.khronos.org:vulkan/mesa.git"/>
     </mesa>
 
     <drm repo="http://anongit.freedesktop.org/git/mesa/drm.git">
@@ -794,6 +795,10 @@
 
     <branch name="igalia" project="test-single-arch-vulkan">
       <mesa branch="igalia/jenkins"/>
+    </branch>
+
+    <branch name="igalia_khronos" project="test-single-arch-vulkan">
+      <mesa branch="igalia_khronos/wip/igalia/jenkins-khronos"/>
     </branch>
 
     <branch name="itoral" project="test-single-arch-vulkan">
