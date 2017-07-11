@@ -13,17 +13,8 @@ class MesaBuilder(bs.AutoBuilder):
         global_opts = bs.Options()
 
         options = []
-        if global_opts.arch == "m32":
-            # expat pkg-config fails for some reason on i386
-            options = ['EXPAT_LIBS="-L/usr/lib/i386-linux-gnu -lexpat"']
-
-        surfaceless = ""
-        if path.exists(bs.ProjectMap().project_source_dir() + "/src/egl/drivers/dri2/platform_surfaceless.c"):
-            # surfaceless not supported on 10.6 and earlier
-            surfaceless = ",surfaceless"
-
         options = options + ["--enable-gbm",
-                             "--with-egl-platforms=x11,drm" + surfaceless,
+                             "--with-egl-platforms=x11,drm",
                              "--enable-glx-tls", 
                              "--enable-gles1",
                              "--enable-gles2",
@@ -47,24 +38,6 @@ class MesaBuilder(bs.AutoBuilder):
         # always enable optimizations in mesa because tests are too slow
         # without them.
         bs.AutoBuilder.__init__(self, configure_options=options, opt_flags="-O2")
-
-    def build(self):
-        """since mesa doesn't install an icd, generate one"""
-        bs.AutoBuilder.build(self)
-        icd_path = "/tmp/build_root/" + self._options.arch + "/usr/share/vulkan/icd.d/dev_icd.json"
-        icd_content = """\
-{
-    "file_format_version": "1.0.0",
-    "ICD": {
-        "library_path": "/tmp/build_root/%s/lib/libvulkan_intel.so",
-        "abi_versions": "1.0.3"
-    }
-}
-""" % self._options.arch
-        if not os.path.exists(os.path.dirname(icd_path)):
-            os.makedirs(os.path.dirname(icd_path))
-        with open(icd_path, "w") as icd_f:
-            icd_f.write(icd_content)
 
     def test(self):
         """Provide gtests as available"""

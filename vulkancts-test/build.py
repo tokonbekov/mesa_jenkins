@@ -48,8 +48,13 @@ class VulkanTester(object):
         pass
     def test(self):
         pm = bs.ProjectMap()
+        global_opts = bs.Options()
+        if global_opts.arch == "m64":
+            icd_name = "intel_icd.x86_64.json"
+        elif global_opts.arch == "m32":
+            icd_name = "intel_icd.i686.json"
         env = {"VK_ICD_FILENAMES" : pm.build_root() + \
-               "/usr/share/vulkan/icd.d/dev_icd.json",
+               "/share/vulkan/icd.d/" + icd_name,
                "ANV_ABORT_ON_DEVICE_LOSS" : "true"}
         tester = bs.DeqpTester()
         binary = pm.build_root() + "/opt/deqp/modules/vulkan/deqp-vk"

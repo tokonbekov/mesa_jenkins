@@ -103,8 +103,13 @@ class CrucibleTester(object):
     def test(self):
         pm = bs.ProjectMap()
         build_root = pm.build_root()
+        global_opts = bs.Options()
+        if global_opts.arch == "m64":
+            icd_name = "intel_icd.x86_64.json"
+        elif global_opts.arch == "m32":
+            icd_name = "intel_icd.i686.json"
         env = { "LD_LIBRARY_PATH" : build_root + "/lib",
-                "VK_ICD_FILENAMES" : build_root + "/usr/share/vulkan/icd.d/dev_icd.json",
+                "VK_ICD_FILENAMES" : build_root + "/share/vulkan/icd.d/" + icd_name,
                 "ANV_ABORT_ON_DEVICE_LOSS" : "true"}
         o = bs.Options()
         o.update_env(env)
