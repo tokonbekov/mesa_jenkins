@@ -147,7 +147,7 @@ class PerfBuilder(object):
                      "OglZBuffer"]:
                 cmd = [sys.executable, "run_benchmark.py", b]
             else:
-                cmd = ["./glx.sh", mesa_dir, b]
+                cmd = ["./glx.sh", mesa_dir, b.upper()]
             print " ".join(cmd)
             (out, err) = run_batch_command(cmd, streamedOutput=False, env=self._env)
             if err:
