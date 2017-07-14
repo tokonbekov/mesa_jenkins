@@ -194,7 +194,7 @@
     <!-- all-test has no build.py, and exists only to provide
          dependency relationships. -->
     <project name="all-test">
-      <!-- <prerequisite name="scons-buildtest" hardware="builder"/> -->
+      <prerequisite name="scons-buildtest" hardware="builder"/>
       <prerequisite name="piglit-full"/>
       <prerequisite name="deqp-full"/>
       <prerequisite name="mesa-buildtest" hardware="builder" arch="m64"/>
@@ -211,7 +211,7 @@
       <prerequisite name="piglit-test" hardware="g33,ilk,g45,g965,snb,ivb,hsw,bdwgt3e,skl"/>
       <prerequisite only_for_type="daily" name="piglit-test" hardware="bsw,byt,g33,glk,bxt"/>
       <prerequisite name="piglit-cpu-test" hardware="fastgpu"/>
-      <!-- <prerequisite name="scons-buildtest" hardware="builder" arch="m64"/> -->
+      <prerequisite name="scons-buildtest" hardware="builder" arch="m64"/>
       <prerequisite name="mesa-buildtest" hardware="builder"/>
       <prerequisite name="deqp-full"/>
       <prerequisite name="cts-full"/>
@@ -222,7 +222,7 @@
     <project name="test-single-arch-ben">
       <prerequisite name="piglit-test" hardware="g33,ilk,g45,g965,snb,ivb,hsw,bdwgt3e,skl,bsw,byt,bxt"/>
       <prerequisite name="piglit-cpu-test" hardware="fastgpu"/>
-      <!-- <prerequisite name="scons-buildtest" hardware="builder" arch="m64"/> -->
+      <prerequisite name="scons-buildtest" hardware="builder" arch="m64"/>
       <prerequisite name="mesa-buildtest" hardware="builder"/>
       <prerequisite name="deqp-full"/>
       <prerequisite name="cts-full"/>
