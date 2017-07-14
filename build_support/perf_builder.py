@@ -73,7 +73,7 @@ class PerfBuilder(object):
 
         benchmarks = self._benchmark
         if type(benchmarks) != type([]):
-            benchmarks = [self._benchmark.upper()]
+            benchmarks = [self._benchmark]
         scores = dict([[b,[]] for b in benchmarks])
 
         # build a list of each benchmark to run
@@ -91,18 +91,18 @@ class PerfBuilder(object):
         iteration = 0
         for b in bench_runs:
             cmd = []
-            if b in ["MANHATTAN",
-                     "MANHATTAN_O",
-                     "CAR_CHASE",
-                     "CAR_CHASE_O",
-                     "TREX",
-                     "TREX_O",
-                     "FILL",
-                     "FILL_O",
-                     "TESS",
-                     "TESS_O",
-                     "HEAVEN",
-                     "VALLEY",
+            if b in ["manhattan",
+                     "manhattan_o",
+                     "car_chase",
+                     "car_chase_o",
+                     "trex",
+                     "trex_o",
+                     "fill",
+                     "fill_o",
+                     "tess",
+                     "tess_o",
+                     "heaven",
+                     "valley",
                      "OglBatch0",
                      "OglBatch1",
                      "OglBatch2",
