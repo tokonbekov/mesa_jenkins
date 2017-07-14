@@ -404,6 +404,7 @@
       <remote name="daniels" repo="git://git.collabora.com/git/user/daniels/mesa"/>
       <remote name="chrisf" repo="git://github.com/chrisforbes/mesa"/>
       <remote name="igalia_khronos" repo="git@gitlab.khronos.org:vulkan/mesa.git"/>
+      <remote name="grigorig" repo="git://people.freedesktop.org/~grigorig/mesa"/>
     </mesa>
 
     <drm repo="http://anongit.freedesktop.org/git/mesa/drm.git">
@@ -432,6 +433,7 @@
       <remote name="stable" repo="git://github.com/janesma/waffle"/>
       <remote name="chadv" repo="git://github.com/chadversary/waffle"/>
       <remote name="janesma" repo="git://github.com/janesma/waffle"/>
+      <remote name="jekstrand" repo="git://github.com/jekstrand/waffle"/>
     </waffle>
 
     <!-- just so the master can cache it for the builders -->
@@ -855,6 +857,10 @@
     
     <branch name="chrisf" project="test-single-arch-vulkan">
       <mesa branch="chrisf/ci"/>
+    </branch>
+
+    <branch name="grigorig" project="test-single-arch-vulkan">
+      <mesa branch="grigorig/intel_ci"/>
     </branch>
 
   </branches>
