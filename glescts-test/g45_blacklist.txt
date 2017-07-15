@@ -6,3 +6,4 @@ ES2-CTS.functional.clipping.triangle_vertex.clip_two
 ES2-CTS.functional.clipping.triangle_vertex.clip_three
 ES2-CTS.functional.shaders.random
 ES2-CTS.functional.flush_finish.wait
+ES2-CTS.gtf.GL2FixedTests.color_ramp.color_ramp
