@@ -574,6 +574,7 @@ class CrucibleTest:
             elif self.status == "pass":
                 c.set("fixed-tests", self.test_name, self.bisected_revision)
             else:
+                print "Error, unexpected status: " + self.status
                 assert(False)
 
             c.write(open(conf_file, "w"))
