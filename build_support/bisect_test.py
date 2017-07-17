@@ -573,6 +573,8 @@ class CrucibleTest:
                 c.set("expected-crashes", self.test_name, self.bisected_revision)
             elif self.status == "pass":
                 c.set("fixed-tests", self.test_name, self.bisected_revision)
+            elif self.status == "skip":
+                c.set("fixed-tests", self.test_name, self.bisected_revision)
             else:
                 print "Error, unexpected status: " + self.status
                 assert(False)
