@@ -440,7 +440,7 @@
     <mesa_jenkins repo="git://github.com/janesma/mesa_jenkins.git"/>
 
     <deqp repo="git://github.com/janesma/deqp.git"
-          branch="aosp/master">
+          branch="03c395c60f49e670e904368dbe226cdc60284ebe">
       <remote name="aosp" repo="https://android.googlesource.com/platform/external/deqp"/>
     </deqp>
 
@@ -508,7 +508,7 @@
       <piglit/>
       <waffle/>
       <drm/>
-      <deqp branch="aosp/master"/>
+      <deqp branch="03c395c60f49e670e904368dbe226cdc60284ebe"/>
       <cts branch="origin/updated-cts"/>
       <glcts branch="origin/updated-gl45"/>
 
