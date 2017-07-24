@@ -681,7 +681,7 @@
       <mesa branch="aphogat/jenkins-vulkan"/>
     </branch>
 
-    <branch name="tpohjola" project="test-single-arch">
+    <branch name="tpohjola" project="test-single-arch-vulkan">
       <mesa branch="tpohjola/jenkins"/>
     </branch>
 
