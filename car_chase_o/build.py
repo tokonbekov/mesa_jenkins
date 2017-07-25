@@ -7,5 +7,5 @@ sys.path.append(path.join(path.dirname(path.abspath(sys.argv[0])), ".."))
 import build_support as bs
 
 
-bs.build(bs.PerfBuilder("car_chase_o", iterations=10))
+bs.build(bs.PerfBuilder("car_chase_o", iterations=5))
 
