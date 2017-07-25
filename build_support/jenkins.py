@@ -655,17 +655,17 @@ def write_summary(out_dir, completed_builds, ljen, failure=False):
     titlecolor="black" 
     value="generate patch" 
     detailcolor="" 
-    href="http://otc-mesa-ci.jf.intel.com/job/accept_failed_tests/parambuild/?result_path={result_path}" />
+    href="http://{server}/job/accept_failed_tests/parambuild/?result_path={result_path}" />
 <br/>
 <br/>
     <field name="Build link to bisect changed tests"
     titlecolor="black" 
     value="generate patch" 
     detailcolor="" 
-    href="http://otc-mesa-ci.jf.intel.com/job/bisect_failures/parambuild/?result_path={result_path}" />
+    href="http://{server}/job/bisect_failures/parambuild/?result_path={result_path}" />
 <br/>
     <field name="Test Results" titlecolor="black" value="" detailcolor="" href="" />
-</section>""".format(result_path=ljen._result_path))
+</section>""".format(result_path=ljen._result_path, server=ljen._server))
     outf.close()
 
 

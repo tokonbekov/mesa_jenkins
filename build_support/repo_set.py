@@ -139,7 +139,9 @@ class TimeoutException(Exception):
         return self._msg
 
 def is_build_lab():
-    p = subprocess.Popen(["ping", "-c", "1", "-w", "1", "-q", "otc-mesa-ci.local"],
+    buildspec = ProjectMap().build_spec()
+    master_host = buildspec.find("build_master").attrib["hostname"]
+    p = subprocess.Popen(["ping", "-c", "1", "-w", "1", "-q", master_host + ".local"],
                          stderr=open(os.devnull, "w"), stdout=open(os.devnull, "w"))
     p.communicate()
     if p.returncode:
@@ -164,6 +166,9 @@ class RepoSet:
         repos = buildspec.find("repos")
 
         build_lab = is_build_lab()
+        build_lab_git = "git://" + \
+                        ProjectMap().build_spec().find("build_master").attrib["hostname"] + \
+                        ".local/git/"
         attempts = 1
         if build_lab:
             attempts = 10
@@ -173,7 +178,7 @@ class RepoSet:
             project = tag.tag
             url = tag.attrib["repo"]
             if build_lab:
-                url = "git://otc-mesa-ci.local/git/" + project + "/origin"
+                url = build_lab_git + project + "/origin"
             branch = "origin/master"
             if tag.attrib.has_key("branch"):
                 branch = tag.attrib["branch"]
@@ -214,7 +219,7 @@ class RepoSet:
                 if not self._remotes[project].has_key(remote_name) and clone:
                     url = a_remote.attrib["repo"]
                     if build_lab:
-                        url = "git://otc-mesa-ci.local/git/" + project + "/" + remote_name
+                        url = build_lab_git + project + "/" + remote_name
                     for attempt in range(0,attempts):
                         print "Adding remote: " + remote_name + " " + url
                         success = False

@@ -26,7 +26,8 @@
 <!--   **********************************************************************/ -->
 
 <build_specification>
-  <build_master host="otc-mesa-ci.jf.intel.com" results_dir="/mnt/jenkins/results"/>
+  <build_master host="otc-mesa-ci.jf.intel.com" results_dir="/mnt/jenkins/results"
+                hostname="otc-mesa-ci"/>
 
   <!-- specified the dependency relationships between projects -->
   <projects>

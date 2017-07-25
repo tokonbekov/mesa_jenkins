@@ -91,7 +91,8 @@ print "building series:"
 for commit in commits:
     print commit.hexsha
 
-    custom_url = "http://otc-mesa-ci.jf.intel.com/job/mesa_custom/buildWithParameters?token=noauth&{0}"
+    server = bs.ProjectMap().build_spec().find("build_master").attrib["host"]
+    custom_url = "http://" + server + "/job/mesa_custom/buildWithParameters?token=noauth&{0}"
     job_args = { "name" : args.series_name + "_" + commit.hexsha[:8],
                  "revision" : project + "=" + commit.hexsha,
                  "project" : args.project,
