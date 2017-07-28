@@ -451,8 +451,7 @@ class BuildSpecification:
         self._reposet = RepoSet()
         self._branch_specs = {}
 
-        branches = buildspec.find("branches")
-        for abranch in branches.findall("branch"):
+        for abranch in buildspec.findall("branches/branch"):
             try:
                 branch = BranchSpecification(abranch, repos=self._reposet)
                 self._branch_specs[branch.name] = branch
@@ -466,7 +465,10 @@ class BuildSpecification:
     def checkout(self, branch_name, commits=None):
         if not commits:
             commits = []
-        self._branch_specs[branch_name].checkout()
+        if branch_name in self._branch_specs:
+            self._branch_specs[branch_name].checkout()
+        else:
+            print "WARN: branch not found, ignoring: " + branch_name
         rs = RevisionSpecification(from_cmd_line = commits)
         rs.checkout()
 
