@@ -30,14 +30,13 @@ mkdir -p /etc/salt/minion.d/
 # Add the master to point at to the machine
 cat > /etc/salt/minion.d/master.conf << EOF
 master: 192.168.1.1
-master_finger: ba:42:e5:d8:e6:3f:ec:ff:a4:7b:c3:cd:24:74:2a:8b
-hash_type: md5
+master_finger: 1f:69:bc:a8:31:0f:c5:75:17:bc:4f:d6:9e:ab:35:fb:f1:11:19:52:ee:63:27:7f:e8:4b:b1:59:8d:d3:cb:82
 EOF
 
 echo 'startup_states: highstate' > /etc/salt/minion.d/startup.conf
 
 # Add our nfs mount to fstab
-echo 'otc-mesa-ci.local:/srv/jenkins       /mnt/jenkins    nfs     _netdev,auto,async,comment=systemd.automount        0       0' >> /etc/fstab
+echo 'otc-mesa-android.local:/srv/jenkins       /mnt/jenkins    nfs     _netdev,auto,async,comment=systemd.automount        0       0' >> /etc/fstab
 
 # Create a systemd .network file for the network interfac
 name=$(ip addr show scope link up | grep -v DOWN | grep UP | awk '{print $2}' | sed 's@:@@')
