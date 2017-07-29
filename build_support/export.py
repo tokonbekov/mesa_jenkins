@@ -38,9 +38,10 @@ from . import Options
 from . import ProjectMap
 
 def convert_rsync_path(path):
-    repl_path = "otc-mesa-ci.local::nfs/"
+    hostname = ProjectMap().build_spec().find("build_master").attrib["hostname"]
+    repl_path = hostname + ".local::nfs/"
     if os.name == "nt":
-        repl_path = "otc-mesa-ci.jf.intel.com::nfs/"
+        repl_path = hostname + ".jf.intel.com::nfs/"
     if path.startswith("/mnt/jenkins/"):
         return path.replace("/mnt/jenkins/", repl_path)
     return None
