@@ -26,6 +26,12 @@ class VulkanTestList(object):
         trie = bs.DeqpTrie()
         trie.add_xml("dEQP-VK-cases.xml")
         os.chdir(self.pm.project_build_dir())
+
+        whitelist_txt = self.pm.project_source_dir("vulkancts") + "/external/vulkancts/mustpass/1.0.2/vk-default.txt"
+        whitelist = bs.DeqpTrie()
+        whitelist.add_txt(whitelist_txt)
+        trie.filter_whitelist(whitelist)
+
         return trie
     
     def binary(self):
