@@ -81,7 +81,7 @@ class VulkanCtsBuilder(object):
                "-DCMAKE_C_COMPILER_LAUNCHER=ccache",
                "-DCMAKE_CXX_COMPILER_LAUNCHER=ccache",
                "-DCMAKE_C_FLAGS=" + flags, "-DCMAKE_CXX_FLAGS=" + flags,
-               "-DCMAKE_C_COMPILER=clang-3.7", "-DCMAKE_CXX_COMPILER=clang++-3.7",
+               "-DCMAKE_C_COMPILER=clang", "-DCMAKE_CXX_COMPILER=clang++",
                "-DCMAKE_INSTALL_PREFIX:PATH=" + self._build_root, ".."]
         if not os.path.exists(self._build_dir):
             os.makedirs(self._build_dir)
