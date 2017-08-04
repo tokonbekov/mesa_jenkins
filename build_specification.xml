@@ -178,11 +178,12 @@
       <prerequisite name="vulkancts-test" hardware="bdw,hsw,skl,kbl" arch="m64" shard="2"/>
       <prerequisite name="vulkancts-test"
                     only_for_type="daily"
-                    hardware="bdw,hsw,skl"
-                    arch="m32"/>
+                    hardware="bdw,hsw,skl,kbl"
+                    arch="m32"
+                    shard="2"/>
       <prerequisite name="vulkancts-test"
                     only_for_type="daily"
-                    hardware="bsw,glk,bxt,kbl"
+                    hardware="bsw,glk,bxt"
                     arch="m64"
                     shard="5"/>
 
