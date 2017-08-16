@@ -124,7 +124,10 @@ class CrucibleTester(object):
 
         # flaky
         excludes = ["!func.query.timestamp",
-                    "!func.ssbo.interleve"]
+                    "!func.ssbo.interleve",
+                    # https://bugs.freedesktop.org/show_bug.cgi?id=102267
+                    "!func.sync.semaphore-fd.opaque-fd"]
+
         parallelism = []
 
         if "hsw" in o.hardware:
