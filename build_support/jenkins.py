@@ -170,7 +170,7 @@ class Jenkins:
         if status == "failure":
             # raise BuildFailure(project_invoke, self._revision)
             # for now, let's attempt to rebuild failure projects
-            write_failure_log(project_invoke)
+            self.write_failure_log(project_invoke)
 
         project_invoke.set_info("status", "building")
         project_invoke.set_info("url", "")
