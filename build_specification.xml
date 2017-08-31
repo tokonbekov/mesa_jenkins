@@ -412,6 +412,7 @@
       <remote name="igalia_khronos" repo="git@gitlab.khronos.org:vulkan/mesa.git"/>
       <remote name="grigorig" repo="git://people.freedesktop.org/~grigorig/mesa"/>
       <remote name="scott-ph" repo="git://github.com/scott-d-phillips/mesa"/>
+      <remote name="yogesh-marathe" repo="git://github.com/yogesh-marathe/external-mesa"/>
     </mesa>
 
     <drm repo="http://anongit.freedesktop.org/git/mesa/drm.git">
@@ -897,6 +898,10 @@
 
     <branch name="scott-ph_vulkan" project="vulkancts-full">
       <mesa branch="scott-ph/jenkins_vulkan"/>
+    </branch>
+
+    <branch name="yogesh-marathe" project="test-single-arch-vulkan">
+      <mesa branch="yogesh-marathe/jenkins"/>
     </branch>
 
   </branches>
