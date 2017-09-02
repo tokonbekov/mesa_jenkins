@@ -603,7 +603,7 @@
       <mesa branch="jekstrand/jenkins_vulkan"/>
     </branch>
 
-    <branch name="tf_jekstrand" project="vulkancts-full">
+    <branch name="tf_jekstrand" project="test-single-arch-vulkan">
       <mesa branch="internal/jekstrand_jenkins"/>
     </branch>
 
