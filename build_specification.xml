@@ -144,7 +144,7 @@
                     only_for_type="daily"
                     hardware="snbgt1,snbgt2,ivbgt1,ivbgt2,hswgt1,hswgt2,hswgt3e,bdwgt3e,sklgt2,sklgt4e,kbl"
                     arch="m32"/>
-      <prerequisite only_for_type="daily" name="piglit-test" hardware="ilk,bsw,byt,g33,g45,g965,bdwgt2" arch="m64,m32"/>
+      <prerequisite only_for_type="daily" name="piglit-test" hardware="ilk,bsw,byt,g33,g45,g965,bdwgt2,cfl" arch="m64,m32"/>
       <!-- do not test 32 bit for limited platforms -->
       <prerequisite only_for_type="daily" name="piglit-test" hardware="bxt,glk" arch="m64"/>
 
