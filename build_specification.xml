@@ -860,6 +860,10 @@
       <mesa branch="igalia/elima/jenkins"/>
     </branch>
 
+    <branch name="estea" project="test-single-arch-vulkan">
+      <mesa branch="igalia/hikiko/jenkins"/>
+    </branch>
+
     <branch name="internal" project="test-single-arch">
       <mesa branch="internal/internal"/>
     </branch>
