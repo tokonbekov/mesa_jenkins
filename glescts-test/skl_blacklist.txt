@@ -5,3 +5,4 @@ ES32-CTS.functional.geometry_shading.layered.render_with_default_layer_2d_multis
 ES31-CTS.core.sepshaderobjs.StateInteraction
 ES31-CTS.functional.geometry_shading.layered.render_with_default_layer_cubemap
 ES32-CTS.functional.geometry_shading.layered.render_with_default_layer_cubemap
+ES31-CTS.core.sepshaderobjs.StateInteraction

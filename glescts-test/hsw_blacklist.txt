@@ -6,3 +6,4 @@ ES31-CTS.functional.primitive_bounding_box.lines.global_state.vertex_tessellatio
 ESEXT-CTS.tessellation_shader.tessellation_shader_tessellation.gl_InvocationID_PatchVerticesIn_PrimitiveID
 ES31-CTS.core.tessellation_shader.tessellation_shader_tessellation.gl_InvocationID_PatchVerticesIn_PrimitiveID
 ES3-CTS.functional.fragment_ops.random.7
+ES31-CTS.core.sepshaderobjs.StateInteraction
