@@ -734,30 +734,6 @@
       <mesa branch="evelikov/intel-ci"/>
     </branch>
 
-    <branch name="evelikov_13" project="all-test-vulkan">
-      <mesa branch="evelikov/mesa_13/jenkins"/>
-      <piglit branch="janesma/13_0_jenkins" trigger="false"/>
-      <deqp branch="origin/13_0_jenkins" trigger="false"/>
-      <vulkancts branch="7424a79323977f2b3b00609765e0d98783ac7abb"/>
-      <crucible branch="janesma/13_0_jenkins" trigger="false"/>
-      <shaderc branch="janesma/13_0_jenkins" trigger="false"/>
-      <glslang branch="janesma/13_0_jenkins" trigger="false"/>
-      <glcts branch="a2ef648" trigger="false"/>
-      <cts branch="416ccc5" trigger="false"/>
-    </branch>
-
-    <branch name="evelikov_17" project="all-test-vulkan">
-      <mesa branch="evelikov/mesa_17/jenkins"/>
-      <piglit branch="9861294"/>
-      <deqp branch="89eedc1"/>
-      <vulkancts branch="704ed05"/>
-      <glcts branch="a2ef648"/>
-      <cts branch="416ccc5"/>
-      <crucible branch="c747219"/>
-      <shaderc branch="4fa3150"/>
-      <glslang branch="33dadd1"/>
-    </branch>
-
     <branch name="evelikov_17_1" project="all-test-vulkan">
       <mesa branch="evelikov/mesa_17_1/jenkins"/>
       <piglit branch="c12816f7b"/>
@@ -770,30 +746,6 @@
       <glslang branch="1ee1c8e1"/>
     </branch>
 
-    <branch name="igalia_13" project="all-test-vulkan">
-      <mesa branch="igalia_release/igalia/13.0"/>
-      <piglit branch="janesma/13_0_jenkins" trigger="false"/>
-      <deqp branch="origin/13_0_jenkins" trigger="false"/>
-      <vulkancts branch="7424a79323977f2b3b00609765e0d98783ac7abb"/>
-      <crucible branch="janesma/13_0_jenkins" trigger="false"/>
-      <shaderc branch="janesma/13_0_jenkins" trigger="false"/>
-      <glslang branch="janesma/13_0_jenkins" trigger="false"/>
-      <glcts branch="a2ef648" trigger="false"/>
-      <cts branch="416ccc5" trigger="false"/>
-    </branch>
-
-    <branch name="igalia_17" project="all-test-vulkan">
-      <mesa branch="igalia_release/igalia/17.0"/>
-      <piglit branch="9861294"/>
-      <deqp branch="89eedc1"/>
-      <vulkancts branch="704ed05"/>
-      <glcts branch="a2ef648"/>
-      <cts branch="416ccc5"/>
-      <crucible branch="c747219"/>
-      <shaderc branch="4fa3150"/>
-      <glslang branch="33dadd1"/>
-    </branch>
-
     <branch name="igalia_17.1" project="all-test-vulkan">
       <mesa branch="igalia_release/igalia/17.1"/>
       <piglit branch="c12816f7b"/>
@@ -804,6 +756,18 @@
       <crucible branch="4d73e835f9300b177e97fda46a51fe340d088741"/>
       <shaderc branch="9b3dbd1"/>
       <glslang branch="1ee1c8e1"/>
+    </branch>
+
+    <branch name="igalia_17.2" project="all-test-vulkan">
+      <mesa branch="igalia_release/igalia/17.2"/>
+      <piglit branch="84c528875"/>
+      <deqp branch="03c395c6"/>
+      <vulkancts branch="0e3c7aa3"/>
+      <glcts branch="7eb46860"/>
+      <cts branch="416ccc52"/>
+      <crucible branch="3f26244"/>
+      <shaderc branch="fb33022"/>
+      <glslang branch="53863a3a"/>
     </branch>
 
     <branch name="nir_test_clone" project="test-single-arch"/>
