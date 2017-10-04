@@ -542,18 +542,6 @@
       <cts branch="416ccc5"/>
     </branch>
 
-    <branch name="mesa_17.0" project="all-test-vulkan">
-      <mesa branch="origin/17.0"/>
-      <piglit branch="9861294"/>
-      <deqp branch="06811e1c449e303d86f5eba28699ef238dfd78f5"/>
-      <vulkancts branch="704ed05"/>
-      <glcts branch="a2ef648"/>
-      <cts branch="416ccc5"/>
-      <crucible branch="c747219"/>
-      <shaderc branch="4fa3150"/>
-      <glslang branch="33dadd1"/>
-    </branch>
-
     <branch name="mesa_17.1" project="all-test-vulkan">
       <mesa branch="origin/17.1"/>
       <piglit branch="c12816f7b"/>
