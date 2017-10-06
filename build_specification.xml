@@ -790,6 +790,7 @@
 
     <branch name="siglesias" project="test-single-arch-vulkan">
       <mesa branch="igalia/siglesias/jenkins"/>
+      <vulkancts branch="khronos/vulkan-cts-1.1.0"/>
     </branch>
 
     <branch name="agomez" project="test-single-arch-vulkan">
