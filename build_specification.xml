@@ -492,7 +492,9 @@
       <remote name="khronos" repo="ssh://git@gitlab.khronos.org/spirv/spirv-tools.git"/>
     </spirvtools>
     
-    <spirvheaders repo="git://github.com/KhronosGroup/SPIRV-Headers"/>
+    <spirvheaders repo="git://github.com/KhronosGroup/SPIRV-Headers">
+      <remote name="khronos" repo="git@gitlab.khronos.org:spirv/SPIRV-Headers.git"/>
+    </spirvheaders>
     
     <sixonix repo="git://github.com/janesma/sixonix"
              branch="origin/mesa_ci"/>
