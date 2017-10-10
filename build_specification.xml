@@ -584,7 +584,7 @@
     
     <branch name="bwidawsk_vulkan" project="vulkancts-full">
       <mesa branch="vulkan/bwidawsk"/>
-      <vulkancts branch="khronos/vulkan-cts-1.1.0"/>
+      <vulkancts branch="khronos/vulkan-cts-1.1.0" trigger="false"/>
     </branch>
 
     <branch name="jekstrand_gl" project="test-single-arch">
@@ -593,22 +593,22 @@
 
     <branch name="jekstrand_vulkan" project="vulkancts-full">
       <mesa branch="jekstrand/jenkins_vulkan"/>
-      <vulkancts branch="khronos/vulkan-cts-1.1.0"/>
+      <vulkancts branch="khronos/vulkan-cts-1.1.0" trigger="false"/>
     </branch>
 
     <branch name="tf_jekstrand" project="test-single-arch-vulkan">
       <mesa branch="internal/jekstrand_jenkins"/>
-      <vulkancts branch="khronos/vulkan-cts-1.1.0"/>
+      <vulkancts branch="khronos/vulkan-cts-1.1.0" trigger="false"/>
     </branch>
 
     <branch name="tf_llandwerlin" project="vulkancts-full">
       <mesa branch="internal/llandwerlin_jenkins"/>
-      <vulkancts branch="khronos/vulkan-cts-1.1.0"/>
+      <vulkancts branch="khronos/vulkan-cts-1.1.0" trigger="false"/>
     </branch>
 
     <branch name="jljusten_vulkan" project="vulkancts-full">
       <mesa branch="jljusten/vulkan"/>
-      <vulkancts branch="khronos/vulkan-cts-1.1.0"/>
+      <vulkancts branch="khronos/vulkan-cts-1.1.0" trigger="false"/>
     </branch>
 
     <branch name="chadv_vulkan" project="vulkancts-full">
@@ -625,12 +625,12 @@
 
     <branch name="antognolli_vulkan" project="vulkancts-full">
       <mesa branch="antognolli/jenkins_vk"/>
-      <vulkancts branch="khronos/vulkan-cts-1.1.0"/>
+      <vulkancts branch="khronos/vulkan-cts-1.1.0" trigger="false"/>
     </branch>
 
     <branch name="kwg_vulkan" project="vulkancts-full">
       <mesa branch="kwg/vkjenkins"/>
-      <vulkancts branch="khronos/vulkan-cts-1.1.0"/>
+      <vulkancts branch="khronos/vulkan-cts-1.1.0" trigger="false"/>
     </branch>
 
     <branch name="bwidawsk" project="test-single-arch-ben">
@@ -649,17 +649,17 @@
 
     <branch name="idr_vulkan" project="vulkancts-full">
       <mesa branch="idr/jenkins-vk"/>
-      <vulkancts branch="khronos/vulkan-cts-1.1.0"/>
+      <vulkancts branch="khronos/vulkan-cts-1.1.0" trigger="false"/>
     </branch>
 
     <branch name="mattst88" project="test-single-arch-vulkan">
       <mesa branch="mattst88/jenkins"/>
-      <vulkancts branch="khronos/vulkan-cts-1.1.0"/>
+      <vulkancts branch="khronos/vulkan-cts-1.1.0" trigger="false"/>
     </branch>
 
     <branch name="mattst88_vulkan" project="vulkancts-full">
       <mesa branch="mattst88/jenkins_vulkan"/>
-      <vulkancts branch="khronos/vulkan-cts-1.1.0"/>
+      <vulkancts branch="khronos/vulkan-cts-1.1.0" trigger="false"/>
     </branch>
     
     <branch name="majanes" project="test-single-arch">
@@ -697,7 +697,7 @@
 
     <branch name="curro_vulkan" project="vulkancts-full">
       <mesa branch="curro/jenkins-vk"/>
-      <vulkancts branch="khronos/vulkan-cts-1.1.0"/>
+      <vulkancts branch="khronos/vulkan-cts-1.1.0" trigger="false"/>
     </branch>
 
     <branch name="aphogat" project="test-single-arch">
@@ -706,17 +706,17 @@
 
     <branch name="aphogat_vulkan" project="vulkancts-full">
       <mesa branch="aphogat/jenkins-vulkan"/>
-      <vulkancts branch="khronos/vulkan-cts-1.1.0"/>
+      <vulkancts branch="khronos/vulkan-cts-1.1.0" trigger="false"/>
     </branch>
 
     <branch name="tpohjola" project="test-single-arch-vulkan">
       <mesa branch="tpohjola/jenkins"/>
-      <vulkancts branch="khronos/vulkan-cts-1.1.0"/>
+      <vulkancts branch="khronos/vulkan-cts-1.1.0" trigger="false"/>
     </branch>
 
     <branch name="nchery_vulkan" project="vulkancts-full">
       <mesa branch="nchery/jenkins_vulkan"/>
-      <vulkancts branch="khronos/vulkan-cts-1.1.0"/>
+      <vulkancts branch="khronos/vulkan-cts-1.1.0" trigger="false"/>
     </branch>
 
     <branch name="nchery" project="test-single-arch">
@@ -787,7 +787,7 @@
 
     <branch name="djdeath_vulkan" project="vulkancts-full">
       <mesa branch="djdeath/jenkins_vulkan"/>
-      <vulkancts branch="khronos/vulkan-cts-1.1.0"/>
+      <vulkancts branch="khronos/vulkan-cts-1.1.0" trigger="false"/>
     </branch>
 
     <branch name="djdeath" project="test-single-arch">
@@ -808,7 +808,7 @@
 
     <branch name="siglesias" project="test-single-arch-vulkan">
       <mesa branch="igalia/siglesias/jenkins"/>
-      <vulkancts branch="khronos/vulkan-cts-1.1.0"/>
+      <vulkancts branch="khronos/vulkan-cts-1.1.0" trigger="false"/>
     </branch>
 
     <branch name="agomez" project="test-single-arch-vulkan">
@@ -873,7 +873,7 @@
 
     <branch name="scott-ph_vulkan" project="vulkancts-full">
       <mesa branch="scott-ph/jenkins_vulkan"/>
-      <vulkancts branch="khronos/vulkan-cts-1.1.0"/>
+      <vulkancts branch="khronos/vulkan-cts-1.1.0" trigger="false"/>
     </branch>
 
     <branch name="yogesh-marathe" project="test-single-arch-vulkan">
