@@ -83,11 +83,10 @@
       <prerequisite name="mesa"/>
     </project>
 
-    <project name="cts-test"
-             bisect_hardware="bdw,skl,hsw,bsw,bxt,kbl,glk"
+    <project name="glcts-test"
+             bisect_hardware="hsw,bdw,skl,bsw,bxt,kbl,glk"
              bisect_arch="m64">
       <prerequisite name="glcts" hardware="builder"/>
-      <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
     </project>
 
@@ -209,7 +208,7 @@
       <prerequisite name="piglit-full"/>
       <prerequisite name="deqp-full"/>
       <prerequisite name="mesa-buildtest" hardware="builder" arch="m64"/>
-      <prerequisite name="cts-full"/>
+      <prerequisite name="glcts-full"/>
       <prerequisite name="glescts-full"/>
     </project>
 
@@ -226,7 +225,7 @@
       <prerequisite name="meson-buildtest" hardware="builder" arch="m64"/>
       <prerequisite name="mesa-buildtest" hardware="builder"/>
       <prerequisite name="deqp-full"/>
-      <prerequisite name="cts-full"/>
+      <prerequisite name="glcts-full"/>
       <prerequisite name="glescts-full"/>
     </project>
 
@@ -238,7 +237,7 @@
       <prerequisite name="meson-buildtest" hardware="builder" arch="m64"/>
       <prerequisite name="mesa-buildtest" hardware="builder"/>
       <prerequisite name="deqp-full"/>
-      <prerequisite name="cts-full"/>
+      <prerequisite name="glcts-full"/>
       <prerequisite name="glescts-full"/>
     </project>
 
@@ -270,9 +269,15 @@
                     hardware="snb,ivb,hsw,bdw,skl,kbl,bxt,bsw"/>
     </project>
 
+    <!-- remove -->
     <project name="cts-full">
-      <prerequisite name="cts-test" hardware="hsw,bdw,skl" arch="m64"/>
-      <prerequisite name="cts-test" only_for_type="daily" hardware="bsw,bxt,kbl,glk" arch="m64"/>
+      <prerequisite name="glcts-full"/>
+    </project>
+
+    <project name="glcts-full">
+      <prerequisite name="glcts-test" hardware="hsw,bdw,skl,kbl" arch="m64" shard="3"/>
+      <prerequisite name="glcts-test" only_for_type="daily" hardware="hsw,bdw,skl,kbl" arch="m32"/>
+      <prerequisite name="glcts-test" only_for_type="daily" hardware="bsw,glk,bxt"/>
     </project>
 
     <project name="vulkan-and-gl">
@@ -482,7 +487,7 @@
          branch="origin/updated-cts"/>
 
     <glcts repo="ssh://majanes@git-amr-2.devtools.intel.com:29418/otc_gen_graphics-khronos-glconform.git"
-           branch="origin/gl45release">
+           branch="vk-gl-cts/opengl-cts-4.6.0">
       <remote name="vk-gl-cts" repo="git@gitlab.khronos.org:Tracker/vk-gl-cts.git"/>
     </glcts>
 
@@ -548,7 +553,7 @@
       <drm/>
       <deqp branch="aosp/master"/>
       <cts branch="origin/updated-cts"/>
-      <glcts branch="origin/updated-gl45"/>
+      <glcts branch="vk-gl-cts/opengl-cts-4.6.0"/>
 
       <!-- the trigger attribute is used specify a branch that should
            be used, but prevent builds from triggering if the branch
