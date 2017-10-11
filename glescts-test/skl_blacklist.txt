@@ -6,3 +6,7 @@ ES31-CTS.core.sepshaderobjs.StateInteraction
 ES31-CTS.functional.geometry_shading.layered.render_with_default_layer_cubemap
 ES32-CTS.functional.geometry_shading.layered.render_with_default_layer_cubemap
 ES31-CTS.core.sepshaderobjs.StateInteraction
+ES32-CTS.functional.state_query.indexed.atomic_counter_buffer_size_getintegeri_v
+ES32-CTS.functional.state_query.indexed.atomic_counter_buffer_start_getbooleani_v
+ES32-CTS.functional.state_query.indexed.atomic_counter_buffer_start_getinteger64i_v
+ES32-CTS.functional.state_query.indexed.atomic_counter_buffer_start_getintegeri_v
