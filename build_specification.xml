@@ -242,6 +242,23 @@
       <prerequisite name="glescts-full"/>
     </project>
 
+    <project name="test-single-arch-anholt">
+      <prerequisite name="piglit-full"/>
+      <prerequisite name="piglit-test" hardware="ilk,bsw,byt,g33,g45,g965,bxt,glk"/>
+      <prerequisite name="piglit-cpu-test" hardware="fastgpu"/>
+      <prerequisite name="scons-buildtest" hardware="builder" arch="m64"/>
+      <prerequisite name="meson-buildtest" hardware="builder" arch="m64"/>
+      <prerequisite name="mesa-buildtest" hardware="builder"/>
+      <prerequisite name="deqp-full"/>
+      <prerequisite name="deqp-test" hardware="byt,bsw,bxt,glk"/>
+      <prerequisite name="cts-full"/>
+      <prerequisite name="cts-test" hardware="bsw,bxt,kbl,glk"/>
+      <prerequisite name="glescts-full"/>
+      <prerequisite name="glescts-test" hardware="bsw,byt,bxt,glk" shard="8"/>
+      <prerequisite name="glescts-test" hardware="g33,g45,ilk,g965,ivb,snb,kbl"/>
+      <prerequisite name="vulkancts-full"/>
+    </project>
+
     <project name="deqp-full">
       <prerequisite name="deqp-test" hardware="hsw,skl,kbl,bdw,snb,ivb"/>
       <prerequisite name="deqp-test"
