@@ -40,6 +40,12 @@ class GLCTSList(object):
         return all_tests
 
     def blacklist(self, all_tests):
+        blacklist_txt = self.pm.project_build_dir() + "/" + self.o.hardware[:3] + "_blacklist.txt"
+        if not os.path.exists(blacklist_txt):
+            return all_tests
+        blacklist = bs.DeqpTrie()
+        blacklist.add_txt(blacklist_txt)
+        all_tests.filter(blacklist)
         return all_tests
 
 class GLCTSTester(object):

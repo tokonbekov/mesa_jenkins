@@ -1,0 +1,3 @@
+KHR-GL46.sepshaderobjs.StateInteraction
+KHR-GL46.shader_atomic_counters.basic-buffer-bind
+KHR-GL46.shader_image_load_store.basic-api-bind
