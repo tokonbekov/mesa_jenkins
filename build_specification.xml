@@ -250,8 +250,8 @@
       <prerequisite name="mesa-buildtest" hardware="builder"/>
       <prerequisite name="deqp-full"/>
       <prerequisite name="deqp-test" hardware="byt,bsw,bxt,glk"/>
-      <prerequisite name="cts-full"/>
-      <prerequisite name="cts-test" hardware="bsw,bxt,kbl,glk"/>
+      <prerequisite name="glcts-full" hardware="hsw,bdw,skl,kbl"/>
+      <prerequisite name="glcts-test" hardware="bsw,bxt,glk"/>
       <prerequisite name="glescts-full"/>
       <prerequisite name="glescts-test" hardware="bsw,byt,bxt,glk" shard="8"/>
       <prerequisite name="glescts-test" hardware="g33,g45,ilk,g965,ivb,snb,kbl"/>
@@ -267,11 +267,6 @@
                     only_for_type="daily"
                     arch="m32"
                     hardware="snb,ivb,hsw,bdw,skl,kbl,bxt,bsw"/>
-    </project>
-
-    <!-- remove -->
-    <project name="cts-full">
-      <prerequisite name="glcts-full"/>
     </project>
 
     <project name="glcts-full">
