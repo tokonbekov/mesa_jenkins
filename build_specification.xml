@@ -889,7 +889,7 @@
       <mesa branch="yogesh-marathe/jenkins"/>
     </branch>
 
-    <branch name="anholt" project="test-single-arch-vulkan">
+    <branch name="anholt" project="test-single-arch-anholt">
       <mesa branch="anholt/jenkins"/>
     </branch>
 
