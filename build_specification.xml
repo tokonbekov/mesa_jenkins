@@ -272,7 +272,8 @@
     <project name="glcts-full">
       <prerequisite name="glcts-test" hardware="hsw,bdw,skl,kbl" arch="m64" shard="3"/>
       <prerequisite name="glcts-test" only_for_type="daily" hardware="hsw,bdw,skl,kbl" arch="m32"/>
-      <prerequisite name="glcts-test" only_for_type="daily" hardware="bsw,glk,bxt"/>
+      <prerequisite name="glcts-test" only_for_type="daily" hardware="bsw,bxt" shard="4"/>
+      <prerequisite name="glcts-test" only_for_type="daily" hardware="glk"/>
     </project>
 
     <project name="vulkan-and-gl">
