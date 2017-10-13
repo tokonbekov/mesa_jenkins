@@ -52,14 +52,17 @@ class GLESCTSTester(object):
                 # unsupported platforms
                 return
 
-        results = t.test(self.pm.build_root() + "/bin/es/cts/glcts",
-                         bs.CtsTestList(),
-                         [],
-                         self.env)
+        binaries = ("egl","gles2","gles3","gles31")
+        for a_binary in binaries:
+            binary = self.pm.build_root() + "/bin/es/modules/" + a_binary + "/deqp-" + a_binary            
+            results = t.test(binary,
+                             bs.CtsTestList(binary),
+                             [],
+                             self.env)
 
-        o = bs.Options()
-        config = bs.get_conf_file(self.o.hardware, self.o.arch, project=self.pm.current_project())
-        t.generate_results(results, bs.ConfigFilter(config, o))
+            o = bs.Options()
+            config = bs.get_conf_file(self.o.hardware, self.o.arch, project=self.pm.current_project())
+            t.generate_results(results, bs.ConfigFilter(config, o))
 
     def build(self):
         pass
