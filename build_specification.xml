@@ -481,7 +481,9 @@
     </deqp>
 
     <cts repo="ssh://majanes@git-amr-2.devtools.intel.com:29418/otc_gen_graphics-khronos-glconform.git"
-         branch="origin/updated-cts"/>
+         branch="origin/updated-cts">
+      <remote name="khronos" repo="https://github.com/KhronosGroup/VK-GL-CTS.git"/>
+    </cts>
 
     <glcts repo="ssh://majanes@git-amr-2.devtools.intel.com:29418/otc_gen_graphics-khronos-glconform.git"
            branch="vk-gl-cts/opengl-cts-4.6.0">
