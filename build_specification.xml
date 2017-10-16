@@ -88,6 +88,7 @@
              bisect_arch="m64,m32">
       <prerequisite name="glcts" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
+      <prerequisite name="waffle" hardware="builder"/>
     </project>
 
     <project name="glescts-test"
