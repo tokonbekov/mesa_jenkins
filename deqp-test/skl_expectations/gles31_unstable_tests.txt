@@ -1,2 +1,3 @@
 dEQP-GLES31.functional.synchronization.inter_call.without_memory_barrier.ssbo_atomic_counter_mixed_dispatch_100_calls_1k_invocations
 dEQP-GLES31.functional.debug.negative_coverage.get_error.shader.link_compute_shader
+dEQP-GLES31.functional.debug.negative_coverage.log.shader_image_load.cube_array
