@@ -440,6 +440,7 @@
       <remote name="scott-ph" repo="git://github.com/scott-d-phillips/mesa"/>
       <remote name="yogesh-marathe" repo="git://github.com/yogesh-marathe/external-mesa"/>
       <remote name="anholt" repo="git://github.com/anholt/mesa"/>
+      <remote name="eric_engestrom" repo="git://github.com/1ace/mesa"/>
     </mesa>
 
     <drm repo="http://anongit.freedesktop.org/git/mesa/drm.git">
@@ -906,6 +907,10 @@
 
     <branch name="anholt" project="test-single-arch-anholt">
       <mesa branch="anholt/jenkins"/>
+    </branch>
+
+    <branch name="eric_engestrom" project="test-single-arch-vulkan">
+      <mesa branch="eric_engestrom/jenkins"/>
     </branch>
 
   </branches>
