@@ -13,7 +13,7 @@ def main():
 
     options = ['-Dbuild-tests=true']
     if global_opts.config != 'debug':
-        options += '-Dbuildtype=release'
+        options.append('-Dbuildtype=release')
     b = bs.builders.MesonBuilder(extra_definitions=options, install=False)
 
     try:
