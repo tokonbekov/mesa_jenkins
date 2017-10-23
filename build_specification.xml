@@ -92,7 +92,7 @@
     </project>
 
     <project name="glescts-test"
-             bisect_hardware="g33,g45,ilk,g965,bxt,byt,bsw,skl,bdw,hsw,snb,ivb,kbl,glk"
+             bisect_hardware="g33,g45,ilk,g965,bxt,byt,bsw,skl,bdw,hsw,snb,ivb,kbl,glk,cfl"
              bisect_arch="m64">
       <prerequisite name="mesa" hardware="builder"/>
       <prerequisite name="cts" hardware="builder"/>
@@ -104,7 +104,7 @@
       <prerequisite name="glescts-test" hardware="hsw" shard="4"/>
       <!-- only_for_type enforces the prerequisite when type matches
            the value. -->
-      <prerequisite name="glescts-test" hardware="bsw,byt,bxt,glk" shard="8" only_for_type="daily"/>
+      <prerequisite name="glescts-test" hardware="bsw,byt,bxt,glk,cfl" shard="8" only_for_type="daily"/>
       <prerequisite name="glescts-test" hardware="g33,g45,ilk,g965,ivb,snb,kbl" shard="3" only_for_type="daily"/>
       <prerequisite name="glescts-test"
                     only_for_type="daily"
@@ -119,7 +119,7 @@
     </project>
 
     <project name="piglit-test"
-             bisect_hardware="bdw,skl,hsw,ivb,snb,bsw,byt,g965,ilk,g33,g45,bxt,kbl,glk"
+             bisect_hardware="bdw,skl,hsw,ivb,snb,bsw,byt,g965,ilk,g33,g45,bxt,kbl,glk,cfl"
              bisect_arch="m64,m32">
       <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
@@ -150,7 +150,7 @@
                     arch="m32"/>
       <prerequisite only_for_type="daily" name="piglit-test" hardware="ilk,bsw,byt,g33,g45,g965,bdwgt2" arch="m64,m32"/>
       <!-- do not test 32 bit for limited platforms -->
-      <prerequisite only_for_type="daily" name="piglit-test" hardware="bxt,glk" arch="m64"/>
+      <prerequisite only_for_type="daily" name="piglit-test" hardware="bxt,glk,cfl" arch="m64"/>
 
       <prerequisite name="piglit-cpu-test" hardware="fastgpu" arch="m64"/>
       <prerequisite only_for_type="daily" name="piglit-cpu-test" hardware="fastgpu" arch="m32"/>
@@ -164,14 +164,14 @@
     </project>
 
     <project name="crucible-test"
-             bisect_hardware="bdw,skl,ivb,bsw,byt,hsw,bxt,kbl,glk"
+             bisect_hardware="bdw,skl,ivb,bsw,byt,hsw,bxt,kbl,glk,cfl"
              bisect_arch="m64">
       <prerequisite name="crucible" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
     </project>
 
     <project name="vulkancts-test" src_dir="vulkancts"
-             bisect_hardware="bdw,skl,bsw,kbl,hsw,glk,bxt,glk,cfl"
+             bisect_hardware="bdw,skl,bsw,kbl,hsw,bxt,glk,cfl"
              bisect_arch="m64">
       <prerequisite name="vulkancts" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
@@ -187,11 +187,12 @@
                     shard="2"/>
       <prerequisite name="vulkancts-test"
                     only_for_type="daily"
-                    hardware="bsw,glk,bxt,cfl"
+                    hardware="bsw,bxt,glk,cfl"
                     arch="m64"
                     shard="5"/>
 
-      <prerequisite name="crucible-test" arch="m64" hardware="bdw,skl,bsw,hsw,bxt,kbl,glk"/>
+      <prerequisite name="crucible-test" arch="m64" hardware="bdw,skl,bsw,hsw,bxt,kbl"/>
+      <prerequisite name="crucible-test" only_for_type="daily" arch="m64" hardware="bxt,glk,cfl"/>
     </project>
 
     <project name="vulkancts"/>
@@ -220,7 +221,7 @@
 
     <project name="test-single-arch">
       <prerequisite name="piglit-test" hardware="g33,ilk,g45,g965,snb,ivb,hsw,bdwgt3e,skl"/>
-      <prerequisite only_for_type="daily" name="piglit-test" hardware="bsw,byt,g33,glk,bxt"/>
+      <prerequisite only_for_type="daily" name="piglit-test" hardware="bsw,byt,g33,bxt,glk,cfl"/>
       <prerequisite name="piglit-cpu-test" hardware="fastgpu"/>
       <prerequisite name="scons-buildtest" hardware="builder" arch="m64"/>
       <prerequisite name="meson-buildtest" hardware="builder" arch="m64"/>
@@ -283,7 +284,7 @@
     </project>
 
     <project name="reboot-slaves">
-      <prerequisite name="reboot-slave" hardware="i915-01,i915-02,i915-03,bdwgt2-01,bdwgt2-03,bdwgt2-04,bdwgt2-05,bdwgt2-06,bdwgt2-07,bdwgt3e-01,bdwgt3e-02,bdwgt3e-03,bdwgt3e-04,bdwgt3e-05,bdwgt3e-08,bsw-01,bsw-02,bsw-03,bsw-04,bsw-05,bsw-06,bsw-07,bsw-08,byt-01,byt-02,byt-09,byt-10,byt-11,byt-12,byt-13,byt-14,bxt-01,bxt-07,bxt-08,bxt-09,bxt-10,bxt-11,bxt-12,g33-01,g45-01,g45-02,g45-03,g45-04,g965-03,g965-04,g965-05,g965-07,g965-08,hswgt1-01,hswgt1-02,hswgt2-01,hswgt2-02,hswgt2-03,hswgt2-04,hswgt3e-01,hswgt3e-02,hswgt3e-03,hswgt3e-04,ilk-01,ilk-05,ivbgt1-01,ivbgt1-02,ivbgt2-01,ivbgt2-02,ivbgt2-03,kblgt2-01,sklgt2-06,sklgt2-08,kblgt3-01,kblgt3-02,kblgt3-03,kblgt3-04,kblgt3-05,kblr-01,kblr-02,sklgt2-01,sklgt2-02,sklgt2-03,sklgt2-04,sklgt2-05,sklgt2-07,sklgt4e-01,sklgt4e-02,sklgt4e-03,sklgt4e-04,snbgt1-01,snbgt1-02,snbgt1-03,snbgt1-04,snbgt1-05,snbgt2-01,snbgt2-02,snbgt2-03,glk-01,glk-02,glk-04,glk-05,glk-06"/>
+      <prerequisite name="reboot-slave" hardware="i915-01,i915-02,i915-03,bdwgt2-01,bdwgt2-03,bdwgt2-04,bdwgt2-05,bdwgt2-06,bdwgt2-07,bdwgt3e-01,bdwgt3e-02,bdwgt3e-03,bdwgt3e-04,bdwgt3e-05,bdwgt3e-08,bsw-01,bsw-02,bsw-03,bsw-04,bsw-05,bsw-06,bsw-07,bsw-08,byt-01,byt-02,byt-09,byt-10,byt-11,byt-12,byt-13,byt-14,bxt-01,bxt-07,bxt-08,bxt-09,bxt-10,bxt-11,bxt-12,g33-01,g45-01,g45-02,g45-03,g45-04,g965-03,g965-04,g965-05,g965-07,g965-08,hswgt1-01,hswgt1-02,hswgt2-01,hswgt2-02,hswgt2-03,hswgt2-04,hswgt3e-01,hswgt3e-02,hswgt3e-03,hswgt3e-04,ilk-01,ilk-05,ivbgt1-01,ivbgt1-02,ivbgt2-01,ivbgt2-02,ivbgt2-03,kblgt2-01,sklgt2-06,sklgt2-08,kblgt3-01,kblgt3-02,kblgt3-03,kblgt3-04,kblgt3-05,kblr-01,kblr-02,sklgt2-01,sklgt2-02,sklgt2-03,sklgt2-04,sklgt2-05,sklgt2-07,sklgt4e-01,sklgt4e-02,sklgt4e-03,sklgt4e-04,snbgt1-01,snbgt1-02,snbgt1-03,snbgt1-04,snbgt1-05,snbgt2-01,snbgt2-02,snbgt2-03,glk-01,glk-02,glk-04,glk-05,glk-06,cfl-01,cfl-02"/>
     </project>
 
     <project name="reboot-slave"/>
@@ -293,7 +294,7 @@
     <project name="clean-workspace"/>
     <!-- TODO: find a way to variablize this list of hardware -->
     <project name="clean-all-workspaces">
-      <prerequisite name="clean-workspace" hardware="i915-01,i915-02,i915-03,bdwgt2-01,bdwgt2-03,bdwgt2-04,bdwgt2-05,bdwgt2-06,bdwgt2-07,bdwgt3e-01,bdwgt3e-02,bdwgt3e-03,bdwgt3e-04,bdwgt3e-05,bsw-01,bsw-02,bsw-03,bsw-04,bsw-05,bsw-06,bsw-07,bsw-08,bxt-01,bxt-02,bxt-03,bxt-04,bxt-05,bxt-07,bxt-08,bxt-09,bxt-10,bxt-11,bxt-12,byt-01,byt-02,byt-09,byt-10,byt-11,byt-12,byt-13,byt-14,g33-01,g45-01,g45-02,g45-03,g45-04,g965-03,g965-04,g965-05,g965-07,g965-08,hswgt1-01,hswgt1-02,hswgt2-01,hswgt2-02,hswgt2-03,hswgt2-04,hswgt3e-01,hswgt3e-02,hswgt3e-03,ilk-01,ilk-05,ivbgt1-01,ivbgt1-02,ivbgt2-01,ivbgt2-02,ivbgt2-03,kblgt2-01,sklgt2-06,sklgt2-08,kblgt3-01,kblgt3-02,kblgt3-03,kblgt3-04,kblgt3-05,kblr-01,kblr-02,sklgt2-01,sklgt2-02,sklgt2-03,sklgt2-04,sklgt2-05,sklgt2-07,sklgt4e-01,sklgt4e-02,sklgt4e-03,sklgt4e-04,snbgt1-01,snbgt1-02,snbgt1-03,snbgt1-04,snbgt1-05,snbgt2-01,snbgt2-02,snbgt2-03,glk-01,glk-02,glk-04,glk-05,glk-06"/>
+      <prerequisite name="clean-workspace" hardware="i915-01,i915-02,i915-03,bdwgt2-01,bdwgt2-03,bdwgt2-04,bdwgt2-05,bdwgt2-06,bdwgt2-07,bdwgt3e-01,bdwgt3e-02,bdwgt3e-03,bdwgt3e-04,bdwgt3e-05,bsw-01,bsw-02,bsw-03,bsw-04,bsw-05,bsw-06,bsw-07,bsw-08,bxt-01,bxt-02,bxt-03,bxt-04,bxt-05,bxt-07,bxt-08,bxt-09,bxt-10,bxt-11,bxt-12,byt-01,byt-02,byt-09,byt-10,byt-11,byt-12,byt-13,byt-14,g33-01,g45-01,g45-02,g45-03,g45-04,g965-03,g965-04,g965-05,g965-07,g965-08,hswgt1-01,hswgt1-02,hswgt2-01,hswgt2-02,hswgt2-03,hswgt2-04,hswgt3e-01,hswgt3e-02,hswgt3e-03,ilk-01,ilk-05,ivbgt1-01,ivbgt1-02,ivbgt2-01,ivbgt2-02,ivbgt2-03,kblgt2-01,sklgt2-06,sklgt2-08,kblgt3-01,kblgt3-02,kblgt3-03,kblgt3-04,kblgt3-05,kblr-01,kblr-02,sklgt2-01,sklgt2-02,sklgt2-03,sklgt2-04,sklgt2-05,sklgt2-07,sklgt4e-01,sklgt4e-02,sklgt4e-03,sklgt4e-04,snbgt1-01,snbgt1-02,snbgt1-03,snbgt1-04,snbgt1-05,snbgt2-01,snbgt2-02,snbgt2-03,glk-01,glk-02,glk-04,glk-05,glk-06,cfl-01,cfl-02"/>
     </project>
     
     <!-- Performance projects BEGIN -->
