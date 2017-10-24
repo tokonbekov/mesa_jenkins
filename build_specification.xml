@@ -68,14 +68,14 @@
       <prerequisite name="deqp" hardware="builder"/>
       <prerequisite name="waffle" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
-      <prerequisite name="cts" hardware="builder"/>
+      <prerequisite name="glescts" hardware="builder"/>
     </project>
 
     <project name="deqp">
       <prerequisite name="mesa"/>
     </project>
 
-    <project name="cts">
+    <project name="glescts" src_dir="cts">
       <prerequisite name="mesa"/>
     </project>
 
@@ -95,7 +95,7 @@
              bisect_hardware="g33,g45,ilk,g965,bxt,byt,bsw,skl,bdw,hsw,snb,ivb,kbl,glk,cfl"
              bisect_arch="m64">
       <prerequisite name="mesa" hardware="builder"/>
-      <prerequisite name="cts" hardware="builder"/>
+      <prerequisite name="glescts" hardware="builder"/>
       <prerequisite name="waffle" hardware="builder"/>
     </project>
 

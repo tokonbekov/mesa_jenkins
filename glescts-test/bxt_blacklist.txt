@@ -1,5 +1,5 @@
-ES3-CTS.functional.fbo.render.shared_colorbuffer_clear
-ES32-CTS.core.texture_buffer.texture_buffer_max_size
-ESEXT-CTS.texture_buffer.texture_buffer_max_size
-ES31-CTS.core.texture_buffer.texture_buffer_max_size
-ES31-CTS.core.sepshaderobjs.StateInteraction
+KHR-GLES3.functional.fbo.render.shared_colorbuffer_clear
+KHR-GLES32.core.texture_buffer.texture_buffer_max_size
+KHR-GLESEXT.texture_buffer.texture_buffer_max_size
+KHR-GLES31.core.texture_buffer.texture_buffer_max_size
+KHR-GLES31.core.sepshaderobjs.StateInteraction

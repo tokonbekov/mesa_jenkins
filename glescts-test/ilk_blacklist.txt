@@ -1,7 +1,7 @@
-ES3-CTS
-ES31-CTS
-ES32-CTS
-ESEXT-CTS
-ES2-CTS.functional.clipping.triangle_vertex.clip_three
-ES2-CTS.functional.clipping.triangle_vertex.clip_two
-ES2-CTS.functional.shaders.random
+KHR-GLES3
+KHR-GLES31
+KHR-GLES32
+KHR-GLESEXT
+KHR-GLES2.functional.clipping.triangle_vertex.clip_three
+KHR-GLES2.functional.clipping.triangle_vertex.clip_two
+KHR-GLES2.functional.shaders.random
