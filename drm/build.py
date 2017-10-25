@@ -9,7 +9,10 @@ class DrmBuilder(bs.AutoBuilder):
     def __init__(self):
         bs.AutoBuilder.__init__(
             self,
-            configure_options=['--enable-etnaviv-experimental-api'],
+            configure_options=[
+                '--enable-etnaviv-experimental-api',
+                '--enable-freedreno',
+            ],
         )
 
     def test(self):
