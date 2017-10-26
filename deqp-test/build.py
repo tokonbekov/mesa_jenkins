@@ -16,12 +16,11 @@ class SlowTimeout:
         return 500
 
 class DeqpLister(object):
-    def __init__(self, binary, cts_tests):
+    def __init__(self, binary):
         self.binary = binary
         self.o = bs.Options()
         self.pm = bs.ProjectMap()
         self.blacklist_txt = None
-        self.cts_blacklist = cts_tests
         self.version = None
         bd = self.pm.project_build_dir()
         if "glk" in self.o.hardware:
@@ -69,7 +68,6 @@ class DeqpLister(object):
             blacklist = bs.DeqpTrie()
             blacklist.add_txt(self.blacklist_txt)
             all_tests.filter(blacklist)
-        all_tests.filter(self.cts_blacklist)
         if not self.version:
             self.version = bs.mesa_version()
         unsupported = []
@@ -123,10 +121,6 @@ class DeqpBuilder(object):
     def clean(self):
         pass
     def test(self):
-        cts_blacklist = bs.CtsTestList().tests()
-        for suite in ["ES32", "ES31", "ES3", "ES2"]:
-            if suite + "-CTS" in cts_blacklist._trie:
-                cts_blacklist._trie["dEQP-GL" + suite] = cts_blacklist._trie[suite + "-CTS"]
         if "hsw" in self.o.hardware or "byt" in self.o.hardware or "ivb" in self.o.hardware:
             self.env["MESA_GLES_VERSION_OVERRIDE"] = "3.1"
         t = bs.DeqpTester()
@@ -147,7 +141,7 @@ class DeqpBuilder(object):
         for module in modules:
             binary = self.pm.build_root() + "/opt/deqp/modules/" + module + "/deqp-" + module
             results = t.test(binary,
-                             DeqpLister(binary, cts_blacklist),
+                             DeqpLister(binary),
                              [],
                              self.env)
             all_results.merge(results)
