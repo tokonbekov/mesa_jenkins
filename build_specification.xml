@@ -914,7 +914,7 @@
       <mesa branch="eric_engestrom/jenkins"/>
     </branch>
 
-    <branch name="rnoberts" project="test-single-arch-vulkan">
+    <branch name="nroberts" project="test-single-arch-vulkan">
       <mesa branch="igalia/nroberts/jenkins"/>
     </branch>
 
