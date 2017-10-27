@@ -456,7 +456,6 @@
       <remote name="dcbaker" repo="git://github.com/dcbaker/piglit"/>
       <remote name="janesma" repo="git://github.com/janesma/piglit"/>
       <remote name="nchery" repo="git://people.freedesktop.org/~nchery/piglit"/>
-      <remote name="chadv" repo="git://git.kiwitree.net/~chadv/piglit"/>
       <remote name="curro" repo="git://people.freedesktop.org/~currojerez/piglit"/>
       <remote name="idr" repo="git://people.freedesktop.org/~idr/piglit"/>
       <remote name="kwg" repo="git://people.freedesktop.org/~kwg/piglit"/>
@@ -468,7 +467,6 @@
 
     <waffle repo="git://github.com/waffle-gl/waffle">
       <remote name="stable" repo="git://github.com/janesma/waffle"/>
-      <remote name="chadv" repo="git://github.com/chadversary/waffle"/>
       <remote name="janesma" repo="git://github.com/janesma/waffle"/>
       <remote name="jekstrand" repo="git://github.com/jekstrand/waffle"/>
     </waffle>
@@ -640,10 +638,6 @@
       <vulkancts branch="khronos/vulkan-cts-1.1.0" trigger="false"/>
     </branch>
 
-    <branch name="chadv_vulkan" project="vulkancts-full">
-      <mesa branch="chadv/jenkins_vulkan"/>
-    </branch>
-
     <branch name="kwg" project="test-single-arch">
       <mesa branch="kwg/jenkins"/>
     </branch>
@@ -701,11 +695,6 @@
 
     <branch name="dcbaker_mesa" project="test-single-arch">
       <mesa branch="dcbaker/jenkins_gl"/>
-    </branch>
-
-    <branch name="chadv" project="test-single-arch">
-      <mesa branch="origin/10.3"/>
-      <waffle branch="chadv/jenkins"/>
     </branch>
 
     <branch name="jljusten" project="test-single-arch">
