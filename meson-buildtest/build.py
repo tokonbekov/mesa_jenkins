@@ -11,7 +11,10 @@ def main():
 
     global_opts = bs.Options()
 
-    options = ['-Dbuild-tests=true']
+    options = [
+        '-Dbuild-tests=true',
+        '-Dgallium-drivers=radeonsi,nouveau,swrast,freedreno,vc4,vc5,pl111,etnaviv,imx',
+    ]
     if global_opts.config != 'debug':
         options.append('-Dbuildtype=release')
     b = bs.builders.MesonBuilder(extra_definitions=options, install=False)
