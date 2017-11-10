@@ -13,7 +13,7 @@ def main():
 
     options = [
         '-Dbuild-tests=true',
-        '-Dgallium-drivers=radeonsi,nouveau,swrast,freedreno,vc4,vc5,pl111,etnaviv,imx',
+        '-Dgallium-drivers=radeonsi,nouveau,swrast,freedreno,vc4,pl111,etnaviv,imx',
     ]
     if global_opts.config != 'debug':
         options.append('-Dbuildtype=release')
