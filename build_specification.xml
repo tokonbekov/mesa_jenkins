@@ -777,7 +777,7 @@
 
     <branch name="evelikov_17_3" project="all-test-vulkan">
       <mesa branch="evelikov/mesa_17_3/jenkins"/>
-      <piglit branch="e9c497a48"/>
+      <piglit branch="68ec8d2a1"/>
       <deqp branch="e32e1433"/>
       <vulkancts branch="438ea088"/>
       <cts branch="416ccc522"/>
