@@ -142,13 +142,13 @@
 
     <project name="piglit-full">
       <prerequisite name="piglit-test"
-                    hardware="snbgt1,snbgt2,ivbgt1,ivbgt2,hswgt1,hswgt2,hswgt3e,bdwgt3e,sklgt2,sklgt4e,kbl"
+                    hardware="snb,ivb,hsw,bdw,skl,kbl"
                     arch="m64"/>
       <prerequisite name="piglit-test"
                     only_for_type="daily"
-                    hardware="snbgt1,snbgt2,ivbgt1,ivbgt2,hswgt1,hswgt2,hswgt3e,bdwgt3e,sklgt2,sklgt4e,kbl"
+                    hardware="snb,ivb,hsw,bdw,skl,kbl"
                     arch="m32"/>
-      <prerequisite only_for_type="daily" name="piglit-test" hardware="ilk,bsw,byt,g33,g45,g965,bdwgt2" arch="m64,m32"/>
+      <prerequisite only_for_type="daily" name="piglit-test" hardware="ilk,bsw,byt,g33,g45,g965" arch="m64,m32"/>
       <!-- do not test 32 bit for limited platforms -->
       <prerequisite only_for_type="daily" name="piglit-test" hardware="bxt,glk,cfl" arch="m64"/>
 
@@ -220,7 +220,7 @@
     </project>
 
     <project name="test-single-arch">
-      <prerequisite name="piglit-test" hardware="g33,ilk,g45,g965,snb,ivb,hsw,bdwgt3e,skl"/>
+      <prerequisite name="piglit-test" hardware="g33,ilk,g45,g965,snb,ivb,hsw,bdw,skl"/>
       <prerequisite only_for_type="daily" name="piglit-test" hardware="bsw,byt,g33,bxt,glk,cfl"/>
       <prerequisite name="piglit-cpu-test" hardware="fastgpu"/>
       <prerequisite name="scons-buildtest" hardware="builder" arch="m64"/>
@@ -233,7 +233,7 @@
 
     <!-- this is used for ben's percheckin build -->
     <project name="test-single-arch-ben">
-      <prerequisite name="piglit-test" hardware="g33,ilk,g45,g965,snb,ivb,hsw,bdwgt3e,skl,bsw,byt,bxt"/>
+      <prerequisite name="piglit-test" hardware="g33,ilk,g45,g965,snb,ivb,hsw,bdw,skl,bsw,byt,bxt"/>
       <prerequisite name="piglit-cpu-test" hardware="fastgpu"/>
       <prerequisite name="scons-buildtest" hardware="builder" arch="m64"/>
       <prerequisite name="meson-buildtest" hardware="builder" arch="m64"/>
