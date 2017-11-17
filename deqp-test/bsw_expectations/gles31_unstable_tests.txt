@@ -1,2 +1,3 @@
 dEQP-GLES31.functional.debug.negative_coverage.get_error.shader_storage.block_number_limits
-dEQP-GLES31.functional.copy_image.non_compressed.viewclass_32_bits
+dEQP-GLES31.functional.copy_image.non_compressed
+dEQP-GLES31.functional.copy_image.compressed
