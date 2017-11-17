@@ -67,6 +67,7 @@ class DeqpBuilder(bs.CMakeBuilder):
         bs.Export().export()
 
 bs.build(DeqpBuilder(extra_definitions=["-DDEQP_TARGET=x11_egl",
+                                        "-DPYTHON_EXECUTABLE=/usr/bin/python2",
                                         "-DDEQP_GLES1_LIBRARIES=/tmp/build_root/"
                                         + bs.Options().arch + "/lib/libGL.so"]))
 
