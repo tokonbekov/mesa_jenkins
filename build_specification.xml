@@ -68,7 +68,6 @@
       <prerequisite name="deqp" hardware="builder"/>
       <prerequisite name="waffle" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
-      <prerequisite name="glescts" hardware="builder"/>
     </project>
 
     <project name="deqp">
@@ -100,17 +99,16 @@
     </project>
 
     <project name="glescts-full">
-      <prerequisite name="glescts-test" hardware="skl,bdw" shard="5"/>
-      <prerequisite name="glescts-test" hardware="hsw" shard="4"/>
+      <prerequisite name="glescts-test" hardware="skl,bdw"/>
+      <prerequisite name="glescts-test" hardware="hsw"/>
       <!-- only_for_type enforces the prerequisite when type matches
            the value. -->
-      <prerequisite name="glescts-test" hardware="bsw,byt,bxt,glk,cfl" shard="8" only_for_type="daily"/>
-      <prerequisite name="glescts-test" hardware="g33,g45,ilk,g965,ivb,snb,kbl" shard="3" only_for_type="daily"/>
+      <prerequisite name="glescts-test" hardware="bsw,byt,bxt,glk,cfl" only_for_type="daily"/>
+      <prerequisite name="glescts-test" hardware="g33,g45,ilk,g965,ivb,snb,kbl" only_for_type="daily"/>
       <prerequisite name="glescts-test"
                     only_for_type="daily"
                     arch="m32"
-                    hardware="snb,ivb,hsw,bdw,skl,kbl"
-                    shard="5"/>
+                    hardware="snb,ivb,hsw,bdw,skl,kbl"/>
     </project>
 
     <project name="piglit">
@@ -261,14 +259,14 @@
     </project>
 
     <project name="deqp-full">
-      <prerequisite name="deqp-test" hardware="hsw,skl,kbl,bdw,snb,ivb"/>
+      <prerequisite name="deqp-test" hardware="hsw,skl,kbl,bdw,snb,ivb" shard="5"/>
       <prerequisite name="deqp-test"
                     only_for_type="daily"
-                    hardware="byt,bsw,bxt,glk,cfl"/>
+                    hardware="byt,bsw,bxt,glk,cfl" shard="8"/>
       <prerequisite name="deqp-test"
                     only_for_type="daily"
                     arch="m32"
-                    hardware="snb,ivb,hsw,bdw,skl,kbl,bxt,bsw"/>
+                    hardware="snb,ivb,hsw,bdw,skl,kbl,bxt,bsw" shard="8"/>
     </project>
 
     <project name="glcts-full">
