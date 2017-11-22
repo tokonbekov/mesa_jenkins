@@ -3,3 +3,4 @@ dEQP-GLES31.functional.debug.negative_coverage.get_error.shader.link_compute_sha
 dEQP-GLES31.functional.debug.negative_coverage.log.shader_image_load.cube_array
 dEQP-GLES31.functional.copy_image.non_compressed
 dEQP-GLES31.functional.copy_image.compressed
+dEQP-GLES31.functional.copy_image.mixed.viewclass_128_bits_mixed
