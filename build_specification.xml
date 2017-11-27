@@ -436,6 +436,7 @@
       <remote name="yogesh-marathe" repo="git://github.com/yogesh-marathe/external-mesa"/>
       <remote name="anholt" repo="git://github.com/anholt/mesa"/>
       <remote name="eric_engestrom" repo="git://github.com/1ace/mesa"/>
+      <remote name="craftyguy" repo="git://github.com/craftyguy/mesa"/>
     </mesa>
 
     <drm repo="http://anongit.freedesktop.org/git/mesa/drm.git">
