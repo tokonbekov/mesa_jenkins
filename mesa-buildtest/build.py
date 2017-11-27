@@ -11,6 +11,7 @@ class NoTest(bs.AutoBuilder):
     def __init__(self, configure_options):
         bs.AutoBuilder.__init__(self,
                                 configure_options=configure_options,
+                                install=False,
                                 export=False)
 
     def test(self):
