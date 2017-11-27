@@ -47,7 +47,7 @@ class GLESCTSList(object):
                "LD_LIBRARY_PATH" : bs.get_libdir(),
                "MESA_GL_VERSION_OVERRIDE" : "4.6",
                "MESA_GLSL_VERSION_OVERRIDE" : "460",
-               "LIBGL_DRIVERS_PATH" : br + "/lib/dri"}
+               "LIBGL_DRIVERS_PATH" : bs.get_libgl_drivers()}
         self.o.update_env(env)
 
         savedir = os.getcwd()
