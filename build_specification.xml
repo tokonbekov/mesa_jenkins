@@ -779,6 +779,7 @@
     <!-- These branches exists to separate build results from
          mesa_master on the server. -->
     <branch name="nir_torture_test" project="test-single-arch"/>
+    <branch name="shader_cache_test" project="test-single-arch"/>
     <branch name="mesa_custom" project="all-test"/>
 
     <branch name="pnmanolova" project="test-single-arch">
