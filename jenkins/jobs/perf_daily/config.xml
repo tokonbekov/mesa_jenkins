@@ -38,6 +38,7 @@
       <throttleOption>project</throttleOption>
       <limitOneJobWithMatchingParams>false</limitOneJobWithMatchingParams>
       <paramsToUseForLimit></paramsToUseForLimit>
+      <configVersion>1</configVersion>
     </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
     <jenkins.advancedqueue.jobinclusion.strategy.JobInclusionJobProperty plugin="PrioritySorter@3.5.0">
       <useJobGroup>false</useJobGroup>
@@ -65,7 +66,7 @@
                   <generated>true</generated>
                   <exposedToEnvironment>false</exposedToEnvironment>
                   <value>
-                    <time>1490024952081</time>
+                    <time>1509454108177</time>
                     <timezone>America/Los_Angeles</timezone>
                   </value>
                   <checked>false</checked>
@@ -101,7 +102,7 @@
       </values>
     </job-metadata>
   </properties>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.1.0">
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.2.0">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
@@ -119,7 +120,7 @@
   </scm>
   <assignedNode>master</assignedNode>
   <canRoam>false</canRoam>
-  <disabled>false</disabled>
+  <disabled>true</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <authToken>noauth</authToken>
@@ -130,19 +131,16 @@
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <builders>
-    <hudson.tasks.Shell>
-      <command>rm -rf summary.xml
-rm -rf test_summary.txt
-rm -rf results/test
-python -u scripts/checkout_revision_spec.py --branch=mesa_perf
-python -u scripts/build_perf.py --project=perf-all --type=${type} --config=release --revision=1111:</command>
-    </hudson.tasks.Shell>
     <hudson.plugins.build__timeout.BuildStepWithTimeout plugin="build-timeout@1.18">
       <strategy class="hudson.plugins.build_timeout.impl.AbsoluteTimeOutStrategy">
         <timeoutMinutes>90</timeoutMinutes>
       </strategy>
-      <buildStep class="hudson.tasks.BatchFile">
-        <command></command>
+      <buildStep class="hudson.tasks.Shell">
+        <command>rm -rf summary.xml
+rm -rf test_summary.txt
+rm -rf results/test
+python -u scripts/checkout_revision_spec.py --branch=mesa_perf
+python -u scripts/build_perf.py --project=perf-all --type=${type} --config=release --revision=1111:</command>
       </buildStep>
       <operationList class="empty-list"/>
     </hudson.plugins.build__timeout.BuildStepWithTimeout>

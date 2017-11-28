@@ -10,79 +10,143 @@
   <mode>NORMAL</mode>
   <useSecurity>true</useSecurity>
   <authorizationStrategy class="hudson.security.GlobalMatrixAuthorizationStrategy">
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Create:craftyguy</permission>
     <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Create:dcbaker</permission>
     <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Create:majanes</permission>
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Create:mirlan</permission>
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Delete:craftyguy</permission>
     <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Delete:dcbaker</permission>
     <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Delete:majanes</permission>
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Delete:mirlan</permission>
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:craftyguy</permission>
     <permission>com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:dcbaker</permission>
     <permission>com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:majanes</permission>
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:mirlan</permission>
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Update:craftyguy</permission>
     <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Update:dcbaker</permission>
     <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Update:majanes</permission>
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Update:mirlan</permission>
     <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View:anonymous</permission>
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View:craftyguy</permission>
     <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View:dcbaker</permission>
     <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View:majanes</permission>
+    <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View:mirlan</permission>
     <permission>hudson.model.Computer.Build:anonymous</permission>
+    <permission>hudson.model.Computer.Build:craftyguy</permission>
     <permission>hudson.model.Computer.Build:dcbaker</permission>
     <permission>hudson.model.Computer.Build:majanes</permission>
+    <permission>hudson.model.Computer.Build:mirlan</permission>
+    <permission>hudson.model.Computer.Configure:craftyguy</permission>
     <permission>hudson.model.Computer.Configure:dcbaker</permission>
     <permission>hudson.model.Computer.Configure:majanes</permission>
+    <permission>hudson.model.Computer.Configure:mirlan</permission>
+    <permission>hudson.model.Computer.Connect:craftyguy</permission>
     <permission>hudson.model.Computer.Connect:dcbaker</permission>
     <permission>hudson.model.Computer.Connect:majanes</permission>
+    <permission>hudson.model.Computer.Connect:mirlan</permission>
+    <permission>hudson.model.Computer.Create:craftyguy</permission>
     <permission>hudson.model.Computer.Create:dcbaker</permission>
     <permission>hudson.model.Computer.Create:majanes</permission>
+    <permission>hudson.model.Computer.Create:mirlan</permission>
+    <permission>hudson.model.Computer.Delete:craftyguy</permission>
     <permission>hudson.model.Computer.Delete:dcbaker</permission>
     <permission>hudson.model.Computer.Delete:majanes</permission>
+    <permission>hudson.model.Computer.Delete:mirlan</permission>
+    <permission>hudson.model.Computer.Disconnect:craftyguy</permission>
     <permission>hudson.model.Computer.Disconnect:dcbaker</permission>
     <permission>hudson.model.Computer.Disconnect:majanes</permission>
+    <permission>hudson.model.Computer.Disconnect:mirlan</permission>
+    <permission>hudson.model.Hudson.Administer:craftyguy</permission>
     <permission>hudson.model.Hudson.Administer:dcbaker</permission>
     <permission>hudson.model.Hudson.Administer:majanes</permission>
+    <permission>hudson.model.Hudson.Administer:mirlan</permission>
+    <permission>hudson.model.Hudson.ConfigureUpdateCenter:craftyguy</permission>
     <permission>hudson.model.Hudson.ConfigureUpdateCenter:dcbaker</permission>
     <permission>hudson.model.Hudson.ConfigureUpdateCenter:majanes</permission>
+    <permission>hudson.model.Hudson.ConfigureUpdateCenter:mirlan</permission>
     <permission>hudson.model.Hudson.Read:anonymous</permission>
+    <permission>hudson.model.Hudson.Read:craftyguy</permission>
     <permission>hudson.model.Hudson.Read:dcbaker</permission>
     <permission>hudson.model.Hudson.Read:majanes</permission>
+    <permission>hudson.model.Hudson.Read:mirlan</permission>
+    <permission>hudson.model.Hudson.RunScripts:craftyguy</permission>
     <permission>hudson.model.Hudson.RunScripts:dcbaker</permission>
     <permission>hudson.model.Hudson.RunScripts:majanes</permission>
+    <permission>hudson.model.Hudson.RunScripts:mirlan</permission>
+    <permission>hudson.model.Hudson.UploadPlugins:craftyguy</permission>
     <permission>hudson.model.Hudson.UploadPlugins:dcbaker</permission>
     <permission>hudson.model.Hudson.UploadPlugins:majanes</permission>
+    <permission>hudson.model.Hudson.UploadPlugins:mirlan</permission>
     <permission>hudson.model.Item.Build:anonymous</permission>
+    <permission>hudson.model.Item.Build:craftyguy</permission>
     <permission>hudson.model.Item.Build:dcbaker</permission>
     <permission>hudson.model.Item.Build:majanes</permission>
+    <permission>hudson.model.Item.Build:mirlan</permission>
     <permission>hudson.model.Item.Cancel:anonymous</permission>
+    <permission>hudson.model.Item.Cancel:craftyguy</permission>
     <permission>hudson.model.Item.Cancel:dcbaker</permission>
     <permission>hudson.model.Item.Cancel:majanes</permission>
+    <permission>hudson.model.Item.Cancel:mirlan</permission>
+    <permission>hudson.model.Item.Configure:craftyguy</permission>
     <permission>hudson.model.Item.Configure:dcbaker</permission>
     <permission>hudson.model.Item.Configure:majanes</permission>
+    <permission>hudson.model.Item.Configure:mirlan</permission>
+    <permission>hudson.model.Item.Create:craftyguy</permission>
     <permission>hudson.model.Item.Create:dcbaker</permission>
     <permission>hudson.model.Item.Create:majanes</permission>
+    <permission>hudson.model.Item.Create:mirlan</permission>
+    <permission>hudson.model.Item.Delete:craftyguy</permission>
     <permission>hudson.model.Item.Delete:dcbaker</permission>
     <permission>hudson.model.Item.Delete:majanes</permission>
+    <permission>hudson.model.Item.Delete:mirlan</permission>
     <permission>hudson.model.Item.Discover:anonymous</permission>
+    <permission>hudson.model.Item.Discover:craftyguy</permission>
     <permission>hudson.model.Item.Discover:dcbaker</permission>
     <permission>hudson.model.Item.Discover:majanes</permission>
+    <permission>hudson.model.Item.Discover:mirlan</permission>
     <permission>hudson.model.Item.ExtendedRead:anonymous</permission>
+    <permission>hudson.model.Item.ExtendedRead:craftyguy</permission>
     <permission>hudson.model.Item.ExtendedRead:dcbaker</permission>
     <permission>hudson.model.Item.ExtendedRead:majanes</permission>
+    <permission>hudson.model.Item.ExtendedRead:mirlan</permission>
     <permission>hudson.model.Item.Read:anonymous</permission>
+    <permission>hudson.model.Item.Read:craftyguy</permission>
     <permission>hudson.model.Item.Read:dcbaker</permission>
     <permission>hudson.model.Item.Read:majanes</permission>
+    <permission>hudson.model.Item.Read:mirlan</permission>
+    <permission>hudson.model.Item.Workspace:craftyguy</permission>
     <permission>hudson.model.Item.Workspace:dcbaker</permission>
     <permission>hudson.model.Item.Workspace:majanes</permission>
+    <permission>hudson.model.Item.Workspace:mirlan</permission>
+    <permission>hudson.model.Run.Delete:craftyguy</permission>
     <permission>hudson.model.Run.Delete:dcbaker</permission>
     <permission>hudson.model.Run.Delete:majanes</permission>
+    <permission>hudson.model.Run.Delete:mirlan</permission>
+    <permission>hudson.model.Run.Update:craftyguy</permission>
     <permission>hudson.model.Run.Update:dcbaker</permission>
     <permission>hudson.model.Run.Update:majanes</permission>
+    <permission>hudson.model.Run.Update:mirlan</permission>
+    <permission>hudson.model.View.Configure:craftyguy</permission>
     <permission>hudson.model.View.Configure:dcbaker</permission>
     <permission>hudson.model.View.Configure:majanes</permission>
+    <permission>hudson.model.View.Configure:mirlan</permission>
+    <permission>hudson.model.View.Create:craftyguy</permission>
     <permission>hudson.model.View.Create:dcbaker</permission>
     <permission>hudson.model.View.Create:majanes</permission>
+    <permission>hudson.model.View.Create:mirlan</permission>
+    <permission>hudson.model.View.Delete:craftyguy</permission>
     <permission>hudson.model.View.Delete:dcbaker</permission>
     <permission>hudson.model.View.Delete:majanes</permission>
+    <permission>hudson.model.View.Delete:mirlan</permission>
     <permission>hudson.model.View.Read:anonymous</permission>
+    <permission>hudson.model.View.Read:craftyguy</permission>
     <permission>hudson.model.View.Read:dcbaker</permission>
     <permission>hudson.model.View.Read:majanes</permission>
+    <permission>hudson.model.View.Read:mirlan</permission>
+    <permission>hudson.scm.SCM.Tag:craftyguy</permission>
     <permission>hudson.scm.SCM.Tag:dcbaker</permission>
     <permission>hudson.scm.SCM.Tag:majanes</permission>
+    <permission>hudson.scm.SCM.Tag:mirlan</permission>
   </authorizationStrategy>
   <securityRealm class="hudson.security.HudsonPrivateSecurityRealm">
     <disableSignup>false</disableSignup>
@@ -115,24 +179,39 @@
       <properties class="hudson.model.View$PropertyList"/>
       <jobNames>
         <comparator class="hudson.util.CaseInsensitiveComparator"/>
+        <string>agomez</string>
+        <string>anholt</string>
         <string>antognolli</string>
+        <string>antognolli_vulkan</string>
         <string>aphogat</string>
         <string>aphogat_vulkan</string>
+        <string>apinheiro</string>
+        <string>apuentes</string>
         <string>bwidawsk_fast</string>
+        <string>chadv</string>
+        <string>chrisf</string>
         <string>curro</string>
         <string>curro_vulkan</string>
+        <string>daniels</string>
         <string>dcbaker</string>
         <string>dcbaker_mesa</string>
         <string>djdeath</string>
         <string>djdeath_vulkan</string>
         <string>elima</string>
+        <string>eric_engestrom</string>
+        <string>estea</string>
         <string>evelikov</string>
-        <string>evelikov_13</string>
-        <string>evelikov_17</string>
+        <string>evelikov_17.2</string>
+        <string>evelikov_17_3</string>
+        <string>grigorig</string>
+        <string>hakzam_piglit</string>
+        <string>hakzsam</string>
         <string>idr</string>
+        <string>idr_vulkan</string>
         <string>igalia</string>
-        <string>igalia_13</string>
-        <string>igalia_17</string>
+        <string>igalia_17.1</string>
+        <string>igalia_17.2</string>
+        <string>igalia_khronos</string>
         <string>imirkin</string>
         <string>internal</string>
         <string>itoral</string>
@@ -153,12 +232,18 @@
         <string>mperes</string>
         <string>nchery</string>
         <string>nchery_vulkan</string>
+        <string>nroberts</string>
         <string>pnmanolova</string>
+        <string>scott-ph_gl</string>
+        <string>scott-ph_vulkan</string>
         <string>siglesias</string>
         <string>tarceri</string>
         <string>tarceri_slow</string>
+        <string>tf_jekstrand</string>
+        <string>tf_llandwerlin</string>
         <string>tpalli</string>
         <string>tpohjola</string>
+        <string>yogesh-marathe</string>
       </jobNames>
       <jobFilters/>
       <columns>
@@ -180,14 +265,16 @@
       <properties class="hudson.model.View$PropertyList"/>
       <jobNames>
         <comparator class="hudson.util.CaseInsensitiveComparator" reference="../../../listView/jobNames/comparator"/>
-        <string>mesa_13.0</string>
-        <string>mesa_13.0_daily</string>
-        <string>mesa_17.0</string>
-        <string>mesa_17.0_daily</string>
+        <string>mesa_17.1</string>
+        <string>mesa_17.1_daily</string>
+        <string>mesa_17.2</string>
+        <string>mesa_17.2_daily</string>
+        <string>mesa_17.3</string>
+        <string>mesa_17.3_daily</string>
         <string>mesa_custom</string>
         <string>mesa_master</string>
         <string>mesa_master_daily</string>
-        <string>nir_clone_daily</string>
+        <string>nir_torture_daily</string>
         <string>vulkancts</string>
         <string>vulkancts-daily</string>
       </jobNames>

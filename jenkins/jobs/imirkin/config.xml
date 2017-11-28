@@ -128,7 +128,7 @@ python -u scripts/build_jenkins.py --branch=imirkin --type=percheckin --config=d
             <recipientProviders>
               <hudson.plugins.emailext.plugins.recipients.ListRecipientProvider/>
             </recipientProviders>
-            <attachmentsPattern>test_summary.txt,results/test/results.tgz,results/test/results.tar.xz</attachmentsPattern>
+            <attachmentsPattern>test_summary.txt,results/test/results.tgz,results/test/results.tar.xz,revisions.txt</attachmentsPattern>
             <attachBuildLog>false</attachBuildLog>
             <compressBuildLog>false</compressBuildLog>
             <replyTo>$PROJECT_DEFAULT_REPLYTO</replyTo>

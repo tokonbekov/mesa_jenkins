@@ -70,7 +70,7 @@
                   <generated>true</generated>
                   <exposedToEnvironment>false</exposedToEnvironment>
                   <value>
-                    <time>1490984499929</time>
+                    <time>1496343106553</time>
                     <timezone>America/Los_Angeles</timezone>
                   </value>
                   <checked>false</checked>
@@ -141,7 +141,7 @@ python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=${type} --config=
   </builders>
   <publishers>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>summary.xml</artifacts>
+      <artifacts>summary.xml,results/test/piglit*xml,results/test/card_error*</artifacts>
       <allowEmptyArchive>false</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>
@@ -189,7 +189,7 @@ python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=${type} --config=
       </extraConfiguration>
     </xunit>
     <hudson.tasks.Mailer plugin="mailer@1.20">
-      <recipients>mark.a.janes@intel.com baker.dylan.c@gmail.com</recipients>
+      <recipients>mark.a.janes@intel.com mirlan.ax.tokonbekov@intel.com</recipients>
       <dontNotifyEveryUnstableBuild>true</dontNotifyEveryUnstableBuild>
       <sendToIndividuals>false</sendToIndividuals>
     </hudson.tasks.Mailer>

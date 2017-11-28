@@ -128,7 +128,7 @@
                   <generated>true</generated>
                   <exposedToEnvironment>false</exposedToEnvironment>
                   <value>
-                    <time>1490143720956</time>
+                    <time>1510040701488</time>
                     <timezone>America/Los_Angeles</timezone>
                   </value>
                   <checked>false</checked>
@@ -164,7 +164,7 @@
       </values>
     </job-metadata>
   </properties>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.1.0">
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.2.0">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
@@ -208,9 +208,11 @@ python -u ${project}/build.py --arch ${arch} --result_path ${result_path} --conf
 fi
 killall Xorg || true
 sleep 5
-Xorg :0 vt0 -retro -sharevts 2&gt;/dev/null &amp;
+Xorg :0 vt0 -retro -sharevts -noreset 2&gt;/dev/null &amp;
 rm -rf /tmp/build_root
 sleep 5  # Xorg doesn&apos;t always settle before starting piglit and that causes problems
+DISPLAY=:0 xset dpms force on || true # turn off X monitor power control, which limits fps to 1
+DISPLAY=:0 xset s off || true         # turn off the X screensaver
 python -u ${project}/build.py --arch ${arch} --result_path ${result_path} --config ${config} --type ${type} --hardware ${hardware} --action clean,build,test --shard ${shard} --env &quot;DISPLAY=:0 ${env}&quot; ${extra_arg}
 killall Xorg || true
 rm -rf /tmp/build_root
@@ -228,7 +230,7 @@ rm -rf /tmp/build_root
       <usePreviousBuildAsReference>false</usePreviousBuildAsReference>
       <useStableBuildAsReference>false</useStableBuildAsReference>
       <useDeltaValues>false</useDeltaValues>
-      <thresholds plugin="analysis-core@1.82">
+      <thresholds plugin="analysis-core@1.84">
         <unstableTotalAll></unstableTotalAll>
         <unstableTotalHigh></unstableTotalHigh>
         <unstableTotalNormal></unstableTotalNormal>
@@ -312,6 +314,12 @@ rm -rf /tmp/build_root
     </xunit>
   </publishers>
   <buildWrappers>
+    <hudson.plugins.build__timeout.BuildTimeoutWrapper plugin="build-timeout@1.18">
+      <strategy class="hudson.plugins.build_timeout.impl.NoActivityTimeOutStrategy">
+        <timeoutSecondsString>10000</timeoutSecondsString>
+      </strategy>
+      <operationList/>
+    </hudson.plugins.build__timeout.BuildTimeoutWrapper>
     <hudson.plugins.timestamper.TimestamperBuildWrapper plugin="timestamper@1.8.8"/>
     <org.jenkinsci.plugins.buildnamesetter.BuildNameSetter plugin="build-name-setter@1.6.5">
       <template>${ENV,var=&quot;project&quot;}-${ENV,var=&quot;branch&quot;}-${ENV,var=&quot;arch&quot;}-${ENV,var=&quot;hardware&quot;}</template>

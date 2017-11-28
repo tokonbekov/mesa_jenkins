@@ -55,6 +55,7 @@
           <choices class="java.util.Arrays$ArrayList">
             <a class="string-array">
               <string>test-single-arch</string>
+              <string>mesa</string>
               <string>all-test</string>
               <string>piglit-full</string>
               <string>piglit-test</string>
@@ -69,9 +70,12 @@
               <string>vulkancts-test</string>
               <string>vulkancts-full</string>
               <string>perf-all</string>
+              <string>glcts-full</string>
+              <string>glcts-test</string>
               <string>glescts-full</string>
               <string>glescts-test</string>
               <string>all-test-vulkan</string>
+              <string>dota-pts</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
@@ -104,6 +108,7 @@
               <string>kbl</string>
               <string>snb</string>
               <string>glk</string>
+              <string>cfl</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
@@ -142,11 +147,11 @@
           <description></description>
           <choices class="java.util.Arrays$ArrayList">
             <a class="string-array">
+              <string>mesa_custom</string>
               <string>mesa_master</string>
               <string>vulkancts</string>
-              <string>mesa_13.0</string>
-              <string>mesa_12.0</string>
-              <string>mesa_11.2</string>
+              <string>mesa_17.2</string>
+              <string>mesa_17.3</string>
             </a>
           </choices>
         </hudson.model.ChoiceParameterDefinition>
@@ -187,7 +192,7 @@
                   <generated>true</generated>
                   <exposedToEnvironment>false</exposedToEnvironment>
                   <value>
-                    <time>1490387520287</time>
+                    <time>1511827507485</time>
                     <timezone>America/Los_Angeles</timezone>
                   </value>
                   <checked>false</checked>
@@ -223,7 +228,7 @@
       </values>
     </job-metadata>
   </properties>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.1.0">
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.2.0">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
@@ -259,7 +264,7 @@ python -u scripts/build_jenkins.py --type=${type} --config=${config} --rebuild=$
   </builders>
   <publishers>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>summary.xml,results/test/piglit*xml</artifacts>
+      <artifacts>summary.xml,results/test/card_error*</artifacts>
       <allowEmptyArchive>false</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>
@@ -306,10 +311,10 @@ python -u scripts/build_jenkins.py --type=${type} --config=${config} --rebuild=$
         <testTimeMargin>3000</testTimeMargin>
       </extraConfiguration>
     </xunit>
-    <hudson.plugins.emailext.ExtendedEmailPublisher plugin="email-ext@2.57">
+    <hudson.plugins.emailext.ExtendedEmailPublisher plugin="email-ext@2.57.1">
       <recipientList>${notify}</recipientList>
       <configuredTriggers>
-        <hudson.plugins.emailext.plugins.trigger.FailureTrigger>
+        <hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
           <email>
             <subject>$PROJECT_DEFAULT_SUBJECT</subject>
             <body>$PROJECT_DEFAULT_CONTENT</body>
@@ -322,26 +327,12 @@ python -u scripts/build_jenkins.py --type=${type} --config=${config} --rebuild=$
             <replyTo>$PROJECT_DEFAULT_REPLYTO</replyTo>
             <contentType>project</contentType>
           </email>
-        </hudson.plugins.emailext.plugins.trigger.FailureTrigger>
-        <hudson.plugins.emailext.plugins.trigger.UnstableTrigger>
-          <email>
-            <subject>$PROJECT_DEFAULT_SUBJECT</subject>
-            <body>$PROJECT_DEFAULT_CONTENT</body>
-            <recipientProviders>
-              <hudson.plugins.emailext.plugins.recipients.ListRecipientProvider/>
-            </recipientProviders>
-            <attachmentsPattern></attachmentsPattern>
-            <attachBuildLog>false</attachBuildLog>
-            <compressBuildLog>false</compressBuildLog>
-            <replyTo>$PROJECT_DEFAULT_REPLYTO</replyTo>
-            <contentType>project</contentType>
-          </email>
-        </hudson.plugins.emailext.plugins.trigger.UnstableTrigger>
+        </hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
       </configuredTriggers>
       <contentType>default</contentType>
       <defaultSubject>$DEFAULT_SUBJECT</defaultSubject>
       <defaultContent>$DEFAULT_CONTENT</defaultContent>
-      <attachmentsPattern>test_summary.txt</attachmentsPattern>
+      <attachmentsPattern>test_summary.txt,revisions.txt</attachmentsPattern>
       <presendScript>$DEFAULT_PRESEND_SCRIPT</presendScript>
       <postsendScript></postsendScript>
       <attachBuildLog>false</attachBuildLog>

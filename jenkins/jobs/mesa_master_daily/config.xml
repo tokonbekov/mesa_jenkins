@@ -70,7 +70,7 @@
                   <generated>true</generated>
                   <exposedToEnvironment>false</exposedToEnvironment>
                   <value>
-                    <time>1490387459702</time>
+                    <time>1496343022339</time>
                     <timezone>America/Los_Angeles</timezone>
                   </value>
                   <checked>false</checked>
@@ -106,7 +106,7 @@
       </values>
     </job-metadata>
   </properties>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.1.0">
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.2.0">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
@@ -145,7 +145,7 @@ python -u scripts/build_jenkins.py --branch=mesa_master --type=daily --config=de
   </builders>
   <publishers>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>summary.xml</artifacts>
+      <artifacts>summary.xml,results/test/card_error*</artifacts>
       <allowEmptyArchive>false</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>
@@ -192,8 +192,8 @@ python -u scripts/build_jenkins.py --branch=mesa_master --type=daily --config=de
         <testTimeMargin>3000</testTimeMargin>
       </extraConfiguration>
     </xunit>
-    <hudson.tasks.Mailer plugin="mailer@1.19">
-      <recipients>mark.a.janes@intel.com baker.dylan.c@gmail.com</recipients>
+    <hudson.tasks.Mailer plugin="mailer@1.20">
+      <recipients>mark.a.janes@intel.com mirlan.ax.tokonbekov@intel.com</recipients>
       <dontNotifyEveryUnstableBuild>true</dontNotifyEveryUnstableBuild>
       <sendToIndividuals>false</sendToIndividuals>
     </hudson.tasks.Mailer>

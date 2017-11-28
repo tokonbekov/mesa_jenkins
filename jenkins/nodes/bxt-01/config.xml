@@ -1,19 +1,19 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <slave>
   <name>bxt-01</name>
-  <description></description>
+  <description>Bay 1 top red shelf</description>
   <remoteFS>/home/jenkins</remoteFS>
   <numExecutors>1</numExecutors>
   <mode>NORMAL</mode>
   <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-  <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.13">
+  <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.16">
     <host>otc-gfxtest-bxt-01.local</host>
     <port>22</port>
     <credentialsId>6d0fe36e-af28-4610-b037-9923e7ee9596</credentialsId>
     <maxNumRetries>0</maxNumRetries>
     <retryWaitTime>0</retryWaitTime>
+    <sshHostKeyVerificationStrategy class="hudson.plugins.sshslaves.verifiers.NonVerifyingKeyVerificationStrategy"/>
   </launcher>
   <label>bxt</label>
   <nodeProperties/>
-  <userId>dcbaker</userId>
 </slave>

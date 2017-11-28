@@ -43,7 +43,7 @@
                   <generated>true</generated>
                   <exposedToEnvironment>false</exposedToEnvironment>
                   <value>
-                    <time>1490369876457</time>
+                    <time>1509745052720</time>
                     <timezone>America/Los_Angeles</timezone>
                   </value>
                   <checked>false</checked>
@@ -60,7 +60,7 @@
                       <parent class="metadata-tree" reference="../../.."/>
                       <generated>true</generated>
                       <exposedToEnvironment>false</exposedToEnvironment>
-                      <value>Mark Janes</value>
+                      <value>Mirlan Tokonbekov</value>
                     </metadata-string>
                     <metadata-string>
                       <name>full-name</name>
@@ -68,7 +68,7 @@
                       <parent class="metadata-tree" reference="../../.."/>
                       <generated>true</generated>
                       <exposedToEnvironment>false</exposedToEnvironment>
-                      <value>Mark Janes</value>
+                      <value>Mirlan Tokonbekov</value>
                     </metadata-string>
                   </children>
                 </metadata-tree>
@@ -79,7 +79,7 @@
       </values>
     </job-metadata>
   </properties>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.1.0">
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.2.0">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
@@ -112,8 +112,8 @@
       <command>rm -rf results/test
 rm -rf summary.xml
 rm -rf test_summary.txt
-python -u clean-server/build.py
-python -u scripts/build_jenkins.py --project=reboot-slaves --rebuild=true
+python -u scripts/checkout_revision_spec.py
+python -u reboot-slave/build.py
 </command>
     </hudson.tasks.Shell>
   </builders>

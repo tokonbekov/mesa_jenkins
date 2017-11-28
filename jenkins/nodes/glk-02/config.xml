@@ -6,14 +6,14 @@
   <numExecutors>1</numExecutors>
   <mode>NORMAL</mode>
   <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-  <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.13">
+  <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.16">
     <host>otc-gfxtest-glk-02.local</host>
     <port>22</port>
     <credentialsId>6d0fe36e-af28-4610-b037-9923e7ee9596</credentialsId>
     <maxNumRetries>0</maxNumRetries>
     <retryWaitTime>0</retryWaitTime>
+    <sshHostKeyVerificationStrategy class="hudson.plugins.sshslaves.verifiers.NonVerifyingKeyVerificationStrategy"/>
   </launcher>
   <label>glk</label>
   <nodeProperties/>
-  <userId>majanes</userId>
 </slave>
