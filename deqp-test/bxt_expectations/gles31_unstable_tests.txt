@@ -1,2 +1,8 @@
 dEQP-GLES31.functional.debug.negative_coverage.get_error.shader.link_compute_shader
+# Disabled for https://bugs.freedesktop.org/show_bug.cgi?id=103746
+dEQP-GLES31.functional.copy_image.non_compressed
+# Disabled for https://bugs.freedesktop.org/show_bug.cgi?id=103746
+dEQP-GLES31.functional.copy_image.compressed
+# Disabled for https://bugs.freedesktop.org/show_bug.cgi?id=103746
+dEQP-GLES31.functional.copy_image.mixed
 

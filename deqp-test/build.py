@@ -23,16 +23,17 @@ class DeqpLister(object):
         self.blacklist_txt = None
         self.version = None
         bd = self.pm.project_build_dir()
-        if "glk" in self.o.hardware:
-            bd = self.pm.project_source_dir("prerelease") + "/deqp-test/"
+        hw_prefix = self.o.hardware[:3]
+        if self.o.hardware == "g965":
+            hw_prefix = self.o.hardware
         if "gles2" in self.binary:
-            self.blacklist_txt = bd + self.o.hardware[:3] + "_expectations/gles2_unstable_tests.txt"
+            self.blacklist_txt = bd + hw_prefix + "_expectations/gles2_unstable_tests.txt"
         if "gles3" in self.binary:
-            self.blacklist_txt = bd + self.o.hardware[:3] + "_expectations/gles3_unstable_tests.txt"
+            self.blacklist_txt = bd + hw_prefix + "_expectations/gles3_unstable_tests.txt"
         if "gles31" in self.binary:
-            self.blacklist_txt = bd + self.o.hardware[:3] + "_expectations/gles31_unstable_tests.txt"
+            self.blacklist_txt = bd + hw_prefix + "_expectations/gles31_unstable_tests.txt"
         if "egl" in self.binary:
-            self.blacklist_txt = bd + self.o.hardware[:3] + "_expectations/egl_unstable_tests.txt"
+            self.blacklist_txt = bd + hw_prefix + "_expectations/egl_unstable_tests.txt"
 
     def tests(self, env):
         # don't execute tests that are part of the other suite
@@ -120,6 +121,22 @@ class DeqpBuilder(object):
         pass
     def clean(self):
         pass
+
+    def supports_gles_3(self):
+        if ("g33" in self.o.hardware or
+            "g45" in self.o.hardware or
+            "g965" in self.o.hardware or
+            "ilk" in self.o.hardware):
+            return False
+        return True
+
+    def supports_gles_31(self):
+        if not self.supports_gles_3():
+            return False
+        if "snb" in self.o.hardware:
+            return False
+        return True
+
     def test(self):
         if "hsw" in self.o.hardware or "byt" in self.o.hardware or "ivb" in self.o.hardware:
             self.env["MESA_GLES_VERSION_OVERRIDE"] = "3.1"
@@ -132,11 +149,11 @@ class DeqpBuilder(object):
             if "13.0" in self.version or "17.0" in self.version:
                 return
 
-        modules = ["gles2", "gles3", "egl"]
-        for hardware in ["skl", "bdw", "bsw", "hsw", "byt", "ivb"]:
-            if hardware in self.o.hardware:
-                modules += ["gles31"]
-                break
+        modules = ["gles2", "egl"]
+        if self.supports_gles_3():
+            modules += ["gles3"]
+        if self.supports_gles_31():
+            modules += ["gles31"]
 
         for module in modules:
             binary = self.pm.build_root() + "/opt/deqp/modules/" + module + "/deqp-" + module

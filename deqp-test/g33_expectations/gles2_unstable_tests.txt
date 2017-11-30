@@ -1,0 +1,4 @@
+# hang forever when running bisect jobs
+dEQP-GLES2.functional.texture.filtering.cube.linear_mipmap_linear_linear_mirror_rgba8888
+dEQP-GLES2.functional.texture.filtering.cube.linear_mipmap_linear_linear_repeat_rgba8888
+dEQP-GLES2.functional.texture.filtering.cube.linear_mipmap_linear_nearest_mirror_rgba8888

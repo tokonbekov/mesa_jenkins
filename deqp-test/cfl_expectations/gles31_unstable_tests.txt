@@ -1,1 +1,7 @@
 dEQP-GLES31.functional.synchronization.inter_call.without_memory_barrier.ssbo_atomic_counter_mixed_dispatch_100_calls_1k_invocations
+# Disabled for https://bugs.freedesktop.org/show_bug.cgi?id=103746
+dEQP-GLES31.functional.copy_image.non_compressed
+# Disabled for https://bugs.freedesktop.org/show_bug.cgi?id=103746
+dEQP-GLES31.functional.copy_image.compressed
+# Disabled for https://bugs.freedesktop.org/show_bug.cgi?id=103746
+dEQP-GLES31.functional.copy_image.mixed
