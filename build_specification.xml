@@ -140,8 +140,7 @@
 
     <project name="piglit-full">
       <prerequisite name="piglit-test"
-                    hardware="snb,ivb,hsw,bdw,skl,kbl"
-                    arch="m64"/>
+                    hardware="snb,ivb,hsw,bdw,skl,kbl"/>
       <prerequisite name="piglit-test"
                     only_for_type="daily"
                     hardware="snb,ivb,hsw,bdw,skl,kbl"
@@ -177,7 +176,7 @@
     </project>
 
     <project name="vulkancts-full">
-      <prerequisite name="vulkancts-test" hardware="bdw,hsw,skl,kbl" arch="m64" shard="2"/>
+      <prerequisite name="vulkancts-test" hardware="bdw,hsw,skl,kbl" shard="2"/>
       <prerequisite name="vulkancts-test"
                     only_for_type="daily"
                     hardware="bdw,hsw,skl,kbl"
@@ -189,7 +188,7 @@
                     arch="m64"
                     shard="5"/>
 
-      <prerequisite name="crucible-test" arch="m64" hardware="bdw,skl,bsw,hsw,bxt,kbl"/>
+      <prerequisite name="crucible-test" hardware="bdw,skl,bsw,hsw,bxt,kbl"/>
       <prerequisite name="crucible-test" only_for_type="daily" arch="m64" hardware="bxt,glk,cfl"/>
     </project>
 
