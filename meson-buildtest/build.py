@@ -7,6 +7,11 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "
 import build_support as bs
 
 def main():
+    pm = bs.ProjectMap()
+    sd = pm.project_source_dir(pm.current_project())
+    if not os.path.exists(os.path.join(sd, 'src/mesa/drivers/osmesa/meson.build')):
+        return 0
+
     save_dir = os.getcwd()
 
     global_opts = bs.Options()
