@@ -55,4 +55,30 @@ class MesaBuilder(bs.AutoBuilder):
         self.SetGtests(gtests)
         bs.AutoBuilder.test(self)
 
-bs.build(MesaBuilder())
+
+def meson_build():
+    global_opts = bs.Options()
+
+    options = [
+        '-Dgallium-drivers=',
+        '-Ddri-drivers=i965,i915',
+        '-Dvulkan-drivers=intel',
+        '-Dplatforms=x11,drm',
+    ]
+    if global_opts.config != 'debug':
+        options.extend(['-Dbuildtype=release', '-Db_ndebug=true'])
+    b = bs.builders.MesonBuilder(extra_definitions=options, install=True)
+    bs.build(b)
+
+
+def main():
+    pm = bs.ProjectMap()
+    sd = pm.project_source_dir(pm.current_project())
+    if os.path.exists(os.path.join(sd, 'src/mesa/drivers/osmesa/meson.build')):
+        meson_build()
+    else:
+        bs.build(MesaBuilder())
+
+
+if __name__ == '__main__':
+    main()
