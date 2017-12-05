@@ -14,6 +14,12 @@ def main():
     options = [
         '-Dbuild-tests=true',
         '-Dgallium-drivers=r300,r600,radeonsi,nouveau,swrast,freedreno,vc4,pl111,etnaviv,imx,svga,virgl',
+        '-Dgallium-omx=true',
+        '-Dgallium-vdpau=true',
+        '-Dgallium-xvmc=true',
+        '-Dgallium-xa=true',
+        '-Dgallium-va=true',
+        '-Dgallium-nine=true',
     ]
     if global_opts.config != 'debug':
         options.extend(['-Dbuildtype=release', '-Db_ndebug=true'])
