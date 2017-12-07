@@ -469,6 +469,7 @@
     <mesa_jenkins repo="git://github.com/janesma/mesa_jenkins.git">
       <remote name="craftyguy" repo="git://github.com/craftyguy/mesa_jenkins"/>
       <remote name="dcbaker" repo="https://github.com/dcbaker/mesa_jenkins.git"/>
+      <remote name="tokonbekov" repo="git://github.com/tokonbekov/mesa_jenkins.git"/>
     </mesa_jenkins>
 
     <mesa_ci repo="git://github.com/janesma/mesa_ci.git"/>
