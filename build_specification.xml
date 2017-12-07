@@ -37,15 +37,13 @@
 
     <project name="drm"/>
 
-    <project name="mesa">
-      <!-- options for a prerequisite are inherited unless overridden.
-           For example, a build of mesa with arch=m32 will require a
-           build of drm with arch=m32 -->
-      <prerequisite name="drm"/>
-    </project>
+    <project name="mesa"/>
 
     <!-- only works on m64, due to llvm dependencies -->
     <project name="mesa-buildtest" src_dir="mesa">
+      <!-- options for a prerequisite are inherited unless overridden.
+           For example, a build of mesa with arch=m32 will require a
+           build of drm with arch=m32 -->
       <prerequisite name="drm"/>
     </project>
 
@@ -68,6 +66,7 @@
       <prerequisite name="deqp" hardware="builder"/>
       <prerequisite name="waffle" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
+      <prerequisite name="drm"/>
     </project>
 
     <project name="deqp"/>
@@ -82,6 +81,7 @@
       <prerequisite name="glcts" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
       <prerequisite name="waffle" hardware="builder"/>
+      <prerequisite name="drm"/>
     </project>
 
     <project name="glescts-test"
@@ -90,6 +90,7 @@
       <prerequisite name="mesa" hardware="builder"/>
       <prerequisite name="glescts" hardware="builder"/>
       <prerequisite name="waffle" hardware="builder"/>
+      <prerequisite name="drm"/>
     </project>
 
     <project name="glescts-full">
@@ -115,16 +116,19 @@
              bisect_arch="m64,m32">
       <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
+      <prerequisite name="drm"/>
     </project>
 
     <project name="piglit-cpu-test-1">
       <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
+      <prerequisite name="drm"/>
     </project>
 
     <project name="piglit-cpu-test-2">
       <prerequisite name="piglit" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
+      <prerequisite name="drm"/>
     </project>
 
     <project name="piglit-cpu-test">
@@ -159,6 +163,7 @@
              bisect_arch="m64">
       <prerequisite name="crucible" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
+      <prerequisite name="drm"/>
     </project>
 
     <project name="vulkancts-test" src_dir="vulkancts"
@@ -167,6 +172,7 @@
       <prerequisite name="vulkancts" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
       <prerequisite name="waffle" hardware="builder"/>
+      <prerequisite name="drm"/>
     </project>
 
     <project name="vulkancts-full">
