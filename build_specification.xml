@@ -70,17 +70,11 @@
       <prerequisite name="mesa" hardware="builder"/>
     </project>
 
-    <project name="deqp">
-      <prerequisite name="mesa"/>
-    </project>
+    <project name="deqp"/>
 
-    <project name="glescts" src_dir="cts">
-      <prerequisite name="mesa"/>
-    </project>
+    <project name="glescts" src_dir="cts"/>
 
-    <project name="glcts">
-      <prerequisite name="mesa"/>
-    </project>
+    <project name="glcts"/>
 
     <project name="glcts-test"
              bisect_hardware="hsw,bdw,skl,bsw,bxt,kbl,glk,cfl"
