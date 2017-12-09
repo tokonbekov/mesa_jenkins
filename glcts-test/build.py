@@ -42,6 +42,9 @@ class GLCTSList(object):
             return all_tests
         blacklist = bs.DeqpTrie()
         blacklist.add_txt(blacklist_txt)
+        if "17.3" in bs.mesa_version():
+            blacklist.add_txt(self.pm.project_build_dir() + "/17_3_blacklist.txt")
+
         all_tests.filter(blacklist)
         return all_tests
 

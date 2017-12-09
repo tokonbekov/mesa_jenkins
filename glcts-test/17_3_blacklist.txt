@@ -1,0 +1,5 @@
+# tests were unstable in 17.3 but fixed afterwards
+KHR-GL46.blend_equation_advanced.blend_all.GL_COLORBURN_KHR_all_qualifier
+KHR-GL46.enhanced_layouts
+KHR-GL46.geometry_shader.layered_framebuffer.clear_call_support
+KHR-GL46.sample_variables.mask.rgba8ui
