@@ -1,0 +1,52 @@
+From 210e91c5a8f9f9406aaa2668c42278283b153c97 Mon Sep 17 00:00:00 2001
+From: Clayton Craft <clayton.a.craft@intel.com>
+Date: Sat, 9 Dec 2017 15:59:23 -0800
+Subject: [PATCH] Handle createContext failure on older hw
+
+---
+ framework/egl/egluGLContextFactory.cpp | 10 +++++++---
+ framework/egl/egluGLUtil.cpp           |  6 ++++--
+ 2 files changed, 11 insertions(+), 5 deletions(-)
+
+diff --git a/framework/egl/egluGLContextFactory.cpp b/framework/egl/egluGLContextFactory.cpp
+index 21d103fd..ee0c77ea 100644
+--- a/framework/egl/egluGLContextFactory.cpp
++++ b/framework/egl/egluGLContextFactory.cpp
+@@ -383,10 +383,14 @@ void RenderContext::create (const NativeDisplayFactory* displayFactory, const Na
+ 		default:
+ 			throw tcu::InternalError("Invalid surface type");
+ 	}
++        try{
++		m_eglContext = createGLContext(egl, m_eglDisplay, m_eglConfig,
++					       config.type, m_eglSharedContext,
++					       config.resetNotificationStrategy);
++		EGLU_CHECK_CALL(egl, makeCurrent(m_eglDisplay, m_eglSurface,
++						 m_eglSurface, m_eglContext));
++	} catch(...) {}
+ 
+-	m_eglContext = createGLContext(egl, m_eglDisplay, m_eglConfig, config.type, m_eglSharedContext, config.resetNotificationStrategy);
+-
+-	EGLU_CHECK_CALL(egl, makeCurrent(m_eglDisplay, m_eglSurface, m_eglSurface, m_eglContext));
+ 
+ 	// Init core functions
+ 
+diff --git a/framework/egl/egluGLUtil.cpp b/framework/egl/egluGLUtil.cpp
+index 9c0a308e..4802d140 100644
+--- a/framework/egl/egluGLUtil.cpp
++++ b/framework/egl/egluGLUtil.cpp
+@@ -194,8 +194,10 @@ EGLContext createGLContext (const Library&					egl,
+ 	attribList.push_back(EGL_NONE);
+ 
+ 	EGLU_CHECK_CALL(egl, bindAPI(api));
+-	context = egl.createContext(display, eglConfig, sharedContext, &(attribList[0]));
+-	EGLU_CHECK_MSG(egl, "eglCreateContext()");
++	try{
++		context = egl.createContext(display, eglConfig, sharedContext, &(attribList[0]));
++		EGLU_CHECK_MSG(egl, "eglCreateContext()");
++	} catch(...) {}
+ 
+ 	return context;
+ }
+-- 
+2.14.3
+

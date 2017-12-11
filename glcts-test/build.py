@@ -32,7 +32,11 @@ class GLCTSList(object):
         bs.run_batch_command(["./glcts", "--deqp-runmode=xml-caselist"],
                              env=env)
         all_tests = bs.DeqpTrie()
-        all_tests.add_xml("KHR-GL46-cases.xml")
+        # Note: ilk, g45, etc are all < GL30 and not supported in glcts
+        if self.o.hardware in ['snb', 'ivb', 'byt']:
+            all_tests.add_xml("KHR-GL33-cases.xml")
+        else:
+            all_tests.add_xml("KHR-GL46-cases.xml")
         os.chdir(savedir)
         return all_tests
 

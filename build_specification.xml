@@ -83,7 +83,7 @@
     </project>
 
     <project name="glcts-test"
-             bisect_hardware="hsw,bdw,skl,bsw,bxt,kbl,glk,cfl"
+             bisect_hardware="snb,ivb,hsw,bdw,skl,bsw,bxt,kbl,glk,cfl"
              bisect_arch="m64">
       <prerequisite name="glcts" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
@@ -269,9 +269,10 @@
     </project>
 
     <project name="glcts-full">
-      <prerequisite name="glcts-test" hardware="hsw,bdw,skl,kbl" arch="m64" shard="2"/>
+      <prerequisite name="glcts-test" hardware="snb,ivb,hsw,bdw,skl,kbl" arch="m64" shard="2"/>
       <prerequisite name="glcts-test" only_for_type="daily" hardware="hsw,bdw,skl,kbl" arch="m32"/>
       <prerequisite name="glcts-test" only_for_type="daily" hardware="bsw,bxt" shard="4"/>
+      <prerequisite name="glcts-test" only_for_type="daily" hardware="byt"/>
       <prerequisite name="glcts-test" only_for_type="daily" hardware="glk,cfl"/>
     </project>
 
