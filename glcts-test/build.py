@@ -56,6 +56,7 @@ class GLCTSTester(object):
     def test(self):
         mv = bs.mesa_version()
         if "17.2" in mv or "17.1" in mv:
+            print("NOTICE: GLCTS will NOT be run since the system has Mesa version <17.3")
             return
         t = bs.DeqpTester()
         results = t.test(self.pm.build_root() + "/bin/gl/modules/glcts",
