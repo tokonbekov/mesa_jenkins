@@ -99,12 +99,12 @@
     </project>
 
     <project name="glescts-full">
-      <prerequisite name="glescts-test" hardware="skl,bdw"/>
+      <prerequisite name="glescts-test" hardware="bdw,skl,kbl"/>
       <prerequisite name="glescts-test" hardware="hsw"/>
       <!-- only_for_type enforces the prerequisite when type matches
            the value. -->
       <prerequisite name="glescts-test" hardware="bsw,byt,bxt,glk,cfl" only_for_type="daily"/>
-      <prerequisite name="glescts-test" hardware="g33,g45,ilk,g965,ivb,snb,kbl" only_for_type="daily"/>
+      <prerequisite name="glescts-test" hardware="g33,g45,ilk,g965,ivb,snb" only_for_type="daily"/>
       <prerequisite name="glescts-test"
                     only_for_type="daily"
                     arch="m32"
