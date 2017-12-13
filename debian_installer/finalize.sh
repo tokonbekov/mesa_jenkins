@@ -34,6 +34,12 @@ master_finger: ba:42:e5:d8:e6:3f:ec:ff:a4:7b:c3:cd:24:74:2a:8b
 hash_type: md5
 EOF
 
+cat > /etc/salt/minion.d/grain.conf << EOF
+grains:
+  roles:
+    - conformance
+EOF
+
 echo 'startup_states: highstate' > /etc/salt/minion.d/startup.conf
 
 # Add our nfs mount to fstab
