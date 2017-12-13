@@ -1,0 +1,7 @@
+# This blacklist file contains tests that should only run on 'daily' builds,
+# and NOT run on all other build types (e.g. percheckin)
+KHR-GL33.texture_swizzle
+KHR-GL46.arrays_of_arrays_gl
+KHR-GL46.copy_image.functional
+KHR-GL46.texture_swizzle
+
