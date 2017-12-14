@@ -83,7 +83,7 @@
     </project>
 
     <project name="glcts-test"
-             bisect_hardware="snb,ivb,hsw,bdw,skl,bsw,bxt,kbl,glk,cfl"
+             bisect_hardware="snb,ivb,byt,hsw,bdw,skl,bsw,bxt,kbl,glk,cfl"
              bisect_arch="m64">
       <prerequisite name="glcts" hardware="builder"/>
       <prerequisite name="mesa" hardware="builder"/>
