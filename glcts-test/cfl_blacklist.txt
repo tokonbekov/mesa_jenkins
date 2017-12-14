@@ -1,1 +1,3 @@
 KHR-GL46.shader_image_load_store.basic-api-bind
+KHR-GL46.compute_shader.resource-texture
+KHR-GL46.vertex_attrib_64bit.limits_test
