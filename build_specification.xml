@@ -527,6 +527,8 @@
       <remote name="khronos" repo="git@gitlab.khronos.org:spirv/SPIRV-Headers.git"/>
     </spirvheaders>
     
+    <kc-cts repo="git@gitlab.khronos.org:opengl/kc-cts.git"/>
+
     <sixonix repo="git://github.com/janesma/sixonix"
              branch="origin/mesa_ci"/>
     <apitrace repo="git://github.com/janesma/apitrace"
