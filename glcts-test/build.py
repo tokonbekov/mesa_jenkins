@@ -46,12 +46,16 @@ class GLCTSList(object):
             return all_tests
         blacklist = bs.DeqpTrie()
         blacklist.add_txt(blacklist_txt)
-        if "17.3" in bs.mesa_version():
-            blacklist.add_txt(self.pm.project_build_dir() + "/17_3_blacklist.txt")
-        if self.o.type != "daily":
-            blacklist.add_txt(self.pm.project_build_dir() + "/non-daily_blacklist.txt")
-
         all_tests.filter(blacklist)
+        if "17.3" in bs.mesa_version():
+            blacklist = bs.DeqpTrie()
+            blacklist.add_txt(self.pm.project_build_dir() + "/17_3_blacklist.txt")
+            all_tests.filter(blacklist)
+        if self.o.type != "daily" and not self.o.retest_path:
+            blacklist = bs.DeqpTrie()
+            blacklist.add_txt(self.pm.project_build_dir() + "/non-daily_blacklist.txt")
+            all_tests.filter(blacklist)
+
         return all_tests
 
 class GLCTSTester(object):
