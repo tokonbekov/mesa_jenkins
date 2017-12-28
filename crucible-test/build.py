@@ -13,6 +13,8 @@ def post_process_results(xml):
     t = ET.parse(xml)
     o = bs.Options()
     conf = None
+    long_revisions = bs.RepoSet().branch_missing_revisions()
+    missing_revisions = [a_rev[:6] for a_rev in long_revisions]
     try:
         conf = bs.get_conf_file(o.hardware, o.arch, project="crucible-test")
     except bs.NoConfigFile:
@@ -20,20 +22,41 @@ def post_process_results(xml):
     if conf:
         # key=name, value=status
         expected_status = {}
+        changed_commit = {}
         c = ConfigParser.SafeConfigParser(allow_no_value=True)
         c.read(conf)
         for section in c.sections():
-            for (test, _) in c.items(section):
+            for (test, commit) in c.items(section):
                 if test in expected_status:
                     raise Exception("test has multiple entries: " + test)
                 expected_status[test] = section
+                changed_commit[test] = commit
         for atest in t.findall(".//testcase"):
-            if atest.attrib["name"] not in expected_status:
-                continue
+            test_name = atest.attrib["name"]
             if atest.attrib["status"] == "lost":
                 atest.attrib["status"] = "crash"
+            if test_name not in expected_status:
+                continue
 
             expected = expected_status[atest.attrib["name"]]
+            test_is_stale = False
+            for missing_commit in missing_revisions:
+                if missing_commit in changed_commit[test_name]:
+                    test_is_stale = True
+                    # change stale test status to skip
+                    for ftag in atest.findall("failure"):
+                        atest.remove(ftag)
+                    for ftag in atest.findall("error"):
+                        atest.remove(ftag)
+                    atest.append(ET.Element("skipped"))
+                    so = ET.Element("system-out")
+                    so.text = "WARN: the results of this were changed by " + changed_commit[test_name]
+                    so.text += ", which is missing from this build."
+                    atest.append(so)
+                    break
+            if test_is_stale:
+                continue
+
             if expected == "expected-failures":
                 # change fail to pass
                 if atest.attrib["status"] == "fail":
