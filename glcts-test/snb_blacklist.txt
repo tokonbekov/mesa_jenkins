@@ -1,2 +1,4 @@
 KHR-GL46
 GTF-GL46
+# flaky on SNB
+KHR-GL33.transform_feedback.query_geometry_interleaved_test
