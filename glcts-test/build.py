@@ -32,9 +32,11 @@ class GLCTSList(object):
         bs.run_batch_command(["./glcts", "--deqp-runmode=xml-caselist"],
                              env=env)
         all_tests = bs.DeqpTrie()
+        # Enable GL33 tests for supporting hw
         # Note: ilk, g45, etc are all < GL30 and not supported in glcts
         if self.o.hardware in ['snb', 'ivb', 'byt']:
             all_tests.add_xml("KHR-GL33-cases.xml")
+            all_tests.add_xml("GTF-GL33-cases.xml")
         else:
             all_tests.add_xml("KHR-GL46-cases.xml")
             all_tests.add_xml("GTF-GL46-cases.xml")
@@ -55,6 +57,11 @@ class GLCTSList(object):
         if self.o.type != "daily" and not self.o.retest_path:
             blacklist = bs.DeqpTrie()
             blacklist.add_txt(self.pm.project_build_dir() + "/non-daily_blacklist.txt")
+            all_tests.filter(blacklist)
+        # Do not run GTF33 on hardware that supports >GL33
+        if self.o.hardware not in ['snb', 'ivb', 'byt']:
+            blacklist = bs.DeqpTrie()
+            blacklist.add_line("GTF-GL33")
             all_tests.filter(blacklist)
 
         return all_tests
