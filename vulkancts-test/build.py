@@ -67,10 +67,6 @@ class VulkanTester(object):
                               ["--deqp-surface-type=fbo"],
                               env=env)
         o = bs.Options()
-        mv = bs.mesa_version()
-        if "glk" in o.hardware and "13.0" in mv:
-            print "WARNING: glk not supported by stable mesa"
-            return
         config = bs.get_conf_file(o.hardware, o.arch, project=pm.current_project())
         tester.generate_results(results, bs.ConfigFilter(config, o))
 
