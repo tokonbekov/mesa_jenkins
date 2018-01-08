@@ -2,3 +2,5 @@ KHR-GL46
 GTF-GL46
 # flaky on SNB
 KHR-GL33.transform_feedback.query_geometry_interleaved_test
+# Fails intermittently
+GTF-GL33.gtf30.GL3Tests.transform_feedback.transform_feedback_geometry_primitive_types

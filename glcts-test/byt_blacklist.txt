@@ -1,3 +1,4 @@
 KHR-GL46
 GTF-GL46
-
+# Fails intermittently
+GTF-GL33.gtf30.GL3Tests.packed_depth_stencil.packed_depth_stencil_init
