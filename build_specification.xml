@@ -480,22 +480,16 @@
       <remote name="aosp" repo="https://android.googlesource.com/platform/external/deqp"/>
     </deqp>
 
-    <cts repo="ssh://majanes@git-amr-2.devtools.intel.com:29418/otc_gen_graphics-khronos-glconform.git"
-         branch="khronos/opengl-es-cts-3.2.4">
-      <remote name="khronos" repo="https://github.com/KhronosGroup/VK-GL-CTS.git"/>
+    <cts repo="https://github.com/KhronosGroup/VK-GL-CTS.git"
+         branch="origin/opengl-es-cts-3.2.4">
     </cts>
 
-    <glcts repo="ssh://majanes@git-amr-2.devtools.intel.com:29418/otc_gen_graphics-khronos-glconform.git"
-           branch="vk-gl-cts/opengl-cts-4.6.0">
-      <remote name="vk-gl-cts" repo="git@gitlab.khronos.org:Tracker/vk-gl-cts.git"/>
+    <glcts repo="git@gitlab.khronos.org:Tracker/vk-gl-cts.git"
+           branch="origin/opengl-cts-4.6.0">
     </glcts>
 
-    <prerelease repo="ssh://majanes@git-amr-3.devtools.intel.com:29418/otc_gen_graphics-mesa_ci_prerelease.git"/>
-
-    <shaderc repo="git://github.com/jekstrand/shaderc"
-             branch="shaderc/master">
-      <remote name="shaderc" repo="git://github.com/google/shaderc"/>
-      <remote name="janesma" repo="git://github.com/janesma/shaderc.git"/>
+    <shaderc repo="git://github.com/google/shaderc"
+             branch="origin/master">
     </shaderc>
     
     <gmock repo="git://github.com/google/googlemock"
@@ -503,7 +497,6 @@
     <glslang repo="git://github.com/KhronosGroup/glslang.git"
              branch="origin/master">
       <remote name="glsl" repo="git@gitlab.khronos.org:GLSL/glslang.git"/>
-      <remote name="janesma" repo="git://github.com/janesma/glslang.git"/>
     </glslang>
 
     <gtest repo="git://github.com/google/googletest"
@@ -531,8 +524,6 @@
 
     <sixonix repo="git://github.com/janesma/sixonix"
              branch="origin/mesa_ci"/>
-    <apitrace repo="git://github.com/janesma/apitrace"
-              branch="origin/frameretrace"/>
   </repos>
 
 
@@ -553,8 +544,8 @@
       <waffle/>
       <drm/>
       <deqp branch="aosp/master"/>
-      <cts branch="khronos/opengl-es-cts-3.2.4"/>
-      <glcts branch="vk-gl-cts/opengl-cts-4.6.0"/>
+      <cts branch="origin/opengl-es-cts-3.2.4"/>
+      <glcts branch="origin/opengl-cts-4.6.0"/>
 
       <!-- the trigger attribute is used specify a branch that should
            be used, but prevent builds from triggering if the branch
@@ -570,7 +561,7 @@
       <piglit branch="84c528875"/>
       <deqp branch="03c395c6"/>
       <vulkancts branch="0e3c7aa3"/>
-      <cts branch="khronos/opengl-es-cts-3.2.4"/>
+      <cts branch="origin/opengl-es-cts-3.2.4"/>
       <crucible branch="3f26244"/>
       <shaderc branch="fb33022"/>
       <glslang branch="53863a3a"/>
@@ -581,7 +572,7 @@
       <piglit branch="68ec8d2a1"/>
       <deqp branch="e32e1433"/>
       <vulkancts branch="438ea088"/>
-      <cts branch="khronos/opengl-es-cts-3.2.4"/>
+      <cts branch="origin/opengl-es-cts-3.2.4"/>
       <crucible branch="40a9f10"/>
       <shaderc branch="bcadbc1"/>
       <glslang branch="9cfc1551"/>
@@ -753,7 +744,7 @@
       <piglit branch="84c528875"/>
       <deqp branch="03c395c6"/>
       <vulkancts branch="0e3c7aa3"/>
-      <cts branch="khronos/opengl-es-cts-3.2.4"/>
+      <cts branch="origin/opengl-es-cts-3.2.4"/>
       <crucible branch="3f26244"/>
       <shaderc branch="fb33022"/>
       <glslang branch="53863a3a"/>
@@ -764,7 +755,7 @@
       <piglit branch="68ec8d2a1"/>
       <deqp branch="e32e1433"/>
       <vulkancts branch="438ea088"/>
-      <cts branch="khronos/opengl-es-cts-3.2.4"/>
+      <cts branch="origin/opengl-es-cts-3.2.4"/>
       <crucible branch="40a9f10"/>
       <shaderc branch="bcadbc1"/>
       <glslang branch="9cfc1551"/>
@@ -775,7 +766,7 @@
       <piglit branch="84c528875"/>
       <deqp branch="03c395c6"/>
       <vulkancts branch="0e3c7aa3"/>
-      <cts branch="khronos/opengl-es-cts-3.2.4"/>
+      <cts branch="origin/opengl-es-cts-3.2.4"/>
       <crucible branch="3f26244"/>
       <shaderc branch="fb33022"/>
       <glslang branch="53863a3a"/>
