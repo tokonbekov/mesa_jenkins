@@ -668,7 +668,7 @@
     </branch>
     
     <branch name="majanes" project="test-single-arch">
-      <mesa branch="janesma/jenkins"/>
+      <mesa branch="janesma/jenkins2"/>
     </branch>
 
     <branch name="dcbaker" project="test-single-arch">
