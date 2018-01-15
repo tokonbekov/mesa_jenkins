@@ -773,7 +773,7 @@
     </branch>
 
     <branch name="igalia_17.3" project="all-test-vulkan">
-      <mesa branch="origin/17.3"/>
+      <mesa branch="igalia_release/igalia/17.3"/>
       <piglit branch="68ec8d2a1"/>
       <deqp branch="e32e1433"/>
       <vulkancts branch="438ea088"/>
