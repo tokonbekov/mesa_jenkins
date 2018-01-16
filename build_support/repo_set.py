@@ -313,9 +313,6 @@ class RepoSet:
                                                + '\"', 'fetch',
                                                '+refs/heads/*:refs/'
                                                + remote_name + '/*')
-                        repo.git.config('--local', '--add', 'remote.origin.fetch',
-                                        '+refs/heads/*:refs/remotes/origin/*')
-                            
             else:
                 # For systems that will be fetching from build master's git
                 # cache, add the appropriate fetch refspec so that refs are
@@ -324,7 +321,9 @@ class RepoSet:
                 assert origin is not None
                 with origin.config_writer as c:
                     c.set('fetch', '+refs/*:refs/remotes/*')
-
+                repo.git.config('--local', '--add', 'remote.origin.fetch',
+                                '+refs/heads/*:refs/remotes/origin/*')
+                            
             # Store repo, branch, and remote object(s)
             self._repos[repo_name] = repo
             self._branches[repo_name] = branch
