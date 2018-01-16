@@ -312,6 +312,7 @@ class RepoSet:
                             c.config.set_value('remote \"' + remote_name
                                                + '\"', 'fetch',
                                                '+refs/heads/*:refs/'
+                                               + remote_name + '/*')
                         repo.git.config('--local', '--add', 'remote.origin.fetch',
                                         '+refs/heads/*:refs/remotes/origin/*')
                             
