@@ -179,7 +179,6 @@
       <properties class="hudson.model.View$PropertyList"/>
       <jobNames>
         <comparator class="hudson.util.CaseInsensitiveComparator"/>
-        <string>agomez</string>
         <string>anholt</string>
         <string>antognolli</string>
         <string>antognolli_vulkan</string>
@@ -211,24 +210,23 @@
         <string>igalia</string>
         <string>igalia_17.1</string>
         <string>igalia_17.2</string>
+        <string>igalia_17.3</string>
         <string>igalia_khronos</string>
         <string>imirkin</string>
         <string>internal</string>
         <string>itoral</string>
         <string>jasuarez</string>
-        <string>jekstrand</string>
         <string>jekstrand_gl</string>
         <string>jekstrand_vulkan</string>
         <string>jljusten</string>
         <string>jljusten_vulkan</string>
-        <string>juhapekka</string>
         <string>kwg</string>
         <string>kwg_vulkan</string>
-        <string>lfrb</string>
         <string>majanes</string>
         <string>mattst88</string>
         <string>mattst88_vulkan</string>
         <string>mesa_custom</string>
+        <string>mirlan</string>
         <string>mperes</string>
         <string>nchery</string>
         <string>nchery_vulkan</string>
@@ -274,7 +272,9 @@
         <string>mesa_custom</string>
         <string>mesa_master</string>
         <string>mesa_master_daily</string>
+        <string>nir_shader_cache_test_daily</string>
         <string>nir_torture_daily</string>
+        <string>shader_cache_test</string>
         <string>vulkancts</string>
         <string>vulkancts-daily</string>
       </jobNames>

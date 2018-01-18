@@ -21,7 +21,7 @@
         <hudson.model.StringParameterDefinition>
           <name>to</name>
           <description>resulting patch will be sent to this address</description>
-          <defaultValue>mark.a.janes@intel.com,mirlan.ax.tokonbekov@intel.com</defaultValue>
+          <defaultValue>mark.a.janes@intel.com,mirlan.ax.tokonbekov@intel.com,clayton.a.craft@intel.com</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>blame_revision</name>
@@ -36,7 +36,7 @@
         <hudson.model.StringParameterDefinition>
           <name>build_support_branch</name>
           <description></description>
-          <defaultValue>master</defaultValue>
+          <defaultValue>origin/master</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>dir</name>
@@ -80,7 +80,7 @@
                   <generated>true</generated>
                   <exposedToEnvironment>false</exposedToEnvironment>
                   <value>
-                    <time>1495812879196</time>
+                    <time>1513125853226</time>
                     <timezone>America/Los_Angeles</timezone>
                   </value>
                   <checked>false</checked>
@@ -120,7 +120,12 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
+        <name>origin</name>
         <url>git://github.com/janesma/mesa_jenkins</url>
+      </hudson.plugins.git.UserRemoteConfig>
+      <hudson.plugins.git.UserRemoteConfig>
+        <name>craftyguy</name>
+        <url>git://github.com/craftyguy/mesa_jenkins.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>

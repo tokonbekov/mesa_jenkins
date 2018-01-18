@@ -23,9 +23,14 @@
           <description>this parameter is set to the relevant commit when builds are triggered</description>
           <defaultValue>manually_started</defaultValue>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>rebuild</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>revision</name>
-          <description></description>
+          <description>revision</description>
           <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
@@ -65,7 +70,7 @@
                   <generated>true</generated>
                   <exposedToEnvironment>false</exposedToEnvironment>
                   <value>
-                    <time>1508952620879</time>
+                    <time>1515795944791</time>
                     <timezone>America/Los_Angeles</timezone>
                   </value>
                   <checked>false</checked>
@@ -105,7 +110,7 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>git://otc-mesa-ci.local/git/mesa_jenkins</url>
+        <url>git://github.com/janesma/mesa_jenkins</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -131,7 +136,7 @@
 rm -rf summary.xml
 rm -rf test_summary.txt
 python -u scripts/checkout_revision_spec.py
-python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=percheckin --config=debug --revision=&quot;$revision&quot;</command>
+python -u scripts/build_jenkins.py --tar --branch=${JOB_NAME} --type=daily --config=debug --rebuild=${rebuild} --revision=&quot;$revision&quot;</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
@@ -184,7 +189,7 @@ python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=percheckin --conf
       </extraConfiguration>
     </xunit>
     <hudson.plugins.emailext.ExtendedEmailPublisher plugin="email-ext@2.57.1">
-      <recipientList>eric@engestrom.ch</recipientList>
+      <recipientList>agomez@igalia.com,jasuarez@igalia.com</recipientList>
       <configuredTriggers>
         <hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
           <email>
@@ -202,10 +207,11 @@ python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=percheckin --conf
         </hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
         <hudson.plugins.emailext.plugins.trigger.PreBuildTrigger>
           <email>
-            <recipientList>eric@engestrom.ch</recipientList>
             <subject>$PROJECT_DEFAULT_SUBJECT</subject>
             <body>$PROJECT_DEFAULT_CONTENT</body>
-            <recipientProviders/>
+            <recipientProviders>
+              <hudson.plugins.emailext.plugins.recipients.ListRecipientProvider/>
+            </recipientProviders>
             <attachmentsPattern></attachmentsPattern>
             <attachBuildLog>false</attachBuildLog>
             <compressBuildLog>false</compressBuildLog>

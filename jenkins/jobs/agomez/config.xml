@@ -23,11 +23,6 @@
           <description>this parameter is set to the relevant commit when builds are triggered</description>
           <defaultValue>manually_started</defaultValue>
         </hudson.model.StringParameterDefinition>
-        <hudson.model.StringParameterDefinition>
-          <name>revision</name>
-          <description></description>
-          <defaultValue></defaultValue>
-        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
     <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.9.0">
@@ -38,6 +33,7 @@
       <throttleOption>project</throttleOption>
       <limitOneJobWithMatchingParams>false</limitOneJobWithMatchingParams>
       <paramsToUseForLimit></paramsToUseForLimit>
+      <configVersion>1</configVersion>
     </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
     <jenkins.advancedqueue.jobinclusion.strategy.JobInclusionJobProperty plugin="PrioritySorter@3.5.0">
       <useJobGroup>false</useJobGroup>
@@ -65,7 +61,7 @@
                   <generated>true</generated>
                   <exposedToEnvironment>false</exposedToEnvironment>
                   <value>
-                    <time>1508952620879</time>
+                    <time>1511851817316</time>
                     <timezone>America/Los_Angeles</timezone>
                   </value>
                   <checked>false</checked>
@@ -105,7 +101,7 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>git://otc-mesa-ci.local/git/mesa_jenkins</url>
+        <url>git://github.com/janesma/mesa_jenkins</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -119,7 +115,7 @@
   </scm>
   <assignedNode>master</assignedNode>
   <canRoam>false</canRoam>
-  <disabled>false</disabled>
+  <disabled>true</disabled>
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <authToken>noauth</authToken>
@@ -131,7 +127,7 @@
 rm -rf summary.xml
 rm -rf test_summary.txt
 python -u scripts/checkout_revision_spec.py
-python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=percheckin --config=debug --revision=&quot;$revision&quot;</command>
+python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=percheckin --config=debug --project=test-single-arch-vulkan --tar</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
@@ -184,7 +180,7 @@ python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=percheckin --conf
       </extraConfiguration>
     </xunit>
     <hudson.plugins.emailext.ExtendedEmailPublisher plugin="email-ext@2.57.1">
-      <recipientList>eric@engestrom.ch</recipientList>
+      <recipientList>agomez@igalia.com</recipientList>
       <configuredTriggers>
         <hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
           <email>
@@ -202,7 +198,7 @@ python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=percheckin --conf
         </hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
         <hudson.plugins.emailext.plugins.trigger.PreBuildTrigger>
           <email>
-            <recipientList>eric@engestrom.ch</recipientList>
+            <recipientList>agomez@igalia.com</recipientList>
             <subject>$PROJECT_DEFAULT_SUBJECT</subject>
             <body>$PROJECT_DEFAULT_CONTENT</body>
             <recipientProviders/>

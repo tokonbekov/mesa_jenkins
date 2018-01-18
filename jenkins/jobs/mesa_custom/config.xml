@@ -36,7 +36,7 @@
         <hudson.model.StringParameterDefinition>
           <name>build_support_branch</name>
           <description>branch for scripts (eg origin/mesa_10.2)</description>
-          <defaultValue>master</defaultValue>
+          <defaultValue>origin/master</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.ChoiceParameterDefinition>
           <name>type</name>
@@ -192,7 +192,7 @@
                   <generated>true</generated>
                   <exposedToEnvironment>false</exposedToEnvironment>
                   <value>
-                    <time>1511827507485</time>
+                    <time>1512678425779</time>
                     <timezone>America/Los_Angeles</timezone>
                   </value>
                   <checked>false</checked>
@@ -232,7 +232,20 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
+        <name>origin</name>
         <url>git://github.com/janesma/mesa_jenkins.git</url>
+      </hudson.plugins.git.UserRemoteConfig>
+      <hudson.plugins.git.UserRemoteConfig>
+        <name>craftyguy</name>
+        <url>git://github.com/craftyguy/mesa_jenkins.git</url>
+      </hudson.plugins.git.UserRemoteConfig>
+      <hudson.plugins.git.UserRemoteConfig>
+        <name>dcbaker</name>
+        <url>git://github.com/dcbaker/mesa_jenkins.git</url>
+      </hudson.plugins.git.UserRemoteConfig>
+      <hudson.plugins.git.UserRemoteConfig>
+        <name>tokonbekov</name>
+        <url>git://github.com/tokonbekov/mesa_jenkins.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>

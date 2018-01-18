@@ -6,8 +6,8 @@
   <properties>
     <jenkins.model.BuildDiscarderProperty>
       <strategy class="hudson.tasks.LogRotator">
-        <daysToKeep>-1</daysToKeep>
-        <numToKeep>20</numToKeep>
+        <daysToKeep>30</daysToKeep>
+        <numToKeep>-1</numToKeep>
         <artifactDaysToKeep>-1</artifactDaysToKeep>
         <artifactNumToKeep>-1</artifactNumToKeep>
       </strategy>
@@ -21,20 +21,142 @@
         <hudson.model.StringParameterDefinition>
           <name>name</name>
           <description>this parameter is set to the relevant commit when builds are triggered</description>
-          <defaultValue>manually_started</defaultValue>
+          <defaultValue>manually_started_mirlan</defaultValue>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>rebuild</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>revision</name>
-          <description></description>
+          <description>space separate list of sha revisions, eg &quot;piglit=a0b2c1e waffle=9160580&quot;</description>
           <defaultValue></defaultValue>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>build_support_branch</name>
+          <description>branch for scripts (eg origin/mesa_10.2)</description>
+          <defaultValue>tokonbekov/master</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>type</name>
+          <description>category of build/test to run.  Select daily to target bdw/hsw/byt/g965</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>developer</string>
+              <string>percheckin</string>
+              <string>daily</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>project</name>
+          <description>project to build.  all-test targets all test machines.  piglit-test targets a specific platform.</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>test-single-arch</string>
+              <string>mesa</string>
+              <string>all-test</string>
+              <string>piglit-full</string>
+              <string>piglit-test</string>
+              <string>piglit-cpu-test</string>
+              <string>clean-all-workspaces</string>
+              <string>deqp-full</string>
+              <string>deqp-test</string>
+              <string>cts-test</string>
+              <string>cts-full</string>
+              <string>crucible-test</string>
+              <string>crucible-all</string>
+              <string>vulkancts-test</string>
+              <string>vulkancts-full</string>
+              <string>perf-all</string>
+              <string>glcts-full</string>
+              <string>glcts-test</string>
+              <string>glescts-full</string>
+              <string>glescts-test</string>
+              <string>all-test-vulkan</string>
+              <string>dota-pts</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>hardware</name>
+          <description>select the hardware platform to test</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>ivbgt2</string>
+              <string>ivbgt1</string>
+              <string>bdwgt2</string>
+              <string>hswgt1</string>
+              <string>hswgt2</string>
+              <string>hswgt3e</string>
+              <string>byt</string>
+              <string>g45</string>
+              <string>g33</string>
+              <string>g965</string>
+              <string>ilk</string>
+              <string>snbgt1</string>
+              <string>snbgt2</string>
+              <string>hsw</string>
+              <string>bsw</string>
+              <string>builder</string>
+              <string>sklgt2</string>
+              <string>sklgt4e</string>
+              <string>bdwgt3e</string>
+              <string>ivb</string>
+              <string>bxt</string>
+              <string>kbl</string>
+              <string>snb</string>
+              <string>glk</string>
+              <string>cfl</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>arch</name>
+          <description></description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>m64</string>
+              <string>m32</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>config</name>
+          <description></description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>debug</string>
+              <string>release</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>env</name>
+          <description>environment variables to pass to the build</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>branch</name>
+          <description></description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>mesa_custom</string>
+              <string>mesa_master</string>
+              <string>vulkancts</string>
+              <string>mesa_17.2</string>
+              <string>mesa_17.3</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
     <hudson.plugins.throttleconcurrents.ThrottleJobProperty plugin="throttle-concurrents@1.9.0">
       <maxConcurrentPerNode>0</maxConcurrentPerNode>
-      <maxConcurrentTotal>0</maxConcurrentTotal>
+      <maxConcurrentTotal>6</maxConcurrentTotal>
       <categories class="java.util.concurrent.CopyOnWriteArrayList"/>
-      <throttleEnabled>false</throttleEnabled>
+      <throttleEnabled>true</throttleEnabled>
       <throttleOption>project</throttleOption>
       <limitOneJobWithMatchingParams>false</limitOneJobWithMatchingParams>
       <paramsToUseForLimit></paramsToUseForLimit>
@@ -65,7 +187,7 @@
                   <generated>true</generated>
                   <exposedToEnvironment>false</exposedToEnvironment>
                   <value>
-                    <time>1508952620879</time>
+                    <time>1512760504191</time>
                     <timezone>America/Los_Angeles</timezone>
                   </value>
                   <checked>false</checked>
@@ -82,7 +204,7 @@
                       <parent class="metadata-tree" reference="../../.."/>
                       <generated>true</generated>
                       <exposedToEnvironment>false</exposedToEnvironment>
-                      <value>Mark Janes</value>
+                      <value>Mirlan Tokonbekov</value>
                     </metadata-string>
                     <metadata-string>
                       <name>full-name</name>
@@ -90,7 +212,7 @@
                       <parent class="metadata-tree" reference="../../.."/>
                       <generated>true</generated>
                       <exposedToEnvironment>false</exposedToEnvironment>
-                      <value>Mark Janes</value>
+                      <value>Mirlan Tokonbekov</value>
                     </metadata-string>
                   </children>
                 </metadata-tree>
@@ -105,12 +227,25 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>git://otc-mesa-ci.local/git/mesa_jenkins</url>
+        <name>origin</name>
+        <url>git://github.com/janesma/mesa_jenkins.git</url>
+      </hudson.plugins.git.UserRemoteConfig>
+      <hudson.plugins.git.UserRemoteConfig>
+        <name>craftyguy</name>
+        <url>git://github.com/craftyguy/mesa_jenkins.git</url>
+      </hudson.plugins.git.UserRemoteConfig>
+      <hudson.plugins.git.UserRemoteConfig>
+        <name>dcbaker</name>
+        <url>https://github.com/dcbaker/mesa_jenkins.git</url>
+      </hudson.plugins.git.UserRemoteConfig>
+      <hudson.plugins.git.UserRemoteConfig>
+        <name>tokonbekov</name>
+        <url>https://github.com/tokonbekov/mesa_jenkins.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
       <hudson.plugins.git.BranchSpec>
-        <name>origin/master</name>
+        <name>${build_support_branch}</name>
       </hudson.plugins.git.BranchSpec>
     </branches>
     <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
@@ -124,19 +259,20 @@
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <authToken>noauth</authToken>
   <triggers/>
-  <concurrentBuild>false</concurrentBuild>
+  <concurrentBuild>true</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
       <command>rm -rf results/test
 rm -rf summary.xml
 rm -rf test_summary.txt
 python -u scripts/checkout_revision_spec.py
-python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=percheckin --config=debug --revision=&quot;$revision&quot;</command>
+python -u scripts/build_jenkins.py --results_subdir=mirlan --type=${type} --config=${config} --rebuild=${rebuild} --revision=&quot;$revision&quot; --hardware=${hardware} --project=${project} --branch=${branch} --tar --arch=${arch} --env=&quot;${env}&quot;
+</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>summary.xml</artifacts>
+      <artifacts>summary.xml,results/test/card_error*</artifacts>
       <allowEmptyArchive>false</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>
@@ -184,7 +320,7 @@ python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=percheckin --conf
       </extraConfiguration>
     </xunit>
     <hudson.plugins.emailext.ExtendedEmailPublisher plugin="email-ext@2.57.1">
-      <recipientList>eric@engestrom.ch</recipientList>
+      <recipientList>mirlan.ax.tokonbekov@intel.com</recipientList>
       <configuredTriggers>
         <hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
           <email>
@@ -193,31 +329,18 @@ python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=percheckin --conf
             <recipientProviders>
               <hudson.plugins.emailext.plugins.recipients.ListRecipientProvider/>
             </recipientProviders>
-            <attachmentsPattern>test_summary.txt,results/test/results.tgz,results/test/results.tar.xz,revisions.txt</attachmentsPattern>
-            <attachBuildLog>false</attachBuildLog>
-            <compressBuildLog>false</compressBuildLog>
-            <replyTo>$PROJECT_DEFAULT_REPLYTO</replyTo>
-            <contentType>project</contentType>
-          </email>
-        </hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
-        <hudson.plugins.emailext.plugins.trigger.PreBuildTrigger>
-          <email>
-            <recipientList>eric@engestrom.ch</recipientList>
-            <subject>$PROJECT_DEFAULT_SUBJECT</subject>
-            <body>$PROJECT_DEFAULT_CONTENT</body>
-            <recipientProviders/>
             <attachmentsPattern></attachmentsPattern>
             <attachBuildLog>false</attachBuildLog>
             <compressBuildLog>false</compressBuildLog>
             <replyTo>$PROJECT_DEFAULT_REPLYTO</replyTo>
             <contentType>project</contentType>
           </email>
-        </hudson.plugins.emailext.plugins.trigger.PreBuildTrigger>
+        </hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
       </configuredTriggers>
       <contentType>default</contentType>
       <defaultSubject>$DEFAULT_SUBJECT</defaultSubject>
       <defaultContent>$DEFAULT_CONTENT</defaultContent>
-      <attachmentsPattern></attachmentsPattern>
+      <attachmentsPattern>test_summary.txt,revisions.txt</attachmentsPattern>
       <presendScript>$DEFAULT_PRESEND_SCRIPT</presendScript>
       <postsendScript></postsendScript>
       <attachBuildLog>false</attachBuildLog>
