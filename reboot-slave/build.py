@@ -5,7 +5,7 @@ import sys
 import urllib2
 import ast
 import time
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "..", "repos", "mesa_ci"))
 import build_support as bs
 server = bs.ProjectMap().build_spec().find("build_master").attrib["host"]
 

@@ -4,7 +4,7 @@ import os
 import os.path as path
 import subprocess
 import sys
-sys.path.append(path.join(path.dirname(path.abspath(sys.argv[0])), ".."))
+sys.path.append(path.join(path.dirname(path.abspath(sys.argv[0])), "..", "repos", "mesa_ci"))
 import build_support as bs
 
 class NoTest(bs.AutoBuilder):

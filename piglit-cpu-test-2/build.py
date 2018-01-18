@@ -3,7 +3,7 @@
 import os
 import sys
 import time
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), ".."))
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), "..", "repos", "mesa_ci"))
 import build_support as bs
 
 # HACK
