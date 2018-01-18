@@ -112,7 +112,7 @@
       <command>rm -rf results/test
 rm -rf summary.xml
 rm -rf test_summary.txt
-python -u scripts/checkout_revision_spec.py
+python -u fetch_sources.py
 python -u repos/mesa_ci/scripts/clean-workspace.py
 </command>
     </hudson.tasks.Shell>

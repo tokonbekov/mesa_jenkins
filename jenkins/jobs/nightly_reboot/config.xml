@@ -112,7 +112,7 @@
       <command>rm -rf results/test
 rm -rf summary.xml
 rm -rf test_summary.txt
-python -u scripts/checkout_revision_spec.py
+python -u fetch_sources.py
 python -u reboot-slave/build.py
 </command>
     </hudson.tasks.Shell>

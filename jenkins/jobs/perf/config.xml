@@ -145,8 +145,8 @@
         <command>rm -rf summary.xml
 rm -rf test_summary.txt
 rm -rf results/test
-python -u scripts/checkout_revision_spec.py --branch=mesa_perf
-python -u scripts/build_perf.py --project=perf-all --type=${type} --config=release --revision=&quot;${revision}&quot;</command>
+python -u fetch_sources.py --branch=mesa_perf
+python -u repos/mesa_ci/scripts/build_perf.py --project=perf-all --type=${type} --config=release --revision=&quot;${revision}&quot;</command>
       </buildStep>
       <operationList class="empty-list"/>
     </hudson.plugins.build__timeout.BuildStepWithTimeout>

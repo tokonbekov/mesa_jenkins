@@ -64,8 +64,8 @@
       <command>rm -rf results/test
 rm -rf summary.xml
 rm -rf test_summary.txt
-python -u scripts/checkout_revision_spec.py
-python -u scripts/build_jenkins.py --branch=${JOB_NAME} --type=percheckin --config=debug --tar</command>
+python -u fetch_sources.py
+python -u repos/mesa_ci/scripts/build_jenkins.py --branch=${JOB_NAME} --type=percheckin --config=debug --tar</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>

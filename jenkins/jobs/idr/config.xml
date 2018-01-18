@@ -155,8 +155,8 @@
       <command>rm -rf results/test
 rm -rf summary.xml
 rm -rf test_summary.txt
-python -u scripts/checkout_revision_spec.py
-python -u scripts/build_jenkins.py --branch=idr --type=${type} --config=debug --rebuild=${rebuild} --revision=&quot;$revision&quot; --project=${project} --hardware=${hardware} --arch=${arch}</command>
+python -u fetch_sources.py
+python -u repos/mesa_ci/scripts/build_jenkins.py --branch=idr --type=${type} --config=debug --rebuild=${rebuild} --revision=&quot;$revision&quot; --project=${project} --hardware=${hardware} --arch=${arch}</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers>

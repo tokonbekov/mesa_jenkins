@@ -192,7 +192,7 @@
   <builders>
     <hudson.tasks.Shell>
       <command>echo project:${project} arch:${arch} result_path:${result_path} config:${config} type:${type} revision:${revision} hardware:${hardware} hash:${hash}
-python -u scripts/checkout_revision_spec.py ${revision}
+python -u fetch_sources.py ${revision}
 ls /mnt/jenkins/results &gt; /dev/null
 mkdir -p /tmp/jenkins/${BUILD_NUMBER}
 if [ &quot;${hardware}&quot; = &quot;builder&quot; ]
