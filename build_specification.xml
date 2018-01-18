@@ -290,111 +290,6 @@
     <project name="clean-all-workspaces">
       <prerequisite name="clean-workspace" hardware="bdwgt2-01,bdwgt2-03,bdwgt2-04,bdwgt2-05,bdwgt2-06,bdwgt2-07,bdwgt3e-01,bdwgt3e-02,bdwgt3e-03,bdwgt3e-04,bdwgt3e-05,bdwgt3e-08,bsw-01,bsw-02,bsw-03,bsw-04,bsw-05,bsw-06,bsw-07,bsw-08,bxt-01,bxt-02,bxt-03,bxt-04,bxt-05,bxt-07,bxt-08,bxt-09,bxt-10,bxt-11,bxt-12,byt-01,byt-02,byt-09,byt-10,byt-11,byt-12,byt-13,byt-14,cfl-01,cfl-03,cfl-04,g33-01,g45-01,g45-02,g45-03,g45-04,g965-01,g965-03,g965-04,g965-05,g965-07,g965-08,glk-01,glk-02,glk-04,glk-05,glk-06,hswgt1-01,hswgt1-02,hswgt2-01,hswgt2-02,hswgt2-03,hswgt2-04,hswgt2-05,hswgt3e-01,hswgt3e-02,hswgt3e-03,hswgt3e-04,i915-01,i915-02,i915-03,ilk-01,ilk-02,ilk-03,ilk-04,ilk-05,ivbgt1-01,ivbgt1-02,ivbgt2-01,ivbgt2-02,ivbgt2-03,ivbgt2-04,kblgt2-01,kblgt3-01,kblgt3-02,kblgt3-03,kblgt3-04,kblgt3-05,kblr-01,kblr-02,sklgt2-02,sklgt2-03,sklgt2-04,sklgt2-05,sklgt2-07,sklgt2-08,sklgt2-09,sklgt4e-01,sklgt4e-02,sklgt4e-03,sklgt4e-04,snbgt1-01,snbgt1-02,snbgt1-03,snbgt1-04,snbgt1-05,snbgt2-01,snbgt2-02,snbgt2-03"/>
     </project>
-    
-    <!-- Performance projects BEGIN -->
-    <project name="mesa-perf"/>
-    <project name="egypt">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="egypt_o">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="fill">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="fill_o">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="fur">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="heaven">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="manhattan">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="manhattan_o">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="car_chase">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="car_chase_o">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="tess">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="tess_o">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="plot3d">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="scripts">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="sixonix">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="synmark_a">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="synmark_b">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="synmark_c">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="trex">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="trex_o">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="triangle">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="valley">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="warsow">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="xonotic">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-    </project>
-    <project name="dota-pts">
-      <prerequisite name="mesa-perf" hardware="builder"/>
-      <prerequisite name="apitrace" config="release" hardware="builder"/>
-    </project>
-
-    <project name="perf-all">
-      <prerequisite name="synmark_a" hardware="sklgt2-01,bdwgt3e-01,bsw-01,bxt-05"/>
-      <prerequisite name="synmark_c" hardware="sklgt2-02,bdwgt3e-02,bsw-02,bxt-02"/>
-      <prerequisite name="synmark_b" hardware="sklgt2-03,bdwgt3e-03,bsw-03,bxt-03"/>
-      <prerequisite name="warsow" hardware="sklgt2-04,bdwgt3e-04,bsw-04,bxt-04"/>
-      <prerequisite name="manhattan" hardware="sklgt2-05,bdwgt3e-05,bsw-05,bxt-05"/>
-      <prerequisite name="heaven" hardware="sklgt4e-01,bsw-06,bxt-01"/>
-      <prerequisite name="trex" hardware="sklgt2-07,bdwgt3e-05,bsw-07,bxt-11"/>
-      <prerequisite name="fill" hardware="sklgt2-07,bsw-08,bxt-12"/>
-      <prerequisite name="fill_o" hardware="sklgt2-02,bdwgt3e-03,bxt-04"/>
-      <prerequisite name="valley" hardware="sklgt4e-02,bdwgt3e-04,bsw-04,bxt-01"/>
-      <prerequisite name="xonotic" hardware="sklgt2-04,bdwgt3e-05,bxt-02"/>
-      <prerequisite name="trex_o" hardware="sklgt2-05,bsw-08,bxt-03"/>
-      <prerequisite name="fur" hardware="sklgt2-07,bdwgt3e-02,bsw-07,bxt-04"/>
-      <prerequisite name="manhattan_o" hardware="sklgt4e-03,bsw-06,bxt-05"/>
-      <prerequisite name="triangle" hardware="sklgt2-05,bdwgt3e-05,bsw-05,bxt-05"/>
-      <prerequisite name="plot3d" hardware="sklgt2-04,bdwgt3e-04,bsw-04,bxt-11"/>
-      <prerequisite name="egypt_o" hardware="sklgt2-03,bdwgt3e-03,bsw-05,bxt-12"/>
-      <prerequisite name="egypt" hardware="sklgt4e-04,bdwgt3e-02,bsw-06,bxt-04"/>
-      <prerequisite name="car_chase" hardware="sklgt4e-01,bdwgt3e-05,bsw-07,bxt-01"/>
-      <prerequisite name="car_chase_o" hardware="sklgt4e-02,bsw-08,bxt-01"/>
-      <prerequisite name="tess" hardware="sklgt2-04,bdwgt3e-04,bsw-03,bxt-03"/>
-      <prerequisite name="tess_o" hardware="sklgt2-07,bdwgt3e-05,bsw-02,bxt-04"/>
-    </project>
-    <!-- Performance projects END -->
 
   </projects>
 
@@ -522,8 +417,6 @@
     
     <kc-cts repo="git@gitlab.khronos.org:opengl/kc-cts.git"/>
 
-    <sixonix repo="git://github.com/janesma/sixonix"
-             branch="origin/mesa_ci"/>
   </repos>
 
 
@@ -586,11 +479,6 @@
       <glslang/>
     </branch>
 
-    <branch name="mesa_perf" project="perf-all">
-      <sixonix branch="origin/mesa_ci" trigger="false"/>
-      <apitrace branch="origin/frameretrace" trigger="false"/>
-    </branch>
-    
     <branch name="bwidawsk_vulkan" project="vulkancts-full">
       <mesa branch="vulkan/bwidawsk"/>
       <vulkancts branch="khronos/vulkan-cts-1.1.0" trigger="false"/>
