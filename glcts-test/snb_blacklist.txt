@@ -4,3 +4,4 @@ GTF-GL46
 KHR-GL33.transform_feedback.query_geometry_interleaved_test
 # Fails intermittently
 GTF-GL33.gtf30.GL3Tests.transform_feedback.transform_feedback_geometry_primitive_types
+GTF-GL33.gtf30.GL3Tests.packed_depth_stencil.packed_depth_stencil_init
