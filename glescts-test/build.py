@@ -104,7 +104,7 @@ class GLESCTSTester(object):
         mv = bs.mesa_version()
         if "17.2" in mv or "17.1" in mv:
             return
-        t = bs.DeqpTester()
+        t = bs.DeqpTester(timelimit=1)
         results = t.test(self.pm.build_root() + "/bin/es/modules/glcts",
                          GLESCTSList(),
                          env = {"MESA_GLES_VERSION_OVERRIDE" : "3.2"}) 
