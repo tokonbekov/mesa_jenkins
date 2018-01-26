@@ -661,6 +661,17 @@
       <shaderc branch="bcadbc1"/>
       <glslang branch="9cfc1551"/>
     </branch>
+
+    <branch name="evelikov_18_0" project="all-test-vulkan">
+      <mesa branch="evelikov/mesa_18_0/jenkins"/>
+      <piglit branch="736496667"/>
+      <deqp branch="a73c1d93"/>
+      <vulkancts branch="5d30c13f5"/>
+      <cts branch="ff5e186d"/>
+      <crucible branch="0a52673"/>
+      <shaderc branch="773ec22"/>
+      <glslang branch="82ead04c"/>
+    </branch>
     
     <branch name="igalia_17.2" project="all-test-vulkan">
       <mesa branch="igalia_release/igalia/17.2"/>
