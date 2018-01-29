@@ -731,7 +731,7 @@
     </branch>
 
     <branch name="agomez" project="test-single-arch-vulkan">
-      <mesa branch="igalia/agomez/jenkins"/>
+      <mesa branch="igalia/agomez/ci"/>
     </branch>
 
     <branch name="siglesias" project="test-single-arch-vulkan">
